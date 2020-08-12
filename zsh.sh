@@ -445,6 +445,8 @@ tmoe_zsh_main_menu() {
 	7) UPDATEPLUGINS ;;
 	esac
 	###############
+	press_enter_to_return
+	tmoe_zsh_main_menu
 }
 ##################################################
 remove_plugin_command_not_found() {
@@ -617,7 +619,7 @@ remove_git_and_zsh() {
 ##############
 remove_old_zsh_files() {
 	cat <<-EOF
-		echo '以下文件夹将被删除，是否确认？'
+		以下文件夹将被删除，是否确认？
 		ls -lAh ${HOME}/.zsh-syntax-highlighting
 		ls -lAh ${HOME}/termux-ohmyzsh
 		ls -lh ${HOME}/theme
@@ -687,8 +689,19 @@ CHOOSEBACKUP() {
 	COLORSANDFONTS
 }
 ################################
+where_is_start_dir() {
+	if [ -d "/sdcard" ]; then
+		START_DIR='/sdcard/Download/backup'
+	elif [ -d "${HOME}/sd" ]; then
+		START_DIR="${HOME}/sd/Download/backup"
+	else
+		START_DIR="${HOME}/backup"
+	fi
+}
+############
 BACKUPZSH() {
-	BACKUP_FOLDER='/sdcard/Download/backup'
+	where_is_start_dir
+	BACKUP_FOLDER="${START_DIR}"
 	if [ ! -d ${BACKUP_FOLDER} ]; then
 		mkdir -p ${BACKUP_FOLDER} || sudo mkdir -p ${BACKUP_FOLDER}
 		cd ${BACKUP_FOLDER}
@@ -776,47 +789,18 @@ BACKUPZSH() {
 		tmoe_zsh_main_menu
 	fi
 }
-###############################################
+##############
 RESTOREZSH() {
-	cd /sdcard/Download/backup
-	ls -lth zsh*tar* || echo '未检测到备份文件' | head -n 10 2>/dev/null
-
-	echo '目前仅支持还原最新的备份，如需还原旧版，请手动输以下命令'
-
-	echo 'cd /sdcard/Download/backup ;ls ; tar -JPxvf 文件名.tar.xz 或 tar -Pzxvf 文件名.tar.gz'
-	echo '请注意大小写，并把文件名改成具体名称'
-
-	RESTORE=$(ls -lth ./zsh*tar* | grep ^- | head -n 1 | cut -d '/' -f 2)
-	echo " "
-	ls -lh ${RESTORE}
-	printf "${YELLOW}即将为您还原${RESTORE}，请问是否确认？[Y/n]${RESET} "
-	#printf之后分行
-	echo ''
-	echo 'Do you want to restore it?[Y/n]'
-
-	read opt
-	case $opt in
-	y* | Y* | "")
-
-		#0-6是截取字符
-		if [ "${RESTORE:0-6:6}" == 'tar.xz' ]; then
-			echo 'tar.xz'
-			pv ${RESTORE} | tar -PJx
-		fi
-
-		if [ "${RESTORE:0-6:6}" == 'tar.gz' ]; then
-			echo 'tar.gz'
-			pv ${RESTORE} | tar -Pzx
-		fi
-		;;
-	n* | N*) echo "skipped." ;;
-	*) echo "Invalid choice. skipped." ;;
-		#tar xfv $pathTar -C $path
-		#(pv -n $pathTar | tar xfv $pathTar -C $path ) 2>&1 | dialog --gauge "Extracting file..." 6 50
-	esac
-	echo "${YELLOW}按回车键返回。Press enter to return.${RESET}"
-	read
-	tmoe_zsh_main_menu
+	RESTORE_SCRIPT="${HOME}/.termux-zsh/tools/restore.sh"
+	if [ ! -e "${RESTORE_SCRIPT}" ]; then
+		#bash ${HOME}/.termux-zsh/tools/restore.sh
+		#else
+		cd ${HOME}/.termux-zsh
+		git fetch --depth=2
+		git reset --hard origin/master
+		git pull origin master --allow-unrelated-histories
+	fi
+	bash ${RESTORE_SCRIPT}
 }
 ###########
 curl_zsh_i() {
@@ -901,7 +885,7 @@ UPDATEPLUGINS() {
 	git_pull_powerlevel_10k
 	#upgrade zsh plugins and tool
 	cd "${HOME}/.termux-zsh"
-	#git fetch --depth=1
+	git fetch --depth=2
 	git reset --hard origin/master
 	git pull --depth=1 origin master --allow-unrelated-histories
 	git_pull_oh_my_zsh
