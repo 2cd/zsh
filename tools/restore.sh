@@ -78,7 +78,7 @@ restore_menu() {
         "1" "normal mode常规模式" \
         "2" "select path manually手动选择路径" \
         "3" "Compatibility mode兼容模式" \
-        "0" "exit 退出" \
+        "0" "Back to the main menu 返回主菜单" \
         3>&1 1>&2 2>&3)
     ###########################################################################
     case ${OPTION} in

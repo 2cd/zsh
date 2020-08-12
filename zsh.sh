@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -e
+#!/usr/bin/env bash
 #################################################
 main() {
 	#check_linux_distro
