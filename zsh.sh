@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -e
 #################################################
 main() {
 	#check_linux_distro
@@ -810,7 +810,7 @@ tmoe_zsh_plugin_manager() {
 		mkdir -p ${TMOE_LINUX_DIR}
 		touch "${TMOE_LINUX_DIR}/do_not_install_bat"
 	fi
-	PULGIN_SCRIPT="${HOME}/.termux-zsh/tools/plugins.sh"
+	PLUGIN_SCRIPT="${HOME}/.termux-zsh/tools/plugins.sh"
 	if [ ! -e "${PLUGIN_SCRIPT}" ]; then
 		git_pull_tmoe_zsh
 	fi
