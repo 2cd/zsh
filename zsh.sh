@@ -443,8 +443,8 @@ tmoe_zsh_main_menu() {
 	3) tmoe_zsh_plugin_manager ;;
 	4) tmoe_zsh_faq ;;
 	5) REMOVEZSH ;;
-	7) BACKUPZSH ;;
-	8) RESTOREZSH ;;
+	6) BACKUPZSH ;;
+	7) RESTOREZSH ;;
 	8) UPDATEPLUGINS ;;
 	esac
 	###############
