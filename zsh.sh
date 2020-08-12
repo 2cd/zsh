@@ -698,12 +698,17 @@ BACKUPZSH() {
 
 	echo "${YELLOW}按回车键选择压缩类型 Press enter to select compression type${RESET} "
 	do_you_want_to_continue
-	if [ -e "backuptime.tmp" ]; then
-		rm -fv backuptime.tmp || sudo rm -fv backuptime.tmp
+	if [ -z "${TMPDIR}" ]; then
+		TMPDIR=/tmp
+	fi
+	BACKUP_TIME_FILE="${TMPDIR}/backuptime.tmp"
+	
+	if [ -e "${BACKUP_TIME_FILE}" ]; then
+		rm -fv ${BACKUP_TIME_FILE} || sudo rm -fv ${BACKUP_TIME_FILE}
 	fi
 
-	echo $(date +%Y-%m-%d_%H-%M) >backuptime.tmp
-	TMPtime=zsh_$(cat backuptime.tmp)
+	echo $(date +%Y-%m-%d_%H-%M) >${BACKUP_TIME_FILE}
+	TMPtime=zsh_$(cat ${BACKUP_TIME_FILE})
 
 	if (whiptail --title "Select compression type 选择压缩类型 " --yes-button "tar.xz" --no-button "tar.gz" --yesno "Which do yo like better? \n tar.xz压缩率高，但速度慢。tar.xz has a higher compression ration, but is slower.\n tar.gz速度快,但压缩率低。tar.gz compresses faster, but with a lower compression ratio.\n 压缩过程中，进度条倒着跑是正常现象。" 12 60); then
 
@@ -728,7 +733,7 @@ BACKUPZSH() {
 		#xz -z -T0 -e -9 -f -v ${TMPtime}.tar
 		echo "Don't worry too much, it is normal for some directories to backup without permission."
 		echo "部分目录无权限备份是正常现象。"
-		rm -f backuptime.tmp
+		rm -f ${BACKUP_TIME_FILE}
 		pwd
 		ls -lth ./zsh*tar.xz | grep ^- | head -n 1
 		echo "${YELLOW}备份完成,按回车键返回。${RESET} "
@@ -760,7 +765,7 @@ BACKUPZSH() {
 
 		echo "Don't worry too much, it is normal for some directories to backup without permission."
 		echo "部分目录无权限备份是正常现象。"
-		rm -f backuptime.tmp
+		rm -f ${BACKUP_TIME_FILE}
 		#  whiptail --gauge "正在备份,可能需要几分钟的时间请稍后.........." 6 60 0
 		pwd
 		ls -lth ./zsh*tar.gz | grep ^- | head -n 1
