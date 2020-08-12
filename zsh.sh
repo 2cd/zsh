@@ -688,11 +688,12 @@ CHOOSEBACKUP() {
 }
 ################################
 BACKUPZSH() {
-
-	if [ ! -d /sdcard/Download/backup ]; then
-		mkdir -p /sdcard/Download/backup && cd /sdcard/Download/backup
+	BACKUP_FOLDER='/sdcard/Download/backup'
+	if [ ! -d ${BACKUP_FOLDER} ]; then
+		mkdir -p ${BACKUP_FOLDER} || sudo mkdir -p ${BACKUP_FOLDER}
+		cd ${BACKUP_FOLDER}
 	else
-		cd /sdcard/Download/backup
+		cd ${BACKUP_FOLDER}
 	fi
 	ls -lth ./zsh*.tar.* 2>/dev/null && echo '您之前所备份的(部分)文件如上所示'
 
@@ -702,7 +703,7 @@ BACKUPZSH() {
 		TMPDIR=/tmp
 	fi
 	BACKUP_TIME_FILE="${TMPDIR}/backuptime.tmp"
-	
+
 	if [ -e "${BACKUP_TIME_FILE}" ]; then
 		rm -fv ${BACKUP_TIME_FILE} || sudo rm -fv ${BACKUP_TIME_FILE}
 	fi
@@ -710,65 +711,64 @@ BACKUPZSH() {
 	echo $(date +%Y-%m-%d_%H-%M) >${BACKUP_TIME_FILE}
 	TMPtime=zsh_$(cat ${BACKUP_TIME_FILE})
 
+	ZSH_BACKUP_FILES="${HOME}/.zshrc ${HOME}/.zsh_history ${HOME}/.oh-my-zsh"
+
+	if [ -e "${HOME}/.z" ]; then
+		ZSH_BACKUP_FILES="${ZSH_BACKUP_FILES} ${HOME}/.z"
+	fi
+
+	if [ -e "${HOME}/.termux-zsh" ]; then
+		ZSH_BACKUP_FILES="${ZSH_BACKUP_FILES} ${HOME}/.termux-zsh"
+	fi
+
+	if [ -e "${HOME}/.termux" ]; then
+		ZSH_BACKUP_FILES="${ZSH_BACKUP_FILES} ${HOME}/.termux"
+	fi
+
 	if (whiptail --title "Select compression type 选择压缩类型 " --yes-button "tar.xz" --no-button "tar.gz" --yesno "Which do yo like better? \n tar.xz压缩率高，但速度慢。tar.xz has a higher compression ration, but is slower.\n tar.gz速度快,但压缩率低。tar.gz compresses faster, but with a lower compression ratio.\n 压缩过程中，进度条倒着跑是正常现象。" 12 60); then
 
-		echo "您选择了tar.xz,即将为您备份至/sdcard/Download/backup/${TMPtime}.tar.xz"
+		echo "您选择了tar.xz,即将为您备份至${BACKUP_FOLDER}/${TMPtime}.tar.xz"
 		echo "${YELLOW}按回车键开始备份,按Ctrl+C取消。Press Enter to start the backup.${RESET} "
 		read
-
 		#tar -PJpcf - ${HOME}/.z ${HOME}/.zshrc ${HOME}/.termux ${HOME}/.zsh_history ${HOME}/.oh-my-zsh ${HOME}/.termux-zsh | (pv -n >${TMPtime}.tar.xz) 2>&1 | whiptail --gauge "Compressing into tar.xz" 10 70
-		if [ -d "${HOME}/.termux-zsh" ]; then
-			tar -PJpcf - ${HOME}/.z ${HOME}/.zshrc ${HOME}/.termux ${HOME}/.zsh_history ${HOME}/.oh-my-zsh ${HOME}/.termux-zsh | (pv -p --timer --rate --bytes >${TMPtime}.tar.xz)
+		cd ${HOME}
+		if [ $(command -v pv) ]; then
+			tar -PJpcf - ${ZSH_BACKUP_FILES} | (pv -p --timer --rate --bytes >${TMPtime}.tar.xz)
 		else
-			if [ -d "${HOME}/.termux" ]; then
-
-				tar -PJpcf - ${HOME}/.zshrc ${HOME}/.termux ${HOME}/.zsh_history ${HOME}/.oh-my-zsh | (pv -p --timer --rate --bytes >${TMPtime}.tar.xz)
-
-			else
-				tar -PJpcf - ${HOME}/.zshrc ${HOME}/.zsh_history ${HOME}/.oh-my-zsh | (pv -p --timer --rate --bytes >${TMPtime}.tar.xz)
-			fi
-
+			tar -PpJcvf ${TMPtime}.tar.xz ${ZSH_BACKUP_FILES}
 		fi
-
+		mv -f ${TMPtime}.tar.xz ${BACKUP_FOLDER} || sudo mv -f ${TMPtime}.tar.xz ${BACKUP_FOLDER}
 		#xz -z -T0 -e -9 -f -v ${TMPtime}.tar
 		echo "Don't worry too much, it is normal for some directories to backup without permission."
 		echo "部分目录无权限备份是正常现象。"
 		rm -f ${BACKUP_TIME_FILE}
 		pwd
-		ls -lth ./zsh*tar.xz | grep ^- | head -n 1
+		ls -lth ${BACKUP_FOLDER}/zsh*tar.xz | grep ^- | head -n 1
 		echo "${YELLOW}备份完成,按回车键返回。${RESET} "
 		echo "Press enter to return."
 		read
 		tmoe_zsh_main_menu
 
 	else
-
-		echo "您选择了tar.gz,即将为您备份至/sdcard/Download/backup/${TMPtime}.tar.gz"
+		echo "您选择了tar.gz,即将为您备份至${BACKUP_FOLDER}/${TMPtime}.tar.gz"
 		echo "${YELLOW}按回车键开始备份,按Ctrl+C取消。Press Enter to start the backup.${RESET} "
 		read
 
 		#tar -Ppczf - ${HOME}/.z ${HOME}/.zshrc ${HOME}/.termux ${HOME}/.zsh_history ${HOME}/.oh-my-zsh ${HOME}/.termux-zsh | (pv -n >${TMPtime}.tar.gz) 2>&1 | whiptail --gauge "Compressing into tar.gz \n正在压缩成tar.gz" 10 70
 		#tar -Ppczf - ${HOME}/.z ${HOME}/.zshrc ${HOME}/.termux ${HOME}/.zsh_history ${HOME}/.oh-my-zsh ${HOME}/.termux-zsh | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)
-
-		if [ -d "${HOME}/.termux-zsh" ]; then
-			tar -Ppczf - ${HOME}/.z ${HOME}/.zshrc ${HOME}/.termux ${HOME}/.zsh_history ${HOME}/.oh-my-zsh ${HOME}/.termux-zsh | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)
+		cd ${HOME}
+		if [ $(command -v pv) ]; then
+			tar -Ppczf - ${ZSH_BACKUP_FILES} | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)
 		else
-			if [ -d "${HOME}/.termux" ]; then
-
-				tar -Ppczf - ${HOME}/.zshrc ${HOME}/.termux ${HOME}/.zsh_history ${HOME}/.oh-my-zsh | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)
-
-			else
-				tar -Ppczf - ${HOME}/.zshrc ${HOME}/.zsh_history ${HOME}/.oh-my-zsh | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)
-			fi
-
+			tar -Ppzcvf ${TMPtime}.tar.gz ${ZSH_BACKUP_FILES}
 		fi
-
+		mv -f ${TMPtime}.tar.gz ${BACKUP_FOLDER} || sudo mv -f ${TMPtime}.tar.gz ${BACKUP_FOLDER}
 		echo "Don't worry too much, it is normal for some directories to backup without permission."
 		echo "部分目录无权限备份是正常现象。"
 		rm -f ${BACKUP_TIME_FILE}
 		#  whiptail --gauge "正在备份,可能需要几分钟的时间请稍后.........." 6 60 0
 		pwd
-		ls -lth ./zsh*tar.gz | grep ^- | head -n 1
+		ls -lth ${BACKUP_FOLDER}/zsh*tar.gz | grep ^- | head -n 1
 		echo 'gzip压缩至60%完成是正常现象。'
 		echo "${YELLOW}备份完成,按回车键返回。${RESET} "
 		echo "Press enter to return."
