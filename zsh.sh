@@ -100,6 +100,7 @@ press_enter_to_return() {
 check_linux_distro() {
 	if grep -Eq 'debian|ubuntu' "/etc/os-release"; then
 		LINUX_DISTRO='debian'
+		PACKAGES_UPDATE_COMMAND='apt update'
 		PACKAGES_INSTALL_COMMAND='apt install -y'
 		PACKAGES_REMOVE_COMMAND='apt purge -y'
 		if grep -q 'ubuntu' /etc/os-release; then
@@ -426,11 +427,12 @@ tmoe_zsh_main_menu() {
 	OPTION=$(whiptail --title "TMOE-ZSH manager running on Linux.(20200812)" --backtitle "Please select onekey configuration for initial installation." --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate.\n请使用方向键和回车键进行操作,初次安装请选择一键配置" 0 50 0 \
 		"1" "Onekey configuration 初始化一键配置" \
 		"2" "Itemized configuration 分项配置" \
-		"3" "FAQ 常见问题" \
-		"4" "Remove zsh 移除" \
-		"5" "Backup zsh 备份" \
-		"6" "Restore 还原" \
-		"7" "update 更新" \
+		"3" "Plugins 插件管理" \
+		"4" "FAQ 常见问题" \
+		"5" "Remove zsh 移除" \
+		"6" "Backup zsh 备份" \
+		"7" "Restore 还原" \
+		"8" "Update 更新" \
 		"0" "Exit 退出" \
 		3>&1 1>&2 2>&3)
 	#############
@@ -438,11 +440,12 @@ tmoe_zsh_main_menu() {
 	0 | "") exit 0 ;;
 	1) CHOOSEBACKUP ;;
 	2) ItemizedConfiguration ;;
-	3) tmoe_zsh_faq ;;
-	4) REMOVEZSH ;;
-	5) BACKUPZSH ;;
-	6) RESTOREZSH ;;
-	7) UPDATEPLUGINS ;;
+	3) tmoe_zsh_plugin_manager ;;
+	4) tmoe_zsh_faq ;;
+	5) REMOVEZSH ;;
+	7) BACKUPZSH ;;
+	8) RESTOREZSH ;;
+	8) UPDATEPLUGINS ;;
 	esac
 	###############
 	press_enter_to_return
@@ -790,15 +793,34 @@ BACKUPZSH() {
 	fi
 }
 ##############
+git_pull_tmoe_zsh() {
+	cd ${HOME}/.termux-zsh
+	git fetch --depth=2
+	git reset --hard origin/master
+	git pull origin master --allow-unrelated-histories
+}
+###########
+tmoe_zsh_plugin_manager() {
+	TMOE_LINUX_DIR="${HOME}/.config/tmoe-linux"
+	if [ ! $(command -v batcat) ] && [ ! -e "${TMOE_LINUX_DIR}/do_not_install_bat" ]; then
+		${PACKAGES_UPDATE_COMMAND}
+		echo "${GREEN}${PACKAGES_INSTALL_COMMAND}${RESET} ${BLUE}bat${RESET}"
+		${PACKAGES_INSTALL_COMMAND} bat
+		echo "If you want to remove it,then type ${RED}${PACKAGES_REMOVE_COMMAND}${RESET} ${BLUE}bat${RESET}"
+		mkdir -p ${TMOE_LINUX_DIR}
+		touch "${TMOE_LINUX_DIR}/do_not_install_bat"
+	fi
+	PULGIN_SCRIPT="${HOME}/.termux-zsh/tools/plugins.sh"
+	if [ ! -e "${PLUGIN_SCRIPT}" ]; then
+		git_pull_tmoe_zsh
+	fi
+	bash ${PLUGIN_SCRIPT}
+}
+############
 RESTOREZSH() {
 	RESTORE_SCRIPT="${HOME}/.termux-zsh/tools/restore.sh"
 	if [ ! -e "${RESTORE_SCRIPT}" ]; then
-		#bash ${HOME}/.termux-zsh/tools/restore.sh
-		#else
-		cd ${HOME}/.termux-zsh
-		git fetch --depth=2
-		git reset --hard origin/master
-		git pull origin master --allow-unrelated-histories
+		git_pull_tmoe_zsh
 	fi
 	bash ${RESTORE_SCRIPT}
 }
@@ -808,7 +830,6 @@ curl_zsh_i() {
 }
 ##########
 chmod_plus_x_zsh_i() {
-	sed -i 's@/data/data/com.termux/files/usr/bin/bash@/bin/bash@g' .zsh-i
 	chmod +x .zsh-i
 	sudo mv -f .zsh-i ${PREFIX}/bin/zsh-i || su -c "mv -f .zsh-i ${PREFIX}/bin/zsh-i"
 }
@@ -818,6 +839,7 @@ download_tmoe_zsh() {
 	case "${LINUX_DISTRO}" in
 	Android)
 		curl_zsh_i
+		termux-fix-shebang ${PREFIX}/bin/zsh-i
 		chmod +x ${PREFIX}/bin/zsh-i
 		;;
 	alpine)
@@ -884,10 +906,7 @@ UPDATEPLUGINS() {
 	neko_01
 	git_pull_powerlevel_10k
 	#upgrade zsh plugins and tool
-	cd "${HOME}/.termux-zsh"
-	git fetch --depth=2
-	git reset --hard origin/master
-	git pull --depth=1 origin master --allow-unrelated-histories
+	git_pull_tmoe_zsh
 	git_pull_oh_my_zsh
 	upgrade_tmoe_zsh_manager
 	#tmoe_zsh_main_menu
