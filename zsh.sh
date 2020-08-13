@@ -693,15 +693,15 @@ CHOOSEBACKUP() {
 		mv -f "${HOME}/.termux/fonts" "${HOME}/.TERMUXFONTSTMPMOVE" 2>/dev/null
 	fi
 
-	if (whiptail --title "Do you need to backup the current zsh configuration?" --yes-button 'OK (*￣▽￣*)o' --no-button 'No (っ °Д °；)っ' --yesno "您即将修改zsh的配色、字体和主题，请问是否需要备份当前zsh配置(不包含字体)。\n您可以单独输zshcolor来更改颜色，输zshfont来更改字体，输zshtheme来更改主题，输zsh-i进入zsh管理器。" 12 60); then
+	if (whiptail --title "Do you need to backup the current zsh configuration?" --yes-button 'OK (*￣▽￣*)o' --no-button 'No (っ °Д °；)っ' --yesno "您即将修改zsh的配色、字体和主题，请问是否需要备份当前zsh配置(不包含字体)。\n您可以单独输zshcolor来更改颜色，输zshfont来更改字体，输zshtheme来更改主题，输zsh-i进入zsh管理器\nYou can type zshtheme to change the theme,type zsh-i to start this tool." 12 60); then
 		mv "${HOME}/.termux" "${HOME}/.termux.bak.$(date +%Y.%m.%d-%H:%M:%S)" 2>/dev/null
 		cp "${HOME}/.zshrc" "${HOME}/.zshrc.bak.$(date +%Y.%m.%d-%H:%M:%S)" 2>/dev/null
 	else
 		if [ ! -f "${HOME}/.termux/colors/wild.cherry" ]; then
 			rm -rf "${HOME}/.termux/colors" 2>/dev/null
 		fi
-
 	fi
+
 	if [ "$(uname -o)" != "Android" ]; then
 		chsh -s $(command -v zsh) || sudo chsh -s $(command -v zsh)
 	fi
