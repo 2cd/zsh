@@ -490,7 +490,7 @@ tmoe_zsh_faq() {
 	1) remove_plugin_command_not_found ;;
 	2) reset_fzf_tab ;;
 	3)
-		ZSH_FOLDER="${HOME}/.oh-my-zsh ${HOME}/.zshrc"
+		ZSH_FOLDER="${HOME}/.oh-my-zsh ${HOME}/.zshrc ${HOME}/.termux-zsh"
 		fix_zsh_folder_permissions
 		echo "若无法修复，则请手动执行${GREEN}compaudit | xargs chmod g-w,o-w${RESET}"
 		;;
