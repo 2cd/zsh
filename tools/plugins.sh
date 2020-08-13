@@ -68,6 +68,11 @@ do_you_want_to_continue_02() {
     esac
 }
 ###############
+list_enabled_plugins() {
+    cat ${HOME}/.zshrc | grep -v '^#' | grep --color=auto '/plugins/' | sed 's@.*/plugins/@@'
+    cat ${HOME}/.zshrc | grep -v '^#' | grep --color=auto 'plugins='
+}
+##############
 tmoe_zsh_plugin_main_menu() {
     RETURN_TO_WHERE='tmoe_zsh_plugin_main_menu'
     TMOE_ZSH_FILE="${HOME}/.zshrc"
@@ -81,6 +86,7 @@ tmoe_zsh_plugin_main_menu() {
         "05" "🍓 S-T(s,t)" \
         "06" "🍉 U-Z(u,v,w,x,y,z)" \
         "07" "🍊 Extra 额外插件" \
+        "08" "🍌 enabled plugins列出已启用插件" \
         "00" "🌚 Back to the main menu 返回主菜单" \
         3>&1 1>&2 2>&3)
     ##############################
@@ -93,6 +99,7 @@ tmoe_zsh_plugin_main_menu() {
     05) tmoe_zsh_plugin_menu_05 ;;
     06) tmoe_zsh_plugin_menu_06 ;;
     07) tmoe_zsh_plugin_menu_07 ;;
+    08) list_enabled_plugins ;;
     esac
     ##############################
     press_enter_to_return
