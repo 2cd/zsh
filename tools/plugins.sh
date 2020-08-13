@@ -28,10 +28,14 @@ press_enter_to_continue() {
     read
 }
 ################
-do_you_want_to_continue() {
+do_you_want_to_continue_00() {
     echo "${YELLOW}Do you want to continue?[Y/n]${RESET}"
     echo "Press ${GREEN}enter${RESET} to ${BLUE}continue${RESET},type ${YELLOW}n${RESET} to ${BLUE}return.${RESET}"
     echo "按${GREEN}回车键${RESET}${BLUE}继续${RESET}，输${YELLOW}n${RESET}${BLUE}返回${RESET}"
+}
+#########
+do_you_want_to_continue() {
+    do_you_want_to_continue_00
     read opt
     case $opt in
     y* | Y* | "") ;;
@@ -47,19 +51,37 @@ do_you_want_to_continue() {
     esac
 }
 #############
+do_you_want_to_continue_02() {
+    do_you_want_to_continue_00
+    read opt
+    case $opt in
+    y* | Y* | "") ;;
+
+    n* | N*)
+        echo "skipped."
+        ${RETURN_TO_MENU}
+        ;;
+    *)
+        echo "Invalid choice. skipped."
+        ${RETURN_TO_MENU}
+        ;;
+    esac
+}
+###############
 tmoe_zsh_plugin_main_menu() {
     RETURN_TO_WHERE='tmoe_zsh_plugin_main_menu'
     TMOE_ZSH_FILE="${HOME}/.zshrc"
     ZSH_README_FILE_NAME='README.md'
+    ZSH_README_FILE_NAME_02=''
     TMOE_OPTION=$(whiptail --title "PLUGINS" --menu "您想要管理哪个首字母开头的插件？\nBecause there are too many plugins, alphabetical sorting." 0 50 0 \
-        "01" "A-C(a,b,c)" \
-        "02" "D-G(d,e,f,g)" \
-        "03" "H-M(h,i,j,k,l,m)" \
-        "04" "N-R(n,o,p,q,r)" \
-        "05" "S-T(s,t)" \
-        "06" "U-Z(u,v,w,x,y,z)" \
-        "07" "Extra 额外插件" \
-        "00" "Back to the main menu 返回主菜单" \
+        "01" "🍎 A-C(a,b,c)" \
+        "02" "🍇 D-G(d,e,f,g)" \
+        "03" "🥝 H-M(h,i,j,k,l,m)" \
+        "04" "🍑 N-R(n,o,p,q,r)" \
+        "05" "🍓 S-T(s,t)" \
+        "06" "🍉 U-Z(u,v,w,x,y,z)" \
+        "07" "🍊 Extra 额外插件" \
+        "00" "🌚 Back to the main menu 返回主菜单" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
@@ -81,7 +103,7 @@ tmoe_zsh_plugin_menu_01() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_01'
     TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
-        "00" "Return to previous menu 返回上级菜单" \
+        "00" "🌚 Return to previous menu 返回上级菜单" \
         "01" "adb:为adb命令添加自动补全选项" \
         "02" "alias-finder:搜索定义别名,并输出与输入命令匹配的任何别名" \
         "03" "ansible:为[ansible]命令和[aliases]添加了多个别名" \
@@ -207,7 +229,7 @@ tmoe_zsh_plugin_menu_02() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_02'
     TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
-        "00" "Return to previous menu 返回上级菜单" \
+        "00" "🌚 Return to previous menu 返回上级菜单" \
         "01" "dash:为[Dash]增强命令行功能" \
         "02" "debian:提供apt和dpkg相关的别名和功能" \
         "03" "dircycle:用于循环浏览目录堆栈" \
@@ -360,54 +382,54 @@ tmoe_zsh_plugin_menu_03() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_03'
     TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
-        "00" "Return to previous menu 返回上级菜单" \
-        "01" "hanami" \
-        "02" "helm" \
-        "03" "heroku" \
-        "04" "history" \
-        "05" "history-substring-search" \
-        "06" "hitokoto" \
-        "07" "homestead" \
-        "08" "httpie" \
-        "09" "ionic" \
-        "10" "iterm2" \
-        "11" "jake-node" \
-        "12" "jenv" \
-        "13" "jfrog" \
-        "14" "jhbuild" \
-        "15" "jira" \
-        "16" "jruby" \
-        "17" "jsontools" \
-        "18" "jump" \
-        "19" "kate" \
-        "20" "keychain" \
-        "21" "kitchen" \
-        "22" "knife" \
-        "23" "knife_ssh" \
-        "24" "kops" \
-        "25" "kubectl" \
-        "26" "kube-ps1" \
-        "27" "laravel" \
-        "28" "laravel4" \
-        "29" "laravel5" \
-        "30" "last-working-dir" \
-        "31" "lein" \
-        "32" "lighthouse" \
-        "33" "lol" \
-        "34" "lxd" \
-        "35" "macports" \
-        "36" "magic-enter" \
-        "37" "man" \
-        "38" "marked2" \
-        "39" "mercurial" \
-        "40" "meteor" \
-        "41" "microk8s" \
-        "42" "minikube" \
-        "43" "mix" \
-        "44" "mix-fast" \
-        "45" "mosh" \
-        "46" "mvn" \
-        "47" "mysql-macports" \
+        "00" "🌚 Return to previous menu 返回上级菜单" \
+        "01" "hanami:受到了Rails插件的启发,让人感到宾至如归的插件" \
+        "02" "helm:可为Kubernetes软件包管理器[Helm]添加补全功能" \
+        "03" "heroku:为[Heroku CLI]提供了补全功能" \
+        "04" "history:提供一些方便的别名,以便使用history命令检查您的命令行历史记录" \
+        "05" "history-substring-search:这是[Fish shell]的历史记录搜索的整洁呈现" \
+        "06" "hitokoto:显示摘自[hitokoto.cn]的(随机)一言" \
+        "07" "homestead:为[Homestead]提供了补全功能" \
+        "08" "httpie:为命令行HTTP [HTTPie]添加了补全功能" \
+        "09" "ionic:为[Ionic CLI]添加了补全内容" \
+        "10" "iterm2:添加了一些[iTerm2]有用的功能" \
+        "11" "jake-node:为[Jake]提供了补全功能" \
+        "12" "jenv:[jenv]Java版本管理器" \
+        "13" "jfrog:提供了[JFrog CLI]的补全功能" \
+        "14" "jhbuild:添加了一些[JHBuild]别名" \
+        "15" "jira:JIRA交互CLI" \
+        "16" "jruby:为[JRuby]添加了别名" \
+        "17" "jsontools:方便的命令行工具,用于处理json数据" \
+        "18" "jump:允许通过手动添加标记来实现在文件系统中跳转" \
+        "19" "kate:为[Kate编辑器]添加了别名" \
+        "20" "keychain:自动启动[keychain]" \
+        "21" "kitchen:增加了对[Test Kitchen]的补全支持" \
+        "22" "knife:为命令行工具[knife]添加了补全功能" \
+        "23" "knife_ssh:添加了一个knife_ssh函数以及补全功能" \
+        "24" "kops:为[kops]提供了补全功能" \
+        "25" "kubectl:为[Kubernetes集群管理器]添加了补全功能" \
+        "26" "kube-ps1:将Kubectl上配置的Kubernetes历史记录和名称空间添加到zsh提示字符串中" \
+        "27" "laravel:为Laravel [Artisan]命令行界面添加了别名和自动补全功能" \
+        "28" "laravel4:为[Laravel 4]常用命令添加了一些别名" \
+        "29" "laravel5:为[Laravel 5]常用命令添加了一些别名" \
+        "30" "last-working-dir:跟踪上次使用的工作目录并自动跳入该目录" \
+        "31" "lein:为[Leiningen]Clojure构建工具添加了补全功能" \
+        "32" "lighthouse:添加了用于管理[Lighthouse]的命令" \
+        "33" "lol:添加了catspeak的别名" \
+        "34" "lxd:提供[lxd]的别名和补全功能" \
+        "35" "macports:为软件包管理器[Macports]添加了补全内容" \
+        "36" "magic-enter:通过将常用命令绑定到该插件,使您的回车键具有魔力" \
+        "37" "man:添加了在上一个命令前插入man的快捷方式" \
+        "38" "marked2:Mac OS X上的Markdown文件预览器" \
+        "39" "mercurial:添加了一些方便的别名来使用Mercurial" \
+        "40" "meteor:提供了许多meteor命令的别名" \
+        "41" "microk8s:为[MicroK8s]提供了补全功能和有用的别名" \
+        "42" "minikube:为[minikube]提供了补全功能" \
+        "43" "mix:为[Elixir的Mix构建工具]添加了补全功能" \
+        "44" "mix-fast:快速混合自动补全插件" \
+        "45" "mosh:补全[mosh]主机名的SSH选项" \
+        "46" "mvn:提供了许多有用的别名以及[Apache Maven]mvn命令 " \
+        "47" "mysql-macports:为macOS上使用[MacPorts]安装的[MySQL]添加常用的别名" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
@@ -470,56 +492,56 @@ tmoe_zsh_plugin_menu_04() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_04'
     TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
-        "00" "Return to previous menu 返回上级菜单" \
-        "01" "n98-magerun" \
-        "02" "nanoc" \
-        "03" "ng" \
-        "04" "nmap" \
-        "05" "node" \
-        "06" "nomad" \
-        "07" "npm" \
-        "08" "npx" \
-        "09" "nvm" \
-        "10" "oc" \
-        "11" "osx" \
-        "12" "otp" \
-        "13" "pass" \
-        "14" "paver" \
-        "15" "pep8" \
-        "16" "percol" \
-        "17" "per-directory-history" \
-        "18" "perl" \
-        "19" "perms" \
-        "20" "phing" \
-        "21" "pip" \
-        "22" "pipenv" \
-        "23" "pj" \
-        "24" "please" \
-        "25" "pod" \
-        "26" "postgres" \
-        "27" "pow" \
-        "28" "powder" \
-        "29" "powify" \
-        "30" "profiles" \
-        "31" "pyenv" \
-        "32" "pylint" \
-        "33" "python" \
-        "34" "rails" \
-        "35" "rake" \
-        "36" "rake-fast" \
-        "37" "rand-quote" \
-        "38" "rbenv" \
-        "39" "react-native" \
-        "40" "rebar" \
-        "41" "redis-cli" \
-        "42" "repo" \
-        "43" "ripgrep" \
-        "44" "ros" \
-        "45" "rsync" \
-        "46" "ruby" \
-        "47" "rust" \
-        "48" "rustup" \
-        "49" "rvm" \
+        "00" "🌚 Return to previous menu 返回上级菜单" \
+        "01" "n98-magerun:适用于Magento开发人员,系统管理员和开发人员的瑞士军刀" \
+        "02" "nanoc:为[Nanoc]命令添加了一些常用别名和自动补全功能" \
+        "03" "ng:为[Angular的CLI]添加了自动补全支持" \
+        "04" "nmap:为[Nmap]添加一些有用的别名,类似于zenmap中的配置文件" \
+        "05" "node:添加了node-docs功能,可在[Node.js]中打开特定文档" \
+        "06" "nomad:为[Nomad]提供了一个简单的自动补全功能,可轻松部署任何规模的应用程序" \
+        "07" "npm:npm插件提供了补全功能,并添加了许多有用的别名" \
+        "08" "npx:会自动注册npx命令未找到的程序" \
+        "09" "nvm:为[nvm](Node.js版本管理器)添加自动补全功能" \
+        "10" "oc:为[OC]命令提供自动补全功能,可构建,管理和更新操作" \
+        "11" "osx:提供了一些macOS实用函数" \
+        "12" "otp:使用[oathtool]创建一次性密码" \
+        "13" "pass:为[pass]密码管理器提供了补全功能" \
+        "14" "paver:为[Paver]的paver命令行工具添加了补全功能" \
+        "15" "pep8:为[pep8]添加了补全功能" \
+        "16" "percol:为[percol]提供一些有用的功能" \
+        "17" "per-directory-history:[jimhester]的捆绑包,添加了zsh的每个目录及全局历史记录,并可以使用键盘快捷键切换" \
+        "18" "perl:为[perl]添加了一些有用的别名和功能" \
+        "19" "perms:可快速处理Unix文件系统权限" \
+        "20" "phing:为[phing]目标添加自动补全功能" \
+        "21" "pip:为[pip]添加补全功能" \
+        "22" "pipenv:简化Pipenv的使用" \
+        "23" "pj:pj插件(Project Jump)允许您定义几个文件夹来存储项目,以便您可以快速跳转" \
+        "24" "please:支持流行语言,几乎可以自动化完成构建过程,着重于高性能,可扩展性和可复制性" \
+        "25" "pod:为[CocoaPods]添加补全功能" \
+        "26" "postgres:为Postgres命令添加了一些有用的别名" \
+        "27" "pow:为[pow]添加了补全功能" \
+        "28" "powder:为[powder]提供了补全功能" \
+        "29" "powify:为[powify]添加了自动补全功能" \
+        "30" "profiles:允许您为基于zsh的文件中创建单独的配置文件" \
+        "31" "pyenv:简单的Python版本管理系统,还会加载pyenv-virtualenv来管理virtualenv的插件" \
+        "32" "pylint:为[Pylint]添加了别名和自动补全功能" \
+        "33" "python:为[python]命令添加了几个有用的别名" \
+        "34" "rails:为[Ruby On Rails Framework]添加补全功能,以及一些日志和环境变量的别名" \
+        "35" "rake:增加了对[rake](Ruby)的支持" \
+        "36" "rake-fast:快速的rake自动补全插件" \
+        "37" "rand-quote:显示来自[quotationspage.com]的随机引用(random quote)" \
+        "38" "rbenv:提供rbenv_prompt_info,可以将其添加到您的主题中to include Ruby" \
+        "39" "react-native:为[react-native]添加补全功能" \
+        "40" "rebar:为[rebar] Erlang构建工具添加了补全功能" \
+        "41" "redis-cli:基于Homebrew,添加了[redis-cli]的补全功能" \
+        "42" "repo:主要添加了一些别名,并支持自动补全[git-repo命令行工具]" \
+        "43" "ripgrep:为文本搜索工具[ripgrep](也称为rg)添加了补全功能" \
+        "44" "ros:为[Roswell]添加了补全功能和别名" \
+        "45" "rsync:为常用的[rsync]命令添加别名" \
+        "46" "ruby:为[Ruby]的常用命令添加了别名" \
+        "47" "rust:为Rust编程语言的编译器[rustc]添加了补全功能" \
+        "48" "rustup:为[rustup](Rust编程语言的工具链安装程序)添加了补全功能" \
+        "49" "rvm:为[Ruby Version Manager]添加了一些实用函数和补全功能" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
@@ -584,52 +606,52 @@ tmoe_zsh_plugin_menu_05() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_05'
     TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
-        "00" "Return to previous menu 返回上级菜单" \
-        "01" "safe-paste" \
-        "02" "salt" \
-        "03" "sbt" \
-        "04" "scala" \
-        "05" "scd" \
-        "06" "screen" \
-        "07" "scw" \
-        "08" "sdk" \
-        "09" "sfdx" \
-        "10" "sfffe" \
-        "11" "shell-proxy" \
-        "12" "shrink-path" \
-        "13" "singlechar" \
-        "14" "spring" \
-        "15" "sprunge" \
-        "16" "ssh-agent" \
-        "17" "stack" \
-        "18" "sublime" \
-        "19" "sudo" \
-        "20" "supervisor" \
-        "21" "suse" \
-        "22" "svcat" \
-        "23" "svn" \
-        "24" "svn-fast-info" \
-        "25" "swiftpm" \
-        "26" "symfony" \
-        "27" "symfony2" \
-        "28" "systemadmin" \
-        "29" "systemd" \
-        "30" "taskwarrior" \
-        "31" "terminitor" \
-        "32" "terraform" \
-        "33" "textastic" \
-        "34" "textmate" \
-        "35" "thefuck" \
-        "36" "themes" \
-        "37" "thor" \
-        "38" "tig" \
-        "39" "timer" \
-        "40" "tmux" \
-        "41" "tmux-cssh" \
-        "42" "tmuxinator" \
-        "43" "torrent" \
-        "44" "transfer" \
-        "45" "tugboat" \
+        "00" "🌚 Return to previous menu 返回上级菜单" \
+        "01" "safe-paste:在运行之前检查实际粘贴的内容,防止代码在粘贴时运行" \
+        "02" "salt:A copy of the completion script from the salt" \
+        "03" "sbt:为[sbt,交互式构建工具]添加了补全功能" \
+        "04" "scala:[scala and scalac]命令的补全脚本" \
+        "05" "scd:定义scd shell函数以更改为任何目录" \
+        "06" "screen:可为[screen]设置标签的窗口标题和hardstatus" \
+        "07" "scw:CLI管理Bare Metal服务器(和Docker一样简单)" \
+        "08" "sdk:管理多个软件开发套件的并行版本的工具" \
+        "09" "sfdx:为[Salesforce DX]CLI提供自动补全功能" \
+        "10" "sfffe:可搜索前端Web开发中使用的文件" \
+        "11" "shell-proxy:这是一个纯用户空间程序,用于设置shell代理" \
+        "12" "shrink-path:简化路径的插件,简洁明了" \
+        "13" "singlechar:为某些命令添加了一个char快捷方式" \
+        "14" "spring:为所有spring boot命令添加自动补全选项" \
+        "15" "sprunge:上传数据并从pastebin获取URL" \
+        "16" "ssh-agent:自动启动ssh-agent并加载" \
+        "17" "stack:为[Stack]提供补全功能" \
+        "18" "sublime:[Sublime Text]插件,跨平台文本和代码编辑器" \
+        "19" "sudo:按两次ESC键,可以在当前命令前加上sudo前缀" \
+        "20" "supervisor:在[Supervisor]中为supervisord/supervisorctl添加TAB补全功能" \
+        "21" "suse:为zypper命令添加一些实用的别名" \
+        "22" "svcat:为[Kubernetes service catalog cli]提供了补全功能" \
+        "23" "svn:添加了一些实用程序功能,以显示您当前svn存储库的其他信息" \
+        "24" "svn-fast-info:更快的SVN主插件实现的替代方案,可与svn 16及更高版本一起使用" \
+        "25" "swiftpm:提供了[Swift软件包管理器]和Swift 51的自动补全功能" \
+        "26" "symfony:为[Symfony]提供了补全功能" \
+        "27" "symfony2:提供[Symfony 2]的补全以及常用Symfony命令的别名。" \
+        "28" "systemadmin:添加了一系列别名和功能,让系统管理员的工作更加轻松惬意" \
+        "29" "systemd:为systemd提供了许多有用的别名" \
+        "30" "taskwarrior:为[TaskWarrior]添加了智能标签补全功能" \
+        "31" "terminitor:为[Terminitor]开发工作流程设置工具添加了补全内容" \
+        "32" "terraform:用于Terraform的插件,这是Hashicorp的一种工具,用于安全高效地管理基础架构" \
+        "33" "textastic:Textastic插件,Mac OS X的文本和代码编辑器" \
+        "34" "textmate:为[TextMate]编辑器添加了一些功能" \
+        "35" "thefuck:可纠正您之前输错的命令" \
+        "36" "themes:可让您随时随地更改ZSH主题" \
+        "37" "thor:为[Thor]添加了补全功能" \
+        "38" "tig:为[tig]添加了一些别名" \
+        "39" "timer:允许以非干扰(介入)的方式显示命令的执行时间" \
+        "40" "tmux:为终端多路复用器[tmux]提供别名" \
+        "41" "tmux-cssh:为[tmux-cssh]添加了自动补全功能" \
+        "42" "tmuxinator:为[tmuxinator]提供了补全功能" \
+        "43" "torrent:通过[MagnetURI]来创建Torrent种子文件" \
+        "44" "transfer:易于使用的文件共享服务" \
+        "45" "tugboat:为Tugboat添加了自动补全功能,Tugboat是一款交互式命令行工具" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
@@ -690,32 +712,32 @@ tmoe_zsh_plugin_menu_06() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_06'
     TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
-        "00" "Return to previous menu 返回上级菜单" \
-        "01" "ubuntu" \
-        "02" "ufw" \
-        "03" "urltools" \
-        "04" "vagrant" \
-        "05" "vagrant-prompt" \
-        "06" "vim-interaction" \
-        "07" "vi-mode" \
-        "08" "virtualenv" \
-        "09" "virtualenvwrapper" \
-        "10" "vscode" \
-        "11" "vundle" \
-        "12" "wakeonlan" \
-        "13" "wd" \
-        "14" "web-search" \
-        "15" "wp-cli" \
-        "16" "xcode" \
-        "17" "yarn" \
-        "18" "yii" \
-        "19" "yii2" \
-        "20" "yum" \
-        "21" "z" \
-        "22" "zeus" \
-        "23" "zsh-interactive-cd" \
-        "24" "zsh-navigation-tools" \
-        "25" "zsh_reload" \
+        "00" "🌚 Return to previous menu 返回上级菜单" \
+        "01" "ubuntu:为apt和apt-add-repository等常用命令添加了别名和补全功能" \
+        "02" "ufw:简易方便地管理防火墙" \
+        "03" "urltools:为URL编码和URL解码字符串提供了两个别名" \
+        "04" "vagrant:为[Vagrant]命令,任务名称和框名称添加了自动补全功能" \
+        "05" "vagrant-prompt:提示Vagrant VM的状态,支持单主机和多主机配置" \
+        "06" "vim-interaction:提供了一个名为callvim的函数" \
+        "07" "vi-mode:增加了类似于vi的zsh功能" \
+        "08" "virtualenv:显示创建的虚拟容器的信息,并允许设定背景主题。" \
+        "09" "virtualenvwrapper:加载Python的[virtualenvwrapper]shell工具" \
+        "10" "vscode:简化VS Code和VSCodium编辑器的CLI交互" \
+        "11" "vundle:添加了一些功能来控制vim的[vundle]插件管理器" \
+        "12" "wakeonlan:wakeonlan工具的包装" \
+        "13" "wd:warp directory使您无需使用cd即可跳转到zsh中的自定义目录" \
+        "14" "web-search:添加了通过Google,Wiki,Bing,YouTube和其他流行服务进行搜索的别名" \
+        "15" "wp-cli:添加了wp-cli(WordPress)的几个别名" \
+        "16" "xcode:提供了一些实用程序,可以帮助您日常使用Xcode和iOS开发" \
+        "17" "yarn:为[Yarn包管理器]添加了补全功能" \
+        "18" "yii:为[yii]添加了自动补全命令和子命令" \
+        "19" "yii2:为yii添加自动补全命令和子命令" \
+        "20" "yum:为常用的[Yum]命令添加了有用的别名" \
+        "21" "z:z命令可以跟踪您访问次数最多的目录,并允许您快速访问它们" \
+        "22" "zeus:预加载您的Rails环境,有效地加快Rails启动速度" \
+        "23" "zsh-interactive-cd:为cd命令添加了类似于fish的交互式TAB补全功能" \
+        "24" "zsh-navigation-tools:一组工具,例如n-history(多词历史搜索器),n-cd(目录书签管理器),还有近似匹配,高级历史记录管理" \
+        "25" "zsh_reload:定义了一个函数来重新加载zsh会话" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
@@ -760,7 +782,49 @@ tmoe_zsh_plugin_menu_06() {
     ${RETURN_TO_WHERE}
 }
 ######################
-case_tmoe_zsh_settings_model() {
+tmoe_zsh_plugin_menu_07() {
+    TMOE_ZSH_SETTINGS_MODEL='04'
+    RETURN_TO_WHERE='tmoe_zsh_plugin_menu_07'
+    TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
+        "00" "🌚 Return to previous menu 返回上级菜单" \
+        "01" "fzf-tab:zsh超强补全插件" \
+        "02" "zsh-syntax-highlighting:语法高亮" \
+        "03" "zsh-autosuggestions:自动补全" \
+        3>&1 1>&2 2>&3)
+    ##############################
+    case "${TMOE_OPTION}" in
+    00 | "") tmoe_zsh_plugin_main_menu ;;
+    01)
+        TMOE_ZSH_GREP_NAME='fzf-tab'
+        ZSH_README_FILE_NAME='README_CN.md'
+        ZSH_README_FILE_NAME_02='README.md lib/zsh-ls-colors/README.md'
+        # TMOE_IMPORTANT_TIPS=$(
+        #    cat <<-EOF
+        #   若本插件加载后${RED}无法${RESET}正常运行，则请前往${GREEN}FAQ${RESET}处重置插件
+        #EOF
+        #       )
+        ;;
+    02)
+        TMOE_ZSH_GREP_NAME='zsh-syntax-highlighting'
+        ZSH_README_FILE_NAME_02='docs/highlighters/*md tests/README.md'
+        ;;
+    03)
+        TMOE_ZSH_GREP_NAME='zsh-autosuggestions'
+        TMOE_IMPORTANT_TIPS=$(
+            cat <<-EOF
+    ${YELLOW}https://github.com/zsh-users/zsh-autosuggestions${RESET}
+EOF
+        )
+        ;;
+    esac
+    ##############################
+    INSTALL_ZSH_PLUGIN="${TMOE_ZSH_GREP_NAME}"
+    case_tmoe_zsh_settings_model
+    press_enter_to_return
+    ${RETURN_TO_WHERE}
+}
+######################
+check_zsh_plugin_folder() {
     TMOE_ZSH_OPTION_01="Readme of ${TMOE_ZSH_GREP_NAME} 说明"
     ZSH_PLUGIN_DIR="${HOME}/.oh-my-zsh/plugins/${TMOE_ZSH_GREP_NAME}"
     CUSTOM_ZSH_PLUGIN_DIR="${HOME}/.oh-my-zsh/custom/plugins/${TMOE_ZSH_GREP_NAME}"
@@ -778,11 +842,15 @@ case_tmoe_zsh_settings_model() {
     if [ -e "${CUSTOM_ZSH_PLUGIN_DIR}" ]; then
         ZSH_PLUGIN_DIR=${CUSTOM_ZSH_PLUGIN_DIR}
     fi
-
+}
+############
+case_tmoe_zsh_settings_model() {
+    check_zsh_plugin_folder
     case "${TMOE_ZSH_SETTINGS_MODEL}" in
     01) tmoe_zsh_settings_model_01 ;;
     02) tmoe_zsh_settings_model_02 ;;
     03) tmoe_zsh_settings_model_03 ;;
+    04) tmoe_zsh_settings_model_04 ;;
     esac
 }
 ######################
@@ -804,6 +872,7 @@ check_tmoe_zsh_config_value() {
 }
 ######################
 enable_zsh_plugin() {
+    check_zsh_plugin_folder
     case "${TMOE_ZSH_CONFIG_ENABLED}" in
     true | yes)
         echo "您${YELLOW}已经启用过${RESETT}本插件了，不要${RED}重复启用${RESET}哦！"
@@ -824,6 +893,7 @@ check_zsh_plugin_content() {
 }
 ##########
 disable_zsh_plugin() {
+    check_zsh_plugin_folder
     case "${TMOE_ZSH_CONFIG_ENABLED}" in
     true) sed -i "${TMOE_ZSH_CONFIG_LINE} d" "${TMOE_ZSH_FILE}" ;;
     yes)
@@ -879,7 +949,7 @@ tmoe_zsh_settings_model_01() {
     check_tmoe_zsh_config_value
     RETURN_TO_MENU='tmoe_zsh_settings_model_01'
     TMOE_OPTION=$(whiptail --title "您想要对${TMOE_ZSH_GREP_NAME}小可爱做什么？" --menu "${TMOE_ZSH_CONFIG_STATUS}" 0 50 0 \
-        "0" "Return to previous menu 返回上级菜单" \
+        "0" "🌚 Return to previous menu 返回上级菜单" \
         "1" "${TMOE_ZSH_OPTION_01}" \
         "2" "Enable 启用" \
         "3" "Disable 禁用" \
@@ -900,7 +970,7 @@ tmoe_zsh_settings_model_02() {
     check_tmoe_zsh_config_value
     RETURN_TO_MENU='tmoe_zsh_settings_model_02'
     TMOE_OPTION=$(whiptail --title "您想要对${TMOE_ZSH_GREP_NAME}小可爱做什么？" --menu "${TMOE_ZSH_CONFIG_STATUS}" 0 50 0 \
-        "0" "Return to previous menu 返回上级菜单" \
+        "0" "🌚 Return to previous menu 返回上级菜单" \
         "1" "${TMOE_ZSH_OPTION_01}" \
         "2" "Enable 启用" \
         "3" "Disable 禁用" \
@@ -942,15 +1012,62 @@ pip_install_autoenv() {
     fi
 }
 #############
+git_pull_origin_master() {
+    git reset --hard origin/master
+    git pull --depth=1 origin master --allow-unrelated-histories
+}
+###########
+git_clone_zsh_plugin() {
+    if [ ! -d "${HOME}/.oh-my-zsh/custom/plugins" ]; then
+        mkdir -p ${HOME}/.oh-my-zsh/custom/plugins
+    fi
+
+    if [ ! -d "${ZSH_PLUGIN_GIT_FOLDER}/.git" ]; then
+        rm -rfv ${ZSH_PLUGIN_GIT_FOLDER}
+        git clone --depth=1 ${ZSH_PLUGIN_GIT_URL_01} "${ZSH_PLUGIN_GIT_FOLDER}" || git clone --depth=1 ${ZSH_PLUGIN_GIT_URL_02} "${ZSH_PLUGIN_GIT_FOLDER}"
+        chmod 755 -R "${ZSH_PLUGIN_GIT_FOLDER}"
+    else
+        cd "${ZSH_PLUGIN_GIT_FOLDER}"
+        git_pull_origin_master
+    fi
+}
+#############
+git_clone_fzf_tab() {
+    ZSH_PLUGIN_GIT_FOLDER="${HOME}/.oh-my-zsh/custom/plugins/fzf-tab"
+    ZSH_PLUGIN_GIT_URL_01='https://gitee.com/mo2/fzf-tab.git'
+    ZSH_PLUGIN_GIT_URL_02='git://github.com/Aloxaf/fzf-tab.git'
+    git_clone_zsh_plugin
+}
+###########
+git_clone_zsh_syntax_highlighting() {
+    ZSH_PLUGIN_GIT_FOLDER="${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+    ZSH_PLUGIN_GIT_URL_01='https://gitee.com/mo2/zsh-syntax-highlighting.git'
+    ZSH_PLUGIN_GIT_URL_02='git://github.com/zsh-users/zsh-syntax-highlighting'
+    git_clone_zsh_plugin
+}
+################
+git_clone_zsh_autosuggestions() {
+    ZSH_PLUGIN_GIT_FOLDER="${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+    ZSH_PLUGIN_GIT_URL_01='https://gitee.com/mo2/zsh-autosuggestions.git'
+    ZSH_PLUGIN_GIT_URL_02='git://github.com/zsh-users/zsh-autosuggestions'
+    git_clone_zsh_plugin
+}
+##########
 tmoe_zsh_plugin_install_function() {
     case "${INSTALL_ZSH_PLUGIN}" in
     autoenv) pip_install_autoenv ;;
+    fzf-tab) git_clone_fzf_tab ;;
+    zsh-syntax-highlighting) git_clone_zsh_syntax_highlighting ;;
+    zsh-autosuggestions) git_clone_zsh_autosuggestions ;;
     esac
 }
 #############
 tmoe_zsh_plugin_remove_function() {
     case "${INSTALL_ZSH_PLUGIN}" in
     autoenv) pip uninstall autoenv || sudo pip uninstall autoenv || sudo pip3 uninstall autoenv ;;
+    fzf-tab) remove_fzf_tab ;;
+    zsh-syntax-highlighting) remove_zsh_syntax_highlighting ;;
+    zsh-autosuggestions) remove_zsh_autosuggestions ;;
     esac
 }
 #########
@@ -958,7 +1075,7 @@ tmoe_zsh_settings_model_03() {
     check_tmoe_zsh_config_value
     RETURN_TO_MENU='tmoe_zsh_settings_model_03'
     TMOE_OPTION=$(whiptail --title "您想要对${TMOE_ZSH_GREP_NAME}小可爱做什么？" --menu "${TMOE_ZSH_CONFIG_STATUS}" 0 50 0 \
-        "0" "Return to previous menu 返回上级菜单" \
+        "0" "🌚 Return to previous menu 返回上级菜单" \
         "1" "${TMOE_ZSH_OPTION_01}" \
         "2" "Enable 启用" \
         "3" "Disable 禁用" \
@@ -988,6 +1105,58 @@ EOF
     ##############################
     press_enter_to_return
     tmoe_zsh_settings_model_03
+}
+####################
+view_extra_note_of_zsh_plugin() {
+    if [ ! -z "${TMOE_IMPORTANT_TIPS}" ]; then
+        cat <<-EOF
+    ${TMOE_IMPORTANT_TIPS} 
+EOF
+    fi
+
+    if [ ! -z "${ZSH_README_FILE_NAME_02}" ]; then
+        cat_zsh_plugin_readme_02
+    fi
+}
+##############
+tmoe_zsh_settings_model_04() {
+    check_tmoe_zsh_config_value
+    RETURN_TO_MENU='tmoe_zsh_settings_model_04'
+    TMOE_OPTION=$(whiptail --title "您想要对${TMOE_ZSH_GREP_NAME}小可爱做什么？" --menu "${TMOE_ZSH_CONFIG_STATUS}" 0 50 0 \
+        "0" "🌚 Return to previous menu 返回上级菜单" \
+        "1" "${TMOE_ZSH_OPTION_01}" \
+        "2" "Enable 启用" \
+        "3" "Remove & disable 移除并禁用" \
+        "4" "Extra note 额外说明" \
+        3>&1 1>&2 2>&3)
+    ##############################
+    case "${TMOE_OPTION}" in
+    0 | "")
+        INSTALL_ZSH_PLUGIN=''
+        ZSH_README_FILE_NAME='README.md'
+        ZSH_README_FILE_NAME_02=''
+        ${RETURN_TO_WHERE}
+        ;;
+    1) cat_zsh_plugin_readme_01 ;;
+    2)
+        tmoe_zsh_plugin_install_function
+        enable_zsh_plugin
+        ;;
+    3)
+        cat <<-EOF
+        ${RED}rm -rfv${RESET} ${BLUE}${HOME}/.oh-my-zsh/custom/plugins/${TMOE_ZSH_GREP_NAME}${RESET}
+        Do you want to ${RED}disable${RESET} it?
+        您真的要${RED}禁用${RESET}${BLUE}${TMOE_ZSH_GREP_NAME}${RESET}插件么?
+EOF
+        do_you_want_to_continue_02
+        rm -rfv ${HOME}/.oh-my-zsh/custom/plugins/${TMOE_ZSH_GREP_NAME}
+        disable_zsh_plugin
+        ;;
+    4) view_extra_note_of_zsh_plugin ;;
+    esac
+    ##############################
+    press_enter_to_return
+    tmoe_zsh_settings_model_04
 }
 ####################
 ####################

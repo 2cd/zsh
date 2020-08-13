@@ -425,15 +425,15 @@ tmoe_zsh_main_menu() {
 	#20 50 7
 	RETURN_TO_WHERE='tmoe_zsh_main_menu'
 	OPTION=$(whiptail --title "TMOE-ZSH manager running on Linux.(20200812)" --backtitle "Please select onekey configuration for initial installation." --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate.\n请使用方向键和回车键进行操作,初次安装请选择一键配置" 0 50 0 \
-		"1" "Onekey configuration 初始化一键配置" \
-		"2" "Itemized configuration 分项配置" \
-		"3" "Plugins 插件管理" \
-		"4" "FAQ 常见问题" \
-		"5" "Remove zsh 移除" \
-		"6" "Backup zsh 备份" \
-		"7" "Restore 还原" \
-		"8" "Update 更新" \
-		"0" "Exit 退出" \
+		"1" "🍭 Onekey configuration 初始化一键配置" \
+		"2" "🌸 Itemized configuration 分项配置" \
+		"3" "🍀 Plugins 插件管理" \
+		"4" "🏫 FAQ 常见问题" \
+		"5" "💔 Remove zsh 移除" \
+		"6" "🍹 Backup zsh 备份" \
+		"7" "🔯 Restore 还原" \
+		"8" "🍧 Update 更新" \
+		"0" "🌚 Exit 退出" \
 		3>&1 1>&2 2>&3)
 	#############
 	case ${OPTION} in
@@ -478,7 +478,8 @@ tmoe_zsh_faq() {
 		"1" "command-not-found插件配置失败" \
 		"2" "fzf-tab插件加载异常" \
 		"3" "Fix permissions修复文件权限" \
-		"0" "Back to the main menu 返回主菜单" \
+		"4" "Conf does not take effect配置文件未生效" \
+		"0" "🌚 Back to the main menu 返回主菜单" \
 		3>&1 1>&2 2>&3)
 	#############
 	case ${OPTION} in
@@ -489,6 +490,11 @@ tmoe_zsh_faq() {
 		ZSH_FOLDER="${HOME}/.oh-my-zsh ${HOME}/.zshrc"
 		fix_zsh_folder_permissions
 		echo "若无法修复，则请手动执行${GREEN}compaudit | xargs chmod g-w,o-w${RESET}"
+		;;
+	4)
+		echo "请手动执行${GREEN}. ~/.zshrc${RESET}或者是${GREEN}source ${HOME}/.zshrc${RESET}"
+		echo "Please try running ${GREEN}source ~/.zshrc${RESET}"
+		#source ${HOME}/.zshrc
 		;;
 	esac
 	###############
@@ -503,7 +509,7 @@ ItemizedConfiguration() {
 		"3" "zsh主题 themes" \
 		"4" "xfce4终端配色 xfce4-terminal color schemes" \
 		"5" "Set zsh as the default(默认) shell" \
-		"0" "Back to the main menu 返回主菜单" \
+		"0" "🌚 Back to the main menu 返回主菜单" \
 		3>&1 1>&2 2>&3)
 	if [ "${OPTION}" == '0' ]; then
 		tmoe_zsh_main_menu
@@ -552,10 +558,11 @@ XFCE4TERMINALCOLOR() {
 	fi
 	if [ ! -d "/usr/share/xfce4/terminal" ]; then
 		echo "检测到xfce终端目录不存在，您当前可能没有安装xfce终端"
-		echo 'Press Ctrl+C to cancel.'
-		press_enter_to_continue
+		do_you_want_to_continue
+		#echo 'Press Ctrl+C to cancel.'
+		#press_enter_to_continue
 		mkdir -p /usr/share/xfce4/terminal
-		apt install -y xfce4-terminal
+		${PACKAGES_INSTALL_COMMAND} xfce4-terminal || sudo ${PACKAGES_INSTALL_COMMAND} xfce4-terminal
 	fi
 
 	cd /usr/share/xfce4/terminal
@@ -572,8 +579,10 @@ XFCE4TERMINALCOLOR() {
 	fi
 	if [ ! -z "$DEPENDENCIES" ]; then
 		echo "正在安装相关依赖..."
-		apt update
-		apt install -y ${DEPENDENCIES}
+		#apt update
+		#apt install -y ${DEPENDENCIES}
+		${PACKAGES_UPDATE_COMMAND} || sudo ${PACKAGES_UPDATE_COMMAND}
+		${PACKAGES_INSTALL_COMMAND} ${DEPENDENCIES} || sudo ${PACKAGES_INSTALL_COMMAND} ${DEPENDENCIES}
 	fi
 	if [ ! -f '/usr/share/fonts/Iosevka.ttf' ]; then
 		echo '正在刷新字体缓存...'
@@ -616,8 +625,12 @@ remove_tmoe_zsh() {
 }
 ###########
 remove_git_and_zsh() {
-	apt purge git zsh
-	apt autoremove
+	DEPENDENCIES='git zsh whiptail newt xz dialog command-not-found'
+	echo "${RED}${PACKAGES_REMOVE_COMMAND} ${DEPENDENCIES}${RESET}"
+	do_you_want_to_continue
+	${PACKAGES_REMOVE_COMMAND} ${DEPENDENCIES} 2>/dev/null || sudo ${PACKAGES_REMOVE_COMMAND} ${DEPENDENCIES}
+	apt autoremove 2>/dev/null
+	exit 1
 }
 ##############
 remove_old_zsh_files() {
@@ -634,9 +647,10 @@ remove_old_zsh_files() {
 remove_zshrc() {
 	cat ${HOME}/.zshrc
 	ls -lh ${HOME}/.zshrc
-	echo "${YELLOW}按回车键确认删除，Ctrl+C取消。${RESET} "
-	echo "Press Enter to confirm the deletion, press Ctrl + C to cancel."
-	read
+	#echo "${YELLOW}按回车键确认删除，Ctrl+C取消。${RESET} "
+	#echo "Press Enter to confirm the deletion, press Ctrl + C to cancel."
+	#read
+	do_you_want_to_continue
 	rm -f ${HOME}/.zshrc
 	echo "${YELLOW}删除完成，建议您返回主菜单使用一键配置，按回车键返回 Press Enter to return.${RESET} "
 }
@@ -644,7 +658,7 @@ remove_zshrc() {
 REMOVEZSH() {
 	RETURN_TO_WHERE='REMOVEZSH'
 	OPTION=$(whiptail --title "REMOVE ZSH" --menu "您想要移除哪个项目？\nWhich item do you want to remove?" 0 50 0 \
-		"0" "Back to the main menu 返回主菜单" \
+		"0" "🌚 Back to the main menu 返回主菜单" \
 		"1" "oh-my-zsh" \
 		"2" "fonts 字体" \
 		"3" "tmoe-zsh 工具" \
@@ -1091,7 +1105,7 @@ onekey_configure_tmoe_zsh() {
 
 	if [ "${LINUX_DISTRO}" = "debian" ] || [ "${LINUX_DISTRO}" = "alpine" ] || [ "${LINUX_DISTRO}" = "redhat" ] || [ "${LINUX_DISTRO}" = "arch" ] || [ "${LINUX_DISTRO}" = "Android" ]; then
 		if [ $(command -v fzf) ]; then
-			if [ ! -d "${HOME}/.oh-my-zsh/custom/plugins/fzf-tab" ]; then
+			if [ ! -d "${HOME}/.oh-my-zsh/custom/plugins/fzf-tab/.git" ]; then
 				git_clone_fzf_tab
 				if [ "${ENABLE_FZF_TAB_EXTRA_OPT}" = 'true' ]; then
 					if ! grep -q 'extract=' "${HOME}/.oh-my-zsh/custom/plugins/fzf-tab/fzf-tab.zsh"; then
