@@ -1034,8 +1034,10 @@ git_clone_zsh_plugin() {
 #############
 git_clone_fzf_tab() {
     if [ ! $(command -v fzf) ]; then
+        apt update || sudo apt update
         apt install -y fzf || sudo apt install fzf || sudo pacman -Syu fzf || sudo dnf install fzf
     fi
+
     ZSH_PLUGIN_GIT_FOLDER="${HOME}/.oh-my-zsh/custom/plugins/fzf-tab"
     ZSH_PLUGIN_GIT_URL_01='https://gitee.com/mo2/fzf-tab.git'
     ZSH_PLUGIN_GIT_URL_02='git://github.com/Aloxaf/fzf-tab.git'
