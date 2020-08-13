@@ -110,7 +110,7 @@ tmoe_zsh_plugin_menu_01() {
         "04" "ant:为[Ant.apache]提供了补全功能" \
         "05" "apache2-macports:启用别名以控制通过[MacPorts]安装的本地Apache2" \
         "06" "arcanist:为[arcanist]添加了许多有用的别名" \
-        "07" "archlinux:添加了一些pacman和yay的常用命令的别名" \
+        "07" "archlinux:添加了一些pacman和yay等常用命令的别名" \
         "08" "asdf:添加了可扩展版本管理器[asdf]的集成,并支持Ruby,Nodejs,Elixir,Erlang" \
         "09" "autoenv:高效、自动地加载文件目录的环境变量" \
         "10" "autojump:自动跳转导航工具" \
@@ -133,7 +133,7 @@ tmoe_zsh_plugin_menu_01() {
         "27" "cask:Emacs的项目管理工具" \
         "28" "catimg:[posva]提供的catimg脚本,在终端上显示图像" \
         "29" "celery:为[Celery]提供了补全功能" \
-        "30" "chruby:改变当前的Ruby版本以及显示Ruby版本的完成和提示功能。" \
+        "30" "chruby:改变当前的Ruby版本以及提供Ruby的补全和提示功能。" \
         "31" "chucknorris:Chuck Norris fortunes插件,完全适合将其用作为MOTD" \
         "32" "cloudfoundry:为[Cloud Foundry Cli]提供一些简单的别名" \
         "33" "codeclimate:为[codeclimate CLI]添加了自动补全功能" \
@@ -237,7 +237,7 @@ tmoe_zsh_plugin_menu_02() {
         "05" "dirhistory:添加用于浏览目录历史记录和层次结构的键盘快捷键" \
         "06" "dirpersist:使~/.zdirs文件中的前20个目录保持运行状态" \
         "07" "django:为[Django Project]的manage.py命令添加补全和提示" \
-        "08" "dnf:为dnf常用命令添加别名,使其更易使用" \
+        "08" "dnf:为dnf的常用命令添加别名,使其更易于使用" \
         "09" "dnote:为[Dnote]项目添加自动补全功能" \
         "10" "docker:为[docker]添加自动补全功能" \
         "11" "docker-compose:为[docker-compose]以及一些插件提供补全功能" \
@@ -429,7 +429,7 @@ tmoe_zsh_plugin_menu_03() {
         "44" "mix-fast:快速混合自动补全插件" \
         "45" "mosh:补全[mosh]主机名的SSH选项" \
         "46" "mvn:提供了许多有用的别名以及[Apache Maven]mvn命令 " \
-        "47" "mysql-macports:为macOS上使用[MacPorts]安装的[MySQL]的常用命令添加别名" \
+        "47" "mysql-macports:为macOS上使用[MacPorts]安装的[MySQL]添加别名" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in

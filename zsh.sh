@@ -628,7 +628,7 @@ remove_tmoe_zsh() {
 }
 ###########
 remove_git_and_zsh() {
-	DEPENDENCIES='git zsh whiptail newt xz dialog command-not-found'
+	DEPENDENCIES='git zsh whiptail newt xz dialog'
 	echo "${RED}${PACKAGES_REMOVE_COMMAND} ${DEPENDENCIES}${RESET}"
 	do_you_want_to_continue
 	${PACKAGES_REMOVE_COMMAND} ${DEPENDENCIES} 2>/dev/null || sudo ${PACKAGES_REMOVE_COMMAND} ${DEPENDENCIES}
