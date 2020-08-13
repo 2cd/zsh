@@ -518,7 +518,7 @@ ItemizedConfiguration() {
 		3>&1 1>&2 2>&3)
 	###########
 	case "${TMOE_OPTION}" in
-	00 | "") tmoe_zsh_main_menu ;;
+	0 | "") tmoe_zsh_main_menu;;
 	1)
 		if [ "${LINUX_DISTRO}" = "Android" ]; then
 			bash ${HOME}/.termux/colors.sh
