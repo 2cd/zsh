@@ -817,9 +817,9 @@ git_pull_tmoe_zsh() {
 tmoe_zsh_plugin_manager() {
 	TMOE_LINUX_DIR="${HOME}/.config/tmoe-linux"
 	if [ ! $(command -v batcat) ] && [ ! -e "${TMOE_LINUX_DIR}/do_not_install_bat" ]; then
-		${PACKAGES_UPDATE_COMMAND}
+		${PACKAGES_UPDATE_COMMAND} || sudo ${PACKAGES_UPDATE_COMMAND}
 		echo "${GREEN}${PACKAGES_INSTALL_COMMAND}${RESET} ${BLUE}bat${RESET}"
-		${PACKAGES_INSTALL_COMMAND} bat
+		${PACKAGES_INSTALL_COMMAND} bat || sudo ${PACKAGES_INSTALL_COMMAND} bat
 		echo "If you want to remove it,then type ${RED}${PACKAGES_REMOVE_COMMAND}${RESET} ${BLUE}bat${RESET}"
 		mkdir -p ${TMOE_LINUX_DIR}
 		touch "${TMOE_LINUX_DIR}/do_not_install_bat"
