@@ -123,7 +123,7 @@ tmoe_zsh_plugin_menu_01() {
         "17" "boot2docker:为所有boot2docker命令添加自动补全选项" \
         "18" "bower:为[Bower]添加了补全功能,并为常见的Bower命令添加了一些有用的别名" \
         "19" "branch:快速显示当前的Git或Mercurial分支" \
-        "20" "brew:为常用的[brew]命令添加了几个别名" \
+        "20" "brew:为[brew]的常用命令添加了几个别名" \
         "21" "bundler:增加了基本bundler命令的补全" \
         "22" "cabal:为Haskell的构建工具[Cabal]提供了补全功能" \
         "23" "cake:为[CakePHP]提供了补全功能" \
@@ -272,7 +272,7 @@ tmoe_zsh_plugin_menu_02() {
         "40" "gb:用于Go语言的构建工具" \
         "41" "gcloud:为[Google Cloud SDK CLI]提供补全功能" \
         "42" "geeknote:为[Geeknote]提供自动补全功能" \
-        "43" "gem:为[Gem]添加别名和补全功能，包括常用的gem子命令以及当前目录中已安装的gems" \
+        "43" "gem:为[Gem]添加别名和补全功能，包括gem常用的子命令以及当前目录中已安装的gems" \
         "44" "git:提供了许多git的别名,例如将git clone简化为gcl" \
         "45" "git-auto-fetch:在git初始化目录中工作时,自动从所有远程获取所有更改" \
         "46" "git-escape-magic:提供的zle函数具有上下文感知功能" \
@@ -537,7 +537,7 @@ tmoe_zsh_plugin_menu_04() {
         "42" "repo:主要添加了一些别名,并支持自动补全[git-repo命令行工具]" \
         "43" "ripgrep:为文本搜索工具[ripgrep](也称为rg)添加了补全功能" \
         "44" "ros:为[Roswell]添加了补全功能和别名" \
-        "45" "rsync:为常用的[rsync]命令添加别名" \
+        "45" "rsync:为[rsync]的常用命令添加别名" \
         "46" "ruby:为[Ruby]的常用命令添加了别名" \
         "47" "rust:为Rust编程语言的编译器[rustc]添加了补全功能" \
         "48" "rustup:为[rustup](Rust编程语言的工具链安装程序)添加了补全功能" \
@@ -732,7 +732,7 @@ tmoe_zsh_plugin_menu_06() {
         "17" "yarn:为[Yarn包管理器]添加了补全功能" \
         "18" "yii:为[yii]添加了自动补全命令和子命令" \
         "19" "yii2:为yii添加自动补全命令和子命令" \
-        "20" "yum:为常用的[Yum]命令添加了有用的别名" \
+        "20" "yum:为[Yum]命令添加了有用的别名" \
         "21" "z:z命令可以跟踪您访问次数最多的目录,并允许您快速访问它们" \
         "22" "zeus:预加载您的Rails环境,有效地加快Rails启动速度" \
         "23" "zsh-interactive-cd:为cd命令添加了类似于fish的交互式TAB补全功能" \
