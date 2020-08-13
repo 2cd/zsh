@@ -330,6 +330,9 @@ check_gnu_linux_depencies() {
 }
 ####################################################
 check_termux_depencies() {
+	PACKAGES_UPDATE_COMMAND='apt update'
+	PACKAGES_INSTALL_COMMAND='apt install -y'
+	PACKAGES_REMOVE_COMMAND='apt purge -y'
 	if [ ! -h "/data/data/com.termux/files/home/storage/shared" ]; then
 		termux-setup-storage
 	fi
