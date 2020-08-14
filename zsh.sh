@@ -518,7 +518,7 @@ ItemizedConfiguration() {
 		3>&1 1>&2 2>&3)
 	###########
 	case "${TMOE_OPTION}" in
-	0 | "") tmoe_zsh_main_menu;;
+	0 | "") tmoe_zsh_main_menu ;;
 	1)
 		if [ "${LINUX_DISTRO}" = "Android" ]; then
 			bash ${HOME}/.termux/colors.sh
@@ -752,6 +752,10 @@ BACKUPZSH() {
 
 	if [ -e "${HOME}/.termux" ]; then
 		ZSH_BACKUP_FILES="${ZSH_BACKUP_FILES} ${HOME}/.termux"
+	fi
+
+	if [ -e "${HOME}/.p10k.zsh" ]; then
+		ZSH_BACKUP_FILES="${ZSH_BACKUP_FILES} ${HOME}/.p10k.zsh"
 	fi
 
 	if (whiptail --title "Select compression type 选择压缩类型 " --yes-button "tar.xz" --no-button "tar.gz" --yesno "Which do yo like better? \n tar.xz压缩率高，但速度慢。tar.xz has a higher compression ration, but is slower.\n tar.gz速度快,但压缩率低。tar.gz compresses faster, but with a lower compression ratio.\n 压缩过程中，进度条倒着跑是正常现象。" 12 60); then
