@@ -1184,8 +1184,8 @@ onekey_configure_tmoe_zsh() {
 	####################################################
 	#cd ${HOME}/.oh-my-zsh/themes || mkdir -p ${HOME}/.oh-my-zsh/themes && cd ${HOME}/.oh-my-zsh/themes
 	#配置完成后的提示内容。
-	echo "您已安装zsh,之后可以单独输${YELLOW}zshtheme${RESET}来更改主题,${YELLOW}zshcolor${RESET} 来更改配色，输 ${YELLOW}zshfont ${RESET}来更改字体,输 ${YELLOW}zsh-i ${RESET}进入zsh主题管理工具。"
-	echo 'You have installed zsh, you can type "zshcolor" to change the color, type "zshfont" to change the font, type "zsh-i" to backup and reset the zsh configuration. '
+	echo "您已安装${BOLD}zsh${RESET},之后可以单独输${YELLOW}zshtheme${RESET}来更改${BLUE}主题${RESET},${YELLOW}zshcolor${RESET} 来更改${BLUE}配色${RESET}，输 ${YELLOW}zshfont${RESET}来更改${BLUE}字体${RESET},输 ${YELLOW}zsh-i${RESET}进入zsh插件${BLUE}管理工具${RESET}。"
+	echo "You have installed ${BOLD}zsh${RESET}, you can type ${GREEN}zshcolor${RESET} to change the ${BLUE}color${RESET}, type ${GREEN}zshfont${RESET} to change the ${BLUE}font${RESET}, type ${GREEN}zshtheme${RESET} to change the ${BLUE}theme${RESET},type ${GREEN}zsh-i${RESET} to start ${BLUE}tmoe-zsh tool${RESET}."
 	echo "当前已为您加载了z插件，若您曾访问过/sdcard/Download，则您可以输${YELLOW}z Down${RESET}或${YELLOW}z load${RESET}来快速跳转，访问列表可以输 ${YELLOW}z ${RESET}获取。"
 	echo "还为您加载了解压插件extract，例如某文件名为233.tar.xz，则您无需输${YELLOW}tar -Jxf 233.tar.xz${RESET}，只需输${YELLOW}x 233.tar.xz${RESET}。同理，若另一文件为233.7z，则您只需输入${YELLOW}x 233.7z${RESET}即可解压。"
 	echo '注意：您在解压前必须先安装相关依赖，例如：zip需要unzip，7z需要p7zip，安装方法类似于apt install -y unzip'
