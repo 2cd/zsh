@@ -1,15 +1,9 @@
 #!/usr/bin/env bash
 #################################################
 main() {
-	#check_linux_distro
-	#check_architecture
-	#check_current_user_name_and_group
 	terminal_color
 	gnu_linux_env
 	case "$1" in
-	#i | -i)
-	#	tmoe_linux_tool_menu
-	#	;;
 	up* | -u*)
 		upgrade_tmoe_zsh_manager
 		;;
@@ -48,10 +42,22 @@ gnu_linux_env() {
 	if [ -z "${TMPDIR}" ]; then
 		TMPDIR='/tmp'
 	fi
-
-	TERMUX_KEYBOARD_FILE="${HOME}/.termux/termux.properties"
+	TERMUX_PATH="${HOME}/.termux"
+	TERMUX_KEYBOARD_FILE="${TERMUX_PATH}/termux.properties"
 	TERMUX_KEYBOARD_BACKUP_FILE="${TMPDIR}/termux.properties.bak"
-	TERMUX_COLOR_FILE="${HOME}/.termux/colors.properties"
+	TERMUX_COLOR_FILE="${TERMUX_PATH}/colors.properties"
+	TMOE_ZSH_PATH="${HOME}/.config/tmoe-zsh"
+	TMOE_ZSH_FONTS_PATH="${TMOE_ZSH_PATH}/fonts"
+	TMOE_ZSH_GIT_PATH="${TMOE_ZSH_PATH}/git"
+	TMOE_ZSH_TERMUX_PATH="${TMOE_ZSH_PATH}/git/.termux"
+	PLUGIN_SCRIPT="${TMOE_ZSH_GIT_PATH}/tools/plugins.sh"
+	RESTORE_SCRIPT="${TMOE_ZSH_GIT_PATH}/tools/restore.sh"
+	TMOE_GIT_REPO='https://gitee.com/mo2/zsh'
+	cur=$(pwd)
+
+	if [ ! -e "${TMOE_ZSH_PATH}" ]; then
+		mkdir -p ${TMOE_ZSH_PATH}
+	fi
 
 	if [ "$(uname -o)" = "Android" ]; then
 		LINUX_DISTRO='Android'
@@ -123,7 +129,7 @@ check_linux_distro() {
 		PACKAGES_REMOVE_COMMAND='opkg remove'
 		cd /tmp
 		if [ ! -e "router-zsh.bash" ]; then
-			wget --no-check-certificate -qO "router-zsh.bash" https://raw.githubusercontent.com/2moe/tmoe-zsh/master/zsh.sh
+			wget --no-check-certificate -qO "router-zsh.bash" ${TMOE_GIT_REPO}/raw/master/zsh.sh
 		fi
 		chmod +x 'router-zsh.bash'
 		#bash -c "$(cat 'router-zsh.bash' |sed 's@/usr/bin@/opt/bin@g' |sed 's@-e /bin@-e /opt/bin@g' |sed 's@whiptail@dialog@g')"
@@ -176,15 +182,26 @@ check_linux_distro() {
 }
 #################
 check_current_user_name_and_group() {
-	#if [ ${HOME} != '/root' ]; then
 	CURRENT_USER_NAME=$(cat /etc/passwd | grep "${HOME}" | awk -F ':' '{print $1}')
 	CURRENT_USER_GROUP=$(cat /etc/passwd | grep "${HOME}" | awk -F ':' '{print $5}' | cut -d ',' -f 1)
 	if [ -z "${CURRENT_USER_GROUP}" ]; then
 		CURRENT_USER_GROUP=${CURRENT_USER_NAME}
 	fi
-	#fi
 }
 #################
+check_root() {
+	if [ "$(id -u)" != "0" ]; then
+		if [ $(command -v curl) ]; then
+			sudo -E bash -c "$(curl -LfsS ${TMOE_GIT_REPO}/raw/master/zsh.sh)" ||
+				su -c "$(curl -LfsS ${TMOE_GIT_REPO}/raw/master/zsh.sh)"
+		else
+			sudo -E bash -c "$(wget -qO- ${TMOE_GIT_REPO}/raw/master/zsh.sh)" ||
+				su -c "$(wget -qO- ${TMOE_GIT_REPO}/raw/master/zsh.sh)"
+		fi
+		exit 0
+	fi
+}
+###########
 check_gnu_linux_depencies() {
 	DEPENDENCIES=""
 	if [ ! -e /bin/bash ]; then
@@ -281,60 +298,61 @@ check_gnu_linux_depencies() {
 		fi
 	fi
 	#############################
-	if [ ! -z "${DEPENDENCIES}" ]; then
+	if [ ! -z "${DEPENDENCIES}" ] && [ ! -e ${TMOE_ZSH_PATH}/non_fzf ]; then
 		echo "正在${YELLOW}安装${RESET}相关${GREEN}软件包${RESET}及其${BLUE}依赖...${RESET}"
 		echo "${GREEN}${PACKAGES_INSTALL_COMMAND}${BLUE}${DEPENDENCIES}${RESET}"
 		echo "如需${BOLD}${RED}卸载${RESET}${RESET}，请${YELLOW}手动${RESET}输${RED}${PACKAGES_REMOVE_COMMAND}${RESET}${BLUE}${DEPENDENCIES}${RESET}"
-		if [ "$(id -u)" != "0" ]; then
-			if [ $(command -v curl) ]; then
-				sudo -E bash -c "$(curl -LfsS https://raw.githubusercontent.com/2moe/tmoe-zsh/master/zsh.sh)" ||
-					su -c "$(curl -LfsS https://raw.githubusercontent.com/2moe/tmoe-zsh/master/zsh.sh)"
-			else
-				sudo -E bash -c "$(wget -qO- https://raw.githubusercontent.com/2moe/tmoe-zsh/master/zsh.sh)" ||
-					su -c "$(wget -qO- https://raw.githubusercontent.com/2moe/tmoe-zsh/master/zsh.sh)"
-			fi
-			exit 0
-		fi
 
 		if [ "${LINUX_DISTRO}" = "debian" ]; then
-			apt update
-			apt install -y ${DEPENDENCIES} || apt install -y command-not-found zsh git pv wget xz-utils tar whiptail command-not-found
-
-		elif [ "${LINUX_DISTRO}" = "alpine" ]; then
-			apk add -q ${DEPENDENCIES}
+			apt update || sudo apt update || su -c "apt update"
+			DEPENDENCIES_02='command-not-found zsh git pv wget xz-utils tar whiptail'
+			apt install -y ${DEPENDENCIES} || sudo apt install -y ${DEPENDENCIES} || sudo apt install -y ${DEPENDENCIES_02} || su -c "apt install -y ${DEPENDENCIES_02}"
+			if [ ! $(command -v fzf) ]; then
+				echo '' >${TMOE_ZSH_PATH}/non_fzf
+			fi
+		elif
+			[ "${LINUX_DISTRO}" = "alpine" ]
+		then
+			apk add ${DEPENDENCIES} || sudo apk add ${DEPENDENCIES} || su -c "apk add ${DEPENDENCIES}"
 			#apk add -q xz newt tar zsh git wget bash zsh-vcs pv
 
 		elif [ "${LINUX_DISTRO}" = "arch" ]; then
-			pacman -Syu --noconfirm ${DEPENDENCIES}
+			pacman -Syu --noconfirm ${DEPENDENCIES} || sudo pacman -Syu --noconfirm ${DEPENDENCIES}
 
 		elif [ "${LINUX_DISTRO}" = "redhat" ]; then
-			dnf install -y --skip-broken ${DEPENDENCIES} || yum install -y --skip-broken ${DEPENDENCIES}
+			dnf install -y --skip-broken ${DEPENDENCIES} || yum install -y --skip-broken ${DEPENDENCIES} || sudo dnf install -y --skip-broken ${DEPENDENCIES} || sudo yum install -y --skip-broken ${DEPENDENCIES}
 			#dnf install -y zsh git pv wget xz tar newt || yum install -y zsh git pv wget xz tar newt
 
 		elif [ "${LINUX_DISTRO}" = "openwrt" ]; then
 			#opkg update
+			check_root
 			opkg install ${DEPENDENCIES} || opkg install whiptail
 
 		elif [ "${LINUX_DISTRO}" = "void" ]; then
+			check_root
 			xbps-install -S
 			xbps-install -y ${DEPENDENCIES}
 
 		elif [ "${LINUX_DISTRO}" = "gentoo" ]; then
+			check_root
 			emerge -av ${DEPENDENCIES}
 
 		elif [ "${LINUX_DISTRO}" = "suse" ]; then
+			check_root
 			zypper in -y ${DEPENDENCIES}
 
 		elif [ "${LINUX_DISTRO}" = "slackware" ]; then
+			check_root
 			slackpkg install ${DEPENDENCIES}
 
 		else
+			check_root
 			apt update
-			apt install -y command-not-found zsh git pv wget xz-utils tar whiptail command-not-found || port install ${DEPENDENCIES} || guix package -i ${DEPENDENCIES} || pkg install ${DEPENDENCIES} || pkg_add ${DEPENDENCIES} || pkgutil -i ${DEPENDENCIES}
+			apt install -y zsh git pv wget xz-utils tar whiptail command-not-found || port install ${DEPENDENCIES} || guix package -i ${DEPENDENCIES} || pkg install ${DEPENDENCIES} || pkg_add ${DEPENDENCIES} || pkgutil -i ${DEPENDENCIES}
 		fi
 	fi
-
-	termux_git_clone_zsh
+	#termux_git_clone_zsh
+	tmoe_zsh_main_menu
 }
 ####################################################
 check_termux_depencies() {
@@ -383,21 +401,24 @@ check_termux_depencies() {
 		apt update
 		apt install -y ${DEPENDENCIES}
 	fi
-	android_git_clone_fonts
+	#android_git_clone_fonts
+	tmoe_zsh_main_menu
 }
 ###############################################
 git_clone_termux_font_files() {
-	rm -rf "${HOME}/.termux/.ZSHPOWERLINEFONTS" 2>/dev/null
-	mkdir -p "${HOME}/.termux/"
-	git clone https://gitee.com/mo2/zsh-powerline-font.git --depth=1 "${HOME}/.termux/.ZSHPOWERLINEFONTS"
-	rm -rf "${HOME}/.termux/fonts" 2>/dev/null
-	mv "${HOME}/.termux/.ZSHPOWERLINEFONTS/fonts" "${HOME}/.termux"
-	rm -rf "${HOME}/.termux/.ZSHPOWERLINEFONTS"
+	#rm -rf "${TERMUX_PATH}/.ZSHPOWERLINEFONTS" 2>/dev/null
+	git clone https://gitee.com/ak2/termux-fonts.git --depth=1 "${TMOE_ZSH_FONTS_PATH}"
+	cd ${TMOE_ZSH_FONTS_PATH}
+	tar -Jxvf fonts.tar.xz
+	#rm -rf "${TERMUX_PATH}/fonts" 2>/dev/null
+	#mv "${TERMUX_PATH}/.ZSHPOWERLINEFONTS/fonts" "${TERMUX_PATH}"
+	#rm -rf "${TERMUX_PATH}/.ZSHPOWERLINEFONTS"
 }
 ###################
 android_git_clone_fonts() {
-	#git clone字体文件
-	if [ ! -d "${HOME}/.termux/fonts/Ubuntu" ]; then
+	#TMOE_ZSH_FONTS_PATH="${TMOE_ZSH_PATH}/fonts"
+	mkdir -p "${TERMUX_PATH}"
+	if [ ! -d "${TMOE_ZSH_FONTS_PATH}/fonts" ]; then
 		git_clone_termux_font_files
 	fi
 	chsh -s zsh
@@ -405,38 +426,33 @@ android_git_clone_fonts() {
 }
 ###########################################
 fix_zsh_folder_permissions() {
-	chmod 755 -R ${ZSH_FOLDER}
+	chmod 755 -R ${ZSH_PATH}
 	if [ "${LINUX_DISTRO}" != "Android" ] && [ ${HOME} != "/root" ]; then
-		echo "正在将${ZSH_FOLDER}的权限修改为${CURRENT_USER_NAME}用户和${CURRENT_USER_GROUP}用户组"
-		sudo -E chown -R ${CURRENT_USER_NAME}:${CURRENT_USER_GROUP} ${ZSH_FOLDER}
+		echo "正在将${ZSH_PATH}的权限修改为${CURRENT_USER_NAME}用户和${CURRENT_USER_GROUP}用户组"
+		sudo -E chown -R ${CURRENT_USER_NAME}:${CURRENT_USER_GROUP} ${ZSH_PATH}
 	fi
 }
 ################
 termux_git_clone_zsh() {
-	cur=$(pwd)
 	#tmoe-zsh旧版迁移新版，必须要先删掉旧仓库文件夹。
-	if ! grep -q 'mo2/zsh.git' "${HOME}/.termux-zsh/.git/config" 2>/dev/null; then
-		rm -rf "${HOME}/.termux-zsh"
+	#if ! grep -q 'mo2/zsh.git' "${TMOE_ZSH_GIT_PATH}/.git/config" 2>/dev/null; then
+	#	rm -rf "${TMOE_ZSH_GIT_PATH}"
+	#fi
+	if [ ! -e "${TMOE_ZSH_GIT_PATH}/.git" ]; then
+		git clone --depth=1 ${TMOE_GIT_REPO} ${TMOE_ZSH_GIT_PATH}
+		#ZSH_PATH="${TMOE_ZSH_GIT_PATH}"
+		#fix_zsh_folder_permissions
+		#rm -f ${HOME}/theme 2>/dev/null
 	fi
-	if [ ! -d "${HOME}/.termux-zsh" ]; then
-		git clone https://github.com/2moe/tmoe-zsh.git "${HOME}/.termux-zsh" --depth 1
-		ZSH_FOLDER="${HOME}/.termux-zsh"
-		fix_zsh_folder_permissions
-		rm -f ${HOME}/theme 2>/dev/null
-		#else
-		#cd "${HOME}/.termux-zsh"
-		#git reset --hard origin/master
-		#git pull --depth=1 origin master
-	fi
-	tmoe_zsh_main_menu
+	#tmoe_zsh_main_menu
 }
 ######################################################
 tmoe_zsh_main_menu() {
 	cd ${cur}
 	#20 50 7
 	RETURN_TO_WHERE='tmoe_zsh_main_menu'
-	TMOE_OPTION=$(whiptail --title "TMOE-ZSH manager running on Linux.(20200815)" --backtitle "Please select onekey configuration for initial installation." --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate.\n请使用方向键和回车键进行操作,初次安装请选择初始化安装配置" 0 50 0 \
-		"1" "🍭 Initial installation 初始化安装配置" \
+	TMOE_OPTION=$(whiptail --title "TMOE-ZSH manager running on Linux.(20200815)" --backtitle "Please select install&configure for initial installation." --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate.\n请使用方向键和回车键进行操作,初次安装请选择安装与配置" 0 50 0 \
+		"1" "🍭 install&configure 安装与配置" \
 		"2" "🌸 Itemized configuration 分项配置" \
 		"3" "🍀 Plugins 插件管理" \
 		"4" "🏫 FAQ 常见问题" \
@@ -498,7 +514,7 @@ tmoe_zsh_faq() {
 	1) remove_plugin_command_not_found ;;
 	2) reset_fzf_tab ;;
 	3)
-		ZSH_FOLDER="${HOME}/.oh-my-zsh ${HOME}/.zshrc ${HOME}/.termux-zsh"
+		ZSH_PATH="${HOME}/.oh-my-zsh ${HOME}/.zshrc ${TMOE_ZSH_GIT_PATH}"
 		fix_zsh_folder_permissions
 		echo "若无法修复，则请手动执行${GREEN}compaudit | xargs chmod g-w,o-w${RESET}"
 		if [ "${LINUX_DISTRO}" != "Android" ] && [ ${HOME} != "/root" ]; then
@@ -533,7 +549,7 @@ ItemizedConfiguration() {
 	0 | "") tmoe_zsh_main_menu ;;
 	1)
 		if [ "${LINUX_DISTRO}" = "Android" ]; then
-			bash ${HOME}/.termux/colors.sh
+			bash ${TMOE_ZSH_TERMUX_PATH}/colors.sh
 		else
 			echo '非常抱歉，此功能只支持安卓'
 			echo "Sorry, this feature only supports Android"
@@ -543,7 +559,7 @@ ItemizedConfiguration() {
 		;;
 	2)
 		if [ "${LINUX_DISTRO}" = "Android" ]; then
-			bash ${HOME}/.termux/fonts.sh
+			bash ${TMOE_ZSH_TERMUX_PATH}/fonts.sh
 		else
 			echo '非常抱歉，此功能只支持安卓'
 			echo "Sorry, this feature only supports Android"
@@ -551,7 +567,7 @@ ItemizedConfiguration() {
 			ItemizedConfiguration
 		fi
 		;;
-	3) bash ${HOME}/.termux/themes.sh ;;
+	3) bash ${TMOE_ZSH_TERMUX_PATH}/themes.sh ;;
 	4) XFCE4TERMINALCOLOR ;;
 	5) DEFAULTSHELL ;;
 	6) nano ${HOME}/.zshrc || vim ${HOME}/.zshrc || vi ${HOME}/.zshrc ;;
@@ -621,15 +637,15 @@ remove_oh_my_zsh() {
 }
 #########
 remove_termux_fonts() {
-	echo "rm -rf ${HOME}/.termux/fonts"
+	echo "rm -rf ${TERMUX_PATH}/fonts"
 	do_you_want_to_continue
-	rm -rfv ${HOME}/.termux/fonts
+	rm -rfv ${TERMUX_PATH}/fonts
 }
 #########
 remove_tmoe_zsh() {
-	echo "${RED}rm -rf ${HOME}/.termux-zsh ${PREFIX}/bin/zsh-i${RESET}"
+	echo "${RED}rm -rf ${TMOE_ZSH_PATH} ${PREFIX}/bin/zsh-i${RESET}"
 	do_you_want_to_continue
-	rm -rfv ${HOME}/.termux-zsh ${PREFIX}/bin/zsh-i
+	rm -rfv ${TMOE_ZSH_PATH} ${PREFIX}/bin/zsh-i
 	echo "${YELLOW}删除完成，按回车键退出 Press Enter to exit.${RESET} "
 	read
 	exit 1
@@ -691,34 +707,23 @@ REMOVEZSH() {
 	press_enter_to_return
 	REMOVEZSH
 }
-#################################################################
+#################################
 do_you_want_to_backup_zsh_folder() {
-	if [ -d "${HOME}/.TERMUXFONTSTMPMOVE" ]; then
-		rm -rf "${HOME}/.TERMUXFONTSTMPMOVE" 2>/dev/null
-	fi
-
-	if [ -d ${HOME}/.termux/fonts ]; then
-		mv -f "${HOME}/.termux/fonts" "${HOME}/.TERMUXFONTSTMPMOVE" 2>/dev/null
-	fi
-
-	if [ -f ${TERMUX_KEYBOARD_FILE} ]; then
-		cp -f ${TERMUX_KEYBOARD_FILE} "${TERMUX_KEYBOARD_BACKUP_FILE}"
-	fi
-
-	if (whiptail --title "Do you need to backup the current zsh configuration?" --yes-button 'OK (*￣▽￣*)o' --no-button 'No (っ °Д °；)っ' --yesno "您即将修改zsh的配色、字体和主题，请问是否需要备份当前zsh配置(不包含字体)。\n您可以单独输zshcolor来更改颜色，输zshfont来更改字体，输zshtheme来更改主题，输zsh-i进入zsh管理器\nYou can type zshtheme to change the theme,type zsh-i to start this tool." 12 60); then
-		mv "${HOME}/.termux" "${HOME}/.termux.bak.$(date +%Y.%m.%d-%H:%M:%S)" 2>/dev/null
-		cp "${HOME}/.zshrc" "${HOME}/.zshrc.bak.$(date +%Y.%m.%d-%H:%M:%S)" 2>/dev/null
-	else
-		if [ ! -f "${HOME}/.termux/colors/wild.cherry" ]; then
-			rm -rf "${HOME}/.termux/colors" 2>/dev/null
+	cp "${HOME}/.zshrc" "${HOME}/.zshrc.bak.$(date +%Y.%m.%d-%H:%M:%S)" 2>/dev/null
+	case "${LINUX_DISTRO}" in
+	Android)
+		android_git_clone_fonts
+		if [ -f ${TERMUX_KEYBOARD_FILE} ]; then
+			cp -f ${TERMUX_KEYBOARD_FILE} "${TERMUX_KEYBOARD_BACKUP_FILE}"
 		fi
-	fi
-
-	if [ "$(uname -o)" != "Android" ]; then
+		modify_termux_color_and_font
+		;;
+	*)
+		termux_git_clone_zsh
 		chsh -s $(command -v zsh) || sudo chsh -s $(command -v zsh)
-	fi
-
-	COLORSANDFONTS
+		onekey_configure_tmoe_zsh
+		;;
+	esac
 }
 ################################
 where_is_start_dir() {
@@ -762,12 +767,12 @@ BACKUPZSH() {
 		ZSH_BACKUP_FILES="${ZSH_BACKUP_FILES} ${HOME}/.z"
 	fi
 
-	if [ -e "${HOME}/.termux-zsh" ]; then
-		ZSH_BACKUP_FILES="${ZSH_BACKUP_FILES} ${HOME}/.termux-zsh"
+	if [ -e "${TMOE_ZSH_GIT_PATH}" ]; then
+		ZSH_BACKUP_FILES="${ZSH_BACKUP_FILES} ${TMOE_ZSH_GIT_PATH}"
 	fi
 
-	if [ -e "${HOME}/.termux" ]; then
-		ZSH_BACKUP_FILES="${ZSH_BACKUP_FILES} ${HOME}/.termux"
+	if [ -e "${TERMUX_PATH}" ]; then
+		ZSH_BACKUP_FILES="${ZSH_BACKUP_FILES} ${TERMUX_PATH}"
 	fi
 
 	if [ -e "${HOME}/.p10k.zsh" ]; then
@@ -779,7 +784,7 @@ BACKUPZSH() {
 		echo "您选择了tar.xz,即将为您备份至${BACKUP_FOLDER}/${TMPtime}.tar.xz"
 		echo "${YELLOW}按回车键开始备份,按Ctrl+C取消。Press Enter to start the backup.${RESET} "
 		read
-		#tar -PJpcf - ${HOME}/.z ${HOME}/.zshrc ${HOME}/.termux ${HOME}/.zsh_history ${HOME}/.oh-my-zsh ${HOME}/.termux-zsh | (pv -n >${TMPtime}.tar.xz) 2>&1 | whiptail --gauge "Compressing into tar.xz" 10 70
+		#tar -PJpcf - ${HOME}/.z ${HOME}/.zshrc ${TERMUX_PATH} ${HOME}/.zsh_history ${HOME}/.oh-my-zsh ${TMOE_ZSH_GIT_PATH} | (pv -n >${TMPtime}.tar.xz) 2>&1 | whiptail --gauge "Compressing into tar.xz" 10 70
 		cd ${HOME}
 		if [ $(command -v pv) ]; then
 			tar -PJpcf - ${ZSH_BACKUP_FILES} | (pv -p --timer --rate --bytes >${TMPtime}.tar.xz)
@@ -803,8 +808,8 @@ BACKUPZSH() {
 		echo "${YELLOW}按回车键开始备份,按Ctrl+C取消。Press Enter to start the backup.${RESET} "
 		read
 
-		#tar -Ppczf - ${HOME}/.z ${HOME}/.zshrc ${HOME}/.termux ${HOME}/.zsh_history ${HOME}/.oh-my-zsh ${HOME}/.termux-zsh | (pv -n >${TMPtime}.tar.gz) 2>&1 | whiptail --gauge "Compressing into tar.gz \n正在压缩成tar.gz" 10 70
-		#tar -Ppczf - ${HOME}/.z ${HOME}/.zshrc ${HOME}/.termux ${HOME}/.zsh_history ${HOME}/.oh-my-zsh ${HOME}/.termux-zsh | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)
+		#tar -Ppczf - ${HOME}/.z ${HOME}/.zshrc ${TERMUX_PATH} ${HOME}/.zsh_history ${HOME}/.oh-my-zsh ${TMOE_ZSH_GIT_PATH} | (pv -n >${TMPtime}.tar.gz) 2>&1 | whiptail --gauge "Compressing into tar.gz \n正在压缩成tar.gz" 10 70
+		#tar -Ppczf - ${HOME}/.z ${HOME}/.zshrc ${TERMUX_PATH} ${HOME}/.zsh_history ${HOME}/.oh-my-zsh ${TMOE_ZSH_GIT_PATH} | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)
 		cd ${HOME}
 		if [ $(command -v pv) ]; then
 			tar -Ppczf - ${ZSH_BACKUP_FILES} | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)
@@ -827,23 +832,20 @@ BACKUPZSH() {
 }
 ##############
 git_pull_tmoe_zsh() {
-	cd ${HOME}/.termux-zsh
+	cd ${TMOE_ZSH_GIT_PATH}
 	git fetch --depth=2
 	git reset --hard origin/master
 	git pull origin master --allow-unrelated-histories
 }
 ###########
 tmoe_zsh_plugin_manager() {
-	TMOE_LINUX_DIR="${HOME}/.config/tmoe-linux"
-	if [ ! $(command -v batcat) ] && [ ! -e "${TMOE_LINUX_DIR}/do_not_install_bat" ]; then
+	if [ ! $(command -v batcat) ] && [ ! -e "${TMOE_ZSH_PATH}/do_not_install_bat" ]; then
 		${PACKAGES_UPDATE_COMMAND} || sudo ${PACKAGES_UPDATE_COMMAND}
 		echo "${GREEN}${PACKAGES_INSTALL_COMMAND}${RESET} ${BLUE}bat${RESET}"
 		${PACKAGES_INSTALL_COMMAND} bat || sudo ${PACKAGES_INSTALL_COMMAND} bat
 		echo "If you want to remove it,then type ${RED}${PACKAGES_REMOVE_COMMAND}${RESET} ${BLUE}bat${RESET}"
-		mkdir -p ${TMOE_LINUX_DIR}
-		touch "${TMOE_LINUX_DIR}/do_not_install_bat"
+		touch "${TMOE_ZSH_PATH}/do_not_install_bat"
 	fi
-	PLUGIN_SCRIPT="${HOME}/.termux-zsh/tools/plugins.sh"
 	if [ ! -e "${PLUGIN_SCRIPT}" ]; then
 		git_pull_tmoe_zsh
 	fi
@@ -851,7 +853,6 @@ tmoe_zsh_plugin_manager() {
 }
 ############
 RESTOREZSH() {
-	RESTORE_SCRIPT="${HOME}/.termux-zsh/tools/restore.sh"
 	if [ ! -e "${RESTORE_SCRIPT}" ]; then
 		git_pull_tmoe_zsh
 	fi
@@ -868,7 +869,7 @@ chmod_plus_x_zsh_i() {
 }
 ##########
 download_tmoe_zsh() {
-	ZSH_I_URL='https://raw.githubusercontent.com/2moe/tmoe-zsh/master/zsh.sh'
+	ZSH_I_URL="${TMOE_GIT_REPO}/raw/master/zsh.sh"
 	case "${LINUX_DISTRO}" in
 	Android)
 		curl_zsh_i
@@ -971,22 +972,26 @@ DEFAULTSHELL() {
 	read
 	tmoe_zsh_main_menu
 }
-
-######################################
 #####################################################
-COLORSANDFONTS() {
-	if [ -d "${HOME}/.termux-zsh/fonts" ]; then
-		rm -rf "${HOME}/.termux-zsh/fonts" 2>/dev/null
+modify_termux_color_and_font() {
+	if [ ! -e "${TERMUX_KEYBOARD_FILE}" ]; then
+		cp -f ${TMOE_ZSH_TERMUX_PATH}/termux.properties ${TERMUX_KEYBOARD_FILE}
 	fi
+	if [ ! -e "${TMOE_ZSH_TERMUX_PATH}/colors.properties" ]; then
+		cp -f ${TMOE_ZSH_TERMUX_PATH}/colors.properties ${TERMUX_PATH}/colors.properties
+	fi
+	#if [ ! -e "${TMOE_ZSH_TERMUX_PATH}/font.ttf" ]; then
+	#	cp -f ${TMOE_ZSH_TERMUX_PATH}/colors.properties ${TERMUX_PATH}/colors.properties
+	#fi
 
-	cp -rf "${HOME}/.termux-zsh/.termux" "${HOME}"
-	mv -f "${HOME}/.TERMUXFONTSTMPMOVE" "${HOME}/.termux/fonts" 2>/dev/null
-	if [ -f ${TERMUX_KEYBOARD_BACKUP_FILE} ]; then
-		mv -f "${TERMUX_KEYBOARD_BACKUP_FILE}" ${TERMUX_KEYBOARD_FILE}
-	fi
+	#TERMUX_KEYBOARD_FILE="${TERMUX_PATH}/termux.properties"
+
+	#${TERMUX_PATH}
+	#if [ -f ${TERMUX_KEYBOARD_BACKUP_FILE} ]; then
+	#	mv -f "${TERMUX_KEYBOARD_BACKUP_FILE}" ${TERMUX_KEYBOARD_FILE}
+	#fi
 	onekey_configure_tmoe_zsh
 }
-
 ##################################################################################
 neko_01() {
 	printf "$BLUE"
@@ -1023,7 +1028,7 @@ git_clone_oh_my_zsh() {
 	#git clone oh-my-zsh
 	if [ ! -d "${HOME}/.oh-my-zsh" ]; then
 		git clone https://github.com/ohmyzsh/ohmyzsh.git "${HOME}/.oh-my-zsh" --depth 1 || git clone --depth=1 git://github.com/ohmyzsh/ohmyzsh "${HOME}/.oh-my-zsh"
-		ZSH_FOLDER="${HOME}/.oh-my-zsh"
+		ZSH_PATH="${HOME}/.oh-my-zsh"
 		fix_zsh_folder_permissions
 		#else
 		#   cd "${HOME}/.oh-my-zsh" && git pull --depth=1
@@ -1058,14 +1063,27 @@ configure_command_not_found() {
 add_zsh_alias() {
 	#外面双引号，里面单引号。
 	#添加alias
-	grep -q 'alias zshcolor=' "${HOME}/.zshrc" >/dev/null 2>&1 || sed -i "$ a\alias zshcolor='bash ${HOME}/.termux/colors.sh'" "${HOME}/.zshrc"
-	#echo -e "\nalias zshcolor='${HOME}/.termux/colors.sh'" >>"${HOME}/.zshrc"
-	grep -q 'alias zshfont=' "${HOME}/.zshrc" >/dev/null 2>&1 || sed -i "$ a\alias zshfont='bash ${HOME}/.termux/fonts.sh'" "${HOME}/.zshrc"
-	grep -q 'alias zshtheme=' "${HOME}/.zshrc" >/dev/null 2>&1 || sed -i "$ a\alias zshtheme='bash ${HOME}/.termux/themes.sh'" "${HOME}/.zshrc"
-	#grep -q 'alias zsh-i=' "${HOME}/.zshrc" >/dev/null 2>&1 || sed -i "$ a\alias zsh-i='bash ${HOME}/.termux-zsh/update.sh'" "${HOME}/.zshrc"
-	#grep -q 'alias zsh-i=' "${HOME}/.bashrc" >/dev/null 2>&1 || sed -i "$ a\alias zsh-i='bash ${HOME}/.termux-zsh/update.sh'" "${HOME}/.bashrc"
+	#TMOE_ZSH_TERMUX_PATH
+	#grep -q 'alias zshcolor=' "${HOME}/.zshrc" >/dev/null 2>&1 || sed -i "$ a\alias zshcolor='bash ${TERMUX_PATH}/colors.sh'" "${HOME}/.zshrc"
+	sed -i '/alias zshcolor=/d' "${HOME}/.zshrc"
+	sed -i "$ a\alias zshcolor='bash ${TMOE_ZSH_TERMUX_PATH}/colors.sh'" "${HOME}/.zshrc"
+
+	#echo -e "\nalias zshcolor='${TERMUX_PATH}/colors.sh'" >>"${HOME}/.zshrc"
+	#grep -q 'alias zshfont=' "${HOME}/.zshrc" >/dev/null 2>&1 || sed -i "$ a\alias zshfont='bash ${TERMUX_PATH}/fonts.sh'" "${HOME}/.zshrc"
+	sed -i '/alias zshfont=/d' "${HOME}/.zshrc"
+	sed -i "$ a\alias zshfont='bash ${TMOE_ZSH_TERMUX_PATH}/fonts.sh'" "${HOME}/.zshrc"
+
+	#grep -q 'alias zshtheme=' "${HOME}/.zshrc" >/dev/null 2>&1 || sed -i "$ a\alias zshtheme='bash ${TERMUX_PATH}/themes.sh'" "${HOME}/.zshrc"
+	sed -i '/alias zshtheme=/d' "${HOME}/.zshrc"
+	sed -i "$ a\alias zshtheme='bash ${TMOE_ZSH_TERMUX_PATH}/themes.sh'" "${HOME}/.zshrc"
+	if [ -e "${HOME}/.profile" ]; then
+		sed -i '/alias zshtheme=/d' "${HOME}/.profile"
+		sed -i "$ a\alias zshtheme='bash ${TMOE_ZSH_TERMUX_PATH}/themes.sh'" "${HOME}/.profile"
+	fi
+	#grep -q 'alias zsh-i=' "${HOME}/.zshrc" >/dev/null 2>&1 || sed -i "$ a\alias zsh-i='bash ${TMOE_ZSH_GIT_PATH}/update.sh'" "${HOME}/.zshrc"
+	#grep -q 'alias zsh-i=' "${HOME}/.bashrc" >/dev/null 2>&1 || sed -i "$ a\alias zsh-i='bash ${TMOE_ZSH_GIT_PATH}/update.sh'" "${HOME}/.bashrc"
 	sed -i '/alias zsh-i=/d' "${HOME}/.zshrc" "${HOME}/.bashrc"
-	if [ ! -e "${PREFIX}/bin/zsh-i}" ]; then
+	if [ ! -e "${PREFIX}/bin/zsh-i" ]; then
 		download_tmoe_zsh
 	fi
 }
@@ -1080,10 +1098,12 @@ git_clone_fzf_tab() {
 ############
 onekey_configure_tmoe_zsh() {
 	git_clone_oh_my_zsh
-	configure_command_not_found
+	if [ "${LINUX_DISTRO}" != "Android" ]; then
+		configure_command_not_found
+	fi
 	#重置主题
 	sed -i '/^ZSH_THEME/d' "${HOME}/.zshrc"
-	sed -i '1iZSH_THEME="agnoster"' "${HOME}/.zshrc"
+	sed -i '1 i\ZSH_THEME="agnoster"' "${HOME}/.zshrc"
 	##############################################
 	add_zsh_alias
 	######################################
@@ -1104,7 +1124,6 @@ onekey_configure_tmoe_zsh() {
 	grep "zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" "${HOME}/.zshrc" >/dev/null 2>&1 || sed -i "$ a\source ${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" "${HOME}/.zshrc"
 
 	###############################################
-
 	if [ ! -d "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
 		echo '正在克隆zsh自动补全插件...'
 		sed -i '/zsh-autosuggestions.zsh/d' "${HOME}/.zshrc"
@@ -1148,10 +1167,10 @@ onekey_configure_tmoe_zsh() {
 
 	###############################################
 	#切换zsh为默认shell，并且设定临时alias
-	alias zshcolor="bash ${HOME}/.termux/colors.sh"
-	alias zshfont="bash ${HOME}/.termux/fonts.sh"
-	alias zshtheme="bash ${HOME}/.termux/themes.sh"
-	#alias zsh-i="bash ${HOME}/.termux-zsh/zsh.sh"
+	#alias zshcolor="bash ${TERMUX_PATH}/colors.sh"
+	#alias zshfont="bash ${TERMUX_PATH}/fonts.sh"
+	#alias zshtheme="bash ${TERMUX_PATH}/themes.sh"
+	#alias zsh-i="bash ${TMOE_ZSH_GIT_PATH}/zsh.sh"
 	#echo -e "oh-my-zsh install complete!\nChoose your color scheme now~"
 	####################################################
 	#cd ${HOME}/.oh-my-zsh/themes || mkdir -p ${HOME}/.oh-my-zsh/themes && cd ${HOME}/.oh-my-zsh/themes
@@ -1167,17 +1186,16 @@ onekey_configure_tmoe_zsh() {
 	if [ "${LINUX_DISTRO}" = "Android" ]; then
 		echo "Choose your color scheme now~"
 		#echo '请选择您的配色'
-		bash ${HOME}/.termux/colors.sh
+		bash ${TMOE_ZSH_TERMUX_PATH}/colors.sh
 		echo ''
 		echo "Choose your font now~"
 		#echo '请选择您的字体'
-		bash ${HOME}/.termux/fonts.sh
+		bash ${TMOE_ZSH_TERMUX_PATH}/fonts.sh
 	fi
 	echo ''
 	echo "Choose your theme now~"
 	#echo '请选择您的主题'
-	bash ${HOME}/.termux/themes.sh
-
+	bash ${TMOE_ZSH_TERMUX_PATH}/themes.sh
 }
 ###########################################
 main "$@"
