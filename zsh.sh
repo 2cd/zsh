@@ -643,9 +643,12 @@ remove_termux_fonts() {
 }
 #########
 remove_tmoe_zsh() {
-	echo "${RED}rm -rf ${TMOE_ZSH_PATH} ${PREFIX}/bin/zsh-i${RESET}"
+	echo "${RED}rm -rf ${TMOE_ZSH_PATH} ${PREFIX}/bin/zsh-i ; sed -i '/alias zshtheme=/d' ${HOME}/.zshrc ${HOME}/.profile${RESET}"
 	do_you_want_to_continue
 	rm -rfv ${TMOE_ZSH_PATH} ${PREFIX}/bin/zsh-i
+	sed -i '/alias zshtheme=/d' "${HOME}/.zshrc" "${HOME}/.profile"
+	sed -i '/alias zshfont=/d' "${HOME}/.zshrc"
+	sed -i '/alias zshcolor=/d' "${HOME}/.zshrc"
 	echo "${YELLOW}删除完成，按回车键退出 Press Enter to exit.${RESET} "
 	read
 	exit 1
@@ -891,7 +894,10 @@ download_tmoe_zsh() {
 ############
 upgrade_tmoe_zsh_manager() {
 	download_tmoe_zsh
-	sed -i '/alias zsh-i=/d' "${HOME}/.zshrc" "${HOME}/.bashrc"
+	sed -i '/alias zsh-i=/d' "${HOME}/.zshrc"
+	if [ -e "${HOME}/.bashrc" ]; then
+		sed -i '/alias zsh-i=/d' "${HOME}/.bashrc"
+	fi
 	echo "Update ${YELLOW}completed${RESET}, press ${GREEN}enter${RESET} to ${BLUE}return.${RESET}"
 	echo "${YELLOW}更新完成，按回车键返回。${RESET}"
 	read
@@ -1082,7 +1088,10 @@ add_zsh_alias() {
 	fi
 	#grep -q 'alias zsh-i=' "${HOME}/.zshrc" >/dev/null 2>&1 || sed -i "$ a\alias zsh-i='bash ${TMOE_ZSH_GIT_PATH}/update.sh'" "${HOME}/.zshrc"
 	#grep -q 'alias zsh-i=' "${HOME}/.bashrc" >/dev/null 2>&1 || sed -i "$ a\alias zsh-i='bash ${TMOE_ZSH_GIT_PATH}/update.sh'" "${HOME}/.bashrc"
-	sed -i '/alias zsh-i=/d' "${HOME}/.zshrc" "${HOME}/.bashrc"
+	sed -i '/alias zsh-i=/d' "${HOME}/.zshrc"
+	if [ -e "${HOME}/.bashrc" ]; then
+		sed -i '/alias zsh-i=/d' "${HOME}/.bashrc"
+	fi
 	if [ ! -e "${PREFIX}/bin/zsh-i" ]; then
 		download_tmoe_zsh
 	fi
@@ -1136,7 +1145,7 @@ onekey_configure_tmoe_zsh() {
 	sed -i 's/plugins=(git)/plugins=(git z extract)/g' "${HOME}/.zshrc"
 	####################################################
 	ENABLE_FZF_TAB_EXTRA_OPT='true'
-	if grep -Eq 'buster|stretch|jessie|Bionic Beaver|Xenial|Cosmic|Disco' "/etc/os-release"; then
+	if grep -Eq 'buster|stretch|jessie|Bionic Beaver|Xenial|Cosmic|Disco' "/etc/os-release" 2>/dev/null; then
 		ENABLE_FZF_TAB_EXTRA_OPT='false'
 	fi
 	if [ "${LINUX_DISTRO}" != "debian" ] && [ "${LINUX_DISTRO}" != "Android" ]; then
