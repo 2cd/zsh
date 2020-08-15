@@ -351,7 +351,7 @@ check_gnu_linux_depencies() {
 			apt install -y zsh git pv wget xz-utils tar whiptail command-not-found || port install ${DEPENDENCIES} || guix package -i ${DEPENDENCIES} || pkg install ${DEPENDENCIES} || pkg_add ${DEPENDENCIES} || pkgutil -i ${DEPENDENCIES}
 		fi
 	fi
-	#termux_git_clone_zsh
+	#git_clone_tmoe_zsh
 	tmoe_zsh_main_menu
 }
 ####################################################
@@ -422,7 +422,7 @@ android_git_clone_fonts() {
 		git_clone_termux_font_files
 	fi
 	chsh -s zsh
-	termux_git_clone_zsh
+	git_clone_tmoe_zsh
 }
 ###########################################
 fix_zsh_folder_permissions() {
@@ -433,7 +433,7 @@ fix_zsh_folder_permissions() {
 	fi
 }
 ################
-termux_git_clone_zsh() {
+git_clone_tmoe_zsh() {
 	#tmoe-zsh旧版迁移新版，必须要先删掉旧仓库文件夹。
 	#if ! grep -q 'mo2/zsh.git' "${TMOE_ZSH_GIT_PATH}/.git/config" 2>/dev/null; then
 	#	rm -rf "${TMOE_ZSH_GIT_PATH}"
@@ -443,6 +443,8 @@ termux_git_clone_zsh() {
 		#ZSH_PATH="${TMOE_ZSH_GIT_PATH}"
 		#fix_zsh_folder_permissions
 		#rm -f ${HOME}/theme 2>/dev/null
+	else
+		git_pull_tmoe_zsh
 	fi
 	#tmoe_zsh_main_menu
 }
@@ -722,7 +724,7 @@ do_you_want_to_backup_zsh_folder() {
 		modify_termux_color_and_font
 		;;
 	*)
-		termux_git_clone_zsh
+		git_clone_tmoe_zsh
 		chsh -s $(command -v zsh) || sudo chsh -s $(command -v zsh)
 		onekey_configure_tmoe_zsh
 		;;
@@ -946,7 +948,8 @@ UPDATEPLUGINS() {
 	neko_01
 	git_pull_powerlevel_10k
 	#upgrade zsh plugins and tool
-	git_pull_tmoe_zsh
+	#git_pull_tmoe_zsh
+	git_clone_tmoe_zsh
 	git_pull_oh_my_zsh
 	upgrade_tmoe_zsh_manager
 	#tmoe_zsh_main_menu
