@@ -38,6 +38,18 @@ terminal_color() {
 	RB_VIOLET=$(printf '\033[38;5;163m')
 }
 ########
+check_release_version() {
+	if [ "${LINUX_DISTRO}" = "Android" ]; then
+		OSRELEASE="Android"
+	elif grep -q 'NAME=' /etc/os-release; then
+		OSRELEASE=$(cat /etc/os-release | grep -v 'PRETTY' | grep 'NAME=' | head -n 1 | cut -d '=' -f 2 | cut -d '"' -f 2)
+	elif grep -q 'ID=' /etc/os-release; then
+		OSRELEASE=$(cat /etc/os-release | grep -v 'VERSION' | grep 'ID=' | head -n 1 | cut -d '=' -f 2)
+	else	
+		OSRELEASE=LINUX
+	fi
+}
+#################
 gnu_linux_env() {
 	if [ -z "${TMPDIR}" ]; then
 		TMPDIR='/tmp'
@@ -66,6 +78,7 @@ gnu_linux_env() {
 		check_current_user_name_and_group
 		check_linux_distro
 	fi
+	check_release_version
 }
 ##########
 check_system() {
@@ -453,8 +466,8 @@ tmoe_zsh_main_menu() {
 	cd ${cur}
 	#20 50 7
 	RETURN_TO_WHERE='tmoe_zsh_main_menu'
-	TMOE_OPTION=$(whiptail --title "TMOE-ZSH manager running on Linux.(20200815)" --backtitle "Please select install&configure for initial installation." --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate.\n请使用方向键和回车键进行操作,初次安装请选择安装与配置" 0 50 0 \
-		"1" "🍭 install&configure 安装与配置" \
+	TMOE_OPTION=$(whiptail --title "TMOE-ZSH running on ${OSRELEASE}(20200815)" --backtitle "Please select installation for initial installation." --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate.\n请使用方向键和回车键进行操作,初次安装请选择安装与配置" 0 50 0 \
+		"1" "🍭 Installation and configuration 安装与配置" \
 		"2" "🌸 Itemized configuration 分项配置" \
 		"3" "🍀 Plugins 插件管理" \
 		"4" "🏫 FAQ 常见问题" \

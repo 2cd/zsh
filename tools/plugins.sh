@@ -1044,6 +1044,9 @@ git_clone_fzf_tab() {
         apt update || sudo apt update
         apt install -y fzf || sudo apt install fzf || sudo pacman -Syu fzf || sudo dnf install fzf
     fi
+    if [ ! $(command -v fzf) ]; then
+        echo "检测到您尚未安装fzf,请手动使用包管理安装。"
+    fi
 
     ZSH_PLUGIN_GIT_FOLDER="${HOME}/.oh-my-zsh/custom/plugins/fzf-tab"
     ZSH_PLUGIN_GIT_URL_01='https://github.com/Aloxaf/fzf-tab.git'
