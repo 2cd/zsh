@@ -45,6 +45,14 @@ terminal_color() {
 }
 ########
 gnu_linux_env() {
+	if [ -z "${TMPDIR}" ]; then
+		TMPDIR='/tmp'
+	fi
+
+	TERMUX_KEYBOARD_FILE="${HOME}/.termux/termux.properties"
+	TERMUX_KEYBOARD_BACKUP_FILE="${TMPDIR}/termux.properties.bak"
+	TERMUX_COLOR_FILE="${HOME}/.termux/colors.properties"
+
 	if [ "$(uname -o)" = "Android" ]; then
 		LINUX_DISTRO='Android'
 	else
@@ -427,8 +435,8 @@ tmoe_zsh_main_menu() {
 	cd ${cur}
 	#20 50 7
 	RETURN_TO_WHERE='tmoe_zsh_main_menu'
-	TMOE_OPTION=$(whiptail --title "TMOE-ZSH manager running on Linux.(20200813)" --backtitle "Please select onekey configuration for initial installation." --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate.\n请使用方向键和回车键进行操作,初次安装请选择一键配置" 0 50 0 \
-		"1" "🍭 Onekey configuration 初始化一键配置" \
+	TMOE_OPTION=$(whiptail --title "TMOE-ZSH manager running on Linux.(20200815)" --backtitle "Please select onekey configuration for initial installation." --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate.\n请使用方向键和回车键进行操作,初次安装请选择初始化安装配置" 0 50 0 \
+		"1" "🍭 Initial installation 初始化安装配置" \
 		"2" "🌸 Itemized configuration 分项配置" \
 		"3" "🍀 Plugins 插件管理" \
 		"4" "🏫 FAQ 常见问题" \
@@ -441,7 +449,7 @@ tmoe_zsh_main_menu() {
 	#############
 	case ${TMOE_OPTION} in
 	0 | "") exit 0 ;;
-	1) CHOOSEBACKUP ;;
+	1) do_you_want_to_backup_zsh_folder ;;
 	2) ItemizedConfiguration ;;
 	3) tmoe_zsh_plugin_manager ;;
 	4) tmoe_zsh_faq ;;
@@ -493,6 +501,10 @@ tmoe_zsh_faq() {
 		ZSH_FOLDER="${HOME}/.oh-my-zsh ${HOME}/.zshrc ${HOME}/.termux-zsh"
 		fix_zsh_folder_permissions
 		echo "若无法修复，则请手动执行${GREEN}compaudit | xargs chmod g-w,o-w${RESET}"
+		if [ "${LINUX_DISTRO}" != "Android" ] && [ ${HOME} != "/root" ]; then
+			echo "您亦可将${HOME}目录的权限修改为${CURRENT_USER_NAME}用户和${CURRENT_USER_GROUP}用户组"
+			echo "${RED}sudo chown -R ${CURRENT_USER_NAME}:${CURRENT_USER_GROUP} ${HOME}${RESET}"
+		fi
 		;;
 	4)
 		echo "请手动执行${GREEN}. ~/.zshrc${RESET}或者是${GREEN}source ${HOME}/.zshrc${RESET}"
@@ -680,13 +692,17 @@ REMOVEZSH() {
 	REMOVEZSH
 }
 #################################################################
-CHOOSEBACKUP() {
+do_you_want_to_backup_zsh_folder() {
 	if [ -d "${HOME}/.TERMUXFONTSTMPMOVE" ]; then
 		rm -rf "${HOME}/.TERMUXFONTSTMPMOVE" 2>/dev/null
 	fi
 
 	if [ -d ${HOME}/.termux/fonts ]; then
 		mv -f "${HOME}/.termux/fonts" "${HOME}/.TERMUXFONTSTMPMOVE" 2>/dev/null
+	fi
+
+	if [ -f ${TERMUX_KEYBOARD_FILE} ]; then
+		cp -f ${TERMUX_KEYBOARD_FILE} "${TERMUX_KEYBOARD_BACKUP_FILE}"
 	fi
 
 	if (whiptail --title "Do you need to backup the current zsh configuration?" --yes-button 'OK (*￣▽￣*)o' --no-button 'No (っ °Д °；)っ' --yesno "您即将修改zsh的配色、字体和主题，请问是否需要备份当前zsh配置(不包含字体)。\n您可以单独输zshcolor来更改颜色，输zshfont来更改字体，输zshtheme来更改主题，输zsh-i进入zsh管理器\nYou can type zshtheme to change the theme,type zsh-i to start this tool." 12 60); then
@@ -965,7 +981,9 @@ COLORSANDFONTS() {
 
 	cp -rf "${HOME}/.termux-zsh/.termux" "${HOME}"
 	mv -f "${HOME}/.TERMUXFONTSTMPMOVE" "${HOME}/.termux/fonts" 2>/dev/null
-
+	if [ -f ${TERMUX_KEYBOARD_BACKUP_FILE} ]; then
+		mv -f "${TERMUX_KEYBOARD_BACKUP_FILE}" ${TERMUX_KEYBOARD_FILE}
+	fi
 	onekey_configure_tmoe_zsh
 }
 
