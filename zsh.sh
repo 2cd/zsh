@@ -45,7 +45,7 @@ check_release_version() {
 		OSRELEASE=$(cat /etc/os-release | grep -v 'PRETTY' | grep 'NAME=' | head -n 1 | cut -d '=' -f 2 | cut -d '"' -f 2)
 	elif grep -q 'ID=' /etc/os-release; then
 		OSRELEASE=$(cat /etc/os-release | grep -v 'VERSION' | grep 'ID=' | head -n 1 | cut -d '=' -f 2)
-	else	
+	else
 		OSRELEASE=LINUX
 	fi
 }
@@ -513,6 +513,10 @@ reset_fzf_tab() {
 	#sudo apt purge command-not-found || apt purge command-not-found
 }
 #########
+type_q_to_quit() {
+	echo "You can type ${GREEN}q${RESET} to ${RED}quit${RESET} reader,输${GREEN}q${RESET}${RED}退出${RESET}"
+}
+###################
 tmoe_zsh_faq() {
 	RETURN_TO_WHERE='tmoe_zsh_faq'
 	#20 50 7
@@ -522,6 +526,7 @@ tmoe_zsh_faq() {
 		"2" "fzf-tab插件加载异常" \
 		"3" "Fix permissions修复文件权限" \
 		"4" "Conf does not take effect配置文件未生效" \
+		"5" "quit the readme reader退出文档阅读器" \
 		"0" "🌚 Back to the main menu 返回主菜单" \
 		3>&1 1>&2 2>&3)
 	#############
@@ -543,6 +548,7 @@ tmoe_zsh_faq() {
 		echo "Please try running ${GREEN}source ~/.zshrc${RESET}"
 		#source ${HOME}/.zshrc
 		;;
+	5) type_q_to_quit ;;
 	esac
 	###############
 	press_enter_to_return
