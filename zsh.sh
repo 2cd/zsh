@@ -125,7 +125,7 @@ press_enter_to_return() {
 }
 ##################
 check_linux_distro() {
-	if grep -Eq 'debian|ubuntu' "/etc/os-release"; then
+	if grep -Eq 'debian|ubuntu|deepin' "/etc/os-release"; then
 		LINUX_DISTRO='debian'
 		PACKAGES_UPDATE_COMMAND='apt update'
 		PACKAGES_INSTALL_COMMAND='apt install -y'
