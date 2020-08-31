@@ -455,7 +455,6 @@ git_clone_tmoe_zsh() {
 	if [ ! -e "${TMOE_ZSH_GIT_PATH}/.git" ]; then
 		git clone --depth=1 ${TMOE_GIT_REPO} ${TMOE_ZSH_GIT_PATH}
 		#ZSH_PATH="${TMOE_ZSH_GIT_PATH}"
-		#fix_zsh_folder_permissions
 		#rm -f ${HOME}/theme 2>/dev/null
 	else
 		git_pull_tmoe_zsh
@@ -535,7 +534,7 @@ tmoe_zsh_faq() {
 	1) remove_plugin_command_not_found ;;
 	2) reset_fzf_tab ;;
 	3)
-		ZSH_PATH="${HOME}/.oh-my-zsh ${HOME}/.zshrc ${TMOE_ZSH_GIT_PATH}"
+		ZSH_PATH="${HOME}/.oh-my-zsh ${HOME}/.zshrc ${TMOE_ZSH_GIT_PATH} ${HOME}/.zsh_history"
 		fix_zsh_folder_permissions
 		echo "若无法修复，则请手动执行${GREEN}compaudit | xargs chmod g-w,o-w${RESET}"
 		if [ "${LINUX_DISTRO}" != "Android" ] && [ ${HOME} != "/root" ]; then
@@ -1057,8 +1056,6 @@ git_clone_oh_my_zsh() {
 	#git clone oh-my-zsh
 	if [ ! -d "${HOME}/.oh-my-zsh" ]; then
 		git clone https://github.com/ohmyzsh/ohmyzsh.git "${HOME}/.oh-my-zsh" --depth 1 || git clone --depth=1 git://github.com/ohmyzsh/ohmyzsh "${HOME}/.oh-my-zsh"
-		ZSH_PATH="${HOME}/.oh-my-zsh"
-		fix_zsh_folder_permissions
 		#else
 		#   cd "${HOME}/.oh-my-zsh" && git pull --depth=1
 	fi
@@ -1074,6 +1071,9 @@ git_clone_oh_my_zsh() {
 	if [ ! -f "${HOME}/.zshrc" ]; then
 		cp "${HOME}/.oh-my-zsh/templates/zshrc.zsh-template" "${HOME}/.zshrc" || wget -O "${HOME}/.zshrc" 'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/templates/zshrc.zsh-template'
 		chmod 755 "${HOME}/.zshrc"
+		touch ${HOME}/.zsh_history
+		ZSH_PATH="${HOME}/.oh-my-zsh ${HOME}/.zshrc ${TMOE_ZSH_GIT_PATH} ${HOME}/.zsh_history"
+		fix_zsh_folder_permissions
 	fi
 }
 ##########
