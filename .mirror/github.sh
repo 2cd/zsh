@@ -9,6 +9,6 @@ sed -i 's@###tmoe-github@@' zsh.sh ./tools/*sh
 sed -i 's@gitee.com/mo2/zsh/raw/master/@raw.githubusercontent.com/2moe/tmoe-zsh/master/@g' zsh.sh ./tools/*sh
 #sed -i 's@https://gitee.com/mo2/zsh/raw/master/zsh.sh@git.io/zsh.sh@' README.md
 sed -i 's@gitee.com/mo2/linux/raw/master/@raw.githubusercontent.com/2moe/tmoe-linux/master/@g' zsh.sh ./tools/*sh
-sed -i 's@gitee.com/mo2/powerlevel10k@github.com/romkatv/powerlevel10k@g' zsh.sh ./tools/*sh
+sed -i 's@gitee.com/romkatv/powerlevel10k@github.com/romkatv/powerlevel10k@g' zsh.sh ./tools/*sh
 sed -i 's@gitee.com/mo2/zsh-syntax-highlighting@github.com/zsh-users/zsh-syntax-highlighting@g' zsh.sh ./tools/*sh
 sed -i 's@gitee.com/mo2/zsh-autosuggestions@github.com/zsh-users/zsh-autosuggestions@g' zsh.sh ./tools/*sh
