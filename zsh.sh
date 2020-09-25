@@ -68,7 +68,7 @@ gnu_linux_env() {
 	TMOE_ZSH_TOOL_DIR="${TMOE_ZSH_GIT_DIR}/tools"
 	PLUGIN_SCRIPT="${TMOE_ZSH_TOOL_DIR}/plugins.sh"
 	RESTORE_SCRIPT="${TMOE_ZSH_TOOL_DIR}/restore.sh"
-	TMOE_GIT_REPO='https://github.com/2moe/tmoe-zsh.git'
+	TMOE_GIT_REPO='https://https://github.com/2moe/tmoe-zsh' #此处不包含.git
 	ZINIT_DIR="${HOME}/.zinit"
 	ZINIT_THEME_DIR="${ZINIT_DIR}/themes/_local"
 	OMZ_DIR="${ZINIT_DIR}/omz"
