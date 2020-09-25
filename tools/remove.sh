@@ -61,13 +61,11 @@ remove_git_and_zsh() {
 }
 ##############
 remove_old_zsh_files() {
-    cat <<-EOF
-		以下文件夹将被删除，是否确认？
-		ls -lAh ${HOME}/.zsh-syntax-highlighting
-        ls -lAh ${HOME}/.oh-my-zsh
-		ls -lAh ${HOME}/termux-ohmyzsh
-		ls -lh ${HOME}/theme
-	EOF
+    以下文件夹将被删除，是否确认？
+    ls -lAh ${HOME}/.zsh-syntax-highlighting 2>/dev/null
+    ls -lAh ${HOME}/.oh-my-zsh 2>/dev/null
+    ls -lAh ${HOME}/termux-ohmyzsh 2>/dev/null
+    ls -lh ${HOME}/theme 2>/dev/null
     echo "rm -rv ${HOME}/.zsh-syntax-highlighting ${HOME}/termux-ohmyzsh ${HOME}/theme ${HOME}/.oh-my-zsh"
     do_you_want_to_continue
     rm -rv ${HOME}/.zsh-syntax-highlighting ${HOME}/termux-ohmyzsh ${HOME}/theme ${HOME}/.oh-my-zsh
