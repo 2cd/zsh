@@ -2,6 +2,7 @@
 ##############################################################
 main() {
     terminal_color
+    tmoe_zsh_plugin_env
     case "$1" in
     *) tmoe_zsh_plugin_main_menu ;;
     esac
@@ -16,6 +17,12 @@ terminal_color() {
     RESET=$(printf '\033[m')
 }
 ###############
+tmoe_zsh_plugin_env() {
+    ZINIT_DIR="${HOME}/.zinit"
+    ZINIT_THEME_DIR="${ZINIT_DIR}/themes/_local"
+    OMZ_DIR="${ZINIT_DIR}/omz"
+}
+#############
 press_enter_to_return() {
     echo "Press ${GREEN}enter${RESET} to ${BLUE}return.${RESET}"
     echo "按${GREEN}回车键${RESET}${BLUE}返回${RESET}"
@@ -69,8 +76,17 @@ do_you_want_to_continue_02() {
 }
 ###############
 list_enabled_plugins() {
-    cat ${HOME}/.zshrc | grep -v '^#' | grep --color=auto '/plugins/' | sed 's@.*/plugins/@@'
-    cat ${HOME}/.zshrc | grep -v '^#' | grep --color=auto 'plugins='
+    CATCAT=''
+    for i in bat batcat; do
+        if [[ $(command -v ${i}) ]]; then
+            CATCAT="${i}"
+        fi
+    done
+    unset i
+    case ${CATCAT} in
+    "") cat ${HOME}/.zshrc | egrep -v '^#|.zinit/omz/lib' | egrep -n --color=auto '(zinit light|zinit load|zinit snippet).*?#' ;;
+    *) cat ${HOME}/.zshrc | egrep -v '^#|.zinit/omz/lib' | egrep -n --color=auto '(zinit light|zinit load|zinit snippet).*?#' | ${CATCAT} -l zsh ;;
+    esac
 }
 ##############
 tmoe_zsh_plugin_main_menu() {
@@ -78,6 +94,9 @@ tmoe_zsh_plugin_main_menu() {
     TMOE_ZSH_FILE="${HOME}/.zshrc"
     ZSH_README_FILE_NAME='README.md'
     ZSH_README_FILE_NAME_02=''
+    ZINIT_SPECIAL_LOADING_CONTENT=''
+    WAIT_TIME='1'
+    cd ${HOME}
     TMOE_OPTION=$(whiptail --title "PLUGINS" --menu "您想要管理哪个首字母开头的插件？\nBecause there are too many plugins, alphabetical sorting." 0 50 0 \
         "01" "🍎 A-C(a,b,c)" \
         "02" "🍇 D-G(d,e,f,g)" \
@@ -87,6 +106,7 @@ tmoe_zsh_plugin_main_menu() {
         "06" "🍉 U-Z(u,v,w,x,y,z)" \
         "07" "🍊 Extra 额外插件" \
         "08" "🍌 enabled plugins列出已启用插件" \
+        "09" "zinit cesrach" \
         "00" "🌚 Back to the main menu 返回主菜单" \
         3>&1 1>&2 2>&3)
     ##############################
@@ -100,12 +120,25 @@ tmoe_zsh_plugin_main_menu() {
     06) tmoe_zsh_plugin_menu_06 ;;
     07) tmoe_zsh_plugin_menu_07 ;;
     08) list_enabled_plugins ;;
+    09) zinit_csearch ;;
     esac
     ##############################
     press_enter_to_return
     ${RETURN_TO_WHERE}
 }
 ######################
+zinit_csearch() {
+    zsh -c "source ${HOME}/.zinit/bin/zinit.zsh && zinit csearch"
+    cat <<-EOF
+    ${BOLD}${YELLOW}COMMAND${RESET}${RESET}:${BOLD}${BLUE}zi csearch${RESET}${RESET} 
+    ${BOLD}${YELLOW}Description${RESET}${RESET}: ${BLUE}Search for available completions from any plugin${RESET}.
+    ${BOLD}${YELLOW}描述${RESET}${RESET}: ${BLUE}对插件目录进行搜索，列举所有可用补全，并显示其安装状态。${RESET}.
+    You can type ${GREEN}zi cenable${RESET} ${BLUE}\$PLUGIN_COMMAND${RESET} to enable completion,type ${GREEN}zi cdisnable${RESET} ${BLUE}\$PLUGIN_COMMAND${RESET} to disable it.
+    For example,you can type ${GREEN}zi cenable${RESET} ${BLUE}docker${RESET} to enable docker's completion.
+    示例：输${GREEN}zi cenable${RESET} ${BLUE}adb${RESET}启用adb的补全。
+EOF
+}
+#############
 tmoe_zsh_plugin_menu_01() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_01'
@@ -159,16 +192,41 @@ tmoe_zsh_plugin_menu_01() {
         "46" "cpanm:为[Cpanm]提供了补全功能" \
         3>&1 1>&2 2>&3)
     ##############################
+    #TMOE_ZSH_COMMENT_CONTENT
     case "${TMOE_OPTION}" in
     00 | "") tmoe_zsh_plugin_main_menu ;;
-    01) TMOE_ZSH_GREP_NAME='adb' ;;
-    02) TMOE_ZSH_GREP_NAME='alias-finder' ;;
-    03) TMOE_ZSH_GREP_NAME='ansible' ;;
-    04) TMOE_ZSH_GREP_NAME='ant' ;;
-    05) TMOE_ZSH_GREP_NAME='apache2-macports' ;;
-    06) TMOE_ZSH_GREP_NAME='arcanist' ;;
-    07) TMOE_ZSH_GREP_NAME='archlinux' ;;
-    08) TMOE_ZSH_GREP_NAME='asdf' ;;
+    01)
+        TMOE_ZSH_GREP_NAME='adb'
+        TMOE_ZSH_COMMENT_CONTENT='Adds autocomplete options for all adb commands.- Add autocomplete for `adb -s`-'
+        ;;
+    02)
+        TMOE_ZSH_GREP_NAME='alias-finder'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin searches the defined aliases and outputs any that match the command inputted. This makes learning new aliases easier'
+        ;;
+    03)
+        TMOE_ZSH_GREP_NAME='ansible'
+        TMOE_ZSH_COMMENT_CONTENT='The `ansible plugin` adds several aliases for useful [ansible](https://docs.ansible.com/ansible/latest/index.html) commands and [aliases](#aliases).'
+        ;;
+    04)
+        TMOE_ZSH_GREP_NAME='ant'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [Ant](https://ant.apache.org/).'
+        ;;
+    05)
+        TMOE_ZSH_GREP_NAME='apache2-macports'
+        TMOE_ZSH_COMMENT_CONTENT='Enables aliases to control a local Apache2 installed via [MacPorts](https://www.macports.org/).'
+        ;;
+    06)
+        TMOE_ZSH_GREP_NAME='arcanist'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds many useful aliases for [arcanist](https://github.com/phacility/arcanist).'
+        ;;
+    07)
+        TMOE_ZSH_GREP_NAME='archlinux'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds some aliases and functions to work with Arch Linux.'
+        ;;
+    08)
+        TMOE_ZSH_GREP_NAME='asdf'
+        TMOE_ZSH_COMMENT_CONTENT='Adds integration with [asdf](https://github.com/asdf-vm/asdf), the extendable version manager, with support for Ruby, Node.js, Elixir, Erlang and more.'
+        ;;
     09)
         TMOE_ZSH_GREP_NAME='autoenv'
         INSTALL_ZSH_PLUGIN='autoenv'
@@ -187,44 +245,159 @@ tmoe_zsh_plugin_menu_01() {
     ${YELLOW}I am using tmoe-zsh.${RESET}
 EOF
         )
+        TMOE_ZSH_COMMENT_CONTENT='This plugin loads the [Autoenv](https://github.com/inishchith/autoenv).'
         ;;
-    10) TMOE_ZSH_GREP_NAME='autojump' ;;
-    11) TMOE_ZSH_GREP_NAME='autopep8' ;;
-    12) TMOE_ZSH_GREP_NAME='aws' ;;
-    13) TMOE_ZSH_GREP_NAME='battery' ;;
-    14) TMOE_ZSH_GREP_NAME='bazel' ;;
-    15) TMOE_ZSH_GREP_NAME='bbedit' ;;
-    16) TMOE_ZSH_GREP_NAME='bgnotify' ;;
-    17) TMOE_ZSH_GREP_NAME='boot2docker' ;;
-    18) TMOE_ZSH_GREP_NAME='bower' ;;
-    19) TMOE_ZSH_GREP_NAME='branch' ;;
-    20) TMOE_ZSH_GREP_NAME='brew' ;;
-    21) TMOE_ZSH_GREP_NAME='bundler' ;;
-    22) TMOE_ZSH_GREP_NAME='cabal' ;;
-    23) TMOE_ZSH_GREP_NAME='cake' ;;
-    24) TMOE_ZSH_GREP_NAME='cakephp3' ;;
-    25) TMOE_ZSH_GREP_NAME='capistrano' ;;
-    26) TMOE_ZSH_GREP_NAME='cargo' ;;
-    27) TMOE_ZSH_GREP_NAME='cask' ;;
-    28) TMOE_ZSH_GREP_NAME='catimg' ;;
-    29) TMOE_ZSH_GREP_NAME='celery' ;;
-    30) TMOE_ZSH_GREP_NAME='chruby' ;;
-    31) TMOE_ZSH_GREP_NAME='chucknorris' ;;
-    32) TMOE_ZSH_GREP_NAME='cloudfoundry' ;;
-    33) TMOE_ZSH_GREP_NAME='codeclimate' ;;
-    34) TMOE_ZSH_GREP_NAME='coffee' ;;
-    35) TMOE_ZSH_GREP_NAME='colemak' ;;
-    36) TMOE_ZSH_GREP_NAME='colored-man-pages' ;;
-    37) TMOE_ZSH_GREP_NAME='colorize' ;;
-    38) TMOE_ZSH_GREP_NAME='command-not-found' ;;
-    39) TMOE_ZSH_GREP_NAME='common-aliases' ;;
-    40) TMOE_ZSH_GREP_NAME='compleat' ;;
-    41) TMOE_ZSH_GREP_NAME='composer' ;;
-    42) TMOE_ZSH_GREP_NAME='copybuffer' ;;
-    43) TMOE_ZSH_GREP_NAME='copydir' ;;
-    44) TMOE_ZSH_GREP_NAME='copyfile' ;;
-    45) TMOE_ZSH_GREP_NAME='cp' ;;
-    46) TMOE_ZSH_GREP_NAME='cpanm' ;;
+    10)
+        TMOE_ZSH_GREP_NAME='autojump'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin loads the [autojump navigation tool](https://github.com/wting/autojump).'
+        ;;
+    11)
+        TMOE_ZSH_GREP_NAME='autopep8'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for [autopep8](https://pypi.org/project/autopep8/), a tool that automatically formats Python code to conform to the [PEP 8](http://www.python.org/dev/peps/pep-0008/) style guide.'
+        ;;
+    12)
+        TMOE_ZSH_GREP_NAME='aws'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion support for [awscli](https://docs.aws.amazon.com/cli/latest/reference/index.html)-and a few utilities to manage AWS profiles and display them in the prompt.'
+        ;;
+    13)
+        TMOE_ZSH_GREP_NAME='battery'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds some functions you can use to display battery information in your custom theme.'
+        ;;
+    14)
+        TMOE_ZSH_GREP_NAME='bazel'
+        TMOE_ZSH_COMMENT_CONTENT='A copy of the completion script from the-[bazelbuild/bazel](https://github.com/bazelbuild/bazel/master/scripts/zsh_completion/_bazel)-'
+        ;;
+    15)
+        TMOE_ZSH_GREP_NAME='bbedit'
+        TMOE_ZSH_COMMENT_CONTENT='Plugin for BBEdit, an HTML and text editor for Mac OS X'
+        ;;
+    16)
+        TMOE_ZSH_GREP_NAME='bgnotify'
+        TMOE_ZSH_COMMENT_CONTENT='cross-platform background notifications for long running commands! Supports OSX and Ubuntu linux.'
+        ;;
+    17)
+        TMOE_ZSH_GREP_NAME='boot2docker'
+        TMOE_ZSH_COMMENT_CONTENT='- Adds autocomplete options for all boot2docker commands.'
+        ;;
+    18)
+        TMOE_ZSH_GREP_NAME='bower'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for [Bower](https://bower.io/) and a few useful aliases for common Bower commands.'
+        ;;
+    19)
+        TMOE_ZSH_GREP_NAME='branch'
+        TMOE_ZSH_COMMENT_CONTENT='Displays the current Git or Mercurial branch fast.'
+        ;;
+    20)
+        TMOE_ZSH_GREP_NAME='brew'
+        TMOE_ZSH_COMMENT_CONTENT='The plugin adds several aliases for common [brew](https://brew.sh) commands.'
+        ;;
+    21)
+        TMOE_ZSH_GREP_NAME='bundler'
+        TMOE_ZSH_COMMENT_CONTENT='Adds completion for basic bundler commands'
+        ;;
+    22)
+        TMOE_ZSH_GREP_NAME='cabal'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [Cabal](https://www.haskell.org/cabal/), a build tool for Haskell. It-also provides a function `cabal_sandbox_info` that prints whether the current working directory is in a sandbox.-'
+        ;;
+    23)
+        TMOE_ZSH_GREP_NAME='cake'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [CakePHP](https://cakephp.org/).'
+        ;;
+    24)
+        TMOE_ZSH_GREP_NAME='cakephp3'
+        TMOE_ZSH_COMMENT_CONTENT='The plugin adds aliases and autocompletion for [cakephp3](https://book.cakephp.org/3.0/en/index.html).'
+        ;;
+    25)
+        TMOE_ZSH_GREP_NAME='capistrano'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [Capistrano](https://capistranorb.com/).'
+        ;;
+    26)
+        TMOE_ZSH_GREP_NAME='cargo'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for the Rust build tool [`Cargo`](https://github.com/rust-lang/cargo).'
+        ;;
+    27)
+        TMOE_ZSH_GREP_NAME='cask'
+        TMOE_ZSH_COMMENT_CONTENT='[Cask](https://github.com/cask/cask) is a project management tool for Emacs that helps-automate the package development cycle; development, dependencies, testing, building,-'
+        ;;
+    28)
+        TMOE_ZSH_GREP_NAME='catimg'
+        TMOE_ZSH_COMMENT_CONTENT='Plugin for displaying images on the terminal using the the `catimg.sh` script provided by [posva](https://github.com/posva/catimg)'
+        ;;
+    29)
+        TMOE_ZSH_GREP_NAME='celery'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [Celery](http://www.celeryproject.org/).'
+        ;;
+    30)
+        TMOE_ZSH_GREP_NAME='chruby'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin loads [chruby](https://github.com/postmodern/chruby), a tool that changes the-current Ruby version, and completion and a prompt function to display the Ruby version.-'
+        ;;
+    31)
+        TMOE_ZSH_GREP_NAME='chucknorris'
+        TMOE_ZSH_COMMENT_CONTENT='Chuck Norris fortunes plugin for oh-my-zsh. Perfectly suitable as MOTD.'
+        ;;
+    32)
+        TMOE_ZSH_GREP_NAME='cloudfoundry'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin is intended to offer a few simple aliases for regular users of the [Cloud Foundry Cli][1]. Most are just simple aliases that will save a bit of typing. Others include mini functions and or accept parameters. Take a look at the table below for details.'
+        ;;
+    33)
+        TMOE_ZSH_GREP_NAME='codeclimate'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds autocompletion for the [`codeclimate` CLI](https://github.com/codeclimate/codeclimate).'
+        ;;
+    34)
+        TMOE_ZSH_GREP_NAME='coffee'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides aliases for quickly compiling and previewing your-coffeescript code.-'
+        ;;
+    35)
+        TMOE_ZSH_GREP_NAME='colemak'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin remaps keys in `zsh`’s [`vi`-style navigation mode](http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Keymaps)-for a [Colemak](https://colemak.com/) keyboard layout, to match the QWERTY position:-'
+        ;;
+    36)
+        TMOE_ZSH_GREP_NAME='colored-man-pages'
+        WAIT_TIME="3"
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds colors to man pages.'
+        ZINIT_SPECIAL_LOADING_CONTENT='zinit ice lucid wait="3" pick"colored-man-pages.plugin.zsh" && zinit light _local/colored-man-pages #man手册彩色输出 This plugin adds colors to man pages'
+        ;;
+    37)
+        TMOE_ZSH_GREP_NAME='colorize'
+        TMOE_ZSH_COMMENT_CONTENT='With this plugin you can syntax-highlight file contents of over 300 supported languages and other text formats.'
+        ;;
+    38)
+        TMOE_ZSH_GREP_NAME='command-not-found'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin uses the command-not-found package for zsh to provide suggested packages to be installed if a command cannot be found.'
+        ZINIT_SPECIAL_LOADING_CONTENT='[[ -e /usr/lib/command-not-found ]] && zinit ice lucid wait="0" pick"command-not-found.plugin.zsh" && zinit light _local/command-not-found #用于显示未找到的命令来源于哪个软件包  This plugin uses the command-not-found package for zsh to provide suggested packages to be installed if a command cannot be found.'
+        ;;
+    39)
+        TMOE_ZSH_GREP_NAME='common-aliases'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin creates helpful shortcut aliases for many commonly used commands.'
+        ;;
+    40)
+        TMOE_ZSH_GREP_NAME='compleat'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin looks for [compleat](https://github.com/mbrubeck/compleat) and loads its completion.'
+        ;;
+    41)
+        TMOE_ZSH_GREP_NAME='composer'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [composer](https://getcomposer.org/), as well as aliases-for frequent composer commands. It also adds Composer’s global binaries to the PATH, using-'
+        ;;
+    42)
+        TMOE_ZSH_GREP_NAME='copybuffer'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin binds the ctrl-o keyboard shortcut to a command that copies the text-that is currently typed in the command line ($BUFFER) to the system clipboard.-'
+        ;;
+    43)
+        TMOE_ZSH_GREP_NAME='copydir'
+        TMOE_ZSH_COMMENT_CONTENT='Copies the path of your current folder to the system clipboard.'
+        ;;
+    44)
+        TMOE_ZSH_GREP_NAME='copyfile'
+        TMOE_ZSH_COMMENT_CONTENT='Puts the contents of a file in your system clipboard so you can paste it anywhere.'
+        ;;
+    45)
+        TMOE_ZSH_GREP_NAME='cp'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin defines a `cpv` function that uses `rsync` so that you-get the features and security of this command.-'
+        ;;
+    46)
+        TMOE_ZSH_GREP_NAME='cpanm'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [Cpanm](https://github.com/miyagawa/cpanminus) ([docs](https://metacpan.org/pod/App::cpanminus)).'
+        ;;
     esac
     ##############################
     case_tmoe_zsh_settings_model
@@ -232,6 +405,7 @@ EOF
     ${RETURN_TO_WHERE}
 }
 ######################
+#l | awk '{print $NF}' | egrep '^[d-g]' >233  ;cat 233 |sed 's@^@cat @g' | sed 's@$@/README.md | sed -n 3,4p | tr "\\n\\t" -d | tr -d "*" ; echo ""@g' >234
 tmoe_zsh_plugin_menu_02() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_02'
@@ -291,39 +465,96 @@ tmoe_zsh_plugin_menu_02() {
         "52" "git-hubflow:为[HubFlow]添加别名和补全功能" \
         "53" "gitignore:通过命令行使用[gitignore.io]" \
         "54" "git-prompt:显示当前git仓库信息" \
-        "55" "git-remote-branch:为[grb]添加补全内容" \
-        "56" "glassfish:为asadmin添加补全功能,该命令用于管理[Oracle GlassFish]" \
-        "57" "globalias:扩展所有glob表达式,子命令和别名" \
-        "58" "gnu-utils:将GNU coreutils绑定到其默认名称" \
-        "59" "golang:为[Go语言]添加补全内容" \
-        "60" "gpg-agent:自动启用[GPG的gpg代理]" \
-        "61" "gradle:为[Gradle]添加别名和补全功能" \
-        "62" "grails:为[Grails 2 CLI]添加补全功能" \
-        "63" "grunt:为[grunt]添加补全功能" \
-        "64" "gulp:为[gulp]任务添加自动补全功能，从当前目录的gulpfile.js中获取所有可用任务" \
+        "55" "glassfish:为asadmin添加补全功能,该命令用于管理[Oracle GlassFish]" \
+        "56" "globalias:扩展所有glob表达式,子命令和别名" \
+        "57" "gnu-utils:将GNU coreutils绑定到其默认名称" \
+        "58" "golang:为[Go语言]添加补全内容" \
+        "69" "gpg-agent:自动启用[GPG的gpg代理]" \
+        "60" "gradle:为[Gradle]添加别名和补全功能" \
+        "61" "grails:为[Grails 2 CLI]添加补全功能" \
+        "62" "grunt:为[grunt]添加补全功能" \
+        "63" "gulp:为[gulp]任务添加自动补全功能，从当前目录的gulpfile.js中获取所有可用任务" \
         3>&1 1>&2 2>&3)
+    #已廢棄插件        "55" "git-remote-branch:为[grb]添加补全内容" \
     ##############################
     case "${TMOE_OPTION}" in
     00 | "") tmoe_zsh_plugin_main_menu ;;
-    01) TMOE_ZSH_GREP_NAME='dash' ;;
-    02) TMOE_ZSH_GREP_NAME='debian' ;;
-    03) TMOE_ZSH_GREP_NAME='dircycle' ;;
-    04) TMOE_ZSH_GREP_NAME='direnv' ;;
-    05) TMOE_ZSH_GREP_NAME='dirhistory' ;;
-    06) TMOE_ZSH_GREP_NAME='dirpersist' ;;
-    07) TMOE_ZSH_GREP_NAME='django' ;;
-    08) TMOE_ZSH_GREP_NAME='dnf' ;;
-    09) TMOE_ZSH_GREP_NAME='dnote' ;;
-    10) TMOE_ZSH_GREP_NAME='docker' ;;
-    11) TMOE_ZSH_GREP_NAME='docker-compose' ;;
-    12) TMOE_ZSH_GREP_NAME='docker-machine' ;;
-    13) TMOE_ZSH_GREP_NAME='doctl' ;;
-    14) TMOE_ZSH_GREP_NAME='dotenv' ;;
-    15) TMOE_ZSH_GREP_NAME='dotnet' ;;
-    16) TMOE_ZSH_GREP_NAME='droplr' ;;
-    17) TMOE_ZSH_GREP_NAME='drush' ;;
-    18) TMOE_ZSH_GREP_NAME='eecms' ;;
-    19) TMOE_ZSH_GREP_NAME='emacs' ;;
+    01)
+        TMOE_ZSH_GREP_NAME='dash'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds command line functionality for [Dash](https://kapeli.com/dash),--an API Documentation Browser for macOS. This plugin requires Dash to be installed  to work.'
+        ;;
+    02)
+        TMOE_ZSH_GREP_NAME='debian'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides Debian-related aliases and functions for zsh.'
+        ;;
+    03)
+        TMOE_ZSH_GREP_NAME='dircycle'
+        TMOE_ZSH_COMMENT_CONTENT='Plugin for cycling through the directory stack.This plugin enables directory navigation similar to using back and forward on browsers or common file explorers like Finder or Nautilus. It uses a small zle trick that lets you cycle through your directory stack left or right using <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Left</kbd> / <kbd>Right</kbd> . This is useful when moving back and forth between directories in development environments, and can be thought of as kind of a nondestructive pushd/popd.'
+        ;;
+    04)
+        TMOE_ZSH_GREP_NAME='direnv'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin creates the [Direnv](https://direnv.net/) hook.'
+        ;;
+    05)
+        TMOE_ZSH_GREP_NAME='dirhistory'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds keyboard shortcuts for navigating directory history and hierarchy.'
+        ;;
+    06)
+        TMOE_ZSH_GREP_NAME='dirpersist'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin keeps a running tally of the previous 20 unique directories in the `$HOME/.zdirs` file.-When you cd to a new directory, it is prepended to the beginning of the file.-'
+        ;;
+    07)
+        TMOE_ZSH_GREP_NAME='django'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion and hints for the [Django Project](https://www.djangoproject.com/) `manage.py` commands-and options.-'
+        ;;
+    08)
+        TMOE_ZSH_GREP_NAME='dnf'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin makes `dnf` usage easier by adding aliases for the most common commands.'
+        ;;
+    09)
+        TMOE_ZSH_GREP_NAME='dnote'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds auto-completion for [Dnote](https://dnote.io) project.'
+        ;;
+    10)
+        TMOE_ZSH_GREP_NAME='docker'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds auto-completion for [docker](https://www.docker.com/).'
+        ;;
+    11)
+        TMOE_ZSH_GREP_NAME='docker-compose'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [docker-compose](https://docs.docker.com/compose/) as well as some-aliases for frequent docker-compose commands.-'
+        ;;
+    12)
+        TMOE_ZSH_GREP_NAME='docker-machine'
+        TMOE_ZSH_COMMENT_CONTENT='docker-vm：Will create a docker-machine with the name "dev" (required only once).To create a second machine call "docker-vm foobar" or pass any other name.docker-up :This will start your "dev" docker-machine (if necessary) and set it as the active one .To start a named machine use "docker-up foobar"'
+        ;;
+    13)
+        TMOE_ZSH_GREP_NAME='doctl'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [Doctl](https://github.com/digitalocean/doctl).'
+        ;;
+    14)
+        TMOE_ZSH_GREP_NAME='dotenv'
+        TMOE_ZSH_COMMENT_CONTENT='Automatically load your project ENV variables from `.env` file when you `cd` into project root directory.'
+        ;;
+    15)
+        TMOE_ZSH_GREP_NAME='dotnet'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion and useful aliases for [.NET Core CLI](https://dotnet.microsoft.com/).'
+        ;;
+    16)
+        TMOE_ZSH_GREP_NAME='droplr'
+        TMOE_ZSH_COMMENT_CONTENT='Use [Droplr](https://droplr.com/) from the command line to upload files and shorten-links. It needs to have [Droplr.app](https://droplr.com/apps) installed and logged-'
+        ;;
+    17)
+        TMOE_ZSH_GREP_NAME='drush'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin offers aliases and functions to make the work with drush easier and more productive.-'
+        ;;
+    18)
+        TMOE_ZSH_GREP_NAME='eecms'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds auto-completion of console commands for [`eecms`](https://github.com/ExpressionEngine/ExpressionEngine).'
+        ;;
+    19)
+        TMOE_ZSH_GREP_NAME='emacs'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin utilizes the Emacs daemon capability, allowing the user to quickly open frames, whether they are opened in a terminal via a ssh connection, or X frames opened on the same host. The plugin also provides some aliases for such operations.'
+        ;;
     20)
         TMOE_ZSH_GREP_NAME='ember-cli'
         TMOE_ZSH_SETTINGS_MODEL='03'
@@ -333,51 +564,182 @@ tmoe_zsh_plugin_menu_02() {
     ${GREEN}npm install${RESET} -g ${BLUE}ember-cli${RESET}
 EOF
         )
+        TMOE_ZSH_COMMENT_CONTENT='Maintainers: [BilalBudhani](https://github.com/BilalBudhani), [eubenesa](https://github.com/eubenesa), [scottkidder](https://github.com/scottkidder]'
         ;;
-    21) TMOE_ZSH_GREP_NAME='emoji' ;;
-    22) TMOE_ZSH_GREP_NAME='emoji-clock' ;;
-    23) TMOE_ZSH_GREP_NAME='emotty' ;;
-    24) TMOE_ZSH_GREP_NAME='encode64' ;;
-    25) TMOE_ZSH_GREP_NAME='extract' ;;
-    26) TMOE_ZSH_GREP_NAME='fabric' ;;
-    27) TMOE_ZSH_GREP_NAME='fancy-ctrl-z' ;;
-    28) TMOE_ZSH_GREP_NAME='fasd' ;;
-    29) TMOE_ZSH_GREP_NAME='fastfile' ;;
-    30) TMOE_ZSH_GREP_NAME='fbterm' ;;
-    31) TMOE_ZSH_GREP_NAME='fd' ;;
-    32) TMOE_ZSH_GREP_NAME='firewalld' ;;
-    33) TMOE_ZSH_GREP_NAME='flutter' ;;
-    34) TMOE_ZSH_GREP_NAME='forklift' ;;
-    35) TMOE_ZSH_GREP_NAME='fossil' ;;
-    36) TMOE_ZSH_GREP_NAME='frontend-search' ;;
-    37) TMOE_ZSH_GREP_NAME='fzf' ;;
-    38) TMOE_ZSH_GREP_NAME='gas' ;;
-    39) TMOE_ZSH_GREP_NAME='gatsby' ;;
-    40) TMOE_ZSH_GREP_NAME='gb' ;;
-    41) TMOE_ZSH_GREP_NAME='gcloud' ;;
-    42) TMOE_ZSH_GREP_NAME='geeknote' ;;
-    43) TMOE_ZSH_GREP_NAME='gem' ;;
-    44) TMOE_ZSH_GREP_NAME='git' ;;
-    45) TMOE_ZSH_GREP_NAME='git-auto-fetch' ;;
-    46) TMOE_ZSH_GREP_NAME='git-escape-magic' ;;
-    47) TMOE_ZSH_GREP_NAME='git-extras' ;;
-    48) TMOE_ZSH_GREP_NAME='gitfast' ;;
-    49) TMOE_ZSH_GREP_NAME='git-flow' ;;
-    50) TMOE_ZSH_GREP_NAME='git-flow-avh' ;;
-    51) TMOE_ZSH_GREP_NAME='github' ;;
-    52) TMOE_ZSH_GREP_NAME='git-hubflow' ;;
-    53) TMOE_ZSH_GREP_NAME='gitignore' ;;
-    54) TMOE_ZSH_GREP_NAME='git-prompt' ;;
-    55) TMOE_ZSH_GREP_NAME='git-remote-branch' ;;
-    56) TMOE_ZSH_GREP_NAME='glassfish' ;;
-    57) TMOE_ZSH_GREP_NAME='globalias' ;;
-    58) TMOE_ZSH_GREP_NAME='gnu-utils' ;;
-    59) TMOE_ZSH_GREP_NAME='golang' ;;
-    60) TMOE_ZSH_GREP_NAME='gpg-agent' ;;
-    61) TMOE_ZSH_GREP_NAME='gradle' ;;
-    62) TMOE_ZSH_GREP_NAME='grails' ;;
-    63) TMOE_ZSH_GREP_NAME='grunt' ;;
-    64) TMOE_ZSH_GREP_NAME='gulp' ;;
+    21)
+        TMOE_ZSH_GREP_NAME='emoji'
+        TMOE_ZSH_COMMENT_CONTENT='Support for conveniently working with Unicode emoji in Zsh.'
+        ;;
+    22)
+        TMOE_ZSH_GREP_NAME='emoji-clock'
+        TMOE_ZSH_COMMENT_CONTENT='The plugin displays current time as an emoji symbol with half hour accuracy.'
+        ;;
+    23)
+        TMOE_ZSH_GREP_NAME='emotty'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin returns an emoji for the current $TTY number so it can be used-in a prompt.-'
+        ;;
+    24)
+        TMOE_ZSH_GREP_NAME='encode64'
+        TMOE_ZSH_COMMENT_CONTENT='Alias plugin for encoding or decoding using `base64` command.'
+        ;;
+    25)
+        TMOE_ZSH_GREP_NAME='extract'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin defines a function called `extract` that extracts the archive file-you pass it, and it supports a wide variety of archive filetypes.-'
+        ZINIT_SPECIAL_LOADING_CONTENT='zinit ice lucid wait="1" pick"extract.plugin.zsh" && zinit light _local/extract && zinit ice lucid as"completion" wait="1" && zinit snippet ${HOME}/.zinit/plugins/_local---extract/_extract #解压插件，输x 压缩包名称（例如`x 233.7z`或`x 233.tar.xz`) 即可解压文件。This plugin defines a function called `extract` that extracts the archive file you pass it, and it supports a wide variety of archive filetypes.'
+        ;;
+    26)
+        TMOE_ZSH_GREP_NAME='fabric'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [Fabric](https://www.fabfile.org/).'
+        ;;
+    27)
+        TMOE_ZSH_GREP_NAME='fancy-ctrl-z'
+        TMOE_ZSH_COMMENT_CONTENT='I frequently need to execute random commands in my shell. To achieve it I pause -Vim by pressing Ctrl-z, type command and press fg<Enter> to switch back to Vim.-'
+        ;;
+    28)
+        TMOE_ZSH_GREP_NAME='fasd'
+        TMOE_ZSH_COMMENT_CONTENT='[`Fasd`](https://github.com/clvv/fasd) (pronounced similar to "fast") is a command-line productivity booster. Fasd offers quick access to files and directories for POSIX shells.'
+        ;;
+    29)
+        TMOE_ZSH_GREP_NAME='fastfile'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds a way to reference certain files or folders used frequently using-a global alias or shortcut.-'
+        ;;
+    30)
+        TMOE_ZSH_GREP_NAME='fbterm'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin automatically starts [fbterm](https://github.com/zhangyuanwei/fbterm)-if on a real TTY (`/dev/tty`).-'
+        ;;
+    31)
+        TMOE_ZSH_GREP_NAME='fd'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for the file search tool [`fd`](https://github.com/sharkdp/fd), also known as `fd-find`.'
+        ;;
+    32)
+        TMOE_ZSH_GREP_NAME='firewalld'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds some aliases and functions for FirewallD using the `firewalld-cmd` command. To use it, add firewalld to your plugins array.'
+        ;;
+    33)
+        TMOE_ZSH_GREP_NAME='flutter'
+        TMOE_ZSH_COMMENT_CONTENT='The Flutter plugin provides completion and useful aliases'
+        ;;
+    34)
+        TMOE_ZSH_GREP_NAME='forklift'
+        TMOE_ZSH_COMMENT_CONTENT='Plugin for ForkLift, an FTP application for OS X.'
+        ;;
+    35)
+        TMOE_ZSH_GREP_NAME='fossil'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion support and prompt for fossil repositories.-The prompt will display the current branch and status been dirty or clean.-'
+        ;;
+    36)
+        TMOE_ZSH_GREP_NAME='frontend-search'
+        TMOE_ZSH_COMMENT_CONTENT='Searches for your frontend web development made easier'
+        ;;
+    37)
+        TMOE_ZSH_GREP_NAME='fzf'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin enables [junegunn’s fzf](https://github.com/junegunn/fzf) fuzzy auto-completion and key bindings'
+        ;;
+    38)
+        TMOE_ZSH_GREP_NAME='gas'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds autocompletion for the [gas](http://walle.github.com/gas) command,-a utility to manage Git authors.-'
+        ;;
+    39)
+        TMOE_ZSH_GREP_NAME='gatsby'
+        TMOE_ZSH_COMMENT_CONTENT=' Adds autocomplete options for all gatsby commands.'
+        ;;
+    40)
+        TMOE_ZSH_GREP_NAME='gb'
+        TMOE_ZSH_COMMENT_CONTENT='A project based build tool for the Go programming language.'
+        ;;
+    41)
+        TMOE_ZSH_GREP_NAME='gcloud'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion support for the-[Google Cloud SDK CLI](https://cloud.google.com/sdk/gcloud/).-'
+        ;;
+    42)
+        TMOE_ZSH_GREP_NAME='geeknote'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides autocompletion for [Geeknote](https://github.com/VitaliyRodnenko/geeknote)-and an alias for `geeknote` called `gn`.-'
+        ;;
+    43)
+        TMOE_ZSH_GREP_NAME='gem'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completions and aliases for [Gem](https://rubygems.org/). The completions include the common `gem` subcommands as well as the installed gems in the current directory.'
+        ;;
+    44)
+        TMOE_ZSH_GREP_NAME='git'
+        TMOE_ZSH_COMMENT_CONTENT='The git plugin provides many [aliases](#aliases) and a few useful [functions](#functions).'
+        ZINIT_SPECIAL_LOADING_CONTENT='zinit ice lucid pick"git.plugin.zsh" wait="1" && zinit light _local/git #git的一些alias,例如将git clone简化为gcl.  The git plugin provides many aliases and a few useful functions.'
+        ;;
+    45)
+        TMOE_ZSH_GREP_NAME='git-auto-fetch'
+        TMOE_ZSH_COMMENT_CONTENT='Automatically fetches all changes from all remotes while you are working in git-initialized directory.'
+        ;;
+    46)
+        TMOE_ZSH_GREP_NAME='git-escape-magic'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin is copied from the original at-https://github.com/knu/zsh-git-escape-magic. '
+        ;;
+    47)
+        TMOE_ZSH_GREP_NAME='git-extras'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion definitions for some of the commands defined by [git-extras](https://github.com/tj/git-extras).'
+        ;;
+    48)
+        TMOE_ZSH_GREP_NAME='gitfast'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion and aliases for the [`git-flow` command](https://github.com/nvie/gitflow).'
+        ;;
+    49)
+        TMOE_ZSH_GREP_NAME='git-flow'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for the [git-flow (AVH Edition)](https://github.com/petervanderdoes/gitflow-avh).-The AVH Edition of the git extensions that provides high-level repository operations for [Vincent Driessen’s branching model](https://nvie.com/posts/a-successful-git-branching-model/).-'
+        ;;
+    50)
+        TMOE_ZSH_GREP_NAME='git-flow-avh'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for [HubFlow](https://datasift.github.io/gitflow/) (GitFlow for GitHub), as well as some-aliases for common commands. HubFlow is a git extension to make it easy to use GitFlow with GitHub. '
+        ;;
+    51)
+        TMOE_ZSH_GREP_NAME='github'
+        TMOE_ZSH_COMMENT_CONTENT='A `zsh` prompt that displays information about the current git repository. In particular:-the branch name, difference with remote branch, number of files staged or changed, etc.-'
+        ;;
+    52)
+        TMOE_ZSH_GREP_NAME='git-hubflow'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for Git, using the zsh completion from git.git folks, which is much faster than the official one from zsh. A lot of zsh-specific features are not supported, like descriptions for every argument, but everything the bash completion has, this one does too (as it is using it behind the scenes). Not only is it faster, it should be more robust, and updated regularly to the latest git upstream version.'
+        ;;
+    53)
+        TMOE_ZSH_GREP_NAME='gitignore'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin supports working with GitHub from the command line.'
+        ;;
+    54)
+        TMOE_ZSH_GREP_NAME='git-prompt'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin enables you the use of [gitignore.io](https://www.gitignore.io/) from the command line. You need an active internet connection.'
+        ;;
+    55)
+        TMOE_ZSH_GREP_NAME='glassfish'
+        TMOE_ZSH_COMMENT_CONTENT='The glassfish plugin adds completion for the `asadmin` utility, a command to manage-[Oracle GlassFish](https://docs.oracle.com/cd/E18930_01/html/821-2416/giobi.html) servers.-'
+        ;;
+    56)
+        TMOE_ZSH_GREP_NAME='globalias'
+        TMOE_ZSH_COMMENT_CONTENT='Expands all glob expressions, subcommands and aliases (including global).'
+        ;;
+    57)
+        TMOE_ZSH_GREP_NAME='gnu-utils'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin binds GNU coreutils to their default names, so that you don’t have-to call them using their prefixed name, which starts with `g`. '
+        ;;
+    58)
+        TMOE_ZSH_GREP_NAME='golang'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for the [Go Programming Language](https://golang.org/),-as well as some aliases for common Golang commands.-'
+        ;;
+    59)
+        TMOE_ZSH_GREP_NAME='gpg-agent'
+        TMOE_ZSH_COMMENT_CONTENT='Enables [GPG’s gpg-agent](https://www.gnupg.org/documentation/manuals/gnupg/) if it is not running.'
+        ;;
+    60)
+        TMOE_ZSH_GREP_NAME='gradle'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completions and aliases for [Gradle](https://gradle.org/).'
+        ;;
+    61)
+        TMOE_ZSH_GREP_NAME='grails'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for the [Grails 2 CLI](https://grails.github.io/grails2-doc/2.5.x/guide/commandLine.html)'
+        ;;
+    62)
+        TMOE_ZSH_GREP_NAME='grunt'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completions for [grunt](https://github.com/gruntjs/grunt).'
+        ;;
+    63)
+        TMOE_ZSH_GREP_NAME='gulp'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds autocompletion for your [`gulp`](https://gulpjs.com/) tasks. It grabs all available tasks from the `gulpfile.js` in the current directory.'
+        ;;
     esac
     ##############################
     case_tmoe_zsh_settings_model
@@ -441,53 +803,194 @@ tmoe_zsh_plugin_menu_03() {
     ##############################
     case "${TMOE_OPTION}" in
     00 | "") tmoe_zsh_plugin_main_menu ;;
-    01) TMOE_ZSH_GREP_NAME='hanami' ;;
-    02) TMOE_ZSH_GREP_NAME='helm' ;;
-    03) TMOE_ZSH_GREP_NAME='heroku' ;;
-    04) TMOE_ZSH_GREP_NAME='history' ;;
-    05) TMOE_ZSH_GREP_NAME='history-substring-search' ;;
-    06) TMOE_ZSH_GREP_NAME='hitokoto' ;;
-    07) TMOE_ZSH_GREP_NAME='homestead' ;;
-    08) TMOE_ZSH_GREP_NAME='httpie' ;;
-    09) TMOE_ZSH_GREP_NAME='ionic' ;;
-    10) TMOE_ZSH_GREP_NAME='iterm2' ;;
-    11) TMOE_ZSH_GREP_NAME='jake-node' ;;
-    12) TMOE_ZSH_GREP_NAME='jenv' ;;
-    13) TMOE_ZSH_GREP_NAME='jfrog' ;;
-    14) TMOE_ZSH_GREP_NAME='jhbuild' ;;
-    15) TMOE_ZSH_GREP_NAME='jira' ;;
-    16) TMOE_ZSH_GREP_NAME='jruby' ;;
-    17) TMOE_ZSH_GREP_NAME='jsontools' ;;
-    18) TMOE_ZSH_GREP_NAME='jump' ;;
-    19) TMOE_ZSH_GREP_NAME='kate' ;;
-    20) TMOE_ZSH_GREP_NAME='keychain' ;;
-    21) TMOE_ZSH_GREP_NAME='kitchen' ;;
-    22) TMOE_ZSH_GREP_NAME='knife' ;;
-    23) TMOE_ZSH_GREP_NAME='knife_ssh' ;;
-    24) TMOE_ZSH_GREP_NAME='kops' ;;
-    25) TMOE_ZSH_GREP_NAME='kubectl' ;;
-    26) TMOE_ZSH_GREP_NAME='kube-ps1' ;;
-    27) TMOE_ZSH_GREP_NAME='laravel' ;;
-    28) TMOE_ZSH_GREP_NAME='laravel4' ;;
-    29) TMOE_ZSH_GREP_NAME='laravel5' ;;
-    30) TMOE_ZSH_GREP_NAME='last-working-dir' ;;
-    31) TMOE_ZSH_GREP_NAME='lein' ;;
-    32) TMOE_ZSH_GREP_NAME='lighthouse' ;;
-    33) TMOE_ZSH_GREP_NAME='lol' ;;
-    34) TMOE_ZSH_GREP_NAME='lxd' ;;
-    35) TMOE_ZSH_GREP_NAME='macports' ;;
-    36) TMOE_ZSH_GREP_NAME='magic-enter' ;;
-    37) TMOE_ZSH_GREP_NAME='man' ;;
-    38) TMOE_ZSH_GREP_NAME='marked2' ;;
-    39) TMOE_ZSH_GREP_NAME='mercurial' ;;
-    40) TMOE_ZSH_GREP_NAME='meteor' ;;
-    41) TMOE_ZSH_GREP_NAME='microk8s' ;;
-    42) TMOE_ZSH_GREP_NAME='minikube' ;;
-    43) TMOE_ZSH_GREP_NAME='mix' ;;
-    44) TMOE_ZSH_GREP_NAME='mix-fast' ;;
-    45) TMOE_ZSH_GREP_NAME='mosh' ;;
-    46) TMOE_ZSH_GREP_NAME='mvn' ;;
-    47) TMOE_ZSH_GREP_NAME='mysql-macports' ;;
+    01)
+        TMOE_ZSH_GREP_NAME='hanami'
+        TMOE_ZSH_COMMENT_CONTENT='It’s inspired by Rails plugin, so if you’ve used it, you’ll feel like home.'
+        ;;
+    02)
+        TMOE_ZSH_GREP_NAME='helm'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for [Helm](https://helm.sh/), the Kubernetes package manager.'
+        ;;
+    03)
+        TMOE_ZSH_GREP_NAME='heroku'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).'
+        ;;
+    04)
+        TMOE_ZSH_GREP_NAME='history'
+        TMOE_ZSH_COMMENT_CONTENT='Provides a couple of convenient aliases for using the `history` command to examine your command line history.'
+        ;;
+    05)
+        TMOE_ZSH_GREP_NAME='history-substring-search'
+        TMOE_ZSH_COMMENT_CONTENT='This is a clean-room implementation of the [Fish shell][1]’s history search-feature, where you can type in any part of any command from history '
+        ;;
+    06)
+        TMOE_ZSH_GREP_NAME='hitokoto'
+        TMOE_ZSH_COMMENT_CONTENT='Displays a random quote taken from [hitokoto.cn](https://v1.hitokoto.cn/)'
+        ;;
+    07)
+        TMOE_ZSH_GREP_NAME='homestead'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [Homestead](https://laravel.com/docs/homestead).'
+        ;;
+    08)
+        TMOE_ZSH_GREP_NAME='httpie'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for [HTTPie](https://httpie.org), a command line HTTP-client, a friendlier cURL replacement.-'
+        ;;
+    09)
+        TMOE_ZSH_GREP_NAME='ionic'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for the [Ionic CLI](https://ionicframework.com/docs/cli),-as well as some aliases for common Ionic commands.-'
+        ;;
+    10)
+        TMOE_ZSH_GREP_NAME='iterm2'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds a few functions that are useful when using [iTerm2](https://www.iterm2.com/).'
+        ;;
+    11)
+        TMOE_ZSH_GREP_NAME='jake-node'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [Jake](http://jakejs.com/).'
+        ;;
+    12)
+        TMOE_ZSH_GREP_NAME='jenv'
+        TMOE_ZSH_COMMENT_CONTENT='[jenv](https://www.jenv.be/) is a Java version manager similiar to [rbenv](https://github.com/rbenv/rbenv)-and [pyenv](https://github.com/yyuu/pyenv).-'
+        ;;
+    13)
+        TMOE_ZSH_GREP_NAME='jfrog'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [JFrog CLI](https://github.com/jfrog/jfrog-cli).'
+        ;;
+    14)
+        TMOE_ZSH_GREP_NAME='jhbuild'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds some [JHBuild](https://developer.gnome.org/jhbuild/) aliases.'
+        ;;
+    15)
+        TMOE_ZSH_GREP_NAME='jira'
+        TMOE_ZSH_COMMENT_CONTENT='CLI support for JIRA interaction'
+        ;;
+    16)
+        TMOE_ZSH_GREP_NAME='jruby'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds aliases for [JRuby](https://www.jruby.org/).'
+        ;;
+    17)
+        TMOE_ZSH_GREP_NAME='jsontools'
+        TMOE_ZSH_COMMENT_CONTENT='Handy command line tools for dealing with json data.'
+        ;;
+    18)
+        TMOE_ZSH_GREP_NAME='jump'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin allows to easily jump around the file system by manually adding marks.-Those marks are stored as symbolic links in the directory `$MARKPATH` (default `$HOME/.marks`)-'
+        ;;
+    19)
+        TMOE_ZSH_GREP_NAME='kate'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds aliases for the [Kate editor](https://kate-editor.org).'
+        ;;
+    20)
+        TMOE_ZSH_GREP_NAME='keychain'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin starts automatically [`keychain`](https://www.funtoo.org/Keychain)-to set up and load whichever credentials you want for both gpg and ssh-'
+        ;;
+    21)
+        TMOE_ZSH_GREP_NAME='kitchen'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion support for the [Test Kitchen](https://kitchen.ci).'
+        ;;
+    22)
+        TMOE_ZSH_GREP_NAME='knife'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for [knife](https://docs.chef.io/knife.html), a command-line tool-to interact with [Chef](https://chef.io), a platform to automate and manage infrastructure via-'
+        ;;
+    23)
+        TMOE_ZSH_GREP_NAME='knife_ssh'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds a `knife_ssh` function as well as completion for it, to allow-connecting via ssh to servers managed with [Chef](https://www.chef.io/).-'
+        ;;
+    24)
+        TMOE_ZSH_GREP_NAME='kops'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [kops](https://github.com/kubernetes/kops) (Kubernetes Operations),-the command line interface to get a production grade Kubernetes cluster up and running.-'
+        ;;
+    25)
+        TMOE_ZSH_GREP_NAME='kubectl'
+        TMOE_ZSH_COMMENT_CONTENT='-A script that lets you add the current Kubernetes context and namespace-'
+        ;;
+    26)
+        TMOE_ZSH_GREP_NAME='kube-ps1'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for the [Kubernetes cluster manager](https://kubernetes.io/docs/reference/kubectl/kubectl/),-as well as some aliases for common kubectl commands.-'
+        ;;
+    27)
+        TMOE_ZSH_GREP_NAME='laravel'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds aliases and autocompletion for Laravel [Artisan](https://laravel.com/docs/artisan) and [Bob](http://daylerees.github.io/laravel-bob/) command-line interfaces.'
+        ;;
+    28)
+        TMOE_ZSH_GREP_NAME='laravel4'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds some aliases for common [Laravel 4](https://laravel.com/docs/4.2) commands.'
+        ;;
+    29)
+        TMOE_ZSH_GREP_NAME='laravel5'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds some aliases for common [Laravel 5](https://laravel.com/docs) commands.'
+        ;;
+    30)
+        TMOE_ZSH_GREP_NAME='last-working-dir'
+        TMOE_ZSH_COMMENT_CONTENT='Keeps track of the last used working directory and automatically jumps into it-for new shells, unless:-'
+        ;;
+    31)
+        TMOE_ZSH_GREP_NAME='lein'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completions for the [Leiningen](https://leiningen.org/) Clojure build tool.'
+        ;;
+    32)
+        TMOE_ZSH_GREP_NAME='lighthouse'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds commands to manage [Lighthouse](https://lighthouseapp.com/).'
+        ;;
+    33)
+        TMOE_ZSH_GREP_NAME='lol'
+        TMOE_ZSH_COMMENT_CONTENT='Plugin for adding catspeak aliases, because why not.'
+        ;;
+    34)
+        TMOE_ZSH_GREP_NAME='lxd'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [lxd](https://linuxcontainers.org/lxd/), as well as aliases-for frequent lxc commands.-'
+        ;;
+    35)
+        TMOE_ZSH_GREP_NAME='macports'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for the package manager [Macports](https://macports.com/),-as well as some aliases for common Macports commands.-'
+        ;;
+    36)
+        TMOE_ZSH_GREP_NAME='magic-enter'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin makes your enter key magical, by binding commonly used commands to it.'
+        ;;
+    37)
+        TMOE_ZSH_GREP_NAME='man'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds a shortcut to insert man before the previous command.'
+        ;;
+    38)
+        TMOE_ZSH_GREP_NAME='marked2'
+        TMOE_ZSH_COMMENT_CONTENT='Plugin for Marked 2, a previewer for Markdown files on Mac OS X '
+        ;;
+    39)
+        TMOE_ZSH_GREP_NAME='mercurial'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds some handy aliases for using Mercurial as well as a few-utility and prompt functions that can be used in a theme.-'
+        ;;
+    40)
+        TMOE_ZSH_GREP_NAME='meteor'
+        TMOE_ZSH_COMMENT_CONTENT='The [meteor plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/meteor) provides many-[useful aliases](#aliases) as well as completion for the `meteor` command.-'
+        ;;
+    41)
+        TMOE_ZSH_GREP_NAME='microk8s'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion and useful aliases for [MicroK8s](https://microk8s.io/).'
+        ;;
+    42)
+        TMOE_ZSH_GREP_NAME='minikube'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [minikube](https://github.com/kubernetes/minikube).'
+        ;;
+    43)
+        TMOE_ZSH_GREP_NAME='mix'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completions for the [Elixir’s Mix build tool](https://hexdocs.pm/mix/Mix.html).'
+        ;;
+    44)
+        TMOE_ZSH_GREP_NAME='mix-fast'
+        TMOE_ZSH_COMMENT_CONTENT='Fast mix autocompletion plugin.'
+        ;;
+    45)
+        TMOE_ZSH_GREP_NAME='mosh'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin allows SSH tab completion for [mosh](https://mosh.org/) hostnames.'
+        ;;
+    46)
+        TMOE_ZSH_GREP_NAME='mvn'
+        TMOE_ZSH_COMMENT_CONTENT='The mvn plugin provides many [useful aliases](#aliases) as well as completion for-the [Apache Maven](https://maven.apache.org/) command (`mvn`).-'
+        ;;
+    47)
+        TMOE_ZSH_GREP_NAME='mysql-macports'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds aliases for some of the commonly used [MySQL](https://www.mysql.com/) commands when installed using [MacPorts](https://www.macports.org/) on macOS.'
+        ;;
     esac
     ##############################
     case_tmoe_zsh_settings_model
@@ -553,55 +1056,202 @@ tmoe_zsh_plugin_menu_04() {
     ##############################
     case "${TMOE_OPTION}" in
     00 | "") tmoe_zsh_plugin_main_menu ;;
-    01) TMOE_ZSH_GREP_NAME='n98-magerun' ;;
-    02) TMOE_ZSH_GREP_NAME='nanoc' ;;
-    03) TMOE_ZSH_GREP_NAME='ng' ;;
-    04) TMOE_ZSH_GREP_NAME='nmap' ;;
-    05) TMOE_ZSH_GREP_NAME='node' ;;
-    06) TMOE_ZSH_GREP_NAME='nomad' ;;
-    07) TMOE_ZSH_GREP_NAME='npm' ;;
-    08) TMOE_ZSH_GREP_NAME='npx' ;;
-    09) TMOE_ZSH_GREP_NAME='nvm' ;;
-    10) TMOE_ZSH_GREP_NAME='oc' ;;
-    11) TMOE_ZSH_GREP_NAME='osx' ;;
-    12) TMOE_ZSH_GREP_NAME='otp' ;;
-    13) TMOE_ZSH_GREP_NAME='pass' ;;
-    14) TMOE_ZSH_GREP_NAME='paver' ;;
-    15) TMOE_ZSH_GREP_NAME='pep8' ;;
-    16) TMOE_ZSH_GREP_NAME='percol' ;;
-    17) TMOE_ZSH_GREP_NAME='per-directory-history' ;;
-    18) TMOE_ZSH_GREP_NAME='perl' ;;
-    19) TMOE_ZSH_GREP_NAME='perms' ;;
-    20) TMOE_ZSH_GREP_NAME='phing' ;;
-    21) TMOE_ZSH_GREP_NAME='pip' ;;
-    22) TMOE_ZSH_GREP_NAME='pipenv' ;;
-    23) TMOE_ZSH_GREP_NAME='pj' ;;
-    24) TMOE_ZSH_GREP_NAME='please' ;;
-    25) TMOE_ZSH_GREP_NAME='pod' ;;
-    26) TMOE_ZSH_GREP_NAME='postgres' ;;
-    27) TMOE_ZSH_GREP_NAME='pow' ;;
-    28) TMOE_ZSH_GREP_NAME='powder' ;;
-    29) TMOE_ZSH_GREP_NAME='powify' ;;
-    30) TMOE_ZSH_GREP_NAME='profiles' ;;
-    31) TMOE_ZSH_GREP_NAME='pyenv' ;;
-    32) TMOE_ZSH_GREP_NAME='pylint' ;;
-    33) TMOE_ZSH_GREP_NAME='python' ;;
-    34) TMOE_ZSH_GREP_NAME='rails' ;;
-    35) TMOE_ZSH_GREP_NAME='rake' ;;
-    36) TMOE_ZSH_GREP_NAME='rake-fast' ;;
-    37) TMOE_ZSH_GREP_NAME='rand-quote' ;;
-    38) TMOE_ZSH_GREP_NAME='rbenv' ;;
-    39) TMOE_ZSH_GREP_NAME='react-native' ;;
-    40) TMOE_ZSH_GREP_NAME='rebar' ;;
-    41) TMOE_ZSH_GREP_NAME='redis-cli' ;;
-    42) TMOE_ZSH_GREP_NAME='repo' ;;
-    43) TMOE_ZSH_GREP_NAME='ripgrep' ;;
-    44) TMOE_ZSH_GREP_NAME='ros' ;;
-    45) TMOE_ZSH_GREP_NAME='rsync' ;;
-    46) TMOE_ZSH_GREP_NAME='ruby' ;;
-    47) TMOE_ZSH_GREP_NAME='rust' ;;
-    48) TMOE_ZSH_GREP_NAME='rustup' ;;
-    49) TMOE_ZSH_GREP_NAME='rvm' ;;
+    01)
+        TMOE_ZSH_GREP_NAME='n98-magerun'
+        TMOE_ZSH_COMMENT_CONTENT='The swiss army knife for Magento developers, sysadmins and devops. The tool provides a huge set of well tested command line commands which save hours of work time.'
+        ;;
+    02)
+        TMOE_ZSH_GREP_NAME='nanoc'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds some aliases and autocompletion for common [Nanoc](https://nanoc.ws) commands.'
+        ;;
+    03)
+        TMOE_ZSH_GREP_NAME='ng'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds autocompletion support for [Angular’s CLI](https://github.com/angular/angular-cli)-(named `ng`).-'
+        ;;
+    04)
+        TMOE_ZSH_GREP_NAME='nmap'
+        TMOE_ZSH_COMMENT_CONTENT='Adds some useful aliases for [Nmap](https://nmap.org/) similar to the profiles in zenmap.'
+        ;;
+    05)
+        TMOE_ZSH_GREP_NAME='node'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds `node-docs` function that opens specific section in [Node.js](https://nodejs.org)-documentation (depending on the installed version).-'
+        ;;
+    06)
+        TMOE_ZSH_GREP_NAME='nomad'
+        TMOE_ZSH_COMMENT_CONTENT='The `nomad` plugin provides a simple autocompletion for [Nomad](https://nomadproject.io/), a tool from Hashicorp for easily deploy applications at any scale.'
+        ;;
+    07)
+        TMOE_ZSH_GREP_NAME='npm'
+        TMOE_ZSH_COMMENT_CONTENT='The npm plugin provides completion as well as adding many useful aliases.'
+        ;;
+    08)
+        TMOE_ZSH_GREP_NAME='npx'
+        TMOE_ZSH_COMMENT_CONTENT='-This plugin automatically registers npx command-not-found handler if `npx` exists in your `$PATH`.-'
+        ;;
+    09)
+        TMOE_ZSH_GREP_NAME='nvm'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds autocompletions for [nvm](https://github.com/creationix/nvm) — a Node.js version manager.-It also automatically sources nvm, so you don’t need to do it manually in your `.zshrc`.-'
+        ;;
+    10)
+        TMOE_ZSH_GREP_NAME='oc'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides autocompletion for [OC](https://docs.openshift.com/container-platform/3.7/cli_reference/index.html) commands, building, managing and updating operations.'
+        ;;
+    11)
+        TMOE_ZSH_GREP_NAME='osx'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides a few utilities to make it more enjoyable on macOS (previously named OSX).'
+        ;;
+    12)
+        TMOE_ZSH_GREP_NAME='otp'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin allows you to create one-time passwords using [`oathtool`](https://www.nongnu.org/oath-toolkit/man-oathtool.html),-able to replace MFA devices. The oathtool key is kept in a GPG-encrypted file so the codes-'
+        ;;
+    13)
+        TMOE_ZSH_GREP_NAME='pass'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for the [pass](https://www.passwordstore.org/) password manager.'
+        ;;
+    14)
+        TMOE_ZSH_GREP_NAME='paver'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for the `paver` command-line tool of [Paver](https://pythonhosted.org/Paver/).'
+        ;;
+    15)
+        TMOE_ZSH_GREP_NAME='pep8'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for [pep8](https://pep8.readthedocs.io/en/release-1.7.x/#), a tool to check your Python code against some of the style conventions in [PEP 8](http://www.python.org/dev/peps/pep-0008/).'
+        ;;
+    16)
+        TMOE_ZSH_GREP_NAME='percol'
+        TMOE_ZSH_COMMENT_CONTENT='-This plugin adds per-directory history for zsh, as well as a global history,-'
+        ;;
+    17)
+        TMOE_ZSH_GREP_NAME='per-directory-history'
+        TMOE_ZSH_COMMENT_CONTENT='Provides some useful function to make [percol](https://github.com/mooz/percol) work with zsh history and [jump plugin](https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/jump/jump.plugin.zsh)'
+        ;;
+    18)
+        TMOE_ZSH_GREP_NAME='perl'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds [perl](https://www.perl.org/) useful aliases/functions.'
+        ;;
+    19)
+        TMOE_ZSH_GREP_NAME='perms'
+        TMOE_ZSH_COMMENT_CONTENT='Plugin to handle some unix filesystem permissions quickly.'
+        ;;
+    20)
+        TMOE_ZSH_GREP_NAME='phing'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds autocompletion for [`phing`](https://github.com/phingofficial/phing) targets.'
+        ;;
+    21)
+        TMOE_ZSH_GREP_NAME='pip'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for [pip](https://pip.pypa.io/en/latest/),-the Python package manager.-'
+        ;;
+    22)
+        TMOE_ZSH_GREP_NAME='pipenv'
+        TMOE_ZSH_COMMENT_CONTENT='Installation-In your `.zshrc` file, add `pipenv` to the plugins section-'
+        ;;
+    23)
+        TMOE_ZSH_GREP_NAME='pj'
+        TMOE_ZSH_COMMENT_CONTENT='The `pj` plugin (short for `Project Jump`) allows you to define several-folders where you store your projects, so that you can jump there directly-'
+        ;;
+    24)
+        TMOE_ZSH_GREP_NAME='please'
+        TMOE_ZSH_COMMENT_CONTENT='[Please](https://please.build) is a cross-language build system with an emphasis on-high performance, extensibility and reproduceability. It supports a number of popular-'
+        ;;
+    25)
+        TMOE_ZSH_GREP_NAME='pod'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for [`CocoaPods`](https://cocoapods.org/).-CocoaPods is a dependency manager for Swift and Objective-C Cocoa projects.-'
+        ;;
+    26)
+        TMOE_ZSH_GREP_NAME='postgres'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds some aliases for useful Postgres commands.'
+        ;;
+    27)
+        TMOE_ZSH_GREP_NAME='pow'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion and commands for [pow](http://pow.cx/), a-zero-configuration Rack server for macOS.-'
+        ;;
+    28)
+        TMOE_ZSH_GREP_NAME='powder'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [powder](https://github.com/powder-rb/powder/).'
+        ;;
+    29)
+        TMOE_ZSH_GREP_NAME='powify'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds autocompletion for [powify](https://github.com/sethvargo/powify),-an easy-to-use wrapper for Basecamp’s [pow](https://github.com/basecamp/pow).-'
+        ;;
+    30)
+        TMOE_ZSH_GREP_NAME='profiles'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin allows you to create separate configuration files for zsh based-on your long hostname (including the domain).-'
+        ;;
+    31)
+        TMOE_ZSH_GREP_NAME='pyenv'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin looks for [pyenv](https://github.com/pyenv/pyenv), a Simple Python version-management system, and loads it if it is found. It also loads pyenv-virtualenv, a pyenv-'
+        ;;
+    32)
+        TMOE_ZSH_GREP_NAME='pylint'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds aliases and autocompletion for [Pylint](https://www.pylint.org/),-the Python code style checking tool.-'
+        ;;
+    33)
+        TMOE_ZSH_GREP_NAME='python'
+        TMOE_ZSH_COMMENT_CONTENT='The plugin adds several aliases for useful [python](https://www.python.org/) commands.'
+        ;;
+    34)
+        TMOE_ZSH_GREP_NAME='rails'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for [Ruby On Rails Framework](https://rubyonrails.org/) and [Rake](https://ruby.github.io/rake/) commands, as well as some aliases for logs and environment variables.'
+        ;;
+    35)
+        TMOE_ZSH_GREP_NAME='rake'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds support for [rake](https://ruby.github.io/rake/), the Ruby-build tool or Ruby Make.-'
+        ;;
+    36)
+        TMOE_ZSH_GREP_NAME='rake-fast'
+        TMOE_ZSH_COMMENT_CONTENT='Fast rake autocompletion plugin.'
+        ;;
+    37)
+        TMOE_ZSH_GREP_NAME='rand-quote'
+        TMOE_ZSH_COMMENT_CONTENT='Displays a random quote taken from [quotationspage.com](http://www.quotationspage.com/random.php)'
+        ;;
+    38)
+        TMOE_ZSH_GREP_NAME='rbenv'
+        TMOE_ZSH_COMMENT_CONTENT='The primary job of this plugin is to provide `rbenv_prompt_info` which can be added to your theme to include Ruby-version and gemset information into your prompt.-'
+        ;;
+    39)
+        TMOE_ZSH_GREP_NAME='react-native'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for [`react-native`](https://facebook.github.io/react-native/).-It also defines a few [aliases] for the commands more frequently used.-'
+        ;;
+    40)
+        TMOE_ZSH_GREP_NAME='rebar'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completions for the [rebar](https://www.rebar3.org/) Erlang build tool.'
+        ;;
+    41)
+        TMOE_ZSH_GREP_NAME='redis-cli'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds [redis-cli](https://redis.io/topics/rediscli) completion, based off of Homebrew completion.'
+        ;;
+    42)
+        TMOE_ZSH_GREP_NAME='repo'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin mainly adds some aliases and support for automatic completion for-the [repo command line tool](https://code.google.com/p/git-repo/).-'
+        ;;
+    43)
+        TMOE_ZSH_GREP_NAME='ripgrep'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for the text search tool [`ripgrep`](https://github.com/BurntSushi/ripgrep), also known as `rg`.'
+        ;;
+    44)
+        TMOE_ZSH_GREP_NAME='ros'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completions and aliases for [Roswell](https://github.com/roswell/roswell/).'
+        ;;
+    45)
+        TMOE_ZSH_GREP_NAME='rsync'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds aliases for frequent [rsync](https://rsync.samba.org/) commands.'
+        ;;
+    46)
+        TMOE_ZSH_GREP_NAME='ruby'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds aliases for common commands used in dealing with [Ruby](https://www.ruby-lang.org/en/) and [gem packages](https://rubygems.org/).'
+        ;;
+    47)
+        TMOE_ZSH_GREP_NAME='rust'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for [`rustc`](https://doc.rust-lang.org/rustc/index.html), the compiler for the Rust programming language.'
+        ;;
+    48)
+        TMOE_ZSH_GREP_NAME='rustup'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for [`rustup`](https://rustup.rs/), the toolchain installer for the Rust programming language.'
+        ;;
+    49)
+        TMOE_ZSH_GREP_NAME='rvm'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds some utility functions and completions for [Ruby Version Manager](https://rvm.io/).'
+        ;;
     esac
     ##############################
     case_tmoe_zsh_settings_model
@@ -663,51 +1313,186 @@ tmoe_zsh_plugin_menu_05() {
     ##############################
     case "${TMOE_OPTION}" in
     00 | "") tmoe_zsh_plugin_main_menu ;;
-    01) TMOE_ZSH_GREP_NAME='safe-paste' ;;
-    02) TMOE_ZSH_GREP_NAME='salt' ;;
-    03) TMOE_ZSH_GREP_NAME='sbt' ;;
-    04) TMOE_ZSH_GREP_NAME='scala' ;;
-    05) TMOE_ZSH_GREP_NAME='scd' ;;
-    06) TMOE_ZSH_GREP_NAME='screen' ;;
-    07) TMOE_ZSH_GREP_NAME='scw' ;;
-    08) TMOE_ZSH_GREP_NAME='sdk' ;;
-    09) TMOE_ZSH_GREP_NAME='sfdx' ;;
-    10) TMOE_ZSH_GREP_NAME='sfffe' ;;
-    11) TMOE_ZSH_GREP_NAME='shell-proxy' ;;
-    12) TMOE_ZSH_GREP_NAME='shrink-path' ;;
-    13) TMOE_ZSH_GREP_NAME='singlechar' ;;
-    14) TMOE_ZSH_GREP_NAME='spring' ;;
-    15) TMOE_ZSH_GREP_NAME='sprunge' ;;
-    16) TMOE_ZSH_GREP_NAME='ssh-agent' ;;
-    17) TMOE_ZSH_GREP_NAME='stack' ;;
-    18) TMOE_ZSH_GREP_NAME='sublime' ;;
-    19) TMOE_ZSH_GREP_NAME='sudo' ;;
-    20) TMOE_ZSH_GREP_NAME='supervisor' ;;
-    21) TMOE_ZSH_GREP_NAME='suse' ;;
-    22) TMOE_ZSH_GREP_NAME='svcat' ;;
-    23) TMOE_ZSH_GREP_NAME='svn' ;;
-    24) TMOE_ZSH_GREP_NAME='svn-fast-info' ;;
-    25) TMOE_ZSH_GREP_NAME='swiftpm' ;;
-    26) TMOE_ZSH_GREP_NAME='symfony' ;;
-    27) TMOE_ZSH_GREP_NAME='symfony2' ;;
-    28) TMOE_ZSH_GREP_NAME='systemadmin' ;;
-    29) TMOE_ZSH_GREP_NAME='systemd' ;;
-    30) TMOE_ZSH_GREP_NAME='taskwarrior' ;;
-    31) TMOE_ZSH_GREP_NAME='terminitor' ;;
-    32) TMOE_ZSH_GREP_NAME='terraform' ;;
-    33) TMOE_ZSH_GREP_NAME='textastic' ;;
-    34) TMOE_ZSH_GREP_NAME='textmate' ;;
-    35) TMOE_ZSH_GREP_NAME='thefuck' ;;
-    36) TMOE_ZSH_GREP_NAME='themes' ;;
-    37) TMOE_ZSH_GREP_NAME='thor' ;;
-    38) TMOE_ZSH_GREP_NAME='tig' ;;
-    39) TMOE_ZSH_GREP_NAME='timer' ;;
-    40) TMOE_ZSH_GREP_NAME='tmux' ;;
-    41) TMOE_ZSH_GREP_NAME='tmux-cssh' ;;
-    42) TMOE_ZSH_GREP_NAME='tmuxinator' ;;
-    43) TMOE_ZSH_GREP_NAME='torrent' ;;
-    44) TMOE_ZSH_GREP_NAME='transfer' ;;
-    45) TMOE_ZSH_GREP_NAME='tugboat' ;;
+    01)
+        TMOE_ZSH_GREP_NAME='safe-paste'
+        TMOE_ZSH_COMMENT_CONTENT='Preventing any code from actually running while pasting, so you have a chance to review what was actually pasted before running it.'
+        ;;
+    02)
+        TMOE_ZSH_GREP_NAME='salt'
+        TMOE_ZSH_COMMENT_CONTENT='A copy of the completion script from the-[salt](https://github.com/saltstack/salt/blob/develop/pkg/zsh_completion.zsh)-'
+        ;;
+    03)
+        TMOE_ZSH_GREP_NAME='sbt'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for the [sbt, the interactive build tool](https://scala-sbt.org/),-as well as some aliases for common sbt commands.-'
+        ;;
+    04)
+        TMOE_ZSH_GREP_NAME='scala'
+        TMOE_ZSH_COMMENT_CONTENT='Completion script for [scala and scalac](https://www.scala-lang.org/) commands.'
+        ;;
+    05)
+        TMOE_ZSH_GREP_NAME='scd'
+        TMOE_ZSH_COMMENT_CONTENT='Define `scd` shell function for changing to any directory with-a few keystrokes.-'
+        ;;
+    06)
+        TMOE_ZSH_GREP_NAME='screen'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin sets title and hardstatus of the tab window for [screen](https://www.gnu.org/software/screen/),-the terminal multiplexer.-'
+        ;;
+    07)
+        TMOE_ZSH_GREP_NAME='scw'
+        TMOE_ZSH_COMMENT_CONTENT='[scw](https://github.com/scaleway/scaleway-cli): Manage Bare Metal servers from Command Line (as easily as with Docker)'
+        ;;
+    08)
+        TMOE_ZSH_GREP_NAME='sdk'
+        TMOE_ZSH_COMMENT_CONTENT='Plugin for SDKMAN, a tool for managing parallel versions of multiple Software Development Kits on most Unix based systems.-Provides autocompletion for all known commands.-'
+        ;;
+    09)
+        TMOE_ZSH_GREP_NAME='sfdx'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides autocompletion for the [Salesforce DX](https://developer.salesforce.com/tools/sfdxcli) CLI.'
+        ;;
+    10)
+        TMOE_ZSH_GREP_NAME='sfffe'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds a few functions for searching files used in Front-End web development.'
+        ;;
+    11)
+        TMOE_ZSH_GREP_NAME='shell-proxy'
+        TMOE_ZSH_COMMENT_CONTENT='This a pure user-space program, shell-proxy setter, written Python3 and Bash.'
+        ;;
+    12)
+        TMOE_ZSH_GREP_NAME='shrink-path'
+        TMOE_ZSH_COMMENT_CONTENT='A plugin to shrink directory paths for brevity and pretty-printing.For a fish-style working directory in your command prompt, add the following to your theme or zshrc : setopt prompt_subst && PS1=’%n@%m $(shrink_path -f)>’'
+        ;;
+    13)
+        TMOE_ZSH_GREP_NAME='singlechar'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds single char shortcuts (and combinations) for some commands.'
+        ;;
+    14)
+        TMOE_ZSH_GREP_NAME='spring'
+        TMOE_ZSH_COMMENT_CONTENT='Spring Boot autocomplete plugin-'
+        ;;
+    15)
+        TMOE_ZSH_GREP_NAME='sprunge'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin uploads data and fetch URL from the pastebin http://sprunge.us'
+        ;;
+    16)
+        TMOE_ZSH_GREP_NAME='ssh-agent'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin starts automatically `ssh-agent` to set up and load whichever-credentials you want for ssh connections.-'
+        ;;
+    17)
+        TMOE_ZSH_GREP_NAME='stack'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [Stack](https://haskellstack.org).'
+        ;;
+    18)
+        TMOE_ZSH_GREP_NAME='sublime'
+        TMOE_ZSH_COMMENT_CONTENT='Plugin for [Sublime Text](https://www.sublimetext.com/), a cross platform text and code editor,-available for Linux, macOS, and Windows.-'
+        ;;
+    19)
+        TMOE_ZSH_GREP_NAME='sudo'
+        TMOE_ZSH_COMMENT_CONTENT='Easily prefix your current or previous commands with `sudo` by pressing <kbd>esc</kbd> twice'
+        ;;
+    20)
+        TMOE_ZSH_GREP_NAME='supervisor'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds tab-completion for `supervisord`/`supervisorctl` in [Supervisor](http://supervisord.org/).-Supervisor is a client/server system that allows its users to monitor and control a number-'
+        ;;
+    21)
+        TMOE_ZSH_GREP_NAME='suse'
+        TMOE_ZSH_COMMENT_CONTENT='Maintainer: [r-darwish](https://github.com/r-darwish)'
+        ;;
+    22)
+        TMOE_ZSH_GREP_NAME='svcat'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for the [Kubernetes service catalog cli](https://github.com/kubernetes-incubator/service-catalog).'
+        ;;
+    23)
+        TMOE_ZSH_GREP_NAME='svn'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds some utility functions to display additional information regarding your current-svn repository. See https://subversion.apache.org/ for the full svn documentation.-'
+        ;;
+    24)
+        TMOE_ZSH_GREP_NAME='svn-fast-info'
+        TMOE_ZSH_COMMENT_CONTENT='Faster alternative to the main SVN plugin implementation. Works with svn 1.6 and newer.-Use as a drop-in replacement to the svn plugin, not as complementary.-'
+        ;;
+    25)
+        TMOE_ZSH_GREP_NAME='swiftpm'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides a few utilities that make you faster on your daily work with the [Swift Package Manager](https://github.com/apple/swift-package-manager), as well as autocompletion for Swift 5.1.'
+        ;;
+    26)
+        TMOE_ZSH_GREP_NAME='symfony'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [Symfony](https://symfony.com/).'
+        ;;
+    27)
+        TMOE_ZSH_GREP_NAME='symfony2'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [Symfony 2](https://symfony.com/), as well as aliases for frequent Symfony commands.'
+        ;;
+    28)
+        TMOE_ZSH_GREP_NAME='systemadmin'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds a series of aliases and functions which make a System Administrator’s life easier.- -'
+        ;;
+    29)
+        TMOE_ZSH_GREP_NAME='systemd'
+        TMOE_ZSH_COMMENT_CONTENT='The systemd plugin provides many useful aliases for systemd.'
+        ;;
+    30)
+        TMOE_ZSH_GREP_NAME='taskwarrior'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds smart tab completion for [TaskWarrior](https://taskwarrior.org/).-It uses the zsh tab completion script (`_task`) shipped with TaskWarrior for the-'
+        ;;
+    31)
+        TMOE_ZSH_GREP_NAME='terminitor'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completions for the [Terminitor](https://github.com/achiurizo/terminitor) development workflow setup tool.'
+        ;;
+    32)
+        TMOE_ZSH_GREP_NAME='terraform'
+        TMOE_ZSH_COMMENT_CONTENT='Plugin for Terraform, a tool from Hashicorp for managing infrastructure safely and efficiently.'
+        ;;
+    33)
+        TMOE_ZSH_GREP_NAME='textastic'
+        TMOE_ZSH_COMMENT_CONTENT='Plugin for Textastic, a text and code editor for Mac OS X'
+        ;;
+    34)
+        TMOE_ZSH_GREP_NAME='textmate'
+        TMOE_ZSH_COMMENT_CONTENT='The plugin adds a function for the [TextMate](https://macromates.com) editor.'
+        ;;
+    35)
+        TMOE_ZSH_GREP_NAME='thefuck'
+        TMOE_ZSH_COMMENT_CONTENT='[The Fuck](https://github.com/nvbn/thefuck) plugin — magnificent app which corrects your previous console command. You can type `pip3 install thefuck` to install dependency.'
+        ;;
+    36)
+        TMOE_ZSH_GREP_NAME='themes'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin allows you to change ZSH theme on the go.'
+        ;;
+    37)
+        TMOE_ZSH_GREP_NAME='thor'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for [Thor](http://whatisthor.com/), -a ruby toolkit for building powerful command-line interfaces.-'
+        ;;
+    38)
+        TMOE_ZSH_GREP_NAME='tig'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds some aliases for people who work with [`tig`](https://jonas.github.io/tig/) (text-mode interface for Git) in-a regular basis. To use it, add `tig` to your plugins array:-'
+        ;;
+    39)
+        TMOE_ZSH_GREP_NAME='timer'
+        TMOE_ZSH_COMMENT_CONTENT='Timer can be tuned by these two variables:- `TIMER_PRECISION` allows to control number of decimal places (default `1`)-'
+        ;;
+    40)
+        TMOE_ZSH_GREP_NAME='tmux'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides aliases for [tmux](https://tmux.github.io/), the terminal multiplexer.-To use it add `tmux` to the plugins array in your zshrc file.-'
+        ;;
+    41)
+        TMOE_ZSH_GREP_NAME='tmux-cssh'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds autocompletion for [`tmux-cssh`](https://github.com/zinic/tmux-cssh/).'
+        ;;
+    42)
+        TMOE_ZSH_GREP_NAME='tmuxinator'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides completion for [tmuxinator](https://github.com/tmuxinator/tmuxinator),-as well as aliases for frequent tmuxinator commands.-'
+        ;;
+    43)
+        TMOE_ZSH_GREP_NAME='torrent'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin creates a Torrent file based on a [MagnetURI](https://en.wikipedia.org/wiki/Magnet_URI_scheme).'
+        ;;
+    44)
+        TMOE_ZSH_GREP_NAME='transfer'
+        TMOE_ZSH_COMMENT_CONTENT='[`transfer.sh`](https://transfer.sh) is an easy to use file sharing service from the command line'
+        ;;
+    45)
+        TMOE_ZSH_GREP_NAME='tugboat'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds autocompletion for Tugboat, a command line tool for interacting with your-[DigitalOcean droplets](https://www.digitalocean.com/products/droplets/).-'
+        ;;
     esac
     ##############################
     case_tmoe_zsh_settings_model
@@ -749,39 +1534,111 @@ tmoe_zsh_plugin_menu_06() {
     ##############################
     case "${TMOE_OPTION}" in
     00 | "") tmoe_zsh_plugin_main_menu ;;
-    01) TMOE_ZSH_GREP_NAME='ubuntu' ;;
-    02) TMOE_ZSH_GREP_NAME='ufw' ;;
-    03) TMOE_ZSH_GREP_NAME='urltools' ;;
-    04) TMOE_ZSH_GREP_NAME='vagrant' ;;
-    05) TMOE_ZSH_GREP_NAME='vagrant-prompt' ;;
-    06) TMOE_ZSH_GREP_NAME='vim-interaction' ;;
-    07) TMOE_ZSH_GREP_NAME='vi-mode' ;;
-    08) TMOE_ZSH_GREP_NAME='virtualenv' ;;
-    09) TMOE_ZSH_GREP_NAME='virtualenvwrapper' ;;
-    10) TMOE_ZSH_GREP_NAME='vscode' ;;
-    11) TMOE_ZSH_GREP_NAME='vundle' ;;
-    12) TMOE_ZSH_GREP_NAME='wakeonlan' ;;
-    13) TMOE_ZSH_GREP_NAME='wd' ;;
-    14) TMOE_ZSH_GREP_NAME='web-search' ;;
-    15) TMOE_ZSH_GREP_NAME='wp-cli' ;;
-    16) TMOE_ZSH_GREP_NAME='xcode' ;;
-    17) TMOE_ZSH_GREP_NAME='yarn' ;;
-    18) TMOE_ZSH_GREP_NAME='yii' ;;
-    19) TMOE_ZSH_GREP_NAME='yii2' ;;
-    20) TMOE_ZSH_GREP_NAME='yum' ;;
+    01)
+        TMOE_ZSH_GREP_NAME='ubuntu'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completions and aliases for [Ubuntu](https://www.ubuntu.com/).'
+        ;;
+    02)
+        TMOE_ZSH_GREP_NAME='ufw'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for managing everybody’s favorite Uncomplicated Firewall (UFW),-a simple interface for managing iptables. Learn more about [`UFW`](https://wiki.ubuntu.com/UncomplicatedFirewall).-'
+        ;;
+    03)
+        TMOE_ZSH_GREP_NAME='urltools'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides two aliases to URL-encode and URL-decode strings.'
+        ;;
+    04)
+        TMOE_ZSH_GREP_NAME='vagrant'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds autocompletion for [Vagrant](https://www.vagrantup.com/) commands, task names, box names and built-in handy documentation.'
+        ;;
+    05)
+        TMOE_ZSH_GREP_NAME='vagrant-prompt'
+        TMOE_ZSH_COMMENT_CONTENT='-Look inside the source for documentation about custom variables. -'
+        ;;
+    06)
+        TMOE_ZSH_GREP_NAME='vim-interaction'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin increase `vi-like` zsh functionality.'
+        ;;
+    07)
+        TMOE_ZSH_GREP_NAME='vi-mode'
+        TMOE_ZSH_COMMENT_CONTENT='The plugin presents a function called `callvim` whose usage is:'
+        ;;
+    08)
+        TMOE_ZSH_GREP_NAME='virtualenv'
+        TMOE_ZSH_COMMENT_CONTENT='The plugin displays information of the created virtual container and allows background theming.'
+        ;;
+    09)
+        TMOE_ZSH_GREP_NAME='virtualenvwrapper'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin loads Python’s [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) shell tools.'
+        ;;
+    10)
+        TMOE_ZSH_GREP_NAME='vscode'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides useful aliases to simplify the interaction between the command line and VS Code or VSCodium editor.'
+        ;;
+    11)
+        TMOE_ZSH_GREP_NAME='vundle'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds functions to control [vundle](https://github.com/VundleVim/Vundle.vim) plug-in manager for vim.'
+        ;;
+    12)
+        TMOE_ZSH_GREP_NAME='wakeonlan'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides a wrapper around the "wakeonlan" tool available from most-distributions’ package repositories, or from [the following website](https://github.com/jpoliv/wakeonlan).-'
+        ;;
+    13)
+        TMOE_ZSH_GREP_NAME='wd'
+        TMOE_ZSH_COMMENT_CONTENT='[![Build Status](https://travis-ci.org/mfaerevaag/wd.png?branch=master)](https://travis-ci.org/mfaerevaag/wd)'
+        ;;
+    14)
+        TMOE_ZSH_GREP_NAME='web-search'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds aliases for searching with Google, Wiki, Bing, YouTube and other popular services.'
+        ;;
+    15)
+        TMOE_ZSH_GREP_NAME='wp-cli'
+        TMOE_ZSH_COMMENT_CONTENT='Maintainer: [joshmedeski](https://github.com/joshmedeski)'
+        ;;
+    16)
+        TMOE_ZSH_GREP_NAME='xcode'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin provides a few utilities that can help you on your daily use of Xcode and iOS development.'
+        ;;
+    17)
+        TMOE_ZSH_GREP_NAME='yarn'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds completion for the [Yarn package manager](https://yarnpkg.com/en/),-as well as some aliases for common Yarn commands.-'
+        ;;
+    18)
+        TMOE_ZSH_GREP_NAME='yii'
+        TMOE_ZSH_COMMENT_CONTENT='The plugin adds autocomplete commands and subcommands for [yii](https://www.yiiframework.com/).'
+        ;;
+    19)
+        TMOE_ZSH_GREP_NAME='yii2'
+        TMOE_ZSH_COMMENT_CONTENT=' Adds autocomplete commands and subcommands for yii.'
+        ;;
+    20)
+        TMOE_ZSH_GREP_NAME='yum'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds useful aliases for common [Yum](http://yum.baseurl.org/) commands.'
+        ;;
     21)
         TMOE_ZSH_GREP_NAME='z'
         TMOE_ZSH_SETTINGS_MODEL='02'
         ZSH_README_FILE_NAME_02='README'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin defines the [z command](https://github.com/rupa/z) that tracks your most visited directories and allows you to access them with very few keystrokes.'
+        ZINIT_SPECIAL_LOADING_CONTENT='zinit ice lucid wait="1" pick"z.plugin.zsh" && zinit light _local/z && unsetopt BG_NICE #记录访问目录，输z获取,输`z 目录名称`快速跳转  This plugin defines the [z command](https://github.com/rupa/z) that tracks your most visited directories and allows you to access them with very few keystrokes.'
         ;;
-    22) TMOE_ZSH_GREP_NAME='zeus' ;;
-    23) TMOE_ZSH_GREP_NAME='zsh-interactive-cd' ;;
+    22)
+        TMOE_ZSH_GREP_NAME='zeus'
+        TMOE_ZSH_COMMENT_CONTENT='[Zeus](https://github.com/burke/zeus) preloads your Rails environment and forks that-process whenever needed. This effectively speeds up Rails’boot process to under 1 sec.-'
+        ;;
+    23)
+        TMOE_ZSH_GREP_NAME='zsh-interactive-cd'
+        TMOE_ZSH_COMMENT_CONTENT='This plugin adds a fish-like interactive tab completion for the `cd` command.'
+        ;;
     24)
         TMOE_ZSH_GREP_NAME='zsh-navigation-tools'
         TMOE_ZSH_SETTINGS_MODEL='02'
         ZSH_README_FILE_NAME_02='.config/znt/README.txt'
+        TMOE_ZSH_COMMENT_CONTENT='![ZSH 5.0.0](https://img.shields.io/badge/zsh-v5.0.0-orange.svg?style=flat-square)'
         ;;
-    25) TMOE_ZSH_GREP_NAME='zsh_reload' ;;
+    25)
+        TMOE_ZSH_GREP_NAME='zsh_reload'
+        TMOE_ZSH_COMMENT_CONTENT='The zsh_reload plugin defines a function to reload the zsh session with-just a few keystrokes.'
+        ;;
     esac
     ##############################
     case_tmoe_zsh_settings_model
@@ -792,17 +1649,20 @@ tmoe_zsh_plugin_menu_06() {
 tmoe_zsh_plugin_menu_07() {
     TMOE_ZSH_SETTINGS_MODEL='04'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_07'
+    TMOE_ZSH_COMMENT_CONTENT=''
+    WAIT_TIME='0'
     TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
         "00" "🌚 Return to previous menu 返回上级菜单" \
-        "01" "fzf-tab:zsh超强补全插件" \
-        "02" "zsh-syntax-highlighting:语法高亮" \
-        "03" "zsh-autosuggestions:自动补全" \
+        "01" "fzf-tab:通过hook zsh补全系统的底层函数来截获补全列表" \
+        "02" "fast-syntax-highlighting:语法高亮插件,速度快" \
+        "03" "zsh-autosuggestions:自动建议" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
     00 | "") tmoe_zsh_plugin_main_menu ;;
     01)
         TMOE_ZSH_GREP_NAME='fzf-tab'
+        ZINIT_SPECIAL_LOADING_CONTENT='[[ $(command -v fzf) ]] && zinit ice lucid pick"fzf-tab.zsh" && zinit light _local/fzf-tab #aloxaf:fzf-tab 是一个能够极大提升 zsh 补全体验的插件。它通过 hook zsh 补全系统的底层函数 compadd 来截获补全列表，从而实现了在补全命令行参数、变量、目录栈和文件时都能使用 fzf 进行选择的功能。Replace zsh’s default completion selection menu with fzf!'
         ZSH_README_FILE_NAME='README_CN.md'
         ZSH_README_FILE_NAME_02='README.md lib/zsh-ls-colors/README.md'
         # TMOE_IMPORTANT_TIPS=$(
@@ -812,11 +1672,14 @@ tmoe_zsh_plugin_menu_07() {
         #       )
         ;;
     02)
-        TMOE_ZSH_GREP_NAME='zsh-syntax-highlighting'
-        ZSH_README_FILE_NAME_02='docs/highlighters/*md tests/README.md'
+        TMOE_ZSH_GREP_NAME='fast-syntax-highlighting'
+        ZINIT_SPECIAL_LOADING_CONTENT='zinit ice wait lucid pick"fast-syntax-highlighting.plugin.zsh" atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" && zinit light _local/fast-syntax-highlighting    #语法高亮插件，速度比zsh-syntax-highlighting更快。(Short name F-Sy-H). Syntax-highlighting for Zshell – fine granularity, number of features, 40 work hours themes.'
+        #ZSH_README_FILE_NAME_02='docs/highlighters/*md tests/README.md'
+        ZSH_README_FILE_NAME_02='README.md THEME_GUIDE.md'
         ;;
     03)
         TMOE_ZSH_GREP_NAME='zsh-autosuggestions'
+        ZINIT_SPECIAL_LOADING_CONTENT='zinit ice wait lucid pick"zsh-autosuggestions.zsh" atload'_zsh_autosuggest_start' && zinit light _local/zsh-autosuggestions #自动建议插件 It suggests commands as you type based on history and completions.'
         TMOE_IMPORTANT_TIPS=$(
             cat <<-EOF
     ${YELLOW}https://github.com/zsh-users/zsh-autosuggestions${RESET}
@@ -833,25 +1696,24 @@ EOF
 ######################
 check_zsh_plugin_folder() {
     TMOE_ZSH_OPTION_01="Readme of ${TMOE_ZSH_GREP_NAME} 说明"
-    ZSH_PLUGIN_DIR="${HOME}/.oh-my-zsh/plugins/${TMOE_ZSH_GREP_NAME}"
-    CUSTOM_ZSH_PLUGIN_DIR="${HOME}/.oh-my-zsh/custom/plugins/${TMOE_ZSH_GREP_NAME}"
-
+    ZSH_PLUGIN_DIR="${ZINIT_DIR}/plugins/_local---${TMOE_ZSH_GREP_NAME}"
+    #CUSTOM_ZSH_PLUGIN_DIR="${ZINIT_DIR}/plugins/${TMOE_ZSH_GREP_NAME}"
+    ZINIT_LOCAL_PLUGIN="_local/${TMOE_ZSH_GREP_NAME}"
     if [ -e "${ZSH_PLUGIN_DIR}/${TMOE_ZSH_GREP_NAME}.plugin.zsh" ]; then
-        ZSH_PLUGIN_FILE="${ZSH_PLUGIN_DIR}/${TMOE_ZSH_GREP_NAME}.plugin.zsh"
-    elif [ -e "${ZSH_PLUGIN_DIR}/_${TMOE_ZSH_GREP_NAME}" ]; then
-        ZSH_PLUGIN_FILE="${ZSH_PLUGIN_DIR}/_${TMOE_ZSH_GREP_NAME}"
-    elif [ -e "${CUSTOM_ZSH_PLUGIN_DIR}/${TMOE_ZSH_GREP_NAME}.zsh" ]; then
-        ZSH_PLUGIN_FILE="${CUSTOM_ZSH_PLUGIN_DIR}/${TMOE_ZSH_GREP_NAME}.zsh"
-    elif [ -e "${CUSTOM_ZSH_PLUGIN_DIR}/${TMOE_ZSH_GREP_NAME}.plugin.zsh" ]; then
-        ZSH_PLUGIN_FILE="${CUSTOM_ZSH_PLUGIN_DIR}/${TMOE_ZSH_GREP_NAME}.plugin.zsh"
+        ZINIT_PICK_FILE="${TMOE_ZSH_GREP_NAME}.plugin.zsh"
+    elif [ -e "${ZSH_PLUGIN_DIR}/${TMOE_ZSH_GREP_NAME}.zsh" ]; then
+        ZINIT_PICK_FILE="${TMOE_ZSH_GREP_NAME}.zsh"
     fi
 
-    if [ -e "${CUSTOM_ZSH_PLUGIN_DIR}" ]; then
-        ZSH_PLUGIN_DIR=${CUSTOM_ZSH_PLUGIN_DIR}
+    if [ -e "${ZSH_PLUGIN_DIR}/_${TMOE_ZSH_GREP_NAME}" ]; then
+        ZINIT_LOCAL_SNIPPET_FILE="${ZSH_PLUGIN_DIR}/_${TMOE_ZSH_GREP_NAME}"
     fi
 }
 ############
 case_tmoe_zsh_settings_model() {
+    case ${WAIT_TIME} in
+    "") WAIT_TIME=1 ;;
+    esac
     check_zsh_plugin_folder
     case "${TMOE_ZSH_SETTINGS_MODEL}" in
     01) tmoe_zsh_settings_model_01 ;;
@@ -862,61 +1724,103 @@ case_tmoe_zsh_settings_model() {
 }
 ######################
 check_tmoe_zsh_config_value() {
-    if grep -q "plugins/${TMOE_ZSH_GREP_NAME}" "${TMOE_ZSH_FILE}"; then
-        TMOE_ZSH_CONFIG_STATUS="检测到您已启用${TMOE_ZSH_GREP_NAME}插件\nYou have enabled this plugin."
+    #if ! egrep -q '^[^#]*zinit.*/fast-syntax-highlighting' "${HOME}/.zshrc"; then
+    if egrep -q "^[^#]*zinit.*pick\"${TMOE_ZSH_GREP_NAME}\.(zsh|plugin.zsh)\"" "${TMOE_ZSH_FILE}"; then
+        TMOE_ZSH_CONFIG_STATUS="您已启用${TMOE_ZSH_GREP_NAME}插件 You have enabled this plugin."
         TMOE_ZSH_CONFIG_ENABLED='true'
-        #OH_MY_ZSH_PLUGIN='false'
-        TMOE_ZSH_CONFIG_LINE=$(cat ${TMOE_ZSH_FILE} | grep -n "plugins/${TMOE_ZSH_GREP_NAME}" | head -n 1 | awk '{print $1}' | cut -d ':' -f 1)
-    elif grep -q "^plugins=.*${TMOE_ZSH_GREP_NAME}" "${TMOE_ZSH_FILE}"; then
-        TMOE_ZSH_CONFIG_STATUS="检测到您已启用${TMOE_ZSH_GREP_NAME}插件\nYou have enabled this zsh plugin."
+        TMOE_ZSH_CONFIG_LINE=$(cat ${TMOE_ZSH_FILE} | egrep -n "^[^#]*zinit.*pick\"${TMOE_ZSH_GREP_NAME}\.(zsh|plugin.zsh)\"" | head -n 1 | awk '{print $1}' | cut -d ':' -f 1)
+    elif egrep -q "^[^#]*zinit.*snippet.*${TMOE_ZSH_GREP_NAME}/_" "${TMOE_ZSH_FILE}"; then
+        TMOE_ZSH_CONFIG_STATUS="您已启用${TMOE_ZSH_GREP_NAME}插件 You have enabled this zsh plugin."
         TMOE_ZSH_CONFIG_ENABLED='yes'
-        #OH_MY_ZSH_PLUGIN='true'
-        TMOE_ZSH_CONFIG_LINE=$(cat ${TMOE_ZSH_FILE} | grep -n "^plugins=.*${TMOE_ZSH_GREP_NAME}" | head -n 1 | awk '{print $1}' | cut -d ':' -f 1)
+        TMOE_ZSH_CONFIG_LINE=$(cat ${TMOE_ZSH_FILE} | egrep -n "^[^#]*zinit.*snippet.*${TMOE_ZSH_GREP_NAME}/_" | head -n 1 | awk '{print $1}' | cut -d ':' -f 1)
     else
-        TMOE_ZSH_CONFIG_STATUS="检测到您已禁用${TMOE_ZSH_GREP_NAME}插件\nYou have disabled this plugin."
+        TMOE_ZSH_CONFIG_STATUS="您已禁用${TMOE_ZSH_GREP_NAME}插件 You have disabled this plugin."
         TMOE_ZSH_CONFIG_ENABLED='false'
     fi
 }
 ######################
+add_new_zinit_plugin_to_zshrc_01() {
+    cat >>${HOME}/.zshrc <<-EOF
+zinit ice lucid wait="${WAIT_TIME}" pick"${ZINIT_PICK_FILE}" && zinit light ${ZINIT_LOCAL_PLUGIN} #${TMOE_ZSH_COMMENT_CONTENT}
+EOF
+}
+#################
+add_new_zinit_plugin_to_zshrc_02() {
+    cat >>${HOME}/.zshrc <<-EOF
+zinit ice lucid wait="${WAIT_TIME}" pick"${ZINIT_PICK_FILE}" && zinit light ${ZINIT_LOCAL_PLUGIN} && zinit ice lucid wait="${WAIT_TIME}" as"completion" && zinit snippet ${ZINIT_LOCAL_SNIPPET_FILE}  #${TMOE_ZSH_COMMENT_CONTENT}
+EOF
+}
+#################
+add_new_zinit_plugin_to_zshrc_03() {
+    cat >>${HOME}/.zshrc <<-ENDOFZSHPLUGIN
+${ZINIT_SPECIAL_LOADING_CONTENT}
+ENDOFZSHPLUGIN
+}
+#################
+case_new_zinit_plugin() {
+    case ${ZINIT_LOCAL_SNIPPET_FILE} in
+    "") add_new_zinit_plugin_to_zshrc_01 ;;
+    *) add_new_zinit_plugin_to_zshrc_02 ;;
+    esac
+}
+###########
 enable_zsh_plugin() {
     check_zsh_plugin_folder
+    case ${TMOE_ZSH_COMMENT_CONTENT} in
+    "") echo "${YELLOW}${ZINIT_SPECIAL_LOADING_CONTENT}${RESET}" ;;
+    *) echo "${YELLOW}${TMOE_ZSH_COMMENT_CONTENT}${RESET}" ;;
+    esac
+
     case "${TMOE_ZSH_CONFIG_ENABLED}" in
     true | yes)
-        echo "您${YELLOW}已经启用过${RESETT}本插件了，不要${RED}重复启用${RESET}哦！"
+        echo "您${YELLOW}已经启用过${RESET}本插件了，不要${RED}重复启用${RESET}哦！"
         echo "若脚本检测${RED}出错${RESET}，则请${GREEN}手动修改${RESET}${BLUE}${TMOE_ZSH_FILE}${RESET}的第${TMOE_ZSH_CONFIG_LINE}行内容"
         echo "${YELLOW}Do not enable this plugin repeatedly.${RESET}"
         ;;
     false)
-        sed -i "$ a\source ${ZSH_PLUGIN_FILE}" "${TMOE_ZSH_FILE}"
+        #sed -i "$ a\source ${ZSH_PLUGIN_FILE}" "${TMOE_ZSH_FILE}"
+        case ${ZINIT_SPECIAL_LOADING_CONTENT} in
+        "") case_new_zinit_plugin ;;
+        *) add_new_zinit_plugin_to_zshrc_03 ;;
+        esac
         ;;
     esac
     check_tmoe_zsh_config_value
     check_zsh_plugin_content
-    echo -e ${TMOE_ZSH_CONFIG_STATUS}
+    echo ${TMOE_ZSH_CONFIG_STATUS}
 }
 ############
 check_zsh_plugin_content() {
-    cat ${TMOE_ZSH_FILE} | sed -n ${TMOE_ZSH_CONFIG_LINE}p
+    ZINIT_PLUGIN_CONTENT=$(cat ${TMOE_ZSH_FILE} | sed -n ${TMOE_ZSH_CONFIG_LINE}p | sed 's@#.*@@')
+    echo "${BLUE}${ZINIT_PLUGIN_CONTENT}${RESET}"
 }
 ##########
 disable_zsh_plugin() {
     check_zsh_plugin_folder
     case "${TMOE_ZSH_CONFIG_ENABLED}" in
-    true) sed -i "${TMOE_ZSH_CONFIG_LINE} d" "${TMOE_ZSH_FILE}" ;;
-    yes)
-        check_zsh_plugin_content
-        NEW_TMOE_ZSH_CONFIG_LINE_CONTENT=$(cat ${TMOE_ZSH_FILE} | sed -n ${TMOE_ZSH_CONFIG_LINE}p | sed "s@${TMOE_ZSH_GREP_NAME} @@" | sed "s@ ${TMOE_ZSH_GREP_NAME})@)@")
-        #space key!
-        sed -i "${TMOE_ZSH_CONFIG_LINE} c ${NEW_TMOE_ZSH_CONFIG_LINE_CONTENT}" "${TMOE_ZSH_FILE}"
-        check_zsh_plugin_content
+    yes | true)
+        case ${TMOE_ZSH_CONFIG_LINE} in
+        "" | 0)
+            echo "禁用失败，请手动编辑~/.zshrc"
+            echo "Disable failed, please edit zshrc manually."
+            ;;
+        *) sed -i "${TMOE_ZSH_CONFIG_LINE} d" "${TMOE_ZSH_FILE}" ;;
+        esac
         ;;
+        #yes)
+        #check_zsh_plugin_content
+        #NEW_TMOE_ZSH_CONFIG_LINE_CONTENT=$(cat ${TMOE_ZSH_FILE} | sed -n ${TMOE_ZSH_CONFIG_LINE}p | sed "s@${TMOE_ZSH_GREP_NAME} @@" | sed "s@ ${TMOE_ZSH_GREP_NAME})@)@")
+        #space key!
+        #sed -i "${TMOE_ZSH_CONFIG_LINE} c ${NEW_TMOE_ZSH_CONFIG_LINE_CONTENT}" "${TMOE_ZSH_FILE}"
+        #check_zsh_plugin_content
+        #;;
     false)
-        echo "您${YELLOW}已禁用${RESETT}本插件，不要${RED}重复禁用${RESET}哦！"
+        echo "您${YELLOW}已禁用${RESET}本插件，不要${RED}重复禁用${RESET}哦！"
         echo "若脚本检测${RED}出错${RESET}，则请${GREEN}手动编辑${RESET}${BLUE}${TMOE_ZSH_FILE}${RESET}"
         ;;
     esac
     check_tmoe_zsh_config_value
-    echo -e ${TMOE_ZSH_CONFIG_STATUS}
+    echo ${TMOE_ZSH_CONFIG_STATUS}
 }
 ###################
 check_bat() {
@@ -955,7 +1859,7 @@ tmoe_zsh_settings_model_01() {
     #此处不要设置RETURN_TO_WHERE的变量
     check_tmoe_zsh_config_value
     RETURN_TO_MENU='tmoe_zsh_settings_model_01'
-    TMOE_OPTION=$(whiptail --title "您想要对${TMOE_ZSH_GREP_NAME}小可爱做什么？" --menu "${TMOE_ZSH_CONFIG_STATUS}" 0 50 0 \
+    TMOE_OPTION=$(whiptail --title "${TMOE_ZSH_CONFIG_STATUS}" --menu "${TMOE_ZSH_COMMENT_CONTENT}" 0 50 0 \
         "0" "🌚 Return to previous menu 返回上级菜单" \
         "1" "${TMOE_ZSH_OPTION_01}" \
         "2" "Enable 启用" \
@@ -963,7 +1867,11 @@ tmoe_zsh_settings_model_01() {
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
-    0 | "") ${RETURN_TO_WHERE} ;;
+    0 | "")
+        ZINIT_SPECIAL_LOADING_CONTENT=''
+        WAIT_TIME='1'
+        ${RETURN_TO_WHERE}
+        ;;
     1) cat_zsh_plugin_readme_01 ;;
     2) enable_zsh_plugin ;;
     3) disable_zsh_plugin ;;
@@ -976,7 +1884,7 @@ tmoe_zsh_settings_model_01() {
 tmoe_zsh_settings_model_02() {
     check_tmoe_zsh_config_value
     RETURN_TO_MENU='tmoe_zsh_settings_model_02'
-    TMOE_OPTION=$(whiptail --title "您想要对${TMOE_ZSH_GREP_NAME}小可爱做什么？" --menu "${TMOE_ZSH_CONFIG_STATUS}" 0 50 0 \
+    TMOE_OPTION=$(whiptail --title "${TMOE_ZSH_CONFIG_STATUS}" --menu "${TMOE_ZSH_COMMENT_CONTENT}" 0 50 0 \
         "0" "🌚 Return to previous menu 返回上级菜单" \
         "1" "${TMOE_ZSH_OPTION_01}" \
         "2" "Enable 启用" \
@@ -985,7 +1893,11 @@ tmoe_zsh_settings_model_02() {
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
-    0 | "") ${RETURN_TO_WHERE} ;;
+    0 | "")
+        ZINIT_SPECIAL_LOADING_CONTENT=''
+        WAIT_TIME='1'
+        ${RETURN_TO_WHERE}
+        ;;
     1) cat_zsh_plugin_readme_01 ;;
     2) enable_zsh_plugin ;;
     3) disable_zsh_plugin ;;
@@ -1025,17 +1937,14 @@ git_pull_origin_master() {
 }
 ###########
 git_clone_zsh_plugin() {
-    if [ ! -d "${HOME}/.oh-my-zsh/custom/plugins" ]; then
-        mkdir -p ${HOME}/.oh-my-zsh/custom/plugins
-    fi
-
     if [ ! -d "${ZSH_PLUGIN_GIT_FOLDER}/.git" ]; then
-        rm -rfv ${ZSH_PLUGIN_GIT_FOLDER}
+        rm -rfv ${ZSH_PLUGIN_GIT_FOLDER} 2>/dev/null
         git clone --depth=1 ${ZSH_PLUGIN_GIT_URL_01} "${ZSH_PLUGIN_GIT_FOLDER}" || git clone --depth=1 ${ZSH_PLUGIN_GIT_URL_02} "${ZSH_PLUGIN_GIT_FOLDER}"
         chmod 755 -R "${ZSH_PLUGIN_GIT_FOLDER}"
     else
         cd "${ZSH_PLUGIN_GIT_FOLDER}"
         git_pull_origin_master
+        echo "${BLUE}${ZSH_PLUGIN_GIT_URL_02}${RESET}"
     fi
 }
 #############
@@ -1047,32 +1956,29 @@ git_clone_fzf_tab() {
     if [ ! $(command -v fzf) ]; then
         echo "检测到您尚未安装fzf,请手动使用包管理安装。"
     fi
-
-    ZSH_PLUGIN_GIT_FOLDER="${HOME}/.oh-my-zsh/custom/plugins/fzf-tab"
     ZSH_PLUGIN_GIT_URL_01='https://github.com/Aloxaf/fzf-tab.git'
     ZSH_PLUGIN_GIT_URL_02='git://github.com/Aloxaf/fzf-tab.git'
     git_clone_zsh_plugin
 }
 ###########
-git_clone_zsh_syntax_highlighting() {
-    ZSH_PLUGIN_GIT_FOLDER="${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-    ZSH_PLUGIN_GIT_URL_01='https://github.com/zsh-users/zsh-syntax-highlighting.git'
-    ZSH_PLUGIN_GIT_URL_02='git://github.com/zsh-users/zsh-syntax-highlighting'
+git_clone_fast_syntax_highlighting() {
+    ZSH_PLUGIN_GIT_URL_01='https://github.com/zdharma/fast-syntax-highlighting.git'
+    ZSH_PLUGIN_GIT_URL_02='git://github.com/zdharma/fast-syntax-highlighting'
     git_clone_zsh_plugin
 }
 ################
 git_clone_zsh_autosuggestions() {
-    ZSH_PLUGIN_GIT_FOLDER="${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-    ZSH_PLUGIN_GIT_URL_01='https://github.com/zsh-users/zsh-autosuggestions.git'
+    ZSH_PLUGIN_GIT_URL_01='https://github.com/zsh-users/zsh-autosuggestions'
     ZSH_PLUGIN_GIT_URL_02='git://github.com/zsh-users/zsh-autosuggestions'
     git_clone_zsh_plugin
 }
 ##########
 tmoe_zsh_plugin_install_function() {
+    ZSH_PLUGIN_GIT_FOLDER="${ZINIT_DIR}/plugins/_local---${TMOE_ZSH_GREP_NAME}"
     case "${INSTALL_ZSH_PLUGIN}" in
     autoenv) pip_install_autoenv ;;
     fzf-tab) git_clone_fzf_tab ;;
-    zsh-syntax-highlighting) git_clone_zsh_syntax_highlighting ;;
+    fast-syntax-highlighting) git_clone_fast_syntax_highlighting ;;
     zsh-autosuggestions) git_clone_zsh_autosuggestions ;;
     esac
 }
@@ -1080,16 +1986,13 @@ tmoe_zsh_plugin_install_function() {
 tmoe_zsh_plugin_remove_function() {
     case "${INSTALL_ZSH_PLUGIN}" in
     autoenv) pip uninstall autoenv || sudo pip uninstall autoenv || sudo pip3 uninstall autoenv ;;
-    fzf-tab) remove_fzf_tab ;;
-    zsh-syntax-highlighting) remove_zsh_syntax_highlighting ;;
-    zsh-autosuggestions) remove_zsh_autosuggestions ;;
     esac
 }
 #########
 tmoe_zsh_settings_model_03() {
     check_tmoe_zsh_config_value
     RETURN_TO_MENU='tmoe_zsh_settings_model_03'
-    TMOE_OPTION=$(whiptail --title "您想要对${TMOE_ZSH_GREP_NAME}小可爱做什么？" --menu "${TMOE_ZSH_CONFIG_STATUS}" 0 50 0 \
+    TMOE_OPTION=$(whiptail --title "${TMOE_ZSH_CONFIG_STATUS}" --menu "${TMOE_ZSH_COMMENT_CONTENT}" 0 50 0 \
         "0" "🌚 Return to previous menu 返回上级菜单" \
         "1" "${TMOE_ZSH_OPTION_01}" \
         "2" "Enable 启用" \
@@ -1100,6 +2003,8 @@ tmoe_zsh_settings_model_03() {
     case "${TMOE_OPTION}" in
     0 | "")
         INSTALL_ZSH_PLUGIN=''
+        ZINIT_SPECIAL_LOADING_CONTENT=''
+        WAIT_TIME='1'
         ${RETURN_TO_WHERE}
         ;;
     1)
@@ -1148,6 +2053,8 @@ tmoe_zsh_settings_model_04() {
     case "${TMOE_OPTION}" in
     0 | "")
         INSTALL_ZSH_PLUGIN=''
+        ZINIT_SPECIAL_LOADING_CONTENT=''
+        WAIT_TIME='1'
         ZSH_README_FILE_NAME='README.md'
         ZSH_README_FILE_NAME_02=''
         ${RETURN_TO_WHERE}
@@ -1159,12 +2066,13 @@ tmoe_zsh_settings_model_04() {
         ;;
     3)
         cat <<-EOF
-        ${RED}rm -rfv${RESET} ${BLUE}${HOME}/.oh-my-zsh/custom/plugins/${TMOE_ZSH_GREP_NAME}${RESET}
+        ${RED}rm -rfv${RESET} ${BLUE}${ZINIT_DIR}/plugins/_local---${TMOE_ZSH_GREP_NAME}${RESET}
         Do you want to ${RED}disable${RESET} it?
         您真的要${RED}禁用${RESET}${BLUE}${TMOE_ZSH_GREP_NAME}${RESET}插件么?
 EOF
         do_you_want_to_continue_02
-        rm -rfv ${HOME}/.oh-my-zsh/custom/plugins/${TMOE_ZSH_GREP_NAME}
+        cd ${HOME}
+        rm -rfv "${ZINIT_DIR}/plugins/_local---${TMOE_ZSH_GREP_NAME}" 2>/dev/null
         disable_zsh_plugin
         ;;
     4) view_extra_note_of_zsh_plugin ;;

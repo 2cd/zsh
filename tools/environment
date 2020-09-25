@@ -1,0 +1,413 @@
+#!/usr/bin/env bash
+##############
+tmoe_zsh_main_env() {
+    check_architecture
+    case $(uname -o) in
+    Android) ;;
+    *) check_current_user_name_and_group ;;
+    esac
+    FAST_SYNTAX_HIGH_LIGHTING_PLUGIN_DIR="${ZINIT_DIR}/plugins/_local---fast-syntax-highlighting"
+    ZSH_AUTO_SUGGESTIONS_PLUGIN_DIR="${ZINIT_DIR}/plugins/_local---zsh-autosuggestions"
+}
+##############
+check_current_user_name_and_group() {
+    CURRENT_USER_NAME=$(cat /etc/passwd | grep "${HOME}" | awk -F ':' '{print $1}' | head -n 1)
+    CURRENT_USER_GROUP=$(cat /etc/passwd | grep "${HOME}" | awk -F ':' '{print $5}' | cut -d ',' -f 1 | head -n 1)
+    if [ -z "${CURRENT_USER_GROUP}" ]; then
+        CURRENT_USER_GROUP=${CURRENT_USER_NAME}
+    fi
+}
+#################
+check_architecture() {
+    case $(uname -m) in
+    armv7* | armv8l)
+        ARCH_TYPE="armhf"
+        ;;
+    armv6* | armv5*)
+        ARCH_TYPE="armel"
+        ;;
+    aarch64 | armv8* | arm64)
+        ARCH_TYPE="arm64"
+        ;;
+    x86_64 | amd64)
+        ARCH_TYPE="amd64"
+        ;;
+    i*86 | x86)
+        ARCH_TYPE="i386"
+        ;;
+    s390*)
+        ARCH_TYPE="s390x"
+        ;;
+    ppc*)
+        ARCH_TYPE="ppc64el"
+        ;;
+    mips*)
+        ARCH_TYPE="mipsel"
+        ;;
+    risc*)
+        ARCH_TYPE="riscv"
+        ;;
+    esac
+    TRUE_ARCH_TYPE=${ARCH_TYPE}
+}
+#################
+neko_01() {
+    if [ -e /usr/games/lolcat ]; then
+        CATCAT='/usr/games/lolcat'
+    elif [ $(command -v lolcat) ]; then
+        CATCAT='lolcat'
+    else
+        CATCAT='cat'
+    fi
+    printf "$BLUE"
+    ${CATCAT} <<-'EndOFneko'
+		               .::::..                
+		    ::::rrr7QQJi::i:iirijQBBBQB.      
+		    BBQBBBQBP. ......:::..1BBBB       
+		    .BuPBBBX  .........r.  vBQL  :Y.  
+		     rd:iQQ  ..........7L   MB    rr  
+		      7biLX .::.:....:.:q.  ri    .   
+		       JX1: .r:.r....i.r::...:.  gi5  
+		       ..vr .7: 7:. :ii:  v.:iv :BQg  
+		       : r:  7r:i7i::ri:DBr..2S       
+		    i.:r:. .i:XBBK...  :BP ::jr   .7. 
+		    r  i....ir r7.         r.J:   u.  
+		   :..X: .. .v:           .:.Ji       
+		  i. ..i .. .u:.     .   77: si   1Q  
+		 ::.. .r .. :P7.r7r..:iLQQJ: rv   ..  
+		7  iK::r  . ii7r LJLrL1r7DPi iJ     r 
+		  .  ::.:   .  ri 5DZDBg7JR7.:r:   i. 
+		 .Pi r..r7:     i.:XBRJBY:uU.ii:.  .  
+		 QB rJ.:rvDE: .. ri uv . iir.7j r7.   
+		iBg ::.7251QZ. . :.      irr:Iu: r.   
+		 QB  .:5.71Si..........  .sr7ivi:U    
+		 7BJ .7: i2. ........:..  sJ7Lvr7s    
+		  jBBdD. :. ........:r... YB  Bi      
+		     :7j1.                 :  :       
+
+	EndOFneko
+    printf "$RESET"
+}
+############
+zinit_ascii() {
+    printf '%s ________  %s     ___  %s    ________    %s   ___     %s __________     %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RB_RESET}
+    printf '%s \_____  \ %s    |\  \   %s |\   ___  \   %s  |\  \    %s|\___   ___\   %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RB_RESET}
+    printf '%s \|___/  /|%s    \ \  \   %s \ \  \\ \  \   %s \ \  \  %s \|___ \  \_|   %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RB_RESET}
+    printf '%s     /  / /%s     \ \  \  %s  \ \  \\ \  \   %s \ \  \      %s \ \  \    %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RB_RESET}
+    printf '%s    /  /_/__ %s    \ \  \   %s \ \  \\ \  \   %s \ \  \      %s \ \  \   %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RB_RESET}
+    printf '%s   |\________\  %s  \ \__\    %s\ \__\\ \__\   %s \ \__\      %s \ \__\  %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RB_RESET}
+    printf '%s    \|_______|   %s  \|__|   %s  \|__| \|__|   %s  \|__|       %s \|__|  %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RB_RESET}
+}
+############
+download_fzf_bin() {
+    DEB_REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/debian/pool/main/f/fzf/'
+    THE_LATEST_DEB_VERSION=$(curl ${DEB_REPO_URL} | grep -v '.origin' | grep ${ARCH_TYPE} | tail -n 1 | cut -d '=' -f 3 | cut -d '"' -f 2)
+    THE_LATEST_ISO_LINK="${DEB_REPO_URL}${THE_LATEST_DEB_VERSION}"
+    FZF_TEMP_FOLDER='/tmp/.FZF-BIN-TEMP-FOLDER'
+    mkdir -p ${FZF_TEMP_FOLDER}
+    cd ${FZF_TEMP_FOLDER}
+    curl -Lo ${THE_LATEST_DEB_VERSION} ${THE_LATEST_ISO_LINK}
+}
+############
+unxz_fzf_deb_bin() {
+    tar -Jxvf data.tar.xz
+    cp ./usr/bin/fzf /usr/local/bin
+}
+###########
+install_debian_fzf_bin() {
+    if [ ! $(command -v fzf) ]; then
+        if [ $(command -v zsh) ]; then
+            echo '' >${TMOE_ZSH_DIR}/non_install_fzf
+        fi
+        case "${LINUX_DISTRO}" in
+        debian)
+            download_fzf_bin
+            apt show ./${THE_LATEST_DEB_VERSION}
+            sudo apt install -y ./${THE_LATEST_DEB_VERSION}
+            ;;
+        *)
+            if [ $(command -v ar) ]; then
+                download_fzf_bin
+                ar xv ${THE_LATEST_DEB_VERSION}
+                unxz_fzf_deb_bin
+            elif [ "$(busybox --help 2>&1 | grep ', ar,')" ]; then
+                download_fzf_bin
+                busybox ar xv ${THE_LATEST_DEB_VERSION}
+                unxz_fzf_deb_bin
+            fi
+            ;;
+        esac
+        rm -rfv ${FZF_TEMP_FOLDER} 2>/dev/null
+    fi
+}
+#################
+install_batcat_gitee_bin() {
+    if [ ! $(command -v batcat) ] && [ ! $(command -v bat) ]; then
+        BAT_BIN_GIT_REPO='https://gitee.com/ak2/batcat.git'
+        BRANCH_NAME=''
+        BAT_CAT_BIN_TEMP_FOLDER='/tmp/.BAT_CAT_BIN_TEMP_FOLDER'
+        rm -rv ${BAT_CAT_BIN_TEMP_FOLDER} 2>/dev/null
+        case "${ARCH_TYPE}" in
+        amd64)
+            case "${LINUX_DISTRO}" in
+            arch | debian | redhat | suse) BRANCH_NAME=amd64 ;;
+            *) BRANCH_NAME=alpine-amd64 ;;
+            esac
+            ;;
+        arm64 | armhf)
+            case "${LINUX_DISTRO}" in
+            arch | debian | redhat | suse) BRANCH_NAME=${ARCH_TYPE} ;;
+            *) ;;
+            esac
+            ;;
+        esac
+        case ${BRANCH_NAME} in
+        "") ;;
+        *)
+            cd /tmp
+            git clone --depth=1 -b ${BRANCH_NAME} ${BAT_BIN_GIT_REPO} ${BAT_CAT_BIN_TEMP_FOLDER}
+            tar -Jxvf ${BAT_CAT_BIN_TEMP_FOLDER}/bat.tar.xz -C /usr/local/bin
+            rm -rfv ${BAT_CAT_BIN_TEMP_FOLDER} 2>/dev/null
+            ;;
+        esac
+    fi
+}
+############
+check_gnu_linux_dependencies() {
+    check_gnu_linux_dependencies_01
+    install_gnu_linux_dependencies
+    DEPENDENCIES_02=''
+    check_gnu_linux_dependencies_02
+    install_gnu_linux_dependencies
+    check_gnu_linux_dependencies_03
+    install_gnu_linux_dependencies
+    install_debian_fzf_bin
+    install_batcat_gitee_bin
+}
+########
+check_gnu_linux_dependencies_01() {
+    DEPENDENCIES=""
+    DEPENDENCIES_02='command-not-found zsh git pv wget xz-utils tar whiptail'
+    case "${LINUX_DISTRO}" in
+    debian)
+        #apt-file为command-not-found的依赖
+        if [ ! -d /usr/share/command-not-found ] && [ ! -e "/usr/lib/command-not-found" ]; then
+            DEPENDENCIES="${DEPENDENCIES} command-not-found"
+        fi
+
+        if [ ! -d /usr/share/doc/fonts-powerline ]; then
+            DEPENDENCIES="${DEPENDENCIES} fonts-powerline"
+        fi
+        ;;
+    esac
+
+    if [ ! $(command -v ar) ]; then
+        case "${LINUX_DISTRO}" in
+        gentoo) DEPENDENCIES="${DEPENDENCIES} sys-devel/binutils" ;;
+        #alpine | arch | debian | redhat | void | suse
+        *) DEPENDENCIES="${DEPENDENCIES} binutils" ;;
+        esac
+    fi
+
+    if [ ! $(command -v cmp) ]; then
+        case "${LINUX_DISTRO}" in
+        arch) DEPENDENCIES="${DEPENDENCIES} diffutils" ;;
+        esac
+    fi
+    if [ ! $(command -v curl) ]; then
+        case "${LINUX_DISTRO}" in
+        gentoo) DEPENDENCIES="${DEPENDENCIES} net-misc/curl" ;;
+        *) DEPENDENCIES="${DEPENDENCIES} curl" ;;
+        esac
+    fi
+    ###########################################
+    if [ ! $(command -v pv) ]; then
+        case "${LINUX_DISTRO}" in
+        gentoo) DEPENDENCIES="${DEPENDENCIES} sys-apps/pv" ;;
+        redhat)
+            case "${REDHAT_DISTRO}" in
+            fedora) DEPENDENCIES="${DEPENDENCIES} pv" ;;
+            esac
+            ;;
+        *) DEPENDENCIES="${DEPENDENCIES} pv" ;;
+        esac
+    fi
+    ##################
+    if [ ! $(command -v sudo) ]; then
+        case "${LINUX_DISTRO}" in
+        gentoo) DEPENDENCIES="${DEPENDENCIES} app-admin/sudo" ;;
+        *) DEPENDENCIES="${DEPENDENCIES} sudo" ;;
+        esac
+    fi
+    ###################
+    if [ ! $(command -v tar) ]; then
+        case "${LINUX_DISTRO}" in
+        gentoo) DEPENDENCIES="${DEPENDENCIES} app-arch/tar" ;;
+        *) DEPENDENCIES="${DEPENDENCIES} tar" ;;
+        esac
+    fi
+    ############################
+    if [ ! $(command -v wget) ]; then
+        case "${LINUX_DISTRO}" in
+        gentoo) DEPENDENCIES="${DEPENDENCIES} net-misc/wget" ;;
+        *) DEPENDENCIES="${DEPENDENCIES} wget" ;;
+        esac
+    fi
+    ###########################
+    if [ ! $(command -v xz) ]; then
+        case "${LINUX_DISTRO}" in
+        debian) DEPENDENCIES="${DEPENDENCIES} xz-utils" ;;
+        gentoo) DEPENDENCIES="${DEPENDENCIES} app-arch/xz-utils" ;;
+        *) DEPENDENCIES="${DEPENDENCIES} xz" ;;
+        esac
+    fi
+
+    if [ ! $(command -v zsh) ]; then
+        case "${LINUX_DISTRO}" in
+        alpine) DEPENDENCIES="${DEPENDENCIES} zsh zsh-vcs" ;;
+        gentoo) DEPENDENCIES="${DEPENDENCIES} app-shells/zsh" ;;
+        *) DEPENDENCIES="${DEPENDENCIES} zsh" ;;
+        esac
+    fi
+}
+####################################################
+install_gnu_linux_dependencies() {
+    #bat exa fzf爲可選依賴
+    #apk add -q xz newt tar zsh git wget bash zsh-vcs pv
+    #dnf install -y zsh git pv wget xz tar newt
+    if [ ! -z "${DEPENDENCIES}" ]; then
+        echo "正在${YELLOW}安装${RESET}相关${GREEN}软件包${RESET}及其${BLUE}依赖...${RESET}"
+        echo "${GREEN}${TMOE_INSTALLATON_COMMAND}${BLUE}${DEPENDENCIES}${RESET}"
+        echo "如需${BOLD}${RED}卸载${RESET}${RESET}，请${YELLOW}手动${RESET}输${RED}${TMOE_REMOVAL_COMMAND}${RESET}${BLUE}${DEPENDENCIES}${RESET}"
+
+        case "${LINUX_DISTRO}" in
+        debian)
+            case ${DEPENDENCIES_02} in
+            "") install_dependencies_01 ;;
+            *) install_dependencies_02 ;;
+            esac
+            ;;
+        alpine)
+            apk_update_source_index
+            install_dependencies_01
+            ;;
+        openwrt)
+            opkg update
+            install_dependencies_01 || opkg install ${DEPENDENCIES}
+            ;;
+        arch | redhat | void | gentoo | suse | slackware)
+            install_dependencies_01
+            ;;
+        *)
+            check_root
+            apt update
+            apt install -y zsh git pv wget xz-utils tar whiptail command-not-found || port install ${DEPENDENCIES} || guix package -i ${DEPENDENCIES} || pkg install ${DEPENDENCIES} || pkg_add ${DEPENDENCIES} || pkgutil -i ${DEPENDENCIES}
+            ;;
+        esac
+    fi
+}
+#######################
+check_gnu_linux_dependencies_02() {
+    DEPENDENCIES=""
+    if [ ! $(command -v batcat) ] && [ ! $(command -v bat) ]; then
+        #gentoo:sys-apps/bat
+        case "${LINUX_DISTRO}" in
+        arch | debian) DEPENDENCIES="${DEPENDENCIES} bat" ;;
+        esac
+    fi
+
+    if [ ! $(command -v fzf) ] && [ ! -e ${TMOE_ZSH_DIR}/non_install_fzf ]; then
+        #gentoo) DEPENDENCIES="${DEPENDENCIES} app-shells/fzf" ;; #Masked
+        case "${LINUX_DISTRO}" in
+        alpine | arch | debian | suse) DEPENDENCIES="${DEPENDENCIES} fzf" ;;
+        redhat)
+            case "${REDHAT_DISTRO}" in
+            fedora) DEPENDENCIES="${DEPENDENCIES} fzf" ;;
+            esac
+            ;;
+        esac
+    fi
+}
+################
+check_gnu_linux_dependencies_03() {
+    DEPENDENCIES=""
+    if [ ! $(command -v exa) ] && [ ! -e ${TMOE_ZSH_DIR}/non_install_exa ]; then
+        case "${LINUX_DISTRO}" in
+        gentoo) DEPENDENCIES="${DEPENDENCIES} sys-apps/exa" ;;
+        alpine | arch | debian | suse) DEPENDENCIES="${DEPENDENCIES} exa" ;;
+        redhat)
+            case "${REDHAT_DISTRO}" in
+            fedora) DEPENDENCIES="${DEPENDENCIES} exa" ;;
+            esac
+            ;;
+        esac
+    fi
+    if [ ! $(command -v lolcat) ] && [ ! -e /usr/games/lolcat ]; then
+        case "${LINUX_DISTRO}" in
+        arch | debian) DEPENDENCIES="${DEPENDENCIES} lolcat" ;;
+        redhat)
+            case "${REDHAT_DISTRO}" in
+            fedora) DEPENDENCIES="${DEPENDENCIES} lolcat" ;;
+            esac
+            ;;
+        esac
+    fi
+
+    if [ $(command -v zsh) ] && [ ! $(command -v exa) ]; then
+        echo '' >${TMOE_ZSH_DIR}/non_install_exa
+    fi
+}
+##############
+check_termux_dependencies() {
+    TMOE_UPDATE_COMMAND='apt update'
+    TMOE_INSTALLATON_COMMAND='apt install -y'
+    TMOE_REMOVAL_COMMAND='apt purge -y'
+    if [ ! -h "/data/data/com.termux/files/home/storage/shared" ]; then
+        termux-setup-storage
+    fi
+    DEPENDENCIES=""
+
+    for i in bat curl exa fzf pv tar wget zsh; do
+        if [ ! -e "${PREFIX}/bin/${i}" ]; then
+            DEPENDENCIES="${DEPENDENCIES} ${i}"
+        fi
+    done
+    unset i
+
+    if [ ! -e ${PREFIX}/bin/xz ]; then
+        DEPENDENCIES="${DEPENDENCIES} xz-utils"
+    fi
+
+    #if [ ! -e ${PREFIX}/bin/ar ]; then
+    #    DEPENDENCIES="${DEPENDENCIES} binutils"
+    #fi
+
+    if [ ! -z "${DEPENDENCIES}" ]; then
+        installing_dependencies
+        apt update
+        apt install -y ${DEPENDENCIES}
+    fi
+}
+####################
+fix_zsh_folder_permissions() {
+    echo "检测到${ZSH_PATH}文件权限所属非当前用户（${CURRENT_USER_NAME}）"
+    chmod 755 -R ${ZSH_PATH}
+    if [ "${LINUX_DISTRO}" != "Android" ] && [ ${HOME} != "/root" ]; then
+        echo "正在将${ZSH_PATH}的权限修改为${CURRENT_USER_NAME}用户和${CURRENT_USER_GROUP}用户组"
+        sudo -E chown -Rv ${CURRENT_USER_NAME}:${CURRENT_USER_GROUP} ${ZSH_PATH}
+    fi
+}
+################
+where_is_start_dir() {
+    if [ -e "/sdcard" ]; then
+        START_DIR='/sdcard/Download/backup'
+    elif [ -e "/sd" ]; then
+        START_DIR="/sd/Download/backup"
+    elif [ -e "${HOME}/sd" ]; then
+        START_DIR="${HOME}/sd/Download/backup"
+    else
+        START_DIR="${HOME}/backup"
+    fi
+}
+############
+tmoe_zsh_main_env "$@"

@@ -27,7 +27,7 @@ press_enter_to_continue() {
     echo "按${GREEN}回车键${RESET}${BLUE}继续${RESET}"
     read
 }
-################ 
+################
 do_you_want_to_continue() {
     echo "${YELLOW}Do you want to continue?[Y/n]${RESET}"
     echo "Press ${GREEN}enter${RESET} to ${BLUE}continue${RESET},type ${YELLOW}n${RESET} to ${BLUE}return.${RESET}"
@@ -52,21 +52,21 @@ restore_zsh_with_normal_mode() {
     if (whiptail --title "RESTORE FILE" --yes-button '最新latest' --no-button 'select manually' --yesno "您是想要还原最新文件,还是手动选择备份文件\nDo you want to restore the latest file or select the file manually?" 9 50); then
         check_dir
         cd ${START_DIR}
-        RESTORE=$(ls -lth ./zsh*tar* | grep ^- | head -n 1 | awk -F ' ' '$0=$NF')
+        RESTORE=$(ls -lth ./tmoe-zsh*tar* | grep ^- | head -n 1 | awk -F ' ' '$0=$NF')
         restore_the_latest_backup_file
     else
-        BACKUP_FILE_NAME="zsh*tar*"
+        BACKUP_FILE_NAME="tmoe-zsh*tar*"
         where_is_start_dir
     fi
 }
 #########
 select_zsh_backup_path_manually() {
-    BACKUP_FILE_NAME="*tar*"
+    BACKUP_FILE_NAME="*zsh*tar*"
     file_directory_selection
 }
 ##########
 restore_zsh_with_compatibility_mode() {
-    BACKUP_FILE_NAME="*tar*"
+    BACKUP_FILE_NAME="*zsh*tar*"
     COMPATIBILITY_MODE='true'
     file_directory_selection
 }

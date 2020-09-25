@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+#########
+zsh_faq_menu() {
+    RETURN_TO_WHERE='zsh_faq_menu'
+    #20 50 7
+    TMOE_OPTION=$(whiptail --title "FAQ(よくある質問)" \
+        --menu "您有哪些疑问？\nWhat questions do you have?" 0 50 0 \
+        "1" "command-not-found插件配置失败" \
+        "2" "fzf-tab插件加载异常" \
+        "3" "Fix permissions修复文件权限" \
+        "4" "Conf does not take effect配置文件未生效" \
+        "5" "quit the readme reader退出文档阅读器" \
+        "0" "🌚 Back to the main menu 返回主菜单" \
+        3>&1 1>&2 2>&3)
+    #############
+    case ${TMOE_OPTION} in
+    0 | "") tmoe_zsh_main_menu ;;
+    1) remove_plugin_command_not_found ;;
+    2) reset_fzf_tab ;;
+    3)
+        ZSH_PATH="${OMZ_DIR} ${HOME}/.zshrc ${TMOE_ZSH_GIT_DIR} ${HOME}/.zsh_history"
+        fix_zsh_folder_permissions
+        echo "若无法修复，则请手动执行${GREEN}compaudit | xargs chmod g-w,o-w${RESET}"
+        if [ "${LINUX_DISTRO}" != "Android" ] && [ ${HOME} != "/root" ]; then
+            echo "您亦可将${HOME}目录的权限修改为${CURRENT_USER_NAME}用户和${CURRENT_USER_GROUP}用户组"
+            echo "${RED}sudo chown -R ${CURRENT_USER_NAME}:${CURRENT_USER_GROUP} ${HOME}${RESET}"
+        fi
+        ;;
+    4)
+        echo "请手动执行${GREEN}. ~/.zshrc${RESET}或者是${GREEN}source ${HOME}/.zshrc${RESET}"
+        echo "Please try running ${GREEN}source ~/.zshrc${RESET}"
+        #source ${HOME}/.zshrc
+        ;;
+    5) type_q_to_quit ;;
+    esac
+    ###############
+    press_enter_to_return
+    zsh_faq_menu
+}
+###########
+type_q_to_quit() {
+    echo "You can type ${GREEN}q${RESET} to ${RED}quit${RESET} reader,输${GREEN}q${RESET}${RED}退出${RESET}"
+}
+###################
+reset_fzf_tab() {
+    cat <<-EOF
+		Do you want to reset fzf-tab plugin ?
+	EOF
+    do_you_want_to_continue
+    git_clone_fzf_tab
+    #sudo apt purge command-not-found || apt purge command-not-found
+}
+#########
+remove_plugin_command_not_found() {
+    cat <<-EOF
+		Do you want to remove command-not-found plugin ?
+		${RED}apt purge${RESET} ${BLUE}command-not-found${RESET}
+	EOF
+    do_you_want_to_continue
+    sudo apt purge command-not-found || apt purge command-not-found
+}
+#########
+zsh_faq_menu

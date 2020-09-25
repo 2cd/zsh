@@ -1,0 +1,158 @@
+#!/usr/bin/env bash
+##################
+change_the_terminal_color_scheme() {
+    case "${LINUX_DISTRO}" in
+    Android) bash ${TMOE_ZSH_TERMUX_PATH}/colors.sh ;;
+    *)
+        echo '非常抱歉，此功能只支持安卓'
+        echo "Sorry, this feature only supports Android"
+        press_enter_to_return
+        zsh_itemized_configuration_menu
+        ;;
+    esac
+}
+###############
+change_the_terminal_font() {
+    case "${LINUX_DISTRO}" in
+    Android) bash ${TMOE_ZSH_TERMUX_PATH}/fonts.sh ;;
+    *)
+        echo '非常抱歉，此功能只支持安卓'
+        echo "Sorry, this feature only supports Android"
+        press_enter_to_return
+        zsh_itemized_configuration_menu
+        ;;
+    esac
+}
+################
+edit_zshrc_manually() {
+    if [ $(command -v editor) ]; then
+        editor ${HOME}/.zshrc
+    elif [ $(command -v vim) ]; then
+        vim ${HOME}/.zshrc
+    elif [ $(command -v nano) ]; then
+        nano ${HOME}/.zshrc
+    else
+        vi ${HOME}/.zshrc
+    fi
+}
+###########
+zsh_itemized_configuration_menu() {
+    RETURN_TO_WHERE='zsh_itemized_configuration_menu'
+    #17 50 5
+    #zsh主题全平台通用,Termux配色和字体仅适用Android Termux,xfce4终端配色仅适用于linux。You can use zsh theme on all platforms,but termux colors and fonts are only available for Android.
+    TMOE_OPTION=$(whiptail --title "Itemized Configuration" --menu "您想要配置哪个项目?\nWhich configuration do you want to modify?" 0 0 0 \
+        "1" "edit .zshrc手动编辑配置" \
+        "2" "zsh主题 themes" \
+        "3" "Termux配色 color schemes" \
+        "4" "Termux字体 fonts" \
+        "5" "xfce4终端配色 xfce4-terminal color schemes" \
+        "6" "Set zsh as the default(默认) shell" \
+        "0" "🌚 Back to the main menu 返回主菜单" \
+        3>&1 1>&2 2>&3)
+    ###########
+    case "${TMOE_OPTION}" in
+    0 | "") tmoe_zsh_main_menu ;;
+    1) edit_zshrc_manually ;;
+    2) bash ${TMOE_ZSH_TERMUX_PATH}/themes.sh ;;
+    3) change_the_terminal_color_scheme ;;
+    4) change_the_terminal_font ;;
+    5) configure_xfce_terminal_color ;;
+    6) configure_default_shell ;;
+    esac
+    ##############################
+    press_enter_to_return
+    ${RETURN_TO_WHERE}
+}
+############################
+download_iosevka_font() {
+    wget -qO 'Iosevka.tar.xz' 'https://gitee.com/mo2/Termux-zsh/raw/p10k/Iosevka.tar.xz'
+    tar -xvf 'Iosevka.tar.xz'
+    rm -f 'Iosevka.tar.xz'
+    mv -f font.ttf '/usr/share/fonts/Iosevka.ttf'
+}
+###############
+configure_xfce_terminal_color() {
+    case "${LINUX_DISTRO}" in
+    Android)
+        echo 'Sorry，此功能不支持Android'
+        press_enter_to_return
+        zsh_itemized_configuration_menu
+        ;;
+    esac
+    if [ ! -d "/usr/share/xfce4/terminal" ]; then
+        echo "检测到xfce终端目录不存在，您当前可能没有安装xfce终端"
+        do_you_want_to_continue
+        #echo 'Press Ctrl+C to cancel.'
+        #press_enter_to_continue
+        mkdir -p /usr/share/xfce4/terminal
+        ${TMOE_INSTALLATON_COMMAND} xfce4-terminal || sudo ${TMOE_INSTALLATON_COMMAND} xfce4-terminal
+    fi
+
+    cd /usr/share/xfce4/terminal
+    echo "正在配置xfce4终端配色..."
+    wget -qO "colorschemes.tar.xz" 'https://gitee.com/mo2/xfce-themes/raw/terminal/colorschemes.tar.xz'
+    tar -Jxvf "colorschemes.tar.xz"
+    DEPENDENCIES=""
+    if [ ! -e /usr/bin/mkfontscale ]; then
+        DEPENDENCIES="${DEPENDENCIES} xfonts-utils"
+    fi
+
+    if [ ! -e /usr/bin/fc-cache ]; then
+        DEPENDENCIES="${DEPENDENCIES} fontconfig"
+    fi
+    if [ ! -z "$DEPENDENCIES" ]; then
+        echo "正在安装相关依赖..."
+        case $(id -u) in
+        0)
+            ${TMOE_UPDATE_COMMAND}
+            ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+            ;;
+        *)
+            sudo ${TMOE_UPDATE_COMMAND}
+            sudo ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+            ;;
+        esac
+    fi
+    if [ ! -f '/usr/share/fonts/Iosevka.ttf' ]; then
+        echo '正在刷新字体缓存...'
+        mkdir -p /usr/share/fonts/
+        cd /tmp
+        if [ -e "font.ttf" ]; then
+            mv -f font.ttf '/usr/share/fonts/Iosevka.ttf'
+        else
+            download_iosevka_font
+        fi
+        cd /usr/share/fonts/
+        mkfontscale
+        mkfontdir
+        fc-cache
+    fi
+}
+########################################################
+android_default_shell() {
+    if (whiptail --title "android_default_shell" --yes-button 'Yes' --no-button 'no' --yesno 'Android在配置本工具时，已经将zsh设置为默认shell了，您也可以在终端下输chsh -s bash或chsh -s zsh来切换默认shell 。您是否需要将默认shell设置为zsh?' 12 50); then
+        chsh -s zsh
+    else
+        ${RETURN_TO_WHERE}
+    fi
+}
+##########
+gnu_linux_default_shell() {
+    if (whiptail --title "gnu_linux_default_shell" --yes-button 'Yes' --no-button 'no' --yesno 'Linux在设置时需要输密码,若需手动配置，请输chsh -s $(command -v zsh)或chsh -s /bin/zsh,您是否需要将默认shell设置为zsh?' 10 50); then
+        chsh -s $(command -v zsh) || sudo chsh -s $(command -v zsh)
+    else
+        ${RETURN_TO_WHERE}
+    fi
+}
+#############################################################
+configure_default_shell() {
+    case "${LINUX_DISTRO}" in
+    Android) android_default_shell ;;
+    *) gnu_linux_default_shell ;;
+    esac
+    echo "${YELLOW}已将默认shell切换为zsh,按回车键返回。Press enter to return.${RESET}"
+    read
+    ${RETURN_TO_WHERE}
+}
+#####################################################
+zsh_itemized_configuration_menu

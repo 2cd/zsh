@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+##############
+compress_zsh_dir_as_tar_gz() {
+    echo "您选择了tar.gz,即将为您备份至${START_DIR}/${TMPtime}.tar.gz"
+    echo "${YELLOW}按回车键开始备份,按Ctrl+C取消。Press Enter to start the backup.${RESET} "
+    read
+
+    #tar -Ppczf - ${HOME}/.z ${HOME}/.zshrc ${TERMUX_PATH} ${HOME}/.zsh_history ${OMZ_DIR} ${TMOE_ZSH_GIT_DIR} | (pv -n >${TMPtime}.tar.gz) 2>&1 | whiptail --gauge "Compressing into tar.gz \n正在压缩成tar.gz" 10 70
+    #tar -Ppczf - ${HOME}/.z ${HOME}/.zshrc ${TERMUX_PATH} ${HOME}/.zsh_history ${OMZ_DIR} ${TMOE_ZSH_GIT_DIR} | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)
+    cd ${HOME}
+    if [ $(command -v pv) ]; then
+        tar -Ppczf - ${ZSH_BACKUP_FILES} | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)
+    else
+        tar -Ppzcvf ${TMPtime}.tar.gz ${ZSH_BACKUP_FILES}
+    fi
+    mv -f ${TMPtime}.tar.gz ${START_DIR} || sudo mv -f ${TMPtime}.tar.gz ${START_DIR}
+    echo "Don't worry too much, it is normal for some directories to backup without permission."
+    echo "部分目录无权限备份是正常现象。"
+    rm -f ${BACKUP_TIME_FILE}
+    #  whiptail --gauge "正在备份,可能需要几分钟的时间请稍后.........." 6 60 0
+    pwd
+    ls -lth ${START_DIR}/tmoe-zsh*tar.gz | grep ^- | head -n 1
+    echo 'gzip压缩至60%完成是正常现象。'
+    echo "${YELLOW}备份完成,按回车键返回。${RESET} "
+    echo "Press enter to return."
+    read
+    tmoe_zsh_main_menu
+}
+################
+compress_zsh_dir_as_tar_xz() {
+    echo "您选择了tar.xz,即将为您备份至${START_DIR}/${TMPtime}.tar.xz"
+    echo "${YELLOW}按回车键开始备份,按Ctrl+C取消。Press Enter to start the backup.${RESET} "
+    read
+    #tar -PJpcf - ${HOME}/.z ${HOME}/.zshrc ${TERMUX_PATH} ${HOME}/.zsh_history ${OMZ_DIR} ${TMOE_ZSH_GIT_DIR} | (pv -n >${TMPtime}.tar.xz) 2>&1 | whiptail --gauge "Compressing into tar.xz" 10 70
+    cd ${HOME}
+    if [ $(command -v pv) ]; then
+        tar -PJpcf - ${ZSH_BACKUP_FILES} | (pv -p --timer --rate --bytes >${TMPtime}.tar.xz)
+    else
+        tar -PpJcvf ${TMPtime}.tar.xz ${ZSH_BACKUP_FILES}
+    fi
+    mv -f ${TMPtime}.tar.xz ${START_DIR} || sudo mv -f ${TMPtime}.tar.xz ${START_DIR}
+    #xz -z -T0 -e -9 -f -v ${TMPtime}.tar
+    echo "Don't worry too much, it is normal for some directories to backup without permission."
+    echo "部分目录无权限备份是正常现象。"
+    rm -f ${BACKUP_TIME_FILE}
+    pwd
+    ls -lth ${START_DIR}/tmoe-zsh*tar.xz | grep ^- | head -n 1
+    echo "${YELLOW}备份完成,按回车键返回。${RESET} "
+    echo "Press enter to return."
+    read
+    tmoe_zsh_main_menu
+}
+################
+check_zsh_backup_dir() {
+    where_is_start_dir
+    if [ ! -d ${START_DIR} ]; then
+        mkdir -p ${START_DIR} || sudo mkdir -p ${START_DIR}
+        cd ${START_DIR}
+    else
+        cd ${START_DIR}
+    fi
+    ls -lth ./tmoe-zsh*.tar.* 2>/dev/null && echo '您之前所备份的(部分)文件如上所示'
+
+    echo "${YELLOW}按回车键选择压缩类型 Press enter to select compression type${RESET} "
+    do_you_want_to_continue
+    if [ -z "${TMPDIR}" ]; then
+        TMPDIR=/tmp
+    fi
+    BACKUP_TIME_FILE="${TMPDIR}/backuptime.tmp"
+
+    if [ -e "${BACKUP_TIME_FILE}" ]; then
+        rm -fv ${BACKUP_TIME_FILE} || sudo rm -fv ${BACKUP_TIME_FILE}
+    fi
+
+    echo $(date +%Y-%m-%d_%H-%M) >${BACKUP_TIME_FILE}
+    TMPtime=tmoe-zsh_$(cat ${BACKUP_TIME_FILE})
+
+    ZSH_BACKUP_FILES="${HOME}/.zshrc ${ZINIT_DIR}"
+    #绝对路径
+    for i in ${HOME}/.z ${HOME}/.zsh_history ${TMOE_ZSH_GIT_DIR} ${TERMUX_PATH} ${HOME}/.p10k.zsh ${HOME}/.cache/gitstatus; do
+        if [ -e "${i}" ]; then
+            ZSH_BACKUP_FILES="${ZSH_BACKUP_FILES} ${i}"
+            echo ${ZSH_BACKUP_FILES}
+        fi
+    done
+    unset i
+    ############
+    if (whiptail --title "Select compression type 选择压缩类型 " --yes-button "tar.xz" --no-button "tar.gz" --yesno "Which do yo like better? \n tar.xz压缩率高，但速度慢。tar.xz has a higher compression ration, but is slower.\n tar.gz速度快,但压缩率低。tar.gz compresses faster, but with a lower compression ratio.\n 压缩过程中，进度条倒着跑是正常现象。" 12 60); then
+        compress_zsh_dir_as_tar_xz
+    else
+        compress_zsh_dir_as_tar_gz
+    fi
+}
+#############
+check_zsh_backup_dir
