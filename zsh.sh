@@ -67,7 +67,7 @@ gnu_linux_env() {
 	TMOE_ZSH_TERMUX_PATH="${TMOE_ZSH_DIR}/git/share"
 	TMOE_ZSH_TOOL_DIR="${TMOE_ZSH_GIT_DIR}/tools"
 	PLUGIN_SCRIPT="${TMOE_ZSH_TOOL_DIR}/plugins.sh"
-	RESTORE_SCRIPT="${TMOE_ZSH_TOOL_DIR}/tools/restore.sh"
+	RESTORE_SCRIPT="${TMOE_ZSH_TOOL_DIR}/restore.sh"
 	TMOE_GIT_REPO='https://github.com/2moe/tmoe-zsh.git'
 	ZINIT_DIR="${HOME}/.zinit"
 	ZINIT_THEME_DIR="${ZINIT_DIR}/themes/_local"

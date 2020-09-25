@@ -132,7 +132,7 @@ zinit_csearch() {
     cat <<-EOF
     ${BOLD}${YELLOW}COMMAND${RESET}${RESET}:${BOLD}${BLUE}zi csearch${RESET}${RESET} 
     ${BOLD}${YELLOW}Description${RESET}${RESET}: ${BLUE}Search for available completions from any plugin${RESET}.
-    ${BOLD}${YELLOW}描述${RESET}${RESET}: ${BLUE}对插件目录进行搜索，列举所有可用补全，并显示其安装状态。${RESET}.
+    ${BOLD}${YELLOW}描述${RESET}${RESET}: ${BLUE}对插件目录进行搜索，列举所有可用补全，并显示其安装状态。${RESET}
     You can type ${GREEN}zi cenable${RESET} ${BLUE}\$PLUGIN_COMMAND${RESET} to enable completion,type ${GREEN}zi cdisnable${RESET} ${BLUE}\$PLUGIN_COMMAND${RESET} to disable it.
     For example,you can type ${GREEN}zi cenable${RESET} ${BLUE}docker${RESET} to enable docker's completion.
     示例：输${GREEN}zi cenable${RESET} ${BLUE}adb${RESET}启用adb的补全。
