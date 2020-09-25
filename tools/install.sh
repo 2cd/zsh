@@ -96,7 +96,7 @@ git_clone_zinit_and_omz() {
     cd ${ZINIT_DIR}
     if [ ! -e "bin/.git" ]; then
         rm -rv bin 2>/dev/null
-        git clone --depth=1 https://gitee.com/ak2/zinit.git ${ZINIT_DIR}/bin || git clone --depth=1 git://github.com/zdharma/zinit ${ZINIT_DIR}/bin
+        git clone --depth=1 https://github.com/zdharma/zinit.git ${ZINIT_DIR}/bin || git clone --depth=1 git://github.com/zdharma/zinit ${ZINIT_DIR}/bin
     fi
 
     if [ ! -e "omz/.git" ]; then

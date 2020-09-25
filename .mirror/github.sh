@@ -14,3 +14,5 @@ sed -i 's@gitee.com/ak2/powerlevel9k@github.com/Powerlevel9k/powerlevel9k@g' ./s
 #sed -i 's@gitee.com/mo2/zsh-syntax-highlighting@github.com/zsh-users/zsh-syntax-highlighting@g' zsh.sh ./tools/*sh
 sed -i 's@gitee.com/ak2/fast-syntax-highlighting@github.com/zdharma/fast-syntax-highlighting@g' zsh.sh ./tools/*sh
 sed -i 's@gitee.com/ak2/zsh-autosuggestions@github.com/zsh-users/zsh-autosuggestions@g' zsh.sh ./tools/*sh
+sed -i 's@gitee.com/ak2/zinit.git@github.com/zdharma/zinit.git@g' ./tools/*sh
+sed -i 's@gitee.com/mo2/zsh.git@https://github.com/2moe/tmoe-zsh.git@g' zsh.sh
