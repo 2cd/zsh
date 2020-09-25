@@ -61,7 +61,7 @@ remove_git_and_zsh() {
 }
 ##############
 remove_old_zsh_files() {
-    以下文件夹将被删除，是否确认？
+    echo "以下文件夹将被删除，是否确认？"
     ls -lAh ${HOME}/.zsh-syntax-highlighting 2>/dev/null
     ls -lAh ${HOME}/.oh-my-zsh 2>/dev/null
     ls -lAh ${HOME}/termux-ohmyzsh 2>/dev/null
