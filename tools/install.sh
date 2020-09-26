@@ -221,6 +221,14 @@ fzf_tab_extra_opt() {
     esac
 }
 ################
+configure_fzf_tab_ls_colors() {
+    FZF_TAB_ZSH_SCRIPT="${FZF_TAB_PLUGIN_DIR}/fzf-tab.zsh"
+    if ! grep -q 'LS_COLORS' ${FZF_TAB_ZSH_SCRIPT}; then
+        FZF_TAB_LS_COLOR_LINE=$(cat ${FZF_TAB_ZSH_SCRIPT} | grep -n 'completion.*list-colors' | head -n 1 | awk '{print $1}' | cut -d ':' -f 1)
+        [[ -z ${FZF_TAB_LS_COLOR_LINE} ]] || sed -i "${FZF_TAB_LS_COLOR_LINE} i\    zstyle ':completion:*' list-colors \${(s.:.)LS_COLORS}" ${FZF_TAB_ZSH_SCRIPT}
+    fi
+}
+#################
 configure_zinit_plugin_fzf_tab() {
     FZF_TAB_PLUGIN_DIR="${ZINIT_DIR}/plugins/_local---fzf-tab"
     ENABLE_FZF_TAB_EXTRA_OPT='true'
@@ -248,6 +256,7 @@ configure_zinit_plugin_fzf_tab() {
             git_clone_fzf_tab
             fzf_tab_extra_opt
         fi
+        configure_fzf_tab_ls_colors
     fi
 }
 ############

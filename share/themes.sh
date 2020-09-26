@@ -170,6 +170,7 @@ tmoe_theme_main() {
   p9k | powerlevel9k) TMOE_THEME=powerlevel9k ;;
   p10k | -p10k | powerlevel10k) TMOE_THEME=powerlevel10k ;;
   punctual) TMOE_THEME=punctual ;;
+  pure) TMOE_THEME=pure ;;
   pygmalion) TMOE_THEME=pygmalion ;;
   pygmalion-virtualenv) TMOE_THEME=pygmalion-virtualenv ;;
   rafiki) TMOE_THEME=rafiki ;;
@@ -300,7 +301,7 @@ get_tmoe_zsh_theme_help_info() {
   ${BOLD}${YELLOW}LIST OF ZSH THEMES${RESET}${RESET}:
 ENDOFTMOEZSHHELP01
   ${CATCAT} <<-'ENDOFTMOEZSHHELP02'
-  3den , abaykan , adben , af-magic , afowler , agnoster , agnosterzak , alanpeabody , amuse , aphrodite , apple , arrow , asciigit , aussiegeek , avit , avit-da2k , awesomepanda , bender , bira , blinks , blokkzh , bullet-train , bunnyruni , bureau , candy , candy-kingdom , chi , chill , classyTouch , clean , cloud , cordial , crcandy , crunch , cypher , dallas , darkblood , daveverwer , dieter , docker , dogenpunk , dpoggi , drofloh , dst , dstufft , ducula , duellj , eastwood , edvardm , elessar , emotty , enlightenment , essembeh , evan , fino , fino-time , fishy , fishy2 , flazz , fletcherm , fox , frisk , frontcube , funky , funkyberlin , fwalch , gallifrey , gallois , garyblessington , gentoo , geoffgarside , gianu , gitster , gnzh , gozilla , half-life , halil , haribo , hedgehog , humza , hyper-oh-my-zsh , hyperzsh , igorsilva , imajes , imp , imperator-root , intheloop , intika , itchy , jaischeema , jbergantine , jispwoso , jnrowe , jonathan , josh , jovial , jreese , jtriley , juanghurtado , junkfood , kafeitu , kardan , kayid , kennethreitz , kimwz , kinda-fishy , kiwi , kmac , kolo , kphoen , lambda , lambda-gitster , lambda-mod , lambda-v , linuxonly , lukerandall , macovsky , maran , maza , McQuen , mgutz , mh , michelebologna , mikeh , miloshadzic , minimal , minimal2 , minimal_improve , mira , mortalscumbag , mrtazz , murilasso , muse , nanotech , nebirhos , nicoulaj , node , nodeys , norm , nox , nt9 , nuts , obraun , odin , ohwonder , oxide , peepcode , philips , philthy , pi , pmcgee , powerlevel10k , punctual , pygmalion , pygmalion-virtualenv , rafiki , random , random-emoji , re5et , refined , reggae , rgm , risto , rixius , rkj , rkj-repos , robbyrussell , robbyrussell-WIP , sammy , shayan , simonoff , simple , skaro , sm , smt , sobole , Soliah , sonicradish , sorin , sporty_256 , staples , steeef , strug , sunaku , sunrise , superjarin , suvash , takashiyoshida , terminalparty , theunraveler , tjkirch , tjkirch_mod , tonotdo , traditional-plus , trapd00r , typewritten , vero , via , wedisagree , wezm , wezm+ , windows , wuffers , xiong-chiamiov , xiong-chiamiov-plus , xxf , ys , zeroastro , zeta , zhann
+  3den , abaykan , adben , af-magic , afowler , agnoster , agnosterzak , alanpeabody , amuse , aphrodite , apple , arrow , asciigit , aussiegeek , avit , avit-da2k , awesomepanda , bender , bira , blinks , blokkzh , bullet-train , bunnyruni , bureau , candy , candy-kingdom , chi , chill , classyTouch , clean , cloud , cordial , crcandy , crunch , cypher , dallas , darkblood , daveverwer , dieter , docker , dogenpunk , dpoggi , drofloh , dst , dstufft , ducula , duellj , eastwood , edvardm , elessar , emotty , enlightenment , essembeh , evan , fino , fino-time , fishy , fishy2 , flazz , fletcherm , fox , frisk , frontcube , funky , funkyberlin , fwalch , gallifrey , gallois , garyblessington , gentoo , geoffgarside , gianu , gitster , gnzh , gozilla , half-life , halil , haribo , hedgehog , humza , hyper-oh-my-zsh , hyperzsh , igorsilva , imajes , imp , imperator-root , intheloop , intika , itchy , jaischeema , jbergantine , jispwoso , jnrowe , jonathan , josh , jovial , jreese , jtriley , juanghurtado , junkfood , kafeitu , kardan , kayid , kennethreitz , kimwz , kinda-fishy , kiwi , kmac , kolo , kphoen , lambda , lambda-gitster , lambda-mod , lambda-v , linuxonly , lukerandall , macovsky , maran , maza , McQuen , mgutz , mh , michelebologna , mikeh , miloshadzic , minimal , minimal2 , minimal_improve , mira , mortalscumbag , mrtazz , murilasso , muse , nanotech , nebirhos , nicoulaj , node , nodeys , norm , nox , nt9 , nuts , obraun , odin , ohwonder , oxide , peepcode , philips , philthy , pi , pmcgee , powerlevel10k , punctual , pure , pygmalion , pygmalion-virtualenv , rafiki , random , random-emoji , re5et , refined , reggae , rgm , risto , rixius , rkj , rkj-repos , robbyrussell , robbyrussell-WIP , sammy , shayan , simonoff , simple , skaro , sm , smt , sobole , Soliah , sonicradish , sorin , sporty_256 , staples , steeef , strug , sunaku , sunrise , superjarin , suvash , takashiyoshida , terminalparty , theunraveler , tjkirch , tjkirch_mod , tonotdo , traditional-plus , trapd00r , typewritten , vero , via , wedisagree , wezm , wezm+ , windows , wuffers , xiong-chiamiov , xiong-chiamiov-plus , xxf , ys , zeroastro , zeta , zhann
 ENDOFTMOEZSHHELP02
 }
 ######
@@ -319,6 +320,7 @@ tmoe_zsh_theme_env() {
   P10K_URL_02="git://github.com/romkatv/powerlevel10k"
   P9K_URL_01='https://github.com/Powerlevel9k/powerlevel9k.git'
   P9K_URL_02="git://github.com/Powerlevel9k/powerlevel9k"
+  PURE_THEME_URL_01='https://github.com/sindresorhus/pure.git'
   COUNT=0
   ZINIT_LINE=$(cat ${ZSHRC_FILE} | egrep -n '^[^#]*source.*bin/zinit.zsh' | awk -F ':' '{print $1}' | head -n 1)
   if ! egrep -q '^[^#]*ZINIT_THEME_DIR=.*themes/_local' "${ZSHRC_FILE}"; then
@@ -359,7 +361,26 @@ configure_p9k() {
   configure_new_zsh_theme_01
 }
 ##########
+git_pull_zsh_theme() {
+  cd "${CHOSEN_THEME_DIR}"
+  git reset --hard
+  git pull --depth=1
+  cd ${CURRENT_DIR}
+}
+########
+configure_pure_theme() {
+  echo "${YELLOW}${PURE_THEME_URL_01}${RESET}"
+  if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
+    rm_zsh_git_theme_dir
+    git clone ${PURE_THEME_URL_01} "${CHOSEN_THEME_DIR}" --depth=1
+  else
+    git_pull_zsh_theme
+  fi
+  configure_new_zsh_theme_01
+}
+##########
 configure_p10k() {
+  echo "${YELLOW}${P10K_URL_02}${RESET}"
   echo "You can type ${GREEN}p10k configure${RESET} to configure ${BLUE}powerlevel 10k${RESET}."
   echo "输${GREEN}p10k configure${RESET}配置powerlevel 10k${RESET}"
   if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
@@ -367,10 +388,7 @@ configure_p10k() {
     echo "若无法弹出powerlevel 10k配置面板，则请拉宽屏幕显示大小，然后输${GREEN}p10k configure${RESET}"
     git clone ${P10K_URL_01} "${CHOSEN_THEME_DIR}" --depth=1 || git clone ${P10K_URL_02} "${CHOSEN_THEME_DIR}" --depth=1
   else
-    cd "${CHOSEN_THEME_DIR}"
-    git reset --hard
-    git pull --depth=1
-    cd ${CURRENT_DIR}
+    git_pull_zsh_theme
   fi
   P10K_CONFIG_FILE="${HOME}/.p10k.zsh"
   if [ ! -e "${P10K_CONFIG_FILE}" ]; then
@@ -403,6 +421,7 @@ case_zsh_theme() {
   case "${TMOE_ZSH_THEME}" in
   powerlevel9k) configure_p9k ;;
   powerlevel10k) configure_p10k ;;
+  pure) configure_pure_theme ;;
   *) copy_tmoe_zsh_theme ;;
   esac
 }
