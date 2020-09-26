@@ -5,7 +5,7 @@ main() {
 	gnu_linux_env
 	check_system
 	case "$1" in
-	up* | -u*)
+	u | up | -u)
 		upgrade_tmoe_zsh_manager
 		;;
 	h | -h | --h | --help) get_tmoe_zsh_help_info ;;
@@ -13,7 +13,7 @@ main() {
 		TMOE_CONTAINER_AUTO_CONFIGURE='true'
 		tmoe_zsh_installation
 		;;
-	-p | plugin) tmoe_zsh_plugin_manager ;;
+	p | -p | plugin) tmoe_zsh_plugin_manager ;;
 	*)
 		tmoe_zsh_main_menu
 		;;
@@ -22,10 +22,10 @@ main() {
 ################
 get_tmoe_zsh_help_info() {
 	cat <<-'EOF'
-		-u                                                                            --更新(update tmoe-zsh)
-		-h                                                                            --get help info
+		u                                                                            --更新(update tmoe-zsh)
+		h                                                                            --get help info
 		--tmoe_container_automatic_configure                                          --容器环境自动配置zsh
-		-p                                                                            -- 插件管理器 plugins manager
+		p                                                                            -- 插件管理器 plugins manager
 	EOF
 }
 ###########

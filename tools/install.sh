@@ -235,8 +235,8 @@ configure_zinit_plugin_fzf_tab() {
     esac
 
     case "${LINUX_DISTRO}" in
-    Android | debian) ;;
-    *) ENABLE_FZF_TAB_EXTRA_OPT='false' ;;
+    Android | debian | arch) ;;
+    *) ENABLE_FZF_TAB_EXTRA_OPT='true' ;;
     esac
 
     case "${TMOE_CONTAINER_AUTO_CONFIGURE}" in
