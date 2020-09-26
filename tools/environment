@@ -313,6 +313,11 @@ check_gnu_linux_dependencies_02() {
         #gentoo:sys-apps/bat
         case "${LINUX_DISTRO}" in
         arch | debian) DEPENDENCIES="${DEPENDENCIES} bat" ;;
+        redhat)
+            case "${REDHAT_DISTRO}" in
+            fedora) DEPENDENCIES="${DEPENDENCIES} bat" ;;
+            esac
+            ;;
         esac
     fi
 

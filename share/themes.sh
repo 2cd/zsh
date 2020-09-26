@@ -364,7 +364,7 @@ configure_p10k() {
   echo "输${GREEN}p10k configure${RESET}配置powerlevel 10k${RESET}"
   if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
     rm_zsh_git_theme_dir
-    echo "检测到您选择的是powerlevel 10k主题,若无法弹出配置面板，则请拉宽屏幕显示大小，然后输${GREEN}p10k configure${RESET}"
+    echo "若无法弹出powerlevel 10k配置面板，则请拉宽屏幕显示大小，然后输${GREEN}p10k configure${RESET}"
     git clone ${P10K_URL_01} "${CHOSEN_THEME_DIR}" --depth=1 || git clone ${P10K_URL_02} "${CHOSEN_THEME_DIR}" --depth=1
   else
     cd "${CHOSEN_THEME_DIR}"
