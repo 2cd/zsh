@@ -89,6 +89,7 @@ alias rd=rmdir
 #######
 if [ $(command -v exa) ]; then
     DISABLE_LS_COLORS=true
+    alias lls=ls
     alias ls="exa -b --color=auto" #exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。Exa is a modern version of ls.
     alias l='exa -lbah'
     alias la='exa -lbahgR'
