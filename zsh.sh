@@ -90,10 +90,22 @@ gnu_linux_env() {
 ##########
 check_system() {
 	#舊版（202009之前的版本）tmoe-zsh需要更新
-	if grep -q 'alias zsh-i=' ${HOME}/.zshrc 2>/dev/null; then
-		upgrade_tmoe_zsh_manager
+	#if grep -q 'alias zsh-i=' ${HOME}/.zshrc 2>/dev/null; then
+	#	upgrade_tmoe_zsh_manager
+	#fi
+	if [ -e "${TMOE_ZSH_GIT_DIR}/.termux/themes.sh" ]; then
+		cat <<-EOF
+			You are using ${RED}old version${RESET}.
+			You need to delete the old version first and then reinstall it.
+			由于新版改动过大，故不兼容旧版。请删除旧版本！！！
+			rm -rv ${TMOE_ZSH_GIT_DIR} $(command -v zsh-i)
+		EOF
+		do_you_want_to_continue
+		case $(command -v zsh-i) in
+		"") rm -rv ${TMOE_ZSH_GIT_DIR} ;;
+		*) rm -rv ${TMOE_ZSH_GIT_DIR} $(command -v zsh-i) || sudo rm -v $(command -v zsh-i) ;;
+		esac
 	fi
-
 	case "${LINUX_DISTRO}" in
 	Android) #check_termux_dependencies
 		check_termux_git_and_dialog ;;
@@ -102,6 +114,13 @@ check_system() {
 	esac
 }
 ###############################
+case_return_to_where() {
+	case ${RETURN_TO_WHERE} in
+	"") tmoe_zsh_main_menu ;;
+	*) ${RETURN_TO_WHERE} ;;
+	esac
+}
+########################
 do_you_want_to_continue() {
 	echo "${YELLOW}Do you want to continue?[Y/n]${RESET}"
 	echo "Press ${GREEN}enter${RESET} to ${BLUE}continue${RESET},type ${YELLOW}n${RESET} to ${BLUE}return.${RESET}"
@@ -111,11 +130,11 @@ do_you_want_to_continue() {
 	y* | Y* | "") ;;
 	n* | N*)
 		echo "skipped."
-		${RETURN_TO_WHERE}
+		case_return_to_where
 		;;
 	*)
 		echo "Invalid choice. skipped."
-		${RETURN_TO_WHERE}
+		case_return_to_where
 		;;
 	esac
 }
@@ -395,7 +414,7 @@ git_pull_tmoe_zsh() {
 tmoe_zsh_main_menu() {
 	#20 50 7
 	RETURN_TO_WHERE='tmoe_zsh_main_menu'
-	TMOE_OPTION=$(whiptail --title "TMOE-ZSH running on ${OSRELEASE}(202009)" --backtitle "Please select installation for initial installation." --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate.\n请使用方向键和回车键进行操作,初次安装请选择安装与配置" 0 50 0 \
+	TMOE_OPTION=$(whiptail --title "TMOE-ZSH running on ${OSRELEASE}(202009)" --backtitle "Please select installation for initial installation." --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate." 0 50 0 \
 		"1" "🍭 Installation and configuration 安装与配置" \
 		"2" "🌸 Itemized configuration 分项配置" \
 		"3" "🍀 Plugins 插件管理" \
