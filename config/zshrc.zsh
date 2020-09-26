@@ -26,6 +26,9 @@ load_zinit_compinit_function() {
 }
 ########
 ##LOAD MAIN LIB
+TMOE_ZSH_DIR="${HOME}/.config/tmoe-zsh"
+TMOE_ZSH_GIT_DIR="${TMOE_ZSH_DIR}/git"
+TMOE_ZSH_TOOL_DIR="${TMOE_ZSH_GIT_DIR}/tools"
 ZINIT_THEME_DIR="${HOME}/.zinit/themes/_local"
 source ${HOME}/.zinit/bin/zinit.zsh
 load_omz_lib
@@ -37,44 +40,10 @@ skip_global_compinit=1
 load_zinit_compinit_function
 ##############
 ALOXAF_FZF_TAB_EXTRA=01
-#当变量ALOXAF_FZF_TAB_EXTRA的值为01时，仅加载补全项颜色函数;为02时，加载右侧窗口配置;为true时，启用所有额外函数;为false时，禁用。
-#: <<\EOF
-#分组和补全项颜色
-aloxaf_fzf_tab_extra_opts_01() {
-    zstyle ':completion:*:descriptions' format '[%d]'
-    zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-}
-#EOF
-###############
-aloxaf_fzf_tab_extra_opts_02() {
-    #FZF-TAB右侧窗口配置
-    local extract="
-# trim input
-local in=\${\${\"\$(<{f})\"%\$'\0'*}#*\$'\0'}
-# get ctxt for current completion
-local -A ctxt=(\"\${(@ps:\2:)CTXT}\")
-# real path
-local realpath=\${ctxt[IPREFIX]}\${ctxt[hpre]}\$in
-realpath=\${(Qe)~realpath}
-"
-    zstyle ':fzf-tab:*' single-group ''
-    zstyle ':fzf-tab:complete:_zlua:*' query-string input
-    zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
-    zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|nano|vi|vim):*' extra-opts --preview=$extract'ls -1 -a --color=always $realpath'
-    #zstyle ':fzf-tab:complete:(cd|ls|nano|vi|vim):*' extra-opts --preview=$extract'ls -1A --color=auto ${~ctxt[hpre]}$in 2>/dev/null'
-}
+#当变量ALOXAF_FZF_TAB_EXTRA的值为01时，仅加载补全项颜色函数;为02时，加载右侧窗口配置;为true时，启用所有额外函数;为false时禁用。
+source ${TMOE_ZSH_GIT_DIR}/config/aloxaf_fzf_tab_extra_opts.zsh
 ##########
 [[ $(command -v fzf) ]] && zinit ice lucid pick"fzf-tab.zsh" && zinit light _local/fzf-tab #aloxaf:fzf-tab 是一个能够极大提升 zsh 补全体验的插件。它通过 hook zsh 补全系统的底层函数 compadd 来截获补全列表，从而实现了在补全命令行参数、变量、目录栈和文件时都能使用 fzf 进行选择的功能。Replace zsh's default completion selection menu with fzf!
-
-case ${ALOXAF_FZF_TAB_EXTRA} in
-false) ;;
-true)
-    aloxaf_fzf_tab_extra_opts_01
-    aloxaf_fzf_tab_extra_opts_02
-    ;;
-01) aloxaf_fzf_tab_extra_opts_01 ;;
-02) aloxaf_fzf_tab_extra_opts_02 ;;
-esac
 ##########
 zinit ice lucid wait="1" pick"extract.plugin.zsh" && zinit light _local/extract && zinit ice lucid as"completion" wait="1" && zinit snippet ${HOME}/.zinit/plugins/_local---extract/_extract #解压插件，输x 压缩包名称（例如`x 233.7z`或`x 233.tar.xz`) 即可解压文件。This plugin defines a function called `extract` that extracts the archive file you pass it, and it supports a wide variety of archive filetypes.
 #########
