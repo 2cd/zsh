@@ -1633,7 +1633,7 @@ tmoe_zsh_plugin_menu_06() {
         TMOE_ZSH_GREP_NAME='zsh-navigation-tools'
         TMOE_ZSH_SETTINGS_MODEL='02'
         ZSH_README_FILE_NAME_02='.config/znt/README.txt'
-        TMOE_ZSH_COMMENT_CONTENT='![ZSH 5.0.0](https://img.shields.io/badge/zsh-v5.0.0-orange.svg?style=flat-square)'
+        TMOE_ZSH_COMMENT_CONTENT='Set of tools like `n-history` – multi-word history searcher, `n-cd` – directory bookmark manager, `n-kill` – `htop` like kill utility, and more. Based on `n-list`, a tool generating selectable curses-based list of elements that has access to current `Zsh` session, i.e. has broad capabilities to work together with it. Feature highlights include incremental multi-word searching, approximate matching, ANSI coloring, themes, unique mode, horizontal scroll, grepping, advanced history management and various integrations with `Zsh`.'
         ;;
     25)
         TMOE_ZSH_GREP_NAME='zsh_reload'
