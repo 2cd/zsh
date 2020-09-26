@@ -60,7 +60,7 @@ realpath=\${(Qe)~realpath}
     zstyle ':fzf-tab:*' single-group ''
     zstyle ':fzf-tab:complete:_zlua:*' query-string input
     zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
-    zstyle ':fzf-tab:complete:(cd|ls|nano|vi|vim):*' extra-opts --preview=$extract'ls -1 -a --color=always $realpath'
+    zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|nano|vi|vim):*' extra-opts --preview=$extract'ls -1 -a --color=always $realpath'
     #zstyle ':fzf-tab:complete:(cd|ls|nano|vi|vim):*' extra-opts --preview=$extract'ls -1A --color=auto ${~ctxt[hpre]}$in 2>/dev/null'
 }
 ##########
