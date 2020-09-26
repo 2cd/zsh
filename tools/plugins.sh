@@ -564,7 +564,7 @@ tmoe_zsh_plugin_menu_02() {
     ${GREEN}npm install${RESET} -g ${BLUE}ember-cli${RESET}
 EOF
         )
-        TMOE_ZSH_COMMENT_CONTENT='Maintainers: [BilalBudhani](https://github.com/BilalBudhani), [eubenesa](https://github.com/eubenesa), [scottkidder](https://github.com/scottkidder]'
+        TMOE_ZSH_COMMENT_CONTENT='alias es="ember serve" eb="ember build"'
         ;;
     21)
         TMOE_ZSH_GREP_NAME='emoji'
@@ -1395,7 +1395,7 @@ tmoe_zsh_plugin_menu_05() {
         ;;
     21)
         TMOE_ZSH_GREP_NAME='suse'
-        TMOE_ZSH_COMMENT_CONTENT='Maintainer: [r-darwish](https://github.com/r-darwish)'
+        TMOE_ZSH_COMMENT_CONTENT='Alias for Zypper according to the official Zypper’s alias'
         ;;
     22)
         TMOE_ZSH_GREP_NAME='svcat'
@@ -1584,7 +1584,7 @@ tmoe_zsh_plugin_menu_06() {
         ;;
     13)
         TMOE_ZSH_GREP_NAME='wd'
-        TMOE_ZSH_COMMENT_CONTENT='[![Build Status](https://travis-ci.org/mfaerevaag/wd.png?branch=master)](https://travis-ci.org/mfaerevaag/wd)'
+        TMOE_ZSH_COMMENT_CONTENT=' `wd` (*warp directory*) lets you jump to custom directories in zsh, without using `cd`.'
         ;;
     14)
         TMOE_ZSH_GREP_NAME='web-search'
@@ -1592,7 +1592,7 @@ tmoe_zsh_plugin_menu_06() {
         ;;
     15)
         TMOE_ZSH_GREP_NAME='wp-cli'
-        TMOE_ZSH_COMMENT_CONTENT='Maintainer: [joshmedeski](https://github.com/joshmedeski)'
+        TMOE_ZSH_COMMENT_CONTENT='WP-CLI is a set of command-line tools for managing WordPress installations. You can update plugins, set up multisite installs and much more, without using a web browser.'
         ;;
     16)
         TMOE_ZSH_GREP_NAME='xcode'
