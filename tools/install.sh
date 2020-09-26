@@ -46,7 +46,7 @@ do_you_want_to_backup_zsh_folder() {
 ################################
 gnu_linux_chsh_zsh() {
     if [ $(command -v chsh) ]; then
-        chsh -s $(command -v zsh) || sudo chsh -s $(command -v zsh)
+        [[ "$(cat /etc/passwd | grep "${HOME}" | grep zsh)" ]] || chsh -s $(command -v zsh) || sudo chsh -s $(command -v zsh)
     fi
 }
 ######################
@@ -236,7 +236,7 @@ configure_zinit_plugin_fzf_tab() {
 
     case "${LINUX_DISTRO}" in
     Android | debian | arch) ;;
-    *) ENABLE_FZF_TAB_EXTRA_OPT='true' ;;
+    *) ENABLE_FZF_TAB_EXTRA_OPT='false' ;;
     esac
 
     case "${TMOE_CONTAINER_AUTO_CONFIGURE}" in
