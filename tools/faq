@@ -47,8 +47,9 @@ reset_fzf_tab() {
 		Do you want to reset fzf-tab plugin ?
 	EOF
     do_you_want_to_continue
-    git_clone_fzf_tab
+    #git_clone_fzf_tab
     #sudo apt purge command-not-found || apt purge command-not-found
+    sed -i 's@ALOXAF_FZF_TAB_EXTRA=.*@ALOXAF_FZF_TAB_EXTRA=false@' ${HOME}/.zshrc
 }
 #########
 remove_plugin_command_not_found() {

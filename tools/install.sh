@@ -217,20 +217,7 @@ git_clone_fzf_tab() {
 ############
 fzf_tab_extra_opt() {
     case "${ENABLE_FZF_TAB_EXTRA_OPT}" in
-    true)
-        if ! grep -q 'extract=' "${FZF_TAB_PLUGIN_DIR}/fzf-tab.zsh"; then
-            cat >>"${FZF_TAB_PLUGIN_DIR}/fzf-tab.zsh" <<-'EndOFfzfTab'
-							    #额外步骤
-								    local extract="
-								# 提取当前选择的内容
-								in=\${\${\"\$(<{f})\"%\$'\0'*}#*\$'\0'}
-								# 获取当前补全状态的上下文
-								local -A ctxt=(\"\${(@ps:\2:)CTXT}\")
-								"
-								    zstyle ':fzf-tab:complete:*:*' extra-opts --preview=$extract'ls -A1 --color=always ${~ctxt[hpre]}$in 2>/dev/null'
-						EndOFfzfTab
-        fi
-        ;;
+    true) sed -i 's@ALOXAF_FZF_TAB_EXTRA=.*@ALOXAF_FZF_TAB_EXTRA=true@' ${HOME}/.zshrc ;;
     esac
 }
 ################

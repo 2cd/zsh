@@ -1,9 +1,11 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
+#: <<\EOF
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+#EOF
 ############
 load_omz_lib() {
     for i in theme-and-appearance.zsh git.zsh prompt_info_functions.zsh history.zsh; do
@@ -16,6 +18,13 @@ load_omz_lib() {
     unset i
 }
 ########
+load_zinit_compinit_function() {
+    #autoload -Uz compinit ;compinit #载入补全相关function
+    zpcompinit
+    zpcdreplay
+    zinit cdreplay -q
+}
+########
 ##LOAD MAIN LIB
 ZINIT_THEME_DIR="${HOME}/.zinit/themes/_local"
 source ${HOME}/.zinit/bin/zinit.zsh
@@ -25,20 +34,59 @@ load_omz_lib
 zinit light ${ZINIT_THEME_DIR}/xiong-chiamiov-plus
 #theme-and-appearance的加载顺序要先于主题,请在load_omz_lib之后加载主题。
 skip_global_compinit=1
-#######
+load_zinit_compinit_function
+##############
+ALOXAF_FZF_TAB_EXTRA=01
+#当变量ALOXAF_FZF_TAB_EXTRA的值为01时，仅加载补全项颜色函数;为02时，加载右侧窗口配置;为true时，启用所有额外函数;为false时，禁用。
+#: <<\EOF
+#分组和补全项颜色
+aloxaf_fzf_tab_extra_opts_01() {
+    zstyle ':completion:*:descriptions' format '[%d]'
+    zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+}
+#EOF
+###############
+aloxaf_fzf_tab_extra_opts_02() {
+    #FZF-TAB右侧窗口配置
+    local extract="
+# trim input
+local in=\${\${\"\$(<{f})\"%\$'\0'*}#*\$'\0'}
+# get ctxt for current completion
+local -A ctxt=(\"\${(@ps:\2:)CTXT}\")
+# real path
+local realpath=\${ctxt[IPREFIX]}\${ctxt[hpre]}\$in
+realpath=\${(Qe)~realpath}
+"
+    zstyle ':fzf-tab:*' single-group ''
+    zstyle ':fzf-tab:complete:_zlua:*' query-string input
+    zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
+    zstyle ':fzf-tab:complete:(cd|ls|nano|vi|vim):*' extra-opts --preview=$extract'ls -1 -a --color=always $realpath'
+    #zstyle ':fzf-tab:complete:(cd|ls|nano|vi|vim):*' extra-opts --preview=$extract'ls -1A --color=auto ${~ctxt[hpre]}$in 2>/dev/null'
+}
+##########
+[[ $(command -v fzf) ]] && zinit ice lucid pick"fzf-tab.zsh" && zinit light _local/fzf-tab #aloxaf:fzf-tab 是一个能够极大提升 zsh 补全体验的插件。它通过 hook zsh 补全系统的底层函数 compadd 来截获补全列表，从而实现了在补全命令行参数、变量、目录栈和文件时都能使用 fzf 进行选择的功能。Replace zsh's default completion selection menu with fzf!
+
+case ${ALOXAF_FZF_TAB_EXTRA} in
+false) ;;
+true)
+    aloxaf_fzf_tab_extra_opts_01
+    aloxaf_fzf_tab_extra_opts_02
+    ;;
+01) aloxaf_fzf_tab_extra_opts_01 ;;
+02) aloxaf_fzf_tab_extra_opts_02 ;;
+esac
+##########
 zinit ice lucid wait="1" pick"extract.plugin.zsh" && zinit light _local/extract && zinit ice lucid as"completion" wait="1" && zinit snippet ${HOME}/.zinit/plugins/_local---extract/_extract #解压插件，输x 压缩包名称（例如`x 233.7z`或`x 233.tar.xz`) 即可解压文件。This plugin defines a function called `extract` that extracts the archive file you pass it, and it supports a wide variety of archive filetypes.
 #########
 zinit ice lucid wait="1" pick"z.plugin.zsh" && zinit light _local/z && unsetopt BG_NICE #记录访问目录，输z获取,输`z 目录名称`快速跳转  This plugin defines the [z command](https://github.com/rupa/z) that tracks your most visited directories and allows you to access them with very few keystrokes.
 ########
 zinit ice lucid pick"git.plugin.zsh" wait="1" && zinit light _local/git #git的一些alias,例如将git clone简化为gcl.  The git plugin provides many aliases and a few useful functions.
 ##########
-[[ $(command -v fzf) ]] && zinit ice lucid pick"fzf-tab.zsh" && zinit light _local/fzf-tab  #aloxaf:fzf-tab 是一个能够极大提升 zsh 补全体验的插件。它通过 hook zsh 补全系统的底层函数 compadd 来截获补全列表，从而实现了在补全命令行参数、变量、目录栈和文件时都能使用 fzf 进行选择的功能。Replace zsh's default completion selection menu with fzf! 
-##########
 [[ -e /usr/lib/command-not-found ]] && zinit ice lucid wait="0" pick"command-not-found.plugin.zsh" && zinit light _local/command-not-found #用于显示未找到的命令来源于哪个软件包  This plugin uses the command-not-found package for zsh to provide suggested packages to be installed if a command cannot be found.
 
 zinit ice lucid wait="3" pick"colored-man-pages.plugin.zsh" && zinit light _local/colored-man-pages #man手册彩色输出 This plugin adds colors to man pages
 
-zinit ice wait lucid pick"fast-syntax-highlighting.plugin.zsh" atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" && zinit light _local/fast-syntax-highlighting    #语法高亮插件，速度比zsh-syntax-highlighting更快。(Short name F-Sy-H). Syntax-highlighting for Zshell – fine granularity, number of features, 40 work hours themes 
+zinit ice wait lucid pick"fast-syntax-highlighting.plugin.zsh" atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" && zinit light _local/fast-syntax-highlighting #语法高亮插件，速度比zsh-syntax-highlighting更快。(Short name F-Sy-H). Syntax-highlighting for Zshell – fine granularity, number of features, 40 work hours themes
 
 zinit ice wait lucid pick"zsh-autosuggestions.zsh" atload'_zsh_autosuggest_start' && zinit light _local/zsh-autosuggestions #自动建议插件 It suggests commands as you type based on history and completions.
 
@@ -72,7 +120,7 @@ alias rd=rmdir
 #######
 if [ $(command -v exa) ]; then
     DISABLE_LS_COLORS=true
-    alias ls="exa -b --color=auto" #exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。Exa is a modern version of ls. 
+    alias ls="exa -b --color=auto" #exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。Exa is a modern version of ls.
     alias l='exa -lbah'
     alias la='exa -lbahgR'
     alias ll='exa -lbgh'
@@ -87,16 +135,13 @@ fi
 [[ ! $(command -v tmoe) ]] || alias t=tmoe
 ######
 if [ $(command -v batcat) ]; then
-    alias cat='batcat'  #输q退出bat的页面视图，you can type q to quit bat.
+    alias cat='batcat' #输q退出bat的页面视图，you can type q to quit bat.
 elif [ $(command -v bat) ]; then
-    alias cat='bat'  #bat是cat的替代品，支持多语言语法高亮。支持自动分页，对于大文本，以 less 命令输出，则可使用类似 vim 的快捷键移动光标。
+    alias cat='bat' #bat是cat的替代品，支持多语言语法高亮。支持自动分页，对于大文本，以 less 命令输出，则可使用类似 vim 的快捷键移动光标。
 fi
-######
-autoload -Uz compaudit compinit #载入补全相关的function 
-compinit
-zinit cdreplay -q
+########
 #########
-:<<\ENDOFZINITHELP
+: <<\ENDOFZINITHELP
     zinit 基本用法
     zinit 可以简化为zi
     zi times 显示插件加载时间，默认单位为毫秒。
