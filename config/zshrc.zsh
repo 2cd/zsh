@@ -98,6 +98,7 @@ if [ $(command -v exa) ]; then
     alias lst='exa -lTabgh' #输入lst,将展示类似于tree的树状列表。
 else
     alias ls='ls --color=always'
+    alias lst='tree -pCsh'
     alias l='ls -lah'
     alias la='ls -lAh'
     alias ll='ls -lh'
