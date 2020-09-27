@@ -414,7 +414,8 @@ git_pull_tmoe_zsh() {
 tmoe_zsh_main_menu() {
 	#20 50 7
 	RETURN_TO_WHERE='tmoe_zsh_main_menu'
-	TMOE_OPTION=$(whiptail --title "TMOE-ZSH running on ${OSRELEASE}(202009)" --backtitle "Please select installation for initial installation." --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate." 0 50 0 \
+	# --backtitle "You can select installation for initial installation."
+	TMOE_OPTION=$(whiptail --title "TMOE-ZSH running on ${OSRELEASE}(202009)" --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate." 0 50 0 \
 		"1" "🍭 Installation and configuration 安装与配置" \
 		"2" "🌸 Itemized configuration 分项配置" \
 		"3" "🍀 Plugins 插件管理" \
