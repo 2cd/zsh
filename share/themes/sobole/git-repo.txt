@@ -1,0 +1,1 @@
+https://github.com/sobolevn/sobole-zsh-theme

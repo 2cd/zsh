@@ -1,0 +1,2 @@
+https://cdn.jsdelivr.net/gh/nikhilkmr300/omz-themes/themes/color-input-line.zsh-theme
+#https://raw.githubusercontent.com/nikhilkmr300/omz-themes/master/themes/color-input-line.zsh-theme

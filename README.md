@@ -189,6 +189,19 @@ You can use `-h` or `--help` parameter to get help information.
   序号列表模式。若参数为空，则将进入此模式。
   此模式为交互式操作，您可以先输zshtheme启动,接着输入数字序号。
   --------------
+    部分主题需要联网下载。
+    Some themes need to be downloaded.
+    The following themes use git to clone their repo:
+    以下主题使用git克隆整个仓库：
+    powerlevel10k | pure | via | aphrodite | typewritten | abaykan | agkozak | agnosterzak | alien | alien-minimal | antsy | asciigit | avit-da2k | bender | blokkzh | bullet-train | bunnyruni | chi | chill | ciacho | classytouch | color-input | color-input-line | cordial | daivasmara | docker-zsh | drofloh | ducula | elessar | enlightenment | fishbone++ | fishy2 | funkyberlin | geometry | gitstatus | halil | haribo | hyper-oh-my-zsh | hyperzsh | igeek | igorsilva | imp | jovial | kimwz | kinda-fishy | lambda-mod | lambda-v | matte-black-yellow | matte-black-yellow-line | maza | minimal-improved | minimal2 | node | nodeys | nothing | nt9 | nuts | odin | omega | oxide | pi | punctual | rafiki-zsh  | robbyrussell-wip | shayan | short | sm | sobole | spaceship-zsh | staples | theta | traditional-plus | vero | windows-cmd | zeroastro | zeta | zsh2000 | λpure
+
+  以下主题使用了CDN进行下载加速：
+  The following themes use jsdelivr CDN for download acceleration：
+  color-input | color-input-line | dpoggi-newline-timestamp | gitster | imperator | intika | kayid | kmac | matte-black-yellow | matte-black-yellow-line | minimal2 | oh-wonder | passion | philthy | retro-term | short
+
+  以下主题托管于github gist,下载无加速：
+  xxf | solus | schminitz | reggae | random-emoji | philthy | oh-wonder | hedgehog | hub | mcquen
+  --------------
   NOTES of manual mode
   手动模式的说明
   You can type zshtheme $THEME_NAME to change the zsh theme.
@@ -198,7 +211,7 @@ You can use `-h` or `--help` parameter to get help information.
   例如： 输入zshtheme powerlevel10k或者zshtheme p10k，将主题修改为powerlevel10k。
   --------------
   LIST OF ZSH THEMES:
-  3den , abaykan , adben , af-magic , afowler , agnoster , agnosterzak , alanpeabody , amuse , aphrodite , apple , arrow , asciigit , aussiegeek , avit , avit-da2k , awesomepanda , bender , bira , blinks , blokkzh , bullet-train , bunnyruni , bureau , candy , candy-kingdom , chi , chill , classyTouch , clean , cloud , cordial , crcandy , crunch , cypher , dallas , darkblood , daveverwer , dieter , docker , dogenpunk , dpoggi , drofloh , dst , dstufft , ducula , duellj , eastwood , edvardm , elessar , emotty , enlightenment , essembeh , evan , fino , fino-time , fishy , fishy2 , flazz , fletcherm , fox , frisk , frontcube , funky , funkyberlin , fwalch , gallifrey , gallois , garyblessington , gentoo , geoffgarside , gianu , gitster , gnzh , gozilla , half-life , halil , haribo , hedgehog , humza , hyper-oh-my-zsh , hyperzsh , igorsilva , imajes , imp , imperator-root , intheloop , intika , itchy , jaischeema , jbergantine , jispwoso , jnrowe , jonathan , josh , jovial , jreese , jtriley , juanghurtado , junkfood , kafeitu , kardan , kayid , kennethreitz , kimwz , kinda-fishy , kiwi , kmac , kolo , kphoen , lambda , lambda-gitster , lambda-mod , lambda-v , linuxonly , lukerandall , macovsky , maran , maza , McQuen , mgutz , mh , michelebologna , mikeh , miloshadzic , minimal , minimal2 , minimal_improve , mira , mortalscumbag , mrtazz , murilasso , muse , nanotech , nebirhos , nicoulaj , node , nodeys , norm , nox , nt9 , nuts , obraun , odin , ohwonder , oxide , peepcode , philips , philthy , pi , pmcgee , powerlevel10k , punctual , pygmalion , pygmalion-virtualenv , rafiki , random , random-emoji , re5et , refined , reggae , rgm , risto , rixius , rkj , rkj-repos , robbyrussell , robbyrussell-WIP , sammy , shayan , simonoff , simple , skaro , sm , smt , sobole , Soliah , sonicradish , sorin , sporty_256 , staples , steeef , strug , sunaku , sunrise , superjarin , suvash , takashiyoshida , terminalparty , theunraveler , tjkirch , tjkirch_mod , tonotdo , traditional-plus , trapd00r , typewritten , vero , via , wedisagree , wezm , wezm+ , windows , wuffers , xiong-chiamiov , xiong-chiamiov-plus , xxf , ys , zeroastro , zeta , zhann
+3den , abaykan , adben , af-magic , afowler , agkozak , agnoster , agnosterzak , alanpeabody , alien , alien-minimal , amuse , antsy , aphrodite , apple , arrow , asciigit , aussiegeek , avit , avit-da2k , awesomepanda , bender , bira , blinks , blokkzh , bullet-train , bunnyruni , bureau , candy , candy-kingdom , chi , chill , ciacho , classytouch , clean , cloud , color-input , color-input-line , cordial , crcandy , crunch , cypher , daivasmara , dallas , darkblood , daveverwer , dieter , docker-zsh , dogenpunk , dpoggi , dpoggi-newline-timestamp , drofloh , dst , dstufft , ducula , duellj , eastwood , edvardm , elessar , emotty , enlightenment , essembeh , evan , fino , fino-time , fishbone++ , fishy , fishy2 , flazz , fletcherm , fox , frisk , frontcube , funky , funkyberlin , fwalch , gallifrey , gallois , garyblessington , gentoo , geoffgarside , geometry , gianu , gitstatus , gitster , gnzh , gozilla , half-life , halil , haribo , hedgehog , hub , humza , hyper-oh-my-zsh , hyperzsh , igeek , igorsilva , imajes , imp , imperator , intheloop , intika , itchy , jaischeema , jbergantine , jispwoso , jnrowe , jonathan , josh , jovial , jreese , jtriley , juanghurtado , junkfood , kafeitu , kardan , kayid , kennethreitz , kimwz , kinda-fishy , kiwi , kmac , kolo , kphoen , lambda , lambda-gitster , lambda-mod , lambda-v , linuxonly , lukerandall , macovsky , maran , matte-black-yellow , matte-black-yellow-line , maza , mcquen , mgutz , mh , michelebologna , mikeh , miloshadzic , minimal , minimal-improved , minimal2 , mira , mlh , mortalscumbag , mrtazz , murilasso , muse , nanotech , nebirhos , nicoulaj , node , nodeys , norm , nothing , nt9 , nuts , obraun , odin , oh-wonder , omega , oxide , passion , peepcode , philips , philthy , pi , pmcgee , powerlevel10k , punctual , pure , pygmalion , pygmalion-virtualenv , rafiki-zsh , random , random-emoji , re5et , refined , reggae , retro-term , rgm , risto , rixius , rkj , rkj-repos , robbyrussell , robbyrussell-wip , sammy , schminitz , shayan , short , simonoff , simple , skaro , sm , smt , sobole , Soliah , solus , sonicradish , sorin , spaceship-zsh , sporty_256 , staples , steeef , strug , sunaku , sunrise , superjarin , suvash , takashiyoshida , terminalparty , theta , theunraveler , tjkirch , tjkirch_mod , tonotdo , traditional-plus , trapd00r , typewritten , vero , via , wedisagree , wezm , wezm+ , windows-cmd , wuffers , xiong-chiamiov , xiong-chiamiov-plus , xxf , ys , zeroastro , zeta , zhann , zsh2000 , λpure
 ```
 
 ### 3-3. NOTES of zshcolor
@@ -321,7 +334,98 @@ zinit ice wait lucid pick"fast-syntax-highlighting.plugin.zsh" atinit"ZINIT[COMP
 **[zsh-users/zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)**  
 **[oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)**  
 **[Cabbagec/termux-ohmyzsh](https://github.com/Cabbagec/termux-ohmyzsh)**  
-**[zdharma/fast-syntax-highlighting](https://github.com/zdharma/fast-syntax-highlighting)**
+**[zdharma/fast-syntax-highlighting](https://github.com/zdharma/fast-syntax-highlighting)**  
+**[abaykan/Mine](https://github.com/abaykan/Mine)**  
+**[agkozak/agkozak-zsh-prompt](https://github.com/agkozak/agkozak-zsh-prompt)**  
+**[zakaziko99/agnosterzak-ohmyzsh-theme](https://github.com/zakaziko99/agnosterzak-ohmyzsh-theme)**  
+**[eendroroy/alien](https://github.com/eendroroy/alien)**  
+**[eendroroy/alien-minimal](https://github.com/eendroroy/alien-minimal)**  
+**[jeffmhubbard/antsy-zsh-theme](https://github.com/jeffmhubbard/antsy-zsh-theme)**  
+**[win0err/aphrodite-terminal-theme.git](https://github.com/win0err/aphrodite-terminal-theme.git)**  
+**[cemsbr/asciigit](https://github.com/cemsbr/asciigit)**  
+**[fdaciuk/avit-da2k](https://github.com/fdaciuk/avit-da2k)**  
+**[specious/bender](https://github.com/specious/bender)**  
+**[KorvinSilver/blokkzh](https://github.com/KorvinSilver/blokkzh)**  
+**[caiogondim/bullet-train-oh-my-zsh-theme](https://github.com/caiogondim/bullet-train-oh-my-zsh-theme)**  
+**[jopcode/oh-my-zsh-bunnyruni-theme](https://github.com/jopcode/oh-my-zsh-bunnyruni-theme)**  
+**[akinjide/chi](https://github.com/akinjide/chi)**  
+**[PsychoPatate/chill.zsh-theme](https://github.com/PsychoPatate/chill.zsh-theme)**  
+**[Ciacho/ciacho-ohmyzsh-theme](https://github.com/Ciacho/ciacho-ohmyzsh-theme)**  
+**[yarisgutierrez/classyTouch_oh-my-zsh](https://github.com/yarisgutierrez/classyTouch_oh-my-zsh)**  
+**[stevelacy/cordial-zsh-theme](https://github.com/stevelacy/cordial-zsh-theme)**  
+**[Daivasmara/daivasmara.zsh-theme](https://github.com/Daivasmara/daivasmara.zsh-theme)**  
+**[dpdornseifer/docker-zsh-theme](https://github.com/dpdornseifer/docker-zsh-theme)**  
+**[channprj/dotfiles-macOS](https://github.com/channprj/dotfiles-macOS)**  
+**[drofloh/oh-my-zsh-custom](https://github.com/drofloh/oh-my-zsh-custom)**  
+**[janjoswig/Ducula](https://github.com/janjoswig/Ducula)**  
+**[fjpalacios/elessar-theme](https://github.com/fjpalacios/elessar-theme)**  
+**[w33tmaricich/enlightenment](https://github.com/w33tmaricich/enlightenment)**  
+**[EYH0602/Fishbonepp](https://github.com/EYH0602/Fishbonepp)**  
+**[akinjide/fishy2](https://github.com/akinjide/fishy2)**  
+**[Ottootto2010/funkyberlin-zsh-theme](https://github.com/Ottootto2010/funkyberlin-zsh-theme)**  
+**[frmendes/geometry](https://github.com/frmendes/geometry)**  
+**[kimyvgy/gitstatus-zsh-theme](https://github.com/kimyvgy/gitstatus-zsh-theme)**  
+**[shashankmehta/dotfiles](https://github.com/shashankmehta/dotfiles)**  
+**[5m0k3r/zsh-themes](https://github.com/5m0k3r/zsh-themes)**  
+**[haribo/omz-haribo-theme](https://github.com/haribo/omz-haribo-theme)**  
+**[hedgehog1029/dfbb7e66511e2c399157](https://gist.github.com/hedgehog1029/dfbb7e66511e2c399157)**  
+**[hub23/c226b1c77446e099f7684b0d21c6b22a](https://gist.github.com/hub23/c226b1c77446e099f7684b0d21c6b22a)**  
+**[willmendesneto/hyper-oh-my-zsh](https://github.com/willmendesneto/hyper-oh-my-zsh)**  
+**[tylerreckart/hyperzsh](https://github.com/tylerreckart/hyperzsh)**  
+**[Saleh7/igeek-zsh-theme](https://github.com/Saleh7/igeek-zsh-theme)**  
+**[igor9silva/zsh-theme](https://github.com/igor9silva/zsh-theme)**  
+**[master/Shell-Themes](https://github.com/LinuxGogley/Linux-Mods/tree/master/Shell-Themes)**  
+**[igormp/Imp](https://github.com/igormp/Imp)**  
+**[Intika-Linux-Apps/Oh-My-Zsh-Intika](https://github.com/Intika-Linux-Apps/Oh-My-Zsh-Intika)**  
+**[zthxxx/jovial](https://github.com/zthxxx/jovial)**  
+**[AmrMKayid/KayidmacOS](https://github.com/AmrMKayid/KayidmacOS)**  
+**[kimwz/kimwz-oh-my-zsh-theme](https://github.com/kimwz/kimwz-oh-my-zsh-theme)**  
+**[folixg/kinda-fishy-theme](https://github.com/folixg/kinda-fishy-theme)**  
+**[koreymacdougall/config_files](https://github.com/koreymacdougall/config_files)**  
+**[ergenekonyigit/lambda-gitster](https://github.com/ergenekonyigit/lambda-gitster)**  
+**[halfo/lambda-mod-zsh-theme](https://github.com/halfo/lambda-mod-zsh-theme)**  
+**[vkaracic/lambdav-zsh-themes](https://github.com/vkaracic/lambdav-zsh-themes)**  
+**[eamazaj/maza-theme](https://github.com/eamazaj/maza-theme)**  
+**[ryanpcmcquen/150cf9a66bca2463e5660cafed3e1000](https://gist.github.com/ryanpcmcquen/150cf9a66bca2463e5660cafed3e1000)**  
+**[girishrau/oh-my-zsh-customizations](https://github.com/girishrau/oh-my-zsh-customizations)**  
+**[gdsrosa/minimal_improved](https://github.com/gdsrosa/minimal_improved)**  
+**[skuridin/oh-my-zsh-node-theme](https://github.com/skuridin/oh-my-zsh-node-theme)**  
+**[marszall87/nodeys-zsh-theme](https://github.com/marszall87/nodeys-zsh-theme)**  
+**[eendroroy/nothing](https://github.com/eendroroy/nothing)**  
+**[lenguyenthanh/nt9-oh-my-zsh-theme](https://github.com/lenguyenthanh/nt9-oh-my-zsh-theme)**  
+**[rafaelsq/nuts.zsh-theme](https://github.com/rafaelsq/nuts.zsh-theme)**  
+**[tylerreckart/odin](https://github.com/tylerreckart/odin)**  
+**[kaushik94/a54e128869c0c82bdbed31d56c710daa](https://gist.github.com/kaushik94/a54e128869c0c82bdbed31d56c710daa)**  
+**[Section214/zsh-omega](https://github.com/Section214/zsh-omega)**  
+**[dikiaap/dotfiles](https://github.com/dikiaap/dotfiles)**  
+**[ChesterYue/ohmyzsh-theme-passion](https://github.com/ChesterYue/ohmyzsh-theme-passion)**  
+**[philFernandez/56f8953722285834cc9000ffcfe103f4](https://gist.github.com/philFernandez/56f8953722285834cc9000ffcfe103f4)**  
+**[tobyjamesthomas/pi](https://github.com/tobyjamesthomas/pi)**  
+**[dannynimmo/punctual-zsh-theme](https://github.com/dannynimmo/punctual-zsh-theme)**  
+**[sindresorhus/pure.git](https://github.com/sindresorhus/pure.git)**  
+**[akabiru/rafiki-zsh](https://github.com/akabiru/rafiki-zsh)**  
+**[oshybystyi/2c30543cd48b2c9ecab0](https://gist.github.com/oshybystyi/2c30543cd48b2c9ecab0)**  
+**[mgimenez/ae1cde0b637e844da885cb093a916126](https://gist.github.com/mgimenez/ae1cde0b637e844da885cb093a916126)**  
+**[ecbrodie/robbyrussell-WIP-theme](https://github.com/ecbrodie/robbyrussell-WIP-theme)**  
+**[schminitz/9931af23bbb59e772eec](https://gist.github.com/schminitz/9931af23bbb59e772eec)**  
+**[shayanh/shayan-zsh-theme](https://github.com/shayanh/shayan-zsh-theme)**  
+**[nikhilkmr300/omz-themes](https://github.com/nikhilkmr300/omz-themes)**  
+**[blyndusk/sm-theme](https://github.com/blyndusk/sm-theme)**  
+**[sobolevn/sobole-zsh-theme](https://github.com/sobolevn/sobole-zsh-theme)**  
+**[cloudnull/4cc7890acaae6cb809e811e09e9eaade](https://gist.github.com/cloudnull/4cc7890acaae6cb809e811e09e9eaade)**  
+**[denysdovhan/spaceship-prompt](https://github.com/denysdovhan/spaceship-prompt)**  
+**[dersam/staples](https://github.com/dersam/staples)**  
+**[eendroroy/theta](https://github.com/eendroroy/theta)**  
+**[xfxf/zsh-theme-traditional-plus](https://github.com/xfxf/zsh-theme-traditional-plus)**  
+**[reobin/typewritten](https://github.com/reobin/typewritten)**  
+**[Raindeer44/vero](https://github.com/Raindeer44/vero)**  
+**[badouralix/oh-my-via](https://github.com/badouralix/oh-my-via)**  
+**[juliavallina/windows-zsh-theme](https://github.com/juliavallina/windows-zsh-theme)**  
+**[xfanwu/18fd7c24360c68bab884](https://gist.github.com/xfanwu/18fd7c24360c68bab884)**  
+**[zeroastro/zeroastro-zsh-theme](https://github.com/zeroastro/zeroastro-zsh-theme)**  
+**[skylerlee/zeta-zsh-theme](https://github.com/skylerlee/zeta-zsh-theme)**  
+**[maverick9000/zsh2000](https://github.com/maverick9000/zsh2000)**  
+**[marszall87/lambda-pure](https://github.com/marszall87/lambda-pure)**
 
-zsh 里面的额外主题是我从[oh-my-zsh/external-themes](https://github.com/ohmyzsh/ohmyzsh/wiki/External-themes)里介绍的 Github 仓库里一个个下载下来的，不保证全都能用。  
+zsh 里面的额外主题是我从[oh-my-zsh/external-themes](https://github.com/ohmyzsh/ohmyzsh/wiki/External-themes)里介绍的 Github 仓库里一个个找的。 °(°ˊДˋ°) °
 If you find a theme loading error, then you can submit an issue.

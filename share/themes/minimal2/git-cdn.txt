@@ -1,0 +1,2 @@
+https://cdn.jsdelivr.net/gh/girishrau/oh-my-zsh-customizations/themes/minimal2.zsh-theme
+https://raw.githubusercontent.com/girishrau/oh-my-zsh-customizations/master/themes/minimal2.zsh-theme

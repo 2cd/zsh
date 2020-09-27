@@ -1,0 +1,1 @@
+https://github.com/skuridin/oh-my-zsh-node-theme

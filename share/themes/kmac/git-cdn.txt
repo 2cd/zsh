@@ -1,0 +1,2 @@
+https://cdn.jsdelivr.net/gh/koreymacdougall/config_files/deprecated_files/kmac.oh-my-zsh-theme
+https://raw.githubusercontent.com/koreymacdougall/config_files/master/deprecated_files/kmac.oh-my-zsh-theme

@@ -1,0 +1,1 @@
+https://github.com/Intika-Linux-Apps/Oh-My-Zsh-Intika/blob/master/themes/intika.zsh-theme

@@ -1,0 +1,2 @@
+https://cdn.jsdelivr.net/gh/LinuxGogley/Linux-etc/Shell-Themes/imperator.zsh-theme
+https://raw.githubusercontent.com/LinuxGogley/Linux-etc/master/Shell-Themes/imperator.zsh-theme

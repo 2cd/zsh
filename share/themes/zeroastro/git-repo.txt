@@ -1,0 +1,1 @@
+https://github.com/zeroastro/zeroastro-zsh-theme

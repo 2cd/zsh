@@ -16,218 +16,9 @@ tmoe_theme_main() {
     get_tmoe_zsh_theme_help_info
     choose_zsh_theme
     ;;
-  3den) TMOE_THEME=3den ;;
-  abaykan) TMOE_THEME=abaykan ;;
-  adben) TMOE_THEME=adben ;;
-  af-magic) TMOE_THEME=af-magic ;;
-  afowler) TMOE_THEME=afowler ;;
-  agnoster) TMOE_THEME=agnoster ;;
-  agnosterzak) TMOE_THEME=agnosterzak ;;
-  alanpeabody) TMOE_THEME=alanpeabody ;;
-  amuse) TMOE_THEME=amuse ;;
-  aphrodite) TMOE_THEME=aphrodite ;;
-  apple) TMOE_THEME=apple ;;
-  arrow) TMOE_THEME=arrow ;;
-  asciigit) TMOE_THEME=asciigit ;;
-  aussiegeek) TMOE_THEME=aussiegeek ;;
-  avit) TMOE_THEME=avit ;;
-  avit-da2k) TMOE_THEME=avit-da2k ;;
-  awesomepanda) TMOE_THEME=awesomepanda ;;
-  bender) TMOE_THEME=bender ;;
-  bira) TMOE_THEME=bira ;;
-  blinks) TMOE_THEME=blinks ;;
-  blokkzh) TMOE_THEME=blokkzh ;;
-  bullet-train) TMOE_THEME=bullet-train ;;
-  bunnyruni) TMOE_THEME=bunnyruni ;;
-  bureau) TMOE_THEME=bureau ;;
-  candy) TMOE_THEME=candy ;;
-  candy-kingdom) TMOE_THEME=candy-kingdom ;;
-  chi) TMOE_THEME=chi ;;
-  chill) TMOE_THEME=chill ;;
-  classyTouch) TMOE_THEME=classyTouch ;;
-  clean) TMOE_THEME=clean ;;
-  cloud) TMOE_THEME=cloud ;;
-  cordial) TMOE_THEME=cordial ;;
-  crcandy) TMOE_THEME=crcandy ;;
-  crunch) TMOE_THEME=crunch ;;
-  cypher) TMOE_THEME=cypher ;;
-  dallas) TMOE_THEME=dallas ;;
-  darkblood) TMOE_THEME=darkblood ;;
-  daveverwer) TMOE_THEME=daveverwer ;;
-  dieter) TMOE_THEME=dieter ;;
-  docker) TMOE_THEME=docker ;;
-  dogenpunk) TMOE_THEME=dogenpunk ;;
-  dpoggi) TMOE_THEME=dpoggi ;;
-  drofloh) TMOE_THEME=drofloh ;;
-  dst) TMOE_THEME=dst ;;
-  dstufft) TMOE_THEME=dstufft ;;
-  ducula) TMOE_THEME=ducula ;;
-  duellj) TMOE_THEME=duellj ;;
-  eastwood) TMOE_THEME=eastwood ;;
-  edvardm) TMOE_THEME=edvardm ;;
-  elessar) TMOE_THEME=elessar ;;
-  emotty) TMOE_THEME=emotty ;;
-  enlightenment) TMOE_THEME=enlightenment ;;
-  essembeh) TMOE_THEME=essembeh ;;
-  evan) TMOE_THEME=evan ;;
-  fino) TMOE_THEME=fino ;;
-  fino-time) TMOE_THEME=fino-time ;;
-  fishy) TMOE_THEME=fishy ;;
-  fishy2) TMOE_THEME=fishy2 ;;
-  flazz) TMOE_THEME=flazz ;;
-  fletcherm) TMOE_THEME=fletcherm ;;
-  fox) TMOE_THEME=fox ;;
-  frisk) TMOE_THEME=frisk ;;
-  frontcube) TMOE_THEME=frontcube ;;
-  funky) TMOE_THEME=funky ;;
-  funkyberlin) TMOE_THEME=funkyberlin ;;
-  fwalch) TMOE_THEME=fwalch ;;
-  gallifrey) TMOE_THEME=gallifrey ;;
-  gallois) TMOE_THEME=gallois ;;
-  garyblessington) TMOE_THEME=garyblessington ;;
-  gentoo) TMOE_THEME=gentoo ;;
-  geoffgarside) TMOE_THEME=geoffgarside ;;
-  gianu) TMOE_THEME=gianu ;;
-  gitster) TMOE_THEME=gitster ;;
-  gnzh) TMOE_THEME=gnzh ;;
-  gozilla) TMOE_THEME=gozilla ;;
-  half-life) TMOE_THEME=half-life ;;
-  halil) TMOE_THEME=halil ;;
-  haribo) TMOE_THEME=haribo ;;
-  hedgehog) TMOE_THEME=hedgehog ;;
-  humza) TMOE_THEME=humza ;;
-  hyper-oh-my-zsh) TMOE_THEME=hyper-oh-my-zsh ;;
-  hyperzsh) TMOE_THEME=hyperzsh ;;
-  igorsilva) TMOE_THEME=igorsilva ;;
-  imajes) TMOE_THEME=imajes ;;
-  imp) TMOE_THEME=imp ;;
-  imperator-root) TMOE_THEME=imperator-root ;;
-  intheloop) TMOE_THEME=intheloop ;;
-  intika) TMOE_THEME=intika ;;
-  itchy) TMOE_THEME=itchy ;;
-  jaischeema) TMOE_THEME=jaischeema ;;
-  jbergantine) TMOE_THEME=jbergantine ;;
-  jispwoso) TMOE_THEME=jispwoso ;;
-  jnrowe) TMOE_THEME=jnrowe ;;
-  jonathan) TMOE_THEME=jonathan ;;
-  josh) TMOE_THEME=josh ;;
-  jovial) TMOE_THEME=jovial ;;
-  jreese) TMOE_THEME=jreese ;;
-  jtriley) TMOE_THEME=jtriley ;;
-  juanghurtado) TMOE_THEME=juanghurtado ;;
-  junkfood) TMOE_THEME=junkfood ;;
-  kafeitu) TMOE_THEME=kafeitu ;;
-  kardan) TMOE_THEME=kardan ;;
-  kayid) TMOE_THEME=kayid ;;
-  kennethreitz) TMOE_THEME=kennethreitz ;;
-  kimwz) TMOE_THEME=kimwz ;;
-  kinda-fishy) TMOE_THEME=kinda-fishy ;;
-  kiwi) TMOE_THEME=kiwi ;;
-  kmac) TMOE_THEME=kmac ;;
-  kolo) TMOE_THEME=kolo ;;
-  kphoen) TMOE_THEME=kphoen ;;
-  lambda) TMOE_THEME=lambda ;;
-  lambda-gitster) TMOE_THEME=lambda-gitster ;;
-  lambda-mod) TMOE_THEME=lambda-mod ;;
-  lambda-v) TMOE_THEME=lambda-v ;;
-  linuxonly) TMOE_THEME=linuxonly ;;
-  lukerandall) TMOE_THEME=lukerandall ;;
-  macovsky) TMOE_THEME=macovsky ;;
-  maran) TMOE_THEME=maran ;;
-  maza) TMOE_THEME=maza ;;
-  McQuen) TMOE_THEME=McQuen ;;
-  mgutz) TMOE_THEME=mgutz ;;
-  mh) TMOE_THEME=mh ;;
-  michelebologna) TMOE_THEME=michelebologna ;;
-  mikeh) TMOE_THEME=mikeh ;;
-  miloshadzic) TMOE_THEME=miloshadzic ;;
-  minimal) TMOE_THEME=minimal ;;
-  minimal2) TMOE_THEME=minimal2 ;;
-  minimal_improve) TMOE_THEME=minimal_improve ;;
-  mira) TMOE_THEME=mira ;;
-  mortalscumbag) TMOE_THEME=mortalscumbag ;;
-  mrtazz) TMOE_THEME=mrtazz ;;
-  murilasso) TMOE_THEME=murilasso ;;
-  muse) TMOE_THEME=muse ;;
-  nanotech) TMOE_THEME=nanotech ;;
-  nebirhos) TMOE_THEME=nebirhos ;;
-  nicoulaj) TMOE_THEME=nicoulaj ;;
-  node) TMOE_THEME=node ;;
-  nodeys) TMOE_THEME=nodeys ;;
-  norm) TMOE_THEME=norm ;;
-  nox) TMOE_THEME=nox ;;
-  nt9) TMOE_THEME=nt9 ;;
-  nuts) TMOE_THEME=nuts ;;
-  obraun) TMOE_THEME=obraun ;;
-  odin) TMOE_THEME=odin ;;
-  ohwonder) TMOE_THEME=ohwonder ;;
-  oxide) TMOE_THEME=oxide ;;
-  peepcode) TMOE_THEME=peepcode ;;
-  philips) TMOE_THEME=philips ;;
-  philthy) TMOE_THEME=philthy ;;
-  pi) TMOE_THEME=pi ;;
-  pmcgee) TMOE_THEME=pmcgee ;;
   p9k | powerlevel9k) TMOE_THEME=powerlevel9k ;;
   p10k | -p10k | powerlevel10k) TMOE_THEME=powerlevel10k ;;
-  punctual) TMOE_THEME=punctual ;;
-  pure) TMOE_THEME=pure ;;
-  pygmalion) TMOE_THEME=pygmalion ;;
-  pygmalion-virtualenv) TMOE_THEME=pygmalion-virtualenv ;;
-  rafiki) TMOE_THEME=rafiki ;;
-  random) TMOE_THEME=random ;;
-  random-emoji) TMOE_THEME=random-emoji ;;
-  re5et) TMOE_THEME=re5et ;;
-  refined) TMOE_THEME=refined ;;
-  reggae) TMOE_THEME=reggae ;;
-  rgm) TMOE_THEME=rgm ;;
-  risto) TMOE_THEME=risto ;;
-  rixius) TMOE_THEME=rixius ;;
-  rkj) TMOE_THEME=rkj ;;
-  rkj-repos) TMOE_THEME=rkj-repos ;;
-  robbyrussell) TMOE_THEME=robbyrussell ;;
-  robbyrussell-WIP) TMOE_THEME=robbyrussell-WIP ;;
-  sammy) TMOE_THEME=sammy ;;
-  shayan) TMOE_THEME=shayan ;;
-  simonoff) TMOE_THEME=simonoff ;;
-  simple) TMOE_THEME=simple ;;
-  skaro) TMOE_THEME=skaro ;;
-  sm) TMOE_THEME=sm ;;
-  smt) TMOE_THEME=smt ;;
-  sobole) TMOE_THEME=sobole ;;
-  Soliah) TMOE_THEME=Soliah ;;
-  sonicradish) TMOE_THEME=sonicradish ;;
-  sorin) TMOE_THEME=sorin ;;
-  sporty_256) TMOE_THEME=sporty_256 ;;
-  staples) TMOE_THEME=staples ;;
-  steeef) TMOE_THEME=steeef ;;
-  strug) TMOE_THEME=strug ;;
-  sunaku) TMOE_THEME=sunaku ;;
-  sunrise) TMOE_THEME=sunrise ;;
-  superjarin) TMOE_THEME=superjarin ;;
-  suvash) TMOE_THEME=suvash ;;
-  takashiyoshida) TMOE_THEME=takashiyoshida ;;
-  terminalparty) TMOE_THEME=terminalparty ;;
-  theunraveler) TMOE_THEME=theunraveler ;;
-  tjkirch) TMOE_THEME=tjkirch ;;
-  tjkirch_mod) TMOE_THEME=tjkirch_mod ;;
-  tonotdo) TMOE_THEME=tonotdo ;;
-  traditional-plus) TMOE_THEME=traditional-plus ;;
-  trapd00r) TMOE_THEME=trapd00r ;;
-  typewritten) TMOE_THEME=typewritten ;;
-  vero) TMOE_THEME=vero ;;
-  via) TMOE_THEME=via ;;
-  wedisagree) TMOE_THEME=wedisagree ;;
-  wezm) TMOE_THEME=wezm ;;
-  wezm+) TMOE_THEME=wezm+ ;;
-  windows) TMOE_THEME=windows ;;
-  wuffers) TMOE_THEME=wuffers ;;
-  xiong-chiamiov) TMOE_THEME=xiong-chiamiov ;;
-  xiong-chiamiov-plus) TMOE_THEME=xiong-chiamiov-plus ;;
-  xxf) TMOE_THEME=xxf ;;
-  ys) TMOE_THEME=ys ;;
-  zeroastro) TMOE_THEME=zeroastro ;;
-  zeta) TMOE_THEME=zeta ;;
-  zhann) TMOE_THEME=zhann ;;
+  3den | abaykan | adben | af-magic | afowler | agkozak | agnoster | agnosterzak | alanpeabody | alien | alien-minimal | amuse | antsy | aphrodite | apple | arrow | asciigit | aussiegeek | avit | avit-da2k | awesomepanda | bender | bira | blinks | blokkzh | bullet-train | bunnyruni | bureau | candy | candy-kingdom | chi | chill | ciacho | classytouch | clean | cloud | color-input | color-input-line | cordial | crcandy | crunch | cypher | daivasmara | dallas | darkblood | daveverwer | dieter | docker-zsh | dogenpunk | dpoggi | dpoggi-newline-timestamp | drofloh | dst | dstufft | ducula | duellj | eastwood | edvardm | elessar | emotty | enlightenment | essembeh | evan | fino | fino-time | 'fishbone++' | fishy | fishy2 | flazz | fletcherm | fox | frisk | frontcube | funky | funkyberlin | fwalch | gallifrey | gallois | garyblessington | gentoo | geoffgarside | geometry | gianu | gitstatus | gitster | gnzh | gozilla | half-life | halil | haribo | hedgehog | hub | humza | hyper-oh-my-zsh | hyperzsh | igeek | igorsilva | imajes | imp | imperator | intheloop | intika | itchy | jaischeema | jbergantine | jispwoso | jnrowe | jonathan | josh | jovial | jreese | jtriley | juanghurtado | junkfood | kafeitu | kardan | kayid | kennethreitz | kimwz | kinda-fishy | kiwi | kmac | kolo | kphoen | lambda | lambda-gitster | lambda-mod | lambda-v | linuxonly | lukerandall | macovsky | maran | matte-black-yellow | matte-black-yellow-line | maza | mcquen | mgutz | mh | michelebologna | mikeh | miloshadzic | minimal | minimal-improved | minimal2 | mira | mlh | mortalscumbag | mrtazz | murilasso | muse | nanotech | nebirhos | nicoulaj | node | nodeys | norm | nothing | nt9 | nuts | obraun | odin | oh-wonder | omega | oxide | passion | peepcode | philips | philthy | pi | pmcgee | powerlevel10k | punctual | pure | pygmalion | pygmalion-virtualenv | rafiki-zsh | random | random-emoji | re5et | refined | reggae | retro-term | rgm | risto | rixius | rkj | rkj-repos | robbyrussell | robbyrussell-wip | sammy | schminitz | shayan | short | simonoff | simple | skaro | sm | smt | sobole | Soliah | solus | sonicradish | sorin | spaceship-zsh | sporty_256 | staples | steeef | strug | sunaku | sunrise | superjarin | suvash | takashiyoshida | terminalparty | theta | theunraveler | tjkirch | tjkirch_mod | tonotdo | traditional-plus | trapd00r | typewritten | vero | via | wedisagree | wezm | wezm+ | windows-cmd | wuffers | xiong-chiamiov | xiong-chiamiov-plus | xxf | ys | zeroastro | zeta | zhann | zsh2000 | λpure) TMOE_THEME="$1" ;;
   *) echo "Unknown parameter,you can type ${GREEN}zshtheme h${RESET} to get help information.If you find a bug, please submit an issue to the git-repo of ${BLUE}tmoe-zsh${RESET}." ;;
   esac
   case_tmoe_zsh_theme
@@ -290,6 +81,19 @@ get_tmoe_zsh_theme_help_info() {
   序号列表模式。若参数为空，则将进入此模式。
   此模式为交互式操作，您可以先输${GREEN}zshtheme${RESET}启动,接着输入数字序号。
   --------------
+    部分主题需要联网下载。
+    Some themes need to be downloaded.
+    The following themes use git to clone their repo:
+    以下主题使用git克隆整个仓库：
+    powerlevel10k | pure | via | aphrodite | typewritten | abaykan | agkozak | agnosterzak | alien | alien-minimal | antsy | asciigit | avit-da2k | bender | blokkzh | bullet-train | bunnyruni | chi | chill | ciacho | classytouch | color-input | color-input-line | cordial | daivasmara | docker-zsh | drofloh | ducula | elessar | enlightenment | fishbone++ | fishy2 | funkyberlin | geometry | gitstatus | halil | haribo | hyper-oh-my-zsh | hyperzsh | igeek | igorsilva | imp | jovial | kimwz | kinda-fishy | lambda-mod | lambda-v | matte-black-yellow | matte-black-yellow-line | maza | minimal-improved | minimal2 | node | nodeys | nothing | nt9 | nuts | odin | omega | oxide | pi | punctual | rafiki-zsh  | robbyrussell-wip | shayan | short | sm | sobole | spaceship-zsh | staples | theta | traditional-plus | vero | windows-cmd | zeroastro | zeta | zsh2000 | λpure
+  
+  以下主题使用了CDN进行下载加速：
+  The following themes use jsdelivr CDN for download acceleration：
+  color-input | color-input-line | dpoggi-newline-timestamp | gitster | imperator | intika | kayid | kmac | matte-black-yellow | matte-black-yellow-line | minimal2 | oh-wonder | passion | philthy | retro-term | short
+
+  以下主题托管于github gist,下载无加速：
+  xxf | solus | schminitz | reggae | random-emoji | philthy | oh-wonder | hedgehog | hub | mcquen 
+  --------------
   ${BOLD}${YELLOW}NOTES${RESET}${RESET} of ${GREEN}manual mode${RESET} 
   ${GREEN}手动模式${RESET}的${BOLD}${YELLOW}说明${RESET}${RESET}
   You can type ${GREEN}zshtheme${RESET} ${BLUE}\$THEME_NAME${RESET} to change the zsh theme.
@@ -301,7 +105,7 @@ get_tmoe_zsh_theme_help_info() {
   ${BOLD}${YELLOW}LIST OF ZSH THEMES${RESET}${RESET}:
 ENDOFTMOEZSHHELP01
   ${CATCAT} <<-'ENDOFTMOEZSHHELP02'
-  3den , abaykan , adben , af-magic , afowler , agnoster , agnosterzak , alanpeabody , amuse , aphrodite , apple , arrow , asciigit , aussiegeek , avit , avit-da2k , awesomepanda , bender , bira , blinks , blokkzh , bullet-train , bunnyruni , bureau , candy , candy-kingdom , chi , chill , classyTouch , clean , cloud , cordial , crcandy , crunch , cypher , dallas , darkblood , daveverwer , dieter , docker , dogenpunk , dpoggi , drofloh , dst , dstufft , ducula , duellj , eastwood , edvardm , elessar , emotty , enlightenment , essembeh , evan , fino , fino-time , fishy , fishy2 , flazz , fletcherm , fox , frisk , frontcube , funky , funkyberlin , fwalch , gallifrey , gallois , garyblessington , gentoo , geoffgarside , gianu , gitster , gnzh , gozilla , half-life , halil , haribo , hedgehog , humza , hyper-oh-my-zsh , hyperzsh , igorsilva , imajes , imp , imperator-root , intheloop , intika , itchy , jaischeema , jbergantine , jispwoso , jnrowe , jonathan , josh , jovial , jreese , jtriley , juanghurtado , junkfood , kafeitu , kardan , kayid , kennethreitz , kimwz , kinda-fishy , kiwi , kmac , kolo , kphoen , lambda , lambda-gitster , lambda-mod , lambda-v , linuxonly , lukerandall , macovsky , maran , maza , McQuen , mgutz , mh , michelebologna , mikeh , miloshadzic , minimal , minimal2 , minimal_improve , mira , mortalscumbag , mrtazz , murilasso , muse , nanotech , nebirhos , nicoulaj , node , nodeys , norm , nox , nt9 , nuts , obraun , odin , ohwonder , oxide , peepcode , philips , philthy , pi , pmcgee , powerlevel10k , punctual , pure , pygmalion , pygmalion-virtualenv , rafiki , random , random-emoji , re5et , refined , reggae , rgm , risto , rixius , rkj , rkj-repos , robbyrussell , robbyrussell-WIP , sammy , shayan , simonoff , simple , skaro , sm , smt , sobole , Soliah , sonicradish , sorin , sporty_256 , staples , steeef , strug , sunaku , sunrise , superjarin , suvash , takashiyoshida , terminalparty , theunraveler , tjkirch , tjkirch_mod , tonotdo , traditional-plus , trapd00r , typewritten , vero , via , wedisagree , wezm , wezm+ , windows , wuffers , xiong-chiamiov , xiong-chiamiov-plus , xxf , ys , zeroastro , zeta , zhann
+3den , abaykan , adben , af-magic , afowler , agkozak , agnoster , agnosterzak , alanpeabody , alien , alien-minimal , amuse , antsy , aphrodite , apple , arrow , asciigit , aussiegeek , avit , avit-da2k , awesomepanda , bender , bira , blinks , blokkzh , bullet-train , bunnyruni , bureau , candy , candy-kingdom , chi , chill , ciacho , classytouch , clean , cloud , color-input , color-input-line , cordial , crcandy , crunch , cypher , daivasmara , dallas , darkblood , daveverwer , dieter , docker-zsh , dogenpunk , dpoggi , dpoggi-newline-timestamp , drofloh , dst , dstufft , ducula , duellj , eastwood , edvardm , elessar , emotty , enlightenment , essembeh , evan , fino , fino-time , fishbone++ , fishy , fishy2 , flazz , fletcherm , fox , frisk , frontcube , funky , funkyberlin , fwalch , gallifrey , gallois , garyblessington , gentoo , geoffgarside , geometry , gianu , gitstatus , gitster , gnzh , gozilla , half-life , halil , haribo , hedgehog , hub , humza , hyper-oh-my-zsh , hyperzsh , igeek , igorsilva , imajes , imp , imperator , intheloop , intika , itchy , jaischeema , jbergantine , jispwoso , jnrowe , jonathan , josh , jovial , jreese , jtriley , juanghurtado , junkfood , kafeitu , kardan , kayid , kennethreitz , kimwz , kinda-fishy , kiwi , kmac , kolo , kphoen , lambda , lambda-gitster , lambda-mod , lambda-v , linuxonly , lukerandall , macovsky , maran , matte-black-yellow , matte-black-yellow-line , maza , mcquen , mgutz , mh , michelebologna , mikeh , miloshadzic , minimal , minimal-improved , minimal2 , mira , mlh , mortalscumbag , mrtazz , murilasso , muse , nanotech , nebirhos , nicoulaj , node , nodeys , norm , nothing , nt9 , nuts , obraun , odin , oh-wonder , omega , oxide , passion , peepcode , philips , philthy , pi , pmcgee , powerlevel10k , punctual , pure , pygmalion , pygmalion-virtualenv , rafiki-zsh , random , random-emoji , re5et , refined , reggae , retro-term , rgm , risto , rixius , rkj , rkj-repos , robbyrussell , robbyrussell-wip , sammy , schminitz , shayan , short , simonoff , simple , skaro , sm , smt , sobole , Soliah , solus , sonicradish , sorin , spaceship-zsh , sporty_256 , staples , steeef , strug , sunaku , sunrise , superjarin , suvash , takashiyoshida , terminalparty , theta , theunraveler , tjkirch , tjkirch_mod , tonotdo , traditional-plus , trapd00r , typewritten , vero , via , wedisagree , wezm , wezm+ , windows-cmd , wuffers , xiong-chiamiov , xiong-chiamiov-plus , xxf , ys , zeroastro , zeta , zhann , zsh2000 , λpure
 ENDOFTMOEZSHHELP02
 }
 ######
@@ -343,6 +147,7 @@ del_zsh_theme_line() {
 configure_new_zsh_theme_01() {
   #if ! egrep -q "^[^#]*zinit.*${TMOE_ZSH_THEME}" "${ZSHRC_FILE}"; then; fi
   del_zsh_theme_line
+  #此处请保持$ZINIT_THEME_DIR
   sed -i "${ZINIT_THEME_LINE} a\zinit light \${ZINIT_THEME_DIR}/${TMOE_ZSH_THEME}" "${ZSHRC_FILE}"
 }
 ###########
@@ -351,6 +156,20 @@ rm_zsh_git_theme_dir() {
   mkdir -p "${ZINIT_THEME_DIR}"
 }
 ###########
+cat_zsh_theme_readme_md() {
+  CATCAT=''
+  for i in bat batcat; do
+    if [[ $(command -v ${i}) ]]; then
+      CATCAT="${i}"
+    fi
+  done
+  unset i
+  case ${CATCAT} in
+  "") cat ${TMOE_THEME_FILE}/README_min.md ;;
+  *) cat ${TMOE_THEME_FILE}/README_min.md | head -n 16 | ${CATCAT} -l markdown ;;
+  esac
+}
+############
 configure_p9k() {
   #p9k已经停止维护
   if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
@@ -394,12 +213,13 @@ configure_p10k() {
 }
 #############
 echo_git_repo_url() {
-  ZSH_THEME_URL_01=$(cat ${TMOE_THEME_DIR}/${TMOE_ZSH_THEME}/git-repo.txt | head -n 1)
+  ZSH_THEME_URL_01=$(cat ${TMOE_THEME_FILE}/git-repo.txt | head -n 1)
   echo "${YELLOW}${ZSH_THEME_URL_01}${RESET}"
 }
 ############
 git_clone_zsh_theme_model_01() {
   echo_git_repo_url
+  cat_zsh_theme_readme_md
   echo "${BLUE}${CHOSEN_THEME_DIR}${RESET}"
   if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
     rm_zsh_git_theme_dir
@@ -425,7 +245,8 @@ copy_tmoe_zsh_theme() {
 ###########
 curl_new_zsh_theme_from_git_cdn() {
   echo_git_repo_url
-  GIT_THEME_CDN_URL=$(cat ${TMOE_THEME_DIR}/${TMOE_ZSH_THEME}/git-cdn.txt | head -n 1)
+  cat_zsh_theme_readme_md
+  GIT_THEME_CDN_URL=$(cat ${TMOE_THEME_FILE}/git-cdn.txt | head -n 1)
   if [ ! -e "${CHOSEN_THEME_FILE}" ]; then
     mkdir -p "${CHOSEN_THEME_DIR}"
     cd "${CHOSEN_THEME_DIR}"
@@ -457,7 +278,8 @@ case_zsh_theme() {
     git_clone_zsh_theme_model_01
     ;;
   typewritten) git_clone_zsh_theme_model_01 ;;
-  passion) curl_new_zsh_theme_from_git_cdn ;;
+  xxf | solus | schminitz | reggae | random-emoji | philthy | oh-wonder | hedgehog | hub | mcquen | color-input | color-input-line | dpoggi-newline-timestamp | gitster | imperator | intika | kayid | kmac | matte-black-yellow | matte-black-yellow-line | minimal2 | oh-wonder | passion | philthy | retro-term | short) curl_new_zsh_theme_from_git_cdn ;;
+  abaykan | agkozak | agnosterzak | alien | alien-minimal | antsy | asciigit | avit-da2k | bender | blokkzh | bullet-train | bunnyruni | chi | chill | ciacho | classytouch | color-input | color-input-line | cordial | daivasmara | docker-zsh | drofloh | ducula | elessar | enlightenment | fishbone++ | fishy2 | funkyberlin | geometry | gitstatus | halil | haribo | hyper-oh-my-zsh | hyperzsh | igeek | igorsilva | imp | jovial | kimwz | kinda-fishy | lambda-mod | lambda-v | matte-black-yellow | matte-black-yellow-line | maza | minimal-improved | minimal2 | node | nodeys | nothing | nt9 | nuts | odin | omega | oxide | pi | punctual | rafiki-zsh | retro-term | robbyrussell-wip | shayan | short | sm | sobole | spaceship-zsh | staples | theta | traditional-plus | vero | windows-cmd | zeroastro | zeta | zsh2000 | λpure) git_clone_zsh_theme_model_01 ;;
   *) copy_tmoe_zsh_theme ;;
   esac
 }
@@ -502,3 +324,6 @@ ENDOFTMOEZSHHELP03
 }
 ##############
 tmoe_theme_main "$@"
+#gist:Mcquen
+#失效：rainbow-theme
+#pure主题非omz extra-theme

@@ -1,0 +1,2 @@
+https://cdn.jsdelivr.net/gh/AmrMKayid/KayidmacOS/kayid.zsh-theme
+https://raw.githubusercontent.com/AmrMKayid/KayidmacOS/master/kayid.zsh-theme

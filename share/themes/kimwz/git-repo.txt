@@ -1,0 +1,1 @@
+https://github.com/kimwz/kimwz-oh-my-zsh-theme

@@ -1,0 +1,2 @@
+https://cdn.jsdelivr.net/gh/Intika-Linux-Apps/Oh-My-Zsh-Intika/themes/intika.zsh-theme
+https://raw.githubusercontent.com/Intika-Linux-Apps/Oh-My-Zsh-Intika/master/themes/intika.zsh-theme

@@ -1,0 +1,2 @@
+https://cdn.jsdelivr.net/gh/shashankmehta/dotfiles/thesetup/zsh/.oh-my-zsh/custom/themes/gitster.zsh-theme
+https://raw.githubusercontent.com/shashankmehta/dotfiles/master/thesetup/zsh/.oh-my-zsh/custom/themes/gitster.zsh-theme

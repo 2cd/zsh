@@ -1,0 +1,1 @@
+https://gist.githubusercontent.com/hedgehog1029/dfbb7e66511e2c399157/raw/b5fd281878ada239c10787d65d87e1764448e89e/hedgehog.zsh-theme

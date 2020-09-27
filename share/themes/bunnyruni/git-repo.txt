@@ -1,0 +1,1 @@
+https://github.com/jopcode/oh-my-zsh-bunnyruni-theme

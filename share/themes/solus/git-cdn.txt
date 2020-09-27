@@ -1,0 +1,1 @@
+https://gist.githubusercontent.com/cloudnull/4cc7890acaae6cb809e811e09e9eaade/raw/f62c35e3f1a383dbd281fbdaaede00069582141d/solus.zsh-theme

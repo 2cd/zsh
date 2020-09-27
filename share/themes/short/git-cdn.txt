@@ -1,0 +1,2 @@
+https://cdn.jsdelivr.net/gh/nikhilkmr300/omz-themes/themes/short.zsh-theme 
+#https://raw.githubusercontent.com/nikhilkmr300/omz-themes/master/themes/short.zsh-theme
