@@ -57,7 +57,7 @@ get_tmoe_font_help_info() {
 	cat <<-ENDOFTMOEZSHHELP01
 		  ${BOLD}${YELLOW}COMMAND${RESET}${RESET}: ${GREEN}zshfont${RESET} 
 		  ${BOLD}${YELLOW}命令${RESET}${RESET}: ${GREEN}zshfont${RESET}
-		  ${BOLD}${YELLOW}Description${RESET}${RESET}: ${BLUE}This command can change the termux font.${RESET}.
+		  ${BOLD}${YELLOW}Description${RESET}${RESET}: ${BLUE}This command can change the termux font${RESET}.
 		  ${BOLD}${YELLOW}描述${RESET}${RESET}: ${BLUE}此命令能修改终端字体${RESET}。
 		  --------------
 		  ${YELLOW}-h${RESET}      --help 
