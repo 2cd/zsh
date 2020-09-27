@@ -183,11 +183,11 @@ cat_zsh_theme_readme_full_md() {
 }
 ############
 check_readme_file() {
-  if [ -e "${TMOE_THEME_FILE}/README_min.md" ]; then
-    cat_zsh_theme_readme_md
-  elif [ -e "${CHOSEN_THEME_DIR}/README.md" ]; then
+  if [ -e "${CHOSEN_THEME_DIR}/README.md" ]; then
     README_LINE_NUM=$(wc -l "${CHOSEN_THEME_DIR}/README.md" | awk '{print $1}')
     cat_zsh_theme_readme_full_md
+  elif [ -e "${TMOE_THEME_FILE}/README_min.md" ]; then
+    cat_zsh_theme_readme_md
   fi
 }
 ##########
@@ -206,7 +206,6 @@ git_pull_zsh_theme() {
   git reset --hard
   git pull --depth=1
   cd ${CURRENT_DIR}
-  check_readme_file
 }
 ########
 configure_p10k() {
