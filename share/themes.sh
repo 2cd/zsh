@@ -369,6 +369,7 @@ git_pull_zsh_theme() {
 ########
 configure_p10k() {
   echo "${YELLOW}${P10K_URL_02}${RESET}"
+  echo "${BLUE}${CHOSEN_THEME_DIR}${RESET}"
   echo "You can type ${GREEN}p10k configure${RESET} to configure ${BLUE}powerlevel 10k${RESET}."
   echo "输${GREEN}p10k configure${RESET}配置powerlevel 10k${RESET}"
   if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
@@ -393,7 +394,9 @@ configure_p10k() {
 }
 #############
 git_clone_zsh_theme_model_01() {
+  ZSH_THEME_URL_01=$(cat ${TMOE_THEME_DIR}/${TMOE_ZSH_THEME}/git-repo.txt | head -n 1)
   echo "${YELLOW}${ZSH_THEME_URL_01}${RESET}"
+  echo "${BLUE}${CHOSEN_THEME_DIR}${RESET}"
   if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
     rm_zsh_git_theme_dir
     git clone ${ZSH_THEME_URL_01} "${CHOSEN_THEME_DIR}" --depth=1
@@ -421,13 +424,14 @@ case_zsh_theme() {
   powerlevel9k) configure_p9k ;;
   powerlevel10k) configure_p10k ;;
   pure)
-    ZSH_THEME_URL_01='https://github.com/sindresorhus/pure.git'
+    #ZSH_THEME_URL_01='https://github.com/sindresorhus/pure.git'
     git_clone_zsh_theme_model_01
     ;;
   via)
-    ZSH_THEME_URL_01='https://github.com/badouralix/oh-my-via.git'
+    #ZSH_THEME_URL_01='https://github.com/badouralix/oh-my-via.git'
     git_clone_zsh_theme_model_01
     ;;
+  typewritten) git_clone_zsh_theme_model_01 ;;
   *) copy_tmoe_zsh_theme ;;
   esac
 }
