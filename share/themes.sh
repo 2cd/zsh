@@ -320,7 +320,6 @@ tmoe_zsh_theme_env() {
   P10K_URL_02="git://github.com/romkatv/powerlevel10k"
   P9K_URL_01='https://github.com/Powerlevel9k/powerlevel9k.git'
   P9K_URL_02="git://github.com/Powerlevel9k/powerlevel9k"
-  PURE_THEME_URL_01='https://github.com/sindresorhus/pure.git'
   COUNT=0
   ZINIT_LINE=$(cat ${ZSHRC_FILE} | egrep -n '^[^#]*source.*bin/zinit.zsh' | awk -F ':' '{print $1}' | head -n 1)
   if ! egrep -q '^[^#]*ZINIT_THEME_DIR=.*themes/_local' "${ZSHRC_FILE}"; then
@@ -368,17 +367,6 @@ git_pull_zsh_theme() {
   cd ${CURRENT_DIR}
 }
 ########
-configure_pure_theme() {
-  echo "${YELLOW}${PURE_THEME_URL_01}${RESET}"
-  if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
-    rm_zsh_git_theme_dir
-    git clone ${PURE_THEME_URL_01} "${CHOSEN_THEME_DIR}" --depth=1
-  else
-    git_pull_zsh_theme
-  fi
-  configure_new_zsh_theme_01
-}
-##########
 configure_p10k() {
   echo "${YELLOW}${P10K_URL_02}${RESET}"
   echo "You can type ${GREEN}p10k configure${RESET} to configure ${BLUE}powerlevel 10k${RESET}."
@@ -404,6 +392,17 @@ configure_p10k() {
   configure_new_zsh_theme_01
 }
 #############
+git_clone_zsh_theme_model_01() {
+  echo "${YELLOW}${ZSH_THEME_URL_01}${RESET}"
+  if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
+    rm_zsh_git_theme_dir
+    git clone ${ZSH_THEME_URL_01} "${CHOSEN_THEME_DIR}" --depth=1
+  else
+    git_pull_zsh_theme
+  fi
+  configure_new_zsh_theme_01
+}
+##########
 copy_tmoe_zsh_theme() {
   if [ ! -e "${CHOSEN_THEME_FILE}" ]; then
     mkdir -p "${CHOSEN_THEME_DIR}"
@@ -421,7 +420,14 @@ case_zsh_theme() {
   case "${TMOE_ZSH_THEME}" in
   powerlevel9k) configure_p9k ;;
   powerlevel10k) configure_p10k ;;
-  pure) configure_pure_theme ;;
+  pure)
+    ZSH_THEME_URL_01='https://github.com/sindresorhus/pure.git'
+    git_clone_zsh_theme_model_01
+    ;;
+  via)
+    ZSH_THEME_URL_01='https://github.com/badouralix/oh-my-via.git'
+    git_clone_zsh_theme_model_01
+    ;;
   *) copy_tmoe_zsh_theme ;;
   esac
 }
