@@ -227,6 +227,13 @@ check_gnu_linux_dependencies_01() {
         esac
     fi
     ###########################################
+    if [ ! $(command -v less) ]; then
+        case "${LINUX_DISTRO}" in
+        gentoo) DEPENDENCIES="${DEPENDENCIES} sys-apps/less" ;;
+        *) DEPENDENCIES="${DEPENDENCIES} less" ;;
+        esac
+    fi
+    #########################################
     if [ ! $(command -v pv) ]; then
         case "${LINUX_DISTRO}" in
         gentoo) DEPENDENCIES="${DEPENDENCIES} sys-apps/pv" ;;

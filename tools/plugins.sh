@@ -85,7 +85,7 @@ list_enabled_plugins() {
     unset i
     case ${CATCAT} in
     "") cat ${HOME}/.zshrc | egrep -v '^#|.zinit/omz/lib' | egrep -n --color=auto '(zinit light|zinit load|zinit snippet).*?#' ;;
-    *) cat ${HOME}/.zshrc | egrep -v '^#|.zinit/omz/lib' | egrep -n --color=auto '(zinit light|zinit load|zinit snippet).*?#' | ${CATCAT} -l zsh ;;
+    *) cat ${HOME}/.zshrc | egrep -v '^#|.zinit/omz/lib' | egrep -n --color=auto '(zinit light|zinit load|zinit snippet).*?#' | ${CATCAT} -l zsh --pager "less -m -RFeQ" ;;
     esac
 }
 ##############
@@ -1757,12 +1757,7 @@ ${ZINIT_SPECIAL_LOADING_CONTENT}
 ENDOFZSHPLUGIN
 }
 #################
-case_new_zinit_plugin() {
-    case ${ZINIT_LOCAL_SNIPPET_FILE} in
-    "") add_new_zinit_plugin_to_zshrc_01 ;;
-    *) add_new_zinit_plugin_to_zshrc_02 ;;
-    esac
-}
+
 ###########
 enable_zsh_plugin() {
     check_zsh_plugin_folder
@@ -1825,9 +1820,9 @@ disable_zsh_plugin() {
 ###################
 check_bat() {
     if [ $(command -v batcat) ]; then
-        batcat ${ZSH_README_FILE_PATH}
+        batcat ${ZSH_README_FILE_PATH} --pager "less -m -RFeQ"
     elif [ $(command -v bat) ]; then
-        bat ${ZSH_README_FILE_PATH}
+        bat ${ZSH_README_FILE_PATH} --pager "less -m -RFeQ"
     elif [ $(command -v mdv) ]; then
         mdv ${ZSH_README_FILE_PATH}
     elif [ $(command -v less) ]; then

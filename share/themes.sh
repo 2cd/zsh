@@ -156,7 +156,7 @@ rm_zsh_git_theme_dir() {
   mkdir -p "${ZINIT_THEME_DIR}"
 }
 ###########
-cat_zsh_theme_readme_md() {
+check_catcat() {
   CATCAT=''
   for i in bat batcat; do
     if [[ $(command -v ${i}) ]]; then
@@ -164,14 +164,36 @@ cat_zsh_theme_readme_md() {
     fi
   done
   unset i
+}
+###########
+cat_zsh_theme_readme_md() {
+  check_catcat
   case ${CATCAT} in
   "") cat ${TMOE_THEME_FILE}/README_min.md ;;
-  *) cat ${TMOE_THEME_FILE}/README_min.md | head -n 16 | ${CATCAT} -l markdown ;;
+  *) cat ${TMOE_THEME_FILE}/README_min.md | head -n 16 | ${CATCAT} -l markdown --pager "less -m -RFeQ" ;;
   esac
 }
 ############
+cat_zsh_theme_readme_full_md() {
+  check_catcat
+  case ${CATCAT} in
+  "") cat ${CHOSEN_THEME_DIR}/README.md ;;
+  *) ${CATCAT} ${CHOSEN_THEME_DIR}/README.md -l markdown --pager "less -m -RFeQ" ;;
+  esac
+}
+############
+check_readme_file() {
+  if [ -e "${TMOE_THEME_FILE}/README_min.md" ]; then
+    cat_zsh_theme_readme_md
+  elif [ -e "${CHOSEN_THEME_DIR}/README.md" ]; then
+    README_LINE_NUM=$(wc -l "${CHOSEN_THEME_DIR}/README.md" | awk '{print $1}')
+    cat_zsh_theme_readme_full_md
+  fi
+}
+##########
 configure_p9k() {
   #p9k已经停止维护
+  check_readme_file
   if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
     rm_zsh_git_theme_dir
     git clone --depth=1 ${P9K_URL_01} "${CHOSEN_THEME_DIR}" || git clone --depth=1 ${P9K_URL_02} "${CHOSEN_THEME_DIR}"
@@ -184,6 +206,7 @@ git_pull_zsh_theme() {
   git reset --hard
   git pull --depth=1
   cd ${CURRENT_DIR}
+  check_readme_file
 }
 ########
 configure_p10k() {
@@ -192,10 +215,12 @@ configure_p10k() {
   echo "You can type ${GREEN}p10k configure${RESET} to configure ${BLUE}powerlevel 10k${RESET}."
   echo "输${GREEN}p10k configure${RESET}配置powerlevel 10k${RESET}"
   if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
+    cat_zsh_theme_readme_md
     rm_zsh_git_theme_dir
     echo "若无法弹出powerlevel 10k配置面板，则请拉宽屏幕显示大小，然后输${GREEN}p10k configure${RESET}"
     git clone ${P10K_URL_01} "${CHOSEN_THEME_DIR}" --depth=1 || git clone ${P10K_URL_02} "${CHOSEN_THEME_DIR}" --depth=1
   else
+    check_readme_file
     git_pull_zsh_theme
   fi
   P10K_CONFIG_FILE="${HOME}/.p10k.zsh"
@@ -219,12 +244,13 @@ echo_git_repo_url() {
 ############
 git_clone_zsh_theme_model_01() {
   echo_git_repo_url
-  cat_zsh_theme_readme_md
   echo "${BLUE}${CHOSEN_THEME_DIR}${RESET}"
   if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
+    cat_zsh_theme_readme_md
     rm_zsh_git_theme_dir
     git clone ${ZSH_THEME_URL_01} "${CHOSEN_THEME_DIR}" --depth=1
   else
+    check_readme_file
     git_pull_zsh_theme
   fi
   chmod -R a+r ${CHOSEN_THEME_DIR}
@@ -245,9 +271,9 @@ copy_tmoe_zsh_theme() {
 ###########
 curl_new_zsh_theme_from_git_cdn() {
   echo_git_repo_url
-  cat_zsh_theme_readme_md
   GIT_THEME_CDN_URL=$(cat ${TMOE_THEME_FILE}/git-cdn.txt | head -n 1)
-  if [ ! -e "${CHOSEN_THEME_FILE}" ]; then
+  if [ ! -s "${CHOSEN_THEME_FILE}" ]; then
+    cat_zsh_theme_readme_md
     mkdir -p "${CHOSEN_THEME_DIR}"
     cd "${CHOSEN_THEME_DIR}"
     if [ $(command -v aria2c) ]; then
@@ -259,6 +285,8 @@ curl_new_zsh_theme_from_git_cdn() {
     else
       echo "Can not download this file.Please download manually."
     fi
+  else
+    check_readme_file
   fi
   chmod a+r ${CHOSEN_THEME_FILE}
   cd ${CURRENT_DIR}
