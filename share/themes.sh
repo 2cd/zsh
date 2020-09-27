@@ -218,9 +218,11 @@ configure_p10k() {
     rm_zsh_git_theme_dir
     echo "若无法弹出powerlevel 10k配置面板，则请拉宽屏幕显示大小，然后输${GREEN}p10k configure${RESET}"
     git clone ${P10K_URL_01} "${CHOSEN_THEME_DIR}" --depth=1 || git clone ${P10K_URL_02} "${CHOSEN_THEME_DIR}" --depth=1
+    configure_new_zsh_theme_01
   else
-    check_readme_file
     git_pull_zsh_theme
+    configure_new_zsh_theme_01
+    check_readme_file
   fi
   P10K_CONFIG_FILE="${HOME}/.p10k.zsh"
   if [ ! -e "${P10K_CONFIG_FILE}" ]; then
@@ -233,7 +235,6 @@ configure_p10k() {
 		[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh 
 		ENDOFPOWERLEVEL
   fi
-  configure_new_zsh_theme_01
 }
 #############
 echo_git_repo_url() {
@@ -248,12 +249,13 @@ git_clone_zsh_theme_model_01() {
     cat_zsh_theme_readme_md
     rm_zsh_git_theme_dir
     git clone ${ZSH_THEME_URL_01} "${CHOSEN_THEME_DIR}" --depth=1
+    configure_new_zsh_theme_01
   else
-    check_readme_file
     git_pull_zsh_theme
+    configure_new_zsh_theme_01
+    check_readme_file
   fi
   chmod -R a+r ${CHOSEN_THEME_DIR}
-  configure_new_zsh_theme_01
 }
 ##########
 copy_tmoe_zsh_theme() {
