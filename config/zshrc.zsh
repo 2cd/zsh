@@ -110,10 +110,11 @@ set_bat_paper_variable(){
     export BAT_PAGER="less -m -RFeQ"
 }
 if [ $(command -v batcat) ]; then
-    alias cat='batcat' #输q退出bat的页面视图，you can type q to quit bat.
+    alias lcat='cat'
+    alias cat='batcat' #bat是cat的替代品，支持多语言语法高亮。支持自动分页，对于大文本，以 less 命令输出，则可使用类似 vim 的快捷键移动光标。
     set_bat_paper_variable
 elif [ $(command -v bat) ]; then
-    alias cat='bat' #bat是cat的替代品，支持多语言语法高亮。支持自动分页，对于大文本，以 less 命令输出，则可使用类似 vim 的快捷键移动光标。
+    alias cat='bat'     #输q退出bat的页面视图，you can type q to quit bat.
     set_bat_paper_variable
 fi
 ########
