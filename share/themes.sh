@@ -261,6 +261,7 @@ curl_new_zsh_theme_from_git_cdn() {
     fi
   fi
   chmod a+r ${CHOSEN_THEME_FILE}
+  cd ${CURRENT_DIR}
   configure_new_zsh_theme_01
 }
 ###########
