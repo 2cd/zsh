@@ -1,0 +1,1 @@
+https://cdn.jsdelivr.net/gh/ChesterYue/ohmyzsh-theme-passion/passion.zsh-theme

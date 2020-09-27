@@ -393,9 +393,13 @@ configure_p10k() {
   configure_new_zsh_theme_01
 }
 #############
-git_clone_zsh_theme_model_01() {
+echo_git_repo_url() {
   ZSH_THEME_URL_01=$(cat ${TMOE_THEME_DIR}/${TMOE_ZSH_THEME}/git-repo.txt | head -n 1)
   echo "${YELLOW}${ZSH_THEME_URL_01}${RESET}"
+}
+############
+git_clone_zsh_theme_model_01() {
+  echo_git_repo_url
   echo "${BLUE}${CHOSEN_THEME_DIR}${RESET}"
   if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
     rm_zsh_git_theme_dir
@@ -403,6 +407,7 @@ git_clone_zsh_theme_model_01() {
   else
     git_pull_zsh_theme
   fi
+  chmod -R a+r ${CHOSEN_THEME_DIR}
   configure_new_zsh_theme_01
 }
 ##########
@@ -418,6 +423,26 @@ copy_tmoe_zsh_theme() {
   configure_new_zsh_theme_01
 }
 ###########
+curl_new_zsh_theme_from_git_cdn() {
+  echo_git_repo_url
+  GIT_THEME_CDN_URL=$(cat ${TMOE_THEME_DIR}/${TMOE_ZSH_THEME}/git-cdn.txt | head -n 1)
+  if [ ! -e "${CHOSEN_THEME_FILE}" ]; then
+    mkdir -p "${CHOSEN_THEME_DIR}"
+    cd "${CHOSEN_THEME_DIR}"
+    if [ $(command -v aria2c) ]; then
+      aria2c --allow-overwrite=true -o ${TMOE_ZSH_THEME}.zsh-theme ${GIT_THEME_CDN_URL}
+    elif [ $(command -v curl) ]; then
+      curl -L -o ${TMOE_ZSH_THEME}.zsh-theme ${GIT_THEME_CDN_URL}
+    elif [ $(command -v wget) ]; then
+      wget -O ${TMOE_ZSH_THEME}.zsh-theme ${GIT_THEME_CDN_URL}
+    else
+      echo "Can not download this file.Please download manually."
+    fi
+  fi
+  chmod a+r ${CHOSEN_THEME_FILE}
+  configure_new_zsh_theme_01
+}
+###########
 case_zsh_theme() {
   temp_zsh_theme_env
   case "${TMOE_ZSH_THEME}" in
@@ -427,11 +452,12 @@ case_zsh_theme() {
     #ZSH_THEME_URL_01='https://github.com/sindresorhus/pure.git'
     git_clone_zsh_theme_model_01
     ;;
-  via)
+  via | aphrodite)
     #ZSH_THEME_URL_01='https://github.com/badouralix/oh-my-via.git'
     git_clone_zsh_theme_model_01
     ;;
   typewritten) git_clone_zsh_theme_model_01 ;;
+  passion) curl_new_zsh_theme_from_git_cdn ;;
   *) copy_tmoe_zsh_theme ;;
   esac
 }
