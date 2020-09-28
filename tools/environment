@@ -90,13 +90,13 @@ neko_01() {
 }
 ############
 zinit_ascii() {
-    printf '%s ________  %s     ___  %s    ________    %s   ___     %s __________     %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RB_RESET}
-    printf '%s \_____  \ %s    |\  \   %s |\   ___  \   %s  |\  \    %s|\___   ___\   %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RB_RESET}
-    printf '%s \|___/  /|%s    \ \  \   %s \ \  \\ \  \   %s \ \  \  %s \|___ \  \_|   %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RB_RESET}
-    printf '%s     /  / /%s     \ \  \  %s  \ \  \\ \  \   %s \ \  \      %s \ \  \    %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RB_RESET}
-    printf '%s    /  /_/__ %s    \ \  \   %s \ \  \\ \  \   %s \ \  \      %s \ \  \   %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RB_RESET}
-    printf '%s   |\________\  %s  \ \__\    %s\ \__\\ \__\   %s \ \__\      %s \ \__\  %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RB_RESET}
-    printf '%s    \|_______|   %s  \|__|   %s  \|__| \|__|   %s  \|__|       %s \|__|  %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RB_RESET}
+    printf '%s ________  %s     ___  %s    ________    %s   ___     %s __________     %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RESET}
+    printf '%s \_____  \ %s    |\  \   %s |\   ___  \   %s  |\  \    %s|\___   ___\   %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RESET}
+    printf '%s \|___/  /|%s    \ \  \   %s \ \  \\ \  \   %s \ \  \  %s \|___ \  \_|   %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RESET}
+    printf '%s     /  / /%s     \ \  \  %s  \ \  \\ \  \   %s \ \  \      %s \ \  \    %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RESET}
+    printf '%s    /  /_/__ %s    \ \  \   %s \ \  \\ \  \   %s \ \  \      %s \ \  \   %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RESET}
+    printf '%s   |\________\  %s  \ \__\    %s\ \__\\ \__\   %s \ \__\      %s \ \__\  %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RESET}
+    printf '%s    \|_______|   %s  \|__|   %s  \|__| \|__|   %s  \|__|       %s \|__|  %s\n' ${RB_RED} ${RB_ORANGE} ${RB_YELLOW} ${RB_INDIGO} ${RB_VIOLET} ${RESET}
 }
 ############
 download_fzf_bin() {
