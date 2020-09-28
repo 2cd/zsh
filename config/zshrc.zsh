@@ -89,7 +89,8 @@ alias rd=rmdir
 #######
 if [ $(command -v exa) ]; then
     DISABLE_LS_COLORS=true
-    alias lls=ls
+    local LS_BIN_FILE=$(whereis ls 2>/dev/null | awk '{print $2}')
+    alias lls=${LS_BIN_FILE}
     alias ls="exa -b --color=always" #exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。Exa is a modern version of ls.
     alias l='exa -lbah'
     alias la='exa -lbahgR'
@@ -107,7 +108,8 @@ fi
 [[ ! $(command -v tmoe) ]] || alias t=tmoe
 ######
 set_bat_paper_variable(){
-    alias lcat='cat'
+    local CAT_BIN_FILE=$(whereis cat 2>/dev/null | awk '{print $2}')
+    alias lcat=${CAT_BIN_FILE}
     export BAT_PAGER="less -m -RFeQ"
 }
 if [ $(command -v batcat) ]; then
