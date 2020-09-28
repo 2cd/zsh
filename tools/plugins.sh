@@ -1703,10 +1703,14 @@ check_zsh_plugin_folder() {
         ZINIT_PICK_FILE="${TMOE_ZSH_GREP_NAME}.plugin.zsh"
     elif [ -e "${ZSH_PLUGIN_DIR}/${TMOE_ZSH_GREP_NAME}.zsh" ]; then
         ZINIT_PICK_FILE="${TMOE_ZSH_GREP_NAME}.zsh"
+    else
+        ZINIT_PICK_FILE=""
     fi
 
     if [ -e "${ZSH_PLUGIN_DIR}/_${TMOE_ZSH_GREP_NAME}" ]; then
         ZINIT_LOCAL_SNIPPET_FILE="${ZSH_PLUGIN_DIR}/_${TMOE_ZSH_GREP_NAME}"
+    else
+        ZINIT_LOCAL_SNIPPET_FILE=""
     fi
 }
 ############
@@ -1756,11 +1760,21 @@ add_new_zinit_plugin_to_zshrc_03() {
     echo "${ZINIT_SPECIAL_LOADING_CONTENT}" >>${HOME}/.zshrc
 }
 #################
+add_new_zinit_plugin_to_zshrc_04() {
+    cat >>${HOME}/.zshrc <<-EOF02
+zinit ice lucid wait="${WAIT_TIME}" && zinit light ${ZINIT_LOCAL_PLUGIN} && zinit ice lucid wait="${WAIT_TIME}" as"completion" && zinit snippet ${ZINIT_LOCAL_SNIPPET_FILE}  #${TMOE_ZSH_COMMENT_CONTENT}
+EOF02
+}
+#################
 case_new_zinit_plugin() {
-    case ${ZINIT_LOCAL_SNIPPET_FILE} in
-    "") add_new_zinit_plugin_to_zshrc_01 ;;
-    *) add_new_zinit_plugin_to_zshrc_02 ;;
-    esac
+    if [ -z "${ZINIT_PICK_FILE}" ] && [ -z ${ZINIT_LOCAL_SNIPPET_FILE} ]; then
+        add_new_zinit_plugin_to_zshrc_04
+    else
+        case ${ZINIT_LOCAL_SNIPPET_FILE} in
+        "") add_new_zinit_plugin_to_zshrc_01 ;;
+        *) add_new_zinit_plugin_to_zshrc_02 ;;
+        esac
+    fi
 }
 ###########
 enable_zsh_plugin() {
