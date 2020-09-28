@@ -29,7 +29,17 @@ chmod_plus_x_zsh_i() {
 }
 ##########
 download_tmoe_zsh() {
-    ZSH_I_URL="${TMOE_GIT_REPO}/raw/master/zsh.sh"
+    #bash -c "$(curl -L https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh/zsh.sh)"
+    case ${TMOE_GIT_REPO} in
+    'https://github.com/2moe/tmoe-zsh')
+        ZSH_I_URL='https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh@2/zsh-i'
+        ZSH_I_URL_02='https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh/zsh.sh'
+        ;;
+    *)
+        ZSH_I_URL="${TMOE_GIT_REPO}/raw/2/zsh-i"
+        ZSH_I_URL_02="${TMOE_GIT_REPO}/raw/master/zsh.sh"
+        ;;
+    esac
     case "${LINUX_DISTRO}" in
     Android)
         curl_zsh_i
@@ -50,7 +60,8 @@ download_tmoe_zsh() {
 }
 ############
 upgrade_tmoe_zsh_script() {
-    download_tmoe_zsh
+    #download_tmoe_zsh
+    [[ $(command -v zsh-i) ]] || download_tmoe_zsh
     sed -i '/alias zsh-i=/d' "${HOME}/.zshrc"
     if [ -e "${HOME}/.bashrc" ]; then
         sed -i '/alias zsh-i=/d' "${HOME}/.bashrc"
