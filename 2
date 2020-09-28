@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+################
+tmoe_zsh_02_main() {
+	tmoe_zsh_02_env
+	case "$1" in
+	--h | -h | help | --help)
+		cat <<-EOF
+			参数
+			local          --加载本地文件 Load local file
+			online         --加载在线文件 Load online file
+		EOF
+		;;
+	local) check_local_git_dir ;;
+	online)
+		curl_tmoe_zsh_script_file
+		;;
+	*)
+		curl_tmoe_zsh_script_file
+		;;
+	esac
+}
+##############
+tmoe_zsh_02_env() {
+	TMOE_ZSH_DIR="${HOME}/.config/tmoe-zsh"
+	TMOE_ZSH_GIT_DIR="${TMOE_ZSH_DIR}/git"
+	TMOE_ZSH_TOOL_DIR="${TMOE_ZSH_GIT_DIR}/tools"
+	TMOE_ZSH_SCRIPT_URL='https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh/zsh.sh'
+}
+###############
+check_local_git_dir() {
+	if [ -e "${TMOE_ZSH_GIT_DIR}/.git" ] && [ -s ${TMOE_ZSH_GIT_DIR}/zsh.sh ]; then
+		bash ${TMOE_ZSH_GIT_DIR}/zsh.sh
+	else
+		curl_tmoe_zsh_script_file
+	fi
+}
+#############
+curl_tmoe_zsh_script_file() {
+	if [ $(command -v curl) ]; then
+		bash -c "$(curl -LfsS ${TMOE_ZSH_SCRIPT_URL})"
+	elif [ $(command -v wget) ]; then
+		bash -c "$(wget -qO- ${TMOE_ZSH_SCRIPT_URL})"
+	else
+		bash -c "$(busybox wget --no-check-certificate -qO- ${TMOE_ZSH_SCRIPT_URL})"
+	fi
+}
+################
+tmoe_zsh_02_main "$@"
