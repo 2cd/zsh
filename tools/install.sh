@@ -66,9 +66,9 @@ add_zsh_alias() {
     if [ -e "${HOME}/.bashrc" ]; then
         sed -i '/alias zsh-i=/d' "${HOME}/.bashrc"
     fi
-    if [ ! -e "${PREFIX}/bin/zsh-i" ]; then
-        source ${TMOE_ZSH_TOOL_DIR}/update.sh -download
-    fi
+    #if [ ! -e "${PREFIX}/bin/zsh-i" ]; then
+    source ${TMOE_ZSH_TOOL_DIR}/update.sh -download
+    #fi
     if ! egrep -q '^[^#]*alias t=tmoe' "${HOME}/.zshrc"; then
         sed -i '$ a\[[ ! $(command -v tmoe) ]] || alias t=tmoe' "${HOME}/.zshrc"
     fi
