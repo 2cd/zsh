@@ -15,10 +15,10 @@ tmoe_zsh_02_main() {
 			p                                                                            -- 插件管理器 plugins manager
 		EOF
 		;;
-	u | up | -u) bash ${TMOE_ZSH_GIT_DIR}/zsh.sh -u ;;
-	h | -h | --h | --help) bash ${TMOE_ZSH_GIT_DIR}/zsh.sh -h ;;
-	--tmoe_container_automatic_configure) bash ${TMOE_ZSH_GIT_DIR}/zsh.sh --tmoe_container_automatic_configure ;;
-	-p | plugin) bash ${TMOE_ZSH_GIT_DIR}/zsh.sh -p ;;
+	u | up | -u) source ${TMOE_ZSH_GIT_DIR}/zsh.sh -u ;;
+	h | -h | --h | --help) source ${TMOE_ZSH_GIT_DIR}/zsh.sh -h ;;
+	--tmoe_container_automatic_configure) source ${TMOE_ZSH_GIT_DIR}/zsh.sh --tmoe_container_automatic_configure ;;
+	-p | plugin) source ${TMOE_ZSH_GIT_DIR}/zsh.sh -p ;;
 	local) check_local_git_dir ;;
 	ol | online) curl_tmoe_zsh_script_file ;;
 	*) check_local_git_dir ;;
@@ -39,7 +39,7 @@ tmoe_zsh_02_env() {
 ###############
 check_local_git_dir() {
 	if [ -e "${TMOE_ZSH_GIT_DIR}/.git" ] && [ -s ${TMOE_ZSH_GIT_DIR}/zsh.sh ]; then
-		bash ${TMOE_ZSH_GIT_DIR}/zsh.sh
+		source ${TMOE_ZSH_GIT_DIR}/zsh.sh
 	else
 		curl_tmoe_zsh_script_file
 	fi
