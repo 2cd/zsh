@@ -1734,6 +1734,7 @@ check_tmoe_zsh_config_value() {
         TMOE_ZSH_CONFIG_ENABLED='yes'
         TMOE_ZSH_CONFIG_LINE=$(cat ${TMOE_ZSH_FILE} | egrep -n "^[^#]*zinit.*snippet.*${TMOE_ZSH_GREP_NAME}/_" | head -n 1 | awk '{print $1}' | cut -d ':' -f 1)
     else
+        TMOE_ZSH_CONFIG_LINE=''
         TMOE_ZSH_CONFIG_STATUS="您已禁用${TMOE_ZSH_GREP_NAME}插件 You have disabled this plugin."
         TMOE_ZSH_CONFIG_ENABLED='false'
     fi
@@ -1865,16 +1866,24 @@ edit_zshrc_manually() {
     fi
 }
 ###########
+case_plugin_line() {
+    case ${TMOE_ZSH_CONFIG_LINE} in
+    "") EDIT_ZSHRC_LINE=$(echo "edit .zshrc") ;;
+    *) EDIT_ZSHRC_LINE=$(echo "edit .zshrc[LINE ${TMOE_ZSH_CONFIG_LINE}]第${TMOE_ZSH_CONFIG_LINE}行") ;;
+    esac
+}
+############
 tmoe_zsh_settings_model_01() {
     #此处不要设置RETURN_TO_WHERE的变量
     check_tmoe_zsh_config_value
+    case_plugin_line
     RETURN_TO_MENU='tmoe_zsh_settings_model_01'
     TMOE_OPTION=$(whiptail --title "${TMOE_ZSH_CONFIG_STATUS}" --menu "${TMOE_ZSH_COMMENT_CONTENT}" 0 50 0 \
         "0" "🌚 Return to previous menu 返回上级菜单" \
         "1" "${TMOE_ZSH_OPTION_01}" \
         "2" "Enable 启用" \
         "3" "Disable 禁用" \
-        "4" "edit .zshrc手动编辑配置" \
+        "4" "${EDIT_ZSHRC_LINE}" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
@@ -1895,6 +1904,7 @@ tmoe_zsh_settings_model_01() {
 ######################
 tmoe_zsh_settings_model_02() {
     check_tmoe_zsh_config_value
+    case_plugin_line
     RETURN_TO_MENU='tmoe_zsh_settings_model_02'
     TMOE_OPTION=$(whiptail --title "${TMOE_ZSH_CONFIG_STATUS}" --menu "${TMOE_ZSH_COMMENT_CONTENT}" 0 50 0 \
         "0" "🌚 Return to previous menu 返回上级菜单" \
@@ -1902,7 +1912,7 @@ tmoe_zsh_settings_model_02() {
         "2" "Enable 启用" \
         "3" "Disable 禁用" \
         "4" "Extra note 额外说明" \
-        "5" "edit .zshrc手动编辑配置" \
+        "5" "${EDIT_ZSHRC_LINE}" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
@@ -2005,6 +2015,7 @@ tmoe_zsh_plugin_remove_function() {
 #########
 tmoe_zsh_settings_model_03() {
     check_tmoe_zsh_config_value
+    case_plugin_line
     RETURN_TO_MENU='tmoe_zsh_settings_model_03'
     TMOE_OPTION=$(whiptail --title "${TMOE_ZSH_CONFIG_STATUS}" --menu "${TMOE_ZSH_COMMENT_CONTENT}" 0 50 0 \
         "0" "🌚 Return to previous menu 返回上级菜单" \
@@ -2012,7 +2023,7 @@ tmoe_zsh_settings_model_03() {
         "2" "Enable 启用" \
         "3" "Disable 禁用" \
         "4" "Extra note 额外说明" \
-        "5" "edit .zshrc手动编辑配置" \
+        "5" "${EDIT_ZSHRC_LINE}" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
@@ -2057,6 +2068,7 @@ EOF
 ##############
 tmoe_zsh_settings_model_04() {
     check_tmoe_zsh_config_value
+    case_plugin_line
     RETURN_TO_MENU='tmoe_zsh_settings_model_04'
     TMOE_OPTION=$(whiptail --title "您想要对${TMOE_ZSH_GREP_NAME}小可爱做什么？" --menu "${TMOE_ZSH_CONFIG_STATUS}" 0 50 0 \
         "0" "🌚 Return to previous menu 返回上级菜单" \
@@ -2064,7 +2076,7 @@ tmoe_zsh_settings_model_04() {
         "2" "Enable 启用" \
         "3" "Remove & disable 移除并禁用" \
         "4" "Extra note 额外说明" \
-        "5" "edit .zshrc手动编辑配置" \
+        "5" "${EDIT_ZSHRC_LINE}" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
