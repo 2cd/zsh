@@ -1766,7 +1766,7 @@ case_new_zinit_plugin() {
 enable_zsh_plugin() {
     check_zsh_plugin_folder
     case ${TMOE_ZSH_COMMENT_CONTENT} in
-    "") echo "${YELLOW}${ZINIT_SPECIAL_LOADING_CONTENT}${RESET}" ;;
+    "") echo "${YELLOW}$(echo ${ZINIT_SPECIAL_LOADING_CONTENT} | sed 's@^.*#@@g')${RESET}" ;;
     *) echo "${YELLOW}${TMOE_ZSH_COMMENT_CONTENT}${RESET}" ;;
     esac
 
