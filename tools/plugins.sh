@@ -1853,6 +1853,18 @@ cat_zsh_plugin_readme_01() {
     check_bat
 }
 #############
+edit_zshrc_manually() {
+    if [ $(command -v editor) ]; then
+        editor ${HOME}/.zshrc
+    elif [ $(command -v vim) ]; then
+        vim ${HOME}/.zshrc
+    elif [ $(command -v nano) ]; then
+        nano ${HOME}/.zshrc
+    else
+        vi ${HOME}/.zshrc
+    fi
+}
+###########
 tmoe_zsh_settings_model_01() {
     #此处不要设置RETURN_TO_WHERE的变量
     check_tmoe_zsh_config_value
@@ -1862,6 +1874,7 @@ tmoe_zsh_settings_model_01() {
         "1" "${TMOE_ZSH_OPTION_01}" \
         "2" "Enable 启用" \
         "3" "Disable 禁用" \
+        "4" "edit .zshrc手动编辑配置" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
@@ -1873,6 +1886,7 @@ tmoe_zsh_settings_model_01() {
     1) cat_zsh_plugin_readme_01 ;;
     2) enable_zsh_plugin ;;
     3) disable_zsh_plugin ;;
+    4) edit_zshrc_manually ;;
     esac
     ##############################
     press_enter_to_return
@@ -1888,6 +1902,7 @@ tmoe_zsh_settings_model_02() {
         "2" "Enable 启用" \
         "3" "Disable 禁用" \
         "4" "Extra note 额外说明" \
+        "5" "edit .zshrc手动编辑配置" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
@@ -1900,6 +1915,7 @@ tmoe_zsh_settings_model_02() {
     2) enable_zsh_plugin ;;
     3) disable_zsh_plugin ;;
     4) cat_zsh_plugin_readme_02 ;;
+    5) edit_zshrc_manually ;;
     esac
     ##############################
     press_enter_to_return
@@ -1996,6 +2012,7 @@ tmoe_zsh_settings_model_03() {
         "2" "Enable 启用" \
         "3" "Disable 禁用" \
         "4" "Extra note 额外说明" \
+        "5" "edit .zshrc手动编辑配置" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
@@ -2019,6 +2036,7 @@ EOF
         disable_zsh_plugin
         ;;
     4) cat_zsh_plugin_readme_01 ;;
+    5) edit_zshrc_manually ;;
     esac
     ##############################
     press_enter_to_return
@@ -2046,6 +2064,7 @@ tmoe_zsh_settings_model_04() {
         "2" "Enable 启用" \
         "3" "Remove & disable 移除并禁用" \
         "4" "Extra note 额外说明" \
+        "5" "edit .zshrc手动编辑配置" \
         3>&1 1>&2 2>&3)
     ##############################
     case "${TMOE_OPTION}" in
@@ -2074,6 +2093,7 @@ EOF
         disable_zsh_plugin
         ;;
     4) view_extra_note_of_zsh_plugin ;;
+    5) edit_zshrc_manually ;;
     esac
     ##############################
     press_enter_to_return
