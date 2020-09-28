@@ -1740,25 +1740,21 @@ check_tmoe_zsh_config_value() {
 }
 ######################
 add_new_zinit_plugin_to_zshrc_01() {
-    cat >>${HOME}/.zshrc <<-EOF
+    cat >>${HOME}/.zshrc <<-EOF01
 zinit ice lucid wait="${WAIT_TIME}" pick"${ZINIT_PICK_FILE}" && zinit light ${ZINIT_LOCAL_PLUGIN} #${TMOE_ZSH_COMMENT_CONTENT}
-EOF
+EOF01
 }
 #################
 add_new_zinit_plugin_to_zshrc_02() {
-    cat >>${HOME}/.zshrc <<-EOF
+    cat >>${HOME}/.zshrc <<-EOF02
 zinit ice lucid wait="${WAIT_TIME}" pick"${ZINIT_PICK_FILE}" && zinit light ${ZINIT_LOCAL_PLUGIN} && zinit ice lucid wait="${WAIT_TIME}" as"completion" && zinit snippet ${ZINIT_LOCAL_SNIPPET_FILE}  #${TMOE_ZSH_COMMENT_CONTENT}
-EOF
+EOF02
 }
 #################
 add_new_zinit_plugin_to_zshrc_03() {
-    cat >>${HOME}/.zshrc <<-ENDOFZSHPLUGIN
-${ZINIT_SPECIAL_LOADING_CONTENT}
-ENDOFZSHPLUGIN
+    echo "${ZINIT_SPECIAL_LOADING_CONTENT}" >>${HOME}/.zshrc
 }
 #################
-
-###########
 enable_zsh_plugin() {
     check_zsh_plugin_folder
     case ${TMOE_ZSH_COMMENT_CONTENT} in
