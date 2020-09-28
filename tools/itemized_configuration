@@ -89,9 +89,10 @@ configure_xfce_terminal_color() {
     fi
 
     cd /usr/share/xfce4/terminal
+    echo "/usr/share/xfce4/terminal"
     echo "正在配置xfce4终端配色..."
-    wget -qO "colorschemes.tar.xz" 'https://gitee.com/mo2/xfce-themes/raw/terminal/colorschemes.tar.xz'
-    tar -Jxvf "colorschemes.tar.xz"
+    sudo wget -qO "colorschemes.tar.xz" 'https://gitee.com/mo2/xfce-themes/raw/terminal/colorschemes.tar.xz'
+    sudo tar -Jxvf "colorschemes.tar.xz"
     DEPENDENCIES=""
     if [ ! -e /usr/bin/mkfontscale ]; then
         DEPENDENCIES="${DEPENDENCIES} xfonts-utils"
