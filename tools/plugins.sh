@@ -1755,6 +1755,13 @@ add_new_zinit_plugin_to_zshrc_03() {
     echo "${ZINIT_SPECIAL_LOADING_CONTENT}" >>${HOME}/.zshrc
 }
 #################
+case_new_zinit_plugin() {
+    case ${ZINIT_LOCAL_SNIPPET_FILE} in
+    "") add_new_zinit_plugin_to_zshrc_01 ;;
+    *) add_new_zinit_plugin_to_zshrc_02 ;;
+    esac
+}
+###########
 enable_zsh_plugin() {
     check_zsh_plugin_folder
     case ${TMOE_ZSH_COMMENT_CONTENT} in
