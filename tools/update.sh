@@ -84,10 +84,8 @@ update_command_not_found() {
                     apt-file update 2>/dev/null
                     update-command-not-found 2>/dev/null
                     ;;
-                *)
-                    sudo apt-file update
-                    sudo update-command-not-found 2>/dev/null
-                    ;;
+                *) ;;
+                    #非root不更新，避免输入sudo密码
                 esac
                 ;;
             esac
