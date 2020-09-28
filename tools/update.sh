@@ -6,13 +6,13 @@ upgrade_zsh_plugins_main() {
     *)
         zinit_ascii
         update_command_not_found
-        neko_01
         git_pull_powerlevel_10k
         #upgrade zsh plugins and tool
         #git_pull_tmoe_zsh
-        git_clone_tmoe_zsh
         git_pull_oh_my_zsh
         git_pull_zinit
+        neko_01
+        git_clone_tmoe_zsh
         upgrade_tmoe_zsh_script
         #tmoe_zsh_main_menu
         ;;
