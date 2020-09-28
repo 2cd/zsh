@@ -1709,6 +1709,8 @@ check_zsh_plugin_folder() {
 
     if [ -e "${ZSH_PLUGIN_DIR}/_${TMOE_ZSH_GREP_NAME}" ]; then
         ZINIT_LOCAL_SNIPPET_FILE="${ZSH_PLUGIN_DIR}/_${TMOE_ZSH_GREP_NAME}"
+    elif [ -e "${ZSH_PLUGIN_DIR}/_${TMOE_ZSH_GREP_NAME}.sh" ]; then
+        ZINIT_LOCAL_SNIPPET_FILE="${ZSH_PLUGIN_DIR}/_${TMOE_ZSH_GREP_NAME}.sh"
     else
         ZINIT_LOCAL_SNIPPET_FILE=""
     fi
