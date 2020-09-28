@@ -400,13 +400,13 @@ git_clone_tmoe_zsh() {
 git_pull_tmoe_zsh() {
 	cd ${TMOE_ZSH_GIT_DIR}
 	git reset --hard origin/master
-	git pull origin master --allow-unrelated-histories
+	git pull --rebase --stat origin master --allow-unrelated-histories
 	case "${?}" in
 	0) ;;
 	*)
 		git fetch --depth=2
 		git reset --hard
-		git pull --allow-unrelated-histories
+		git pull --rebase --stat --allow-unrelated-histories
 		;;
 	esac
 }

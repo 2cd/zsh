@@ -111,13 +111,13 @@ git_pull_zinit() {
 #############
 tmoe_git_pull_origin_master() {
     git reset --hard origin/master
-    git pull --depth=1 origin master --allow-unrelated-histories
+    git pull --rebase --stat --depth=1 origin master --allow-unrelated-histories
     case "${?}" in
     0) ;;
     *)
         git fetch --depth=2
         git reset --hard
-        git pull --allow-unrelated-histories
+        git pull --rebase --stat --allow-unrelated-histories
         ;;
     esac
 }
@@ -139,7 +139,7 @@ git_pull_zsh_autosuggestions() {
 git_pull_oh_my_zsh() {
     cd ${OMZ_DIR}
     git reset --hard origin/master
-    git pull --depth=1 origin master --allow-unrelated-histories
+    git pull --rebase --stat --depth=1 origin master --allow-unrelated-histories
     #echo "若oh-my-zsh更新失败，则请手动输${BLUE}zsh ${OMZ_DIR}/tools/upgrade.sh${RESET}" && zsh "${OMZ_DIR}/tools/upgrade.sh"
 }
 ###########
