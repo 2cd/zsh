@@ -1767,7 +1767,7 @@ EOF02
 }
 #################
 case_new_zinit_plugin() {
-    if [ -z "${ZINIT_PICK_FILE}" ] && [ -z ${ZINIT_LOCAL_SNIPPET_FILE} ]; then
+    if [ -z "${ZINIT_PICK_FILE}" ] && [ -n ${ZINIT_LOCAL_SNIPPET_FILE} ]; then
         add_new_zinit_plugin_to_zshrc_04
     else
         case ${ZINIT_LOCAL_SNIPPET_FILE} in
