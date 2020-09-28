@@ -1973,7 +1973,7 @@ pip_install_autoenv() {
 #############
 git_pull_origin_master() {
     git reset --hard origin/master
-    git pull --rebase --stat --depth=1 origin master --allow-unrelated-histories
+    git pull --rebase --stat --depth=1 origin master --allow-unrelated-histories || git rebase --skip
 }
 ###########
 git_clone_zsh_plugin() {

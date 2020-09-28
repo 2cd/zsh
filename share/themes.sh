@@ -204,7 +204,7 @@ configure_p9k() {
 git_pull_zsh_theme() {
   cd "${CHOSEN_THEME_DIR}"
   git reset --hard
-  git pull --rebase --stat --depth=1
+  git pull --rebase --stat --depth=1 || git rebase --skip
   cd ${CURRENT_DIR}
 }
 ########
