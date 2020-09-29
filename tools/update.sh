@@ -30,8 +30,9 @@ check_tmoe_zsh_theme_completion_version() {
     if [ ! -e "${ZSH_THEME_COMPLETION_VERSION_TXT}" ]; then
         UPDATE_ZSH_THEME_COMPLETION=true
     else
+        THE_LATEST_ZSH_COMPLETION_VERSION=$(curl -sL ${TMOE_GIT_REPO}/raw/master/share/completion/version.txt)
         CURRENT_ZSH_THEME_COMPLETTION_VERSION="$(cat ${ZSH_THEME_COMPLETION_VERSION_TXT} | head -n 1)"
-        if ((${CURRENT_ZSH_THEME_COMPLETTION_VERSION} < 2)); then
+        if ((${CURRENT_ZSH_THEME_COMPLETTION_VERSION} < ${THE_LATEST_ZSH_COMPLETION_VERSION})); then
             UPDATE_ZSH_THEME_COMPLETION=true
         fi
     fi
