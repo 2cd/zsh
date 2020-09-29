@@ -26,7 +26,7 @@ function _zshtheme() {
     
     
     git_cdn=(
-        "color-input:Features:Current git branch being checked out indicated at the end of the prompt.  "
+        "color-input:Colored input to shell to easily differentiate it from the output of commands. "
         "color-input-line:Similar to color-input, but with a dashed line separating successive prompts "
         "dpoggi-newline-timestamp:Timestamp and new line based on [dpoggi] "
         "gitster:When in a git repo, it shows the location from the git's root folder.   "
@@ -222,8 +222,6 @@ function _zshtheme() {
         "chill:Clean and simple look with return status, git status and full path. "
         "ciacho:Ciacho is theme based on agnoster. "
         "classytouch:A very minimal, clean theme with git support. "
-        "color-input:Colored input to shell to easily differentiate it from the output of commands. "
-        "color-input-line:Dashed line separating successive prompts. "
         "cordial:See [repository](https://github.com/stevelacy/cordial-zsh-theme) for source. "
         "daivasmara:Chill zsh-theme, personal take on smt "
         "docker-zsh:This theme is pretty much based on the 'bureau' theme. It has been extended by a DOCKER_HOST live view,so that in every terminal session you see immediately which docker host is configured and where the localdocker commands are forwarded to. "
