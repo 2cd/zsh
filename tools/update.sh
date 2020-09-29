@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 ################
 upgrade_zsh_plugins_main() {
+    UPDATE_ZSH_THEME_COMPLETION=false
     case "$1" in
-    -download) download_tmoe_zsh ;;
+    -download)
+        check_zsh_theme_completion
+        download_tmoe_zsh
+        ;;
     *)
-        UPDATE_ZSH_THEME_COMPLETION=false
         check_zsh_theme_completion
         zinit_ascii
         update_command_not_found

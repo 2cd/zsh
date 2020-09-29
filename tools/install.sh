@@ -52,10 +52,14 @@ gnu_linux_chsh_zsh() {
 ######################
 add_zsh_alias() {
     #外面双引号，里面单引号。
-    sed -i '/alias zshcolor=/d' "${HOME}/.zshrc"
-    sed -i "$ a\alias zshcolor='bash ${TMOE_ZSH_TERMUX_PATH}/colors.sh'" "${HOME}/.zshrc"
-    sed -i '/alias zshfont=/d' "${HOME}/.zshrc"
-    sed -i "$ a\alias zshfont='bash ${TMOE_ZSH_TERMUX_PATH}/fonts.sh'" "${HOME}/.zshrc"
+    case ${LINUX_DISTRO} in
+    Android)
+        sed -i '/alias zshcolor=/d' "${HOME}/.zshrc"
+        sed -i "$ a\alias zshcolor='bash ${TMOE_ZSH_TERMUX_PATH}/colors.sh'" "${HOME}/.zshrc"
+        sed -i '/alias zshfont=/d' "${HOME}/.zshrc"
+        sed -i "$ a\alias zshfont='bash ${TMOE_ZSH_TERMUX_PATH}/fonts.sh'" "${HOME}/.zshrc"
+        ;;
+    esac
     #sed -i '/alias zshtheme=/d' "${HOME}/.zshrc"
     #sed -i "$ a\alias zshtheme='bash ${TMOE_ZSH_TERMUX_PATH}/themes.sh'" "${HOME}/.zshrc"
     #if [ -e "${HOME}/.profile" ]; then

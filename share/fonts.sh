@@ -87,7 +87,7 @@ choose_termux_font() {
 	COUNT=$((${COUNT} - 1))
 
 	while true; do
-		read -p '请输入选项数字,并按回车键,留空不更改。Please type the option number and press Enter:' FONT_NUMBER
+		read -p '请输入选项数字,并按回车键。Please type the option number and press Enter:' FONT_NUMBER
 
 		if [[ -z "${FONT_NUMBER}" ]]; then
 			break
