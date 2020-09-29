@@ -71,6 +71,7 @@ gnu_linux_env() {
 	TMOE_GIT_REPO='https://github.com/2moe/tmoe-zsh' #此处不包含.git
 	ZINIT_DIR="${HOME}/.zinit"
 	ZINIT_THEME_DIR="${ZINIT_DIR}/themes/_local"
+	ZINIT_SNIPPETS_LOCAL="${ZINIT_DIR}/snippets/_local"
 	OMZ_DIR="${ZINIT_DIR}/omz"
 	OMZ_THEME_DIR="${OMZ_DIR}/themes"
 	CURRENT_DIR=$(pwd)

@@ -56,12 +56,12 @@ add_zsh_alias() {
     sed -i "$ a\alias zshcolor='bash ${TMOE_ZSH_TERMUX_PATH}/colors.sh'" "${HOME}/.zshrc"
     sed -i '/alias zshfont=/d' "${HOME}/.zshrc"
     sed -i "$ a\alias zshfont='bash ${TMOE_ZSH_TERMUX_PATH}/fonts.sh'" "${HOME}/.zshrc"
-    sed -i '/alias zshtheme=/d' "${HOME}/.zshrc"
-    sed -i "$ a\alias zshtheme='bash ${TMOE_ZSH_TERMUX_PATH}/themes.sh'" "${HOME}/.zshrc"
-    if [ -e "${HOME}/.profile" ]; then
-        sed -i '/alias zshtheme=/d' "${HOME}/.profile"
-        sed -i "$ a\alias zshtheme='bash ${TMOE_ZSH_TERMUX_PATH}/themes.sh'" "${HOME}/.profile"
-    fi
+    #sed -i '/alias zshtheme=/d' "${HOME}/.zshrc"
+    #sed -i "$ a\alias zshtheme='bash ${TMOE_ZSH_TERMUX_PATH}/themes.sh'" "${HOME}/.zshrc"
+    #if [ -e "${HOME}/.profile" ]; then
+    #    sed -i '/alias zshtheme=/d' "${HOME}/.profile"
+    #    sed -i "$ a\alias zshtheme='bash ${TMOE_ZSH_TERMUX_PATH}/themes.sh'" "${HOME}/.profile"
+    #fi
     sed -i '/alias zsh-i=/d' "${HOME}/.zshrc"
     if [ -e "${HOME}/.bashrc" ]; then
         sed -i '/alias zsh-i=/d' "${HOME}/.bashrc"

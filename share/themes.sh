@@ -89,7 +89,7 @@ get_tmoe_zsh_theme_help_info() {
   
   以下主题使用了CDN进行下载加速：
   The following themes use jsdelivr CDN for download acceleration：
-  color-input | color-input-line | dpoggi-newline-timestamp | gitster | imperator | intika | kayid | kmac | matte-black-yellow | matte-black-yellow-line | minimal2 | oh-wonder | passion | philthy | retro-term | short
+  color-input | color-input-line | dpoggi-newline-timestamp | gitster | imperator | intika | kayid | kmac | matte-black-yellow | matte-black-yellow-line | minimal2 | oh-wonder | passion | retro-term | short
 
   以下主题托管于github gist,下载无加速：
   xxf | solus | schminitz | reggae | random-emoji | philthy | oh-wonder | hedgehog | hub | mcquen 

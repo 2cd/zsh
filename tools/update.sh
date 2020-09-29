@@ -4,6 +4,8 @@ upgrade_zsh_plugins_main() {
     case "$1" in
     -download) download_tmoe_zsh ;;
     *)
+        UPDATE_ZSH_THEME_COMPLETION=false
+        check_zsh_theme_completion
         zinit_ascii
         update_command_not_found
         git_pull_powerlevel_10k
@@ -28,6 +30,26 @@ chmod_plus_x_zsh_i() {
     sudo mv -f .zsh-i ${PREFIX}/bin/zsh-i || su -c "mv -f .zsh-i ${PREFIX}/bin/zsh-i"
 }
 ##########
+update_zsh_theme_completion() {
+    rm -rv $(echo ${ZSH_THEME_COMPLETION_FILE} | sed 's@^/@@g ; 's@/@---@g'') ${ZINIT_DIR}/completions/_zshtheme 2>/dev/null
+    if [ ! -e ${PREFIX}/bin/zshtheme ]; then
+        sed -i '/alias zshtheme=/d' ${HOME}/.zshrc ${HOME}/.profile 2>/dev/null
+        ln -svf ${TMOE_ZSH_TERMUX_PATH}/themes.sh ${PREFIX}/bin/zshtheme || sudo ln -svf ${TMOE_ZSH_TERMUX_PATH}/themes.sh ${PREFIX}/bin/zshtheme
+    fi
+}
+#############
+check_zsh_theme_completion() {
+    ZSH_THEME_COMPLETION_FILE="${TMOE_ZSH_TERMUX_PATH}/completion/_zshtheme"
+    if ! egrep -q '^[^#]*zinit.*completion/_zshtheme' ${HOME}/.zshrc; then
+        #mkdir -p ${ZINIT_SNIPPETS_LOCAL}
+        echo "zinit ice wait="1" as"completion" && zinit snippet ${ZSH_THEME_COMPLETION_FILE}" >>${HOME}/.zshrc
+        update_zsh_theme_completion
+    fi
+    case ${UPDATE_ZSH_THEME_COMPLETION} in
+    true) update_zsh_theme_completion ;;
+    esac
+}
+################
 download_tmoe_zsh() {
     #bash -c "$(curl -L https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh/zsh.sh)"
     case ${TMOE_GIT_REPO} in
