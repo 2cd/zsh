@@ -18,7 +18,7 @@ tmoe_zsh_02_main() {
 	u | up | -u) source ${TMOE_ZSH_GIT_DIR}/zsh.sh -u ;;
 	h | -h | --h | --help) source ${TMOE_ZSH_GIT_DIR}/zsh.sh -h ;;
 	--tmoe_container_automatic_configure) source ${TMOE_ZSH_GIT_DIR}/zsh.sh --tmoe_container_automatic_configure ;;
-	-p | plugin) source ${TMOE_ZSH_GIT_DIR}/zsh.sh -p ;;
+	p | -p | plugin) source ${TMOE_ZSH_GIT_DIR}/zsh.sh -p ;;
 	local) check_local_git_dir ;;
 	ol | online) curl_tmoe_zsh_script_file ;;
 	*) check_local_git_dir ;;
