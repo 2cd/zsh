@@ -31,7 +31,7 @@ chmod_plus_x_zsh_i() {
 }
 ##########
 update_zsh_theme_completion() {
-    rm -rv $(echo ${ZSH_THEME_COMPLETION_FILE} | sed 's@^/@@g ; 's@/@---@g'') ${ZINIT_DIR}/completions/_zshtheme 2>/dev/null
+    rm -rv ${ZINIT_DIR}/snippets/$(echo ${ZSH_THEME_COMPLETION_FILE} | sed 's@/_zshtheme@@' | sed 's@^/@@g ; 's@/@--@g'') ${ZINIT_DIR}/completions/_zshtheme 2>/dev/null
     if [ ! -e ${PREFIX}/bin/zshtheme ]; then
         sed -i '/alias zshtheme=/d' ${HOME}/.zshrc ${HOME}/.profile 2>/dev/null
         ln -svf ${TMOE_ZSH_TERMUX_PATH}/themes.sh ${PREFIX}/bin/zshtheme || sudo ln -svf ${TMOE_ZSH_TERMUX_PATH}/themes.sh ${PREFIX}/bin/zshtheme
