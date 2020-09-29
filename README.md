@@ -4,9 +4,12 @@
 . <(curl -L git.io/zsh.sh)
 ```
 
-> **Easily configure zsh themes for GNU/Linux and Android-Termux**
+> **Easily configure zsh themes and plugins for GNU/Linux and Android-Termux**
 
 ## Preview
+
+You can press TAB key to complete.
+![zshtheme completion](https://images.gitee.com/uploads/images/2020/0929/185820_e054932c_7793225.gif)
 
 ### Screenshot
 
@@ -214,9 +217,6 @@ You can use `-h` or `--help` parameter to get help information.
   LIST OF ZSH THEMES:
 3den , abaykan , adben , af-magic , afowler , agkozak , agnoster , agnosterzak , alanpeabody , alien , alien-minimal , amuse , antsy , aphrodite , apple , arrow , asciigit , aussiegeek , avit , avit-da2k , awesomepanda , bender , bira , blinks , blokkzh , bullet-train , bunnyruni , bureau , candy , candy-kingdom , chi , chill , ciacho , classytouch , clean , cloud , color-input , color-input-line , cordial , crcandy , crunch , cypher , daivasmara , dallas , darkblood , daveverwer , dieter , docker-zsh , dogenpunk , dpoggi , dpoggi-newline-timestamp , drofloh , dst , dstufft , ducula , duellj , eastwood , edvardm , elessar , emotty , enlightenment , essembeh , evan , fino , fino-time , fishbone++ , fishy , fishy2 , flazz , fletcherm , fox , frisk , frontcube , funky , funkyberlin , fwalch , gallifrey , gallois , garyblessington , gentoo , geoffgarside , geometry , gianu , gitstatus , gitster , gnzh , gozilla , half-life , halil , haribo , hedgehog , hub , humza , hyper-oh-my-zsh , hyperzsh , igeek , igorsilva , imajes , imp , imperator , intheloop , intika , itchy , jaischeema , jbergantine , jispwoso , jnrowe , jonathan , josh , jovial , jreese , jtriley , juanghurtado , junkfood , kafeitu , kardan , kayid , kennethreitz , kimwz , kinda-fishy , kiwi , kmac , kolo , kphoen , lambda , lambda-gitster , lambda-mod , lambda-v , linuxonly , lukerandall , macovsky , maran , matte-black-yellow , matte-black-yellow-line , maza , mcquen , mgutz , mh , michelebologna , mikeh , miloshadzic , minimal , minimal-improved , minimal2 , mira , mlh , mortalscumbag , mrtazz , murilasso , muse , nanotech , nebirhos , nicoulaj , node , nodeys , norm , nothing , nt9 , nuts , obraun , odin , oh-wonder , omega , oxide , passion , peepcode , philips , philthy , pi , pmcgee , powerlevel10k , punctual , pure , pygmalion , pygmalion-virtualenv , rafiki-zsh , random-emoji , re5et , refined , reggae , retro-term , rgm , risto , rixius , rkj , rkj-repos , robbyrussell , robbyrussell-wip , sammy , schminitz , shayan , short , simonoff , simple , skaro , sm , smt , sobole , Soliah , solus , sonicradish , sorin , spaceship-zsh , sporty_256 , staples , steeef , strug , sunaku , sunrise , superjarin , suvash , takashiyoshida , terminalparty , theta , theunraveler , tjkirch , tjkirch_mod , tonotdo , traditional-plus , trapd00r , typewritten , vero , via , wedisagree , wezm , wezm+ , windows-cmd , wuffers , xiong-chiamiov , xiong-chiamiov-plus , xxf , ys , zeroastro , zeta , zhann , zsh2000 , λpure
 ```
-
-You can press TAB key to complete.
-![zshtheme completion](https://images.gitee.com/uploads/images/2020/0929/185820_e054932c_7793225.gif)
 
 ### 3-3. NOTES of zshcolor
 
