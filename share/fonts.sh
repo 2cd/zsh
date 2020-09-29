@@ -87,8 +87,8 @@ choose_termux_font() {
 	COUNT=$((${COUNT} - 1))
 
 	while true; do
-		read -p '请输入选项数字,并按回车键。Please type the option number and press Enter:' FONT_NUMBER
-
+		read -p "请输入${YELLOW}选项数字${RESET},并按${BLUE}回车键${RESET}。\
+		Please type the ${GREEN}option number${RESET} and press ${BLUE}Enter${RESET}${YELLOW}[1-123]:${RESET}" FONT_NUMBER
 		if [[ -z "${FONT_NUMBER}" ]]; then
 			break
 		elif ! [[ ${FONT_NUMBER} =~ ^[0-9]+$ ]]; then
