@@ -42,7 +42,7 @@ check_zsh_theme_completion() {
     ZSH_THEME_COMPLETION_FILE="${TMOE_ZSH_TERMUX_PATH}/completion/_zshtheme"
     if ! egrep -q '^[^#]*zinit.*completion/_zshtheme' ${HOME}/.zshrc; then
         #mkdir -p ${ZINIT_SNIPPETS_LOCAL}
-        echo "zinit ice wait="1" as"completion" && zinit snippet ${ZSH_THEME_COMPLETION_FILE}" >>${HOME}/.zshrc
+        echo "zinit ice lucid wait="1" as"completion" && zinit snippet ${ZSH_THEME_COMPLETION_FILE}" >>${HOME}/.zshrc
         update_zsh_theme_completion
     fi
     case ${UPDATE_ZSH_THEME_COMPLETION} in
