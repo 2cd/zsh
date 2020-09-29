@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ################
 upgrade_zsh_plugins_main() {
-    UPDATE_ZSH_THEME_COMPLETION=false
+    check_tmoe_zsh_theme_completion_version
     case "$1" in
     -download)
         check_zsh_theme_completion
@@ -24,6 +24,19 @@ upgrade_zsh_plugins_main() {
     esac
 }
 ##############
+check_tmoe_zsh_theme_completion_version() {
+    UPDATE_ZSH_THEME_COMPLETION=false
+    ZSH_THEME_COMPLETION_VERSION_TXT="${TMOE_ZSH_TERMUX_PATH}/completion/version.txt"
+    if [ ! -e "${ZSH_THEME_COMPLETION_VERSION_TXT}" ]; then
+        UPDATE_ZSH_THEME_COMPLETION=true
+    else
+        CURRENT_ZSH_THEME_COMPLETTION_VERSION="$(cat ${ZSH_THEME_COMPLETION_VERSION_TXT} | head -n 1)"
+        if ((${CURRENT_ZSH_THEME_COMPLETTION_VERSION} < 2)); then
+            UPDATE_ZSH_THEME_COMPLETION=true
+        fi
+    fi
+}
+###########
 curl_zsh_i() {
     curl -Lv -o ${PREFIX}/bin/zsh-i ${ZSH_I_URL}
 }

@@ -23,8 +23,7 @@ function _zshtheme() {
     local -a git_clone
     local -a gist
     local -a git_cdn
-    
-    
+
     git_cdn=(
         "color-input:Colored input to shell to easily differentiate it from the output of commands. "
         "color-input-line:Similar to color-input, but with a dashed line separating successive prompts "
@@ -34,15 +33,14 @@ function _zshtheme() {
         "intika:See [repo](https://github.com/Intika-Linux-Apps/Oh-My-Zsh-Intika/blob/master/themes/intika.zsh-theme) for source. "
         "kayid: See [repo](https://github.com/AmrMKayid/KayidmacOS/blob/master/kayid.zsh-theme) "
         "kmac:Simple theme that cleanly shows:username@host:pwd \$ "
-        "matte-black-yellow:Features: Same as for color-input.Features: "
-        "matte-black-yellow-line:Similar to matte-black-yellow, but with a dashed line separating successive prompts.Features: "
+        "matte-black-yellow:Features: Same as for color-input."
+        "matte-black-yellow-line:Similar to matte-black-yellow, but with a dashed line separating successive prompts."
         "minimal2:A minimalist two line theme with Git support. "
-        "oh-wonder:Just another funky theme. "
         "passion:- time prompt will update once you finish inputting.- time cost will show after command running. "
         "retro-term:A theme with a CRT terminal feel. "
         "short:If long prompts annoy you, this theme is for you! "
     )
-    
+
     omz_themes=(
         "3den"
         "adben"
@@ -185,7 +183,7 @@ function _zshtheme() {
         "ys"
         "zhann"
     )
-    
+
     gist=(
         "xxf"
         "solus"
@@ -193,12 +191,12 @@ function _zshtheme() {
         "reggae"
         "random-emoji"
         "philthy"
-        "oh-wonder"
+        "oh-wonder:Just another funky theme. "
         "hedgehog"
         "hub"
         "mcquen "
     )
-    
+
     git_clone=(
         "powerlevel10k:Powerlevel10k is a backward-compatible reimplementation of the popular Powerlevel9k theme (see above) with 10-100 times better performance. When given the same configuration options it will generate the same prompt. "
         "p10k:alias configured by powerlevel10k."
@@ -246,11 +244,8 @@ function _zshtheme() {
         "kinda-fishy:A theme based on [fishy](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes#fishy) with two differences:- The full path is shown instead of abbreviated directory names. "
         "lambda-mod:- A simple yet elegant theme with git focused development. "
         "lambda-v:Two-line prompt that includes system clock timestamps, username, current working directory, git branch, git prompt info. "
-        "matte-black-yellow:Features: Same as for color-input.Features: "
-        "matte-black-yellow-line:Similar to matte-black-yellow, but with a dashed line separating successive prompts.Features: "
         "maza:Simple is better "
         "minimal-improved:See [repo](https://github.com/gdsrosa/minimal_improved) "
-        "minimal2:A minimalist two line theme with Git support. "
         "node:source: [here](https://github.com/skuridin/oh-my-zsh-node-theme) "
         "nodeys:Nodeys is a theme based on fantastic ys theme, with added NodeJS version (from NVM plugin). "
         "nothing:**Features**Current sessions history count,Exit code in right prompt on error.  "
@@ -264,7 +259,6 @@ function _zshtheme() {
         "rafiki-zsh:A zsh friend to watch over you. "
         "robbyrussell-wip:The same RobbyRussell theme that everyone loves, decorated with a WIP!! message when the latest commit of your git repo is a WIP commit. "
         "shayan:Simple. "
-        "short:If long prompts annoy you, this theme is for you! "
         "sm:⛓ a **Simplistic** & **Minimalist** theme for **ZSH** prompts. "
         "sobole:Github: https://github.com/sobolevn/sobole-zsh-theme "
         "spaceship-zsh:Spaceship is a minimalistic, powerful and extremely customizable Zsh prompt. It combines everything you may need for convenient work, without unnecessary complications, like a real spaceship. "
@@ -279,25 +273,25 @@ function _zshtheme() {
         "λpure:A minimal zsh theme, based on Pure, with added NodeJS version (async!) "
     )
     _arguments -C \
-    '1: :->first_arg' \
-    '2: :->second_arg' && RET=0
-    
+        '1: :->first_arg' \
+        '2: :->second_arg' && RET=0
+
     local target=$words[2]
-    
+
     case $state in
-        first_arg)
-            _describe -t git_clone "git clone" git_clone && RET=0
-            _describe -t omz_themes "omz themes" omz_themes && RET=0
-            _describe -t gist "gist" gist && RET=0
-            _describe -t git_clone "git cdn" git_cdn && RET=0
+    first_arg)
+        _describe -t git_clone "git clone" git_clone && RET=0
+        _describe -t omz_themes "omz themes" omz_themes && RET=0
+        _describe -t gist "gist" gist && RET=0
+        _describe -t git_clone "git cdn" git_cdn && RET=0
         ;;
-        second_arg)
-            case $target in
-                *)
-                    _message "Press ${BOLD}${YELLOW}enter${RESET}${RESET} to to change the zshtheme to ${BLUE}${target}${RESET}."
-                    _message "按${BOLD}${YELLOW}回车键${RESET}${RESET}修改为${BLUE}${target}${RESET}主题。" && RET=0
-                ;;
-            esac
+    second_arg)
+        case $target in
+        *)
+            _message "Press ${BOLD}${YELLOW}enter${RESET}${RESET} to to change the zshtheme to ${BLUE}${target}${RESET}."
+            _message "按${BOLD}${YELLOW}回车键${RESET}${RESET}修改为${BLUE}${target}${RESET}主题。" && RET=0
+            ;;
+        esac
         ;;
     esac
     return $RET

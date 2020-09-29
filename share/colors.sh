@@ -56,7 +56,6 @@ tmoe_termux_color_env() {
   esac
   TERMUX_COLOR_FILE="${HOME}/.termux/colors.properties"
   COLORS_DIR=${HOME}/.config/tmoe-zsh/git/share/colors
-  COUNT=0
 }
 ##############
 get_tmoe_termux_color_help_info() {

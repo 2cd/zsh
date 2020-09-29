@@ -85,11 +85,11 @@ get_tmoe_zsh_theme_help_info() {
     Some themes need to be downloaded.
     The following themes use git to clone their repo:
     以下主题使用git克隆整个仓库：
-    powerlevel10k | pure | via | aphrodite | typewritten | abaykan | agkozak | agnosterzak | alien | alien-minimal | antsy | asciigit | avit-da2k | bender | blokkzh | bullet-train | bunnyruni | chi | chill | ciacho | classytouch | cordial | daivasmara | docker-zsh | drofloh | ducula | elessar | enlightenment | fishbone++ | fishy2 | funkyberlin | geometry | gitstatus | halil | haribo | hyper-oh-my-zsh | hyperzsh | igeek | igorsilva | imp | jovial | kimwz | kinda-fishy | lambda-mod | lambda-v | matte-black-yellow | matte-black-yellow-line | maza | minimal-improved | minimal2 | node | nodeys | nothing | nt9 | nuts | odin | omega | oxide | pi | punctual | rafiki-zsh  | robbyrussell-wip | shayan | short | sm | sobole | spaceship-zsh | staples | theta | traditional-plus | vero | windows-cmd | zeroastro | zeta | zsh2000 | λpure
+    powerlevel10k | pure | via | aphrodite | typewritten | abaykan | agkozak | agnosterzak | alien | alien-minimal | antsy | asciigit | avit-da2k | bender | blokkzh | bullet-train | bunnyruni | chi | chill | ciacho | classytouch | cordial | daivasmara | docker-zsh | drofloh | ducula | elessar | enlightenment | fishbone++ | fishy2 | funkyberlin | geometry | gitstatus | halil | haribo | hyper-oh-my-zsh | hyperzsh | igeek | igorsilva | imp | jovial | kimwz | kinda-fishy | lambda-mod | lambda-v | maza | minimal-improved | node | nodeys | nothing | nt9 | nuts | odin | omega | oxide | pi | punctual | rafiki-zsh | robbyrussell-wip | shayan | sm | sobole | spaceship-zsh | staples | theta | traditional-plus | vero | windows-cmd | zeroastro | zeta | zsh2000 | λpure
   
   以下主题使用了CDN进行下载加速：
   The following themes use jsdelivr CDN for download acceleration：
-  color-input | color-input-line | dpoggi-newline-timestamp | gitster | imperator | intika | kayid | kmac | matte-black-yellow | matte-black-yellow-line | minimal2 | oh-wonder | passion | retro-term | short
+  color-input | color-input-line | dpoggi-newline-timestamp | gitster | imperator | intika | kayid | kmac | matte-black-yellow | matte-black-yellow-line | minimal2 | passion | retro-term | short
 
   以下主题托管于github gist,下载无加速：
   xxf | solus | schminitz | reggae | random-emoji | philthy | oh-wonder | hedgehog | hub | mcquen 
@@ -111,9 +111,11 @@ ENDOFTMOEZSHHELP01
 3den , abaykan , adben , af-magic , afowler , agkozak , agnoster , agnosterzak , alanpeabody , alien , alien-minimal , amuse , antsy , aphrodite , apple , arrow , asciigit , aussiegeek , avit , avit-da2k , awesomepanda , bender , bira , blinks , blokkzh , bullet-train , bunnyruni , bureau , candy , candy-kingdom , chi , chill , ciacho , classytouch , clean , cloud , color-input , color-input-line , cordial , crcandy , crunch , cypher , daivasmara , dallas , darkblood , daveverwer , dieter , docker-zsh , dogenpunk , dpoggi , dpoggi-newline-timestamp , drofloh , dst , dstufft , ducula , duellj , eastwood , edvardm , elessar , emotty , enlightenment , essembeh , evan , fino , fino-time , fishbone++ , fishy , fishy2 , flazz , fletcherm , fox , frisk , frontcube , funky , funkyberlin , fwalch , gallifrey , gallois , garyblessington , gentoo , geoffgarside , geometry , gianu , gitstatus , gitster , gnzh , gozilla , half-life , halil , haribo , hedgehog , hub , humza , hyper-oh-my-zsh , hyperzsh , igeek , igorsilva , imajes , imp , imperator , intheloop , intika , itchy , jaischeema , jbergantine , jispwoso , jnrowe , jonathan , josh , jovial , jreese , jtriley , juanghurtado , junkfood , kafeitu , kardan , kayid , kennethreitz , kimwz , kinda-fishy , kiwi , kmac , kolo , kphoen , lambda , lambda-gitster , lambda-mod , lambda-v , linuxonly , lukerandall , macovsky , maran , matte-black-yellow , matte-black-yellow-line , maza , mcquen , mgutz , mh , michelebologna , mikeh , miloshadzic , minimal , minimal-improved , minimal2 , mira , mlh , mortalscumbag , mrtazz , murilasso , muse , nanotech , nebirhos , nicoulaj , node , nodeys , norm , nothing , nt9 , nuts , obraun , odin , oh-wonder , omega , oxide , passion , peepcode , philips , philthy , pi , pmcgee , powerlevel10k , punctual , pure , pygmalion , pygmalion-virtualenv , rafiki-zsh , random-emoji , re5et , refined , reggae , retro-term , rgm , risto , rixius , rkj , rkj-repos , robbyrussell , robbyrussell-wip , sammy , schminitz , shayan , short , simonoff , simple , skaro , sm , smt , sobole , Soliah , solus , sonicradish , sorin , spaceship-zsh , sporty_256 , staples , steeef , strug , sunaku , sunrise , superjarin , suvash , takashiyoshida , terminalparty , theta , theunraveler , tjkirch , tjkirch_mod , tonotdo , traditional-plus , trapd00r , typewritten , vero , via , wedisagree , wezm , wezm+ , windows-cmd , wuffers , xiong-chiamiov , xiong-chiamiov-plus , xxf , ys , zeroastro , zeta , zhann , zsh2000 , λpure
 ENDOFTMOEZSHHELP02
   cat <<-ENDOFTMOEZSHHELP03
-  小技巧:
-  在ZSH环境下,输${YELLOW}zsht${RESET},不按回车,按两次TAB键${BLUE}⇄${RESET}切换为${BLUE}手动模式${RESET}。
-  Type ${GREEN}zsht${RESET}, then don't press ${RED}enter${RESET}, press Tab${BLUE}⇄${RESET} key to use ${GREEN}manual mode${RESET}.
+  ${BOLD}${YELLOW}小技巧${RESET}${RESET}:
+  ${BOLD}${YELLOW}TIPS OF TMOE ZSH THEME MANAGER${RESET}${RESET}
+  在ZSH环境下,输${YELLOW}zsht${RESET},不按回车,按一次TAB键${BLUE}⇄${RESET}补全为${GREEN}zshtheme${RESET}，再按一次切换为${BLUE}手动模式${RESET}，在该模式下支持搜索主题名称。
+  Type ${GREEN}zsht${RESET}, then don't press ${RED}enter${RESET}, press Tab${BLUE}⇄${RESET} key twice to use ${GREEN}manual mode${RESET}.
+  --------------
 ENDOFTMOEZSHHELP03
 }
 ######
@@ -132,7 +134,6 @@ tmoe_zsh_theme_env() {
   P10K_URL_02="git://github.com/romkatv/powerlevel10k"
   P9K_URL_01='https://github.com/Powerlevel9k/powerlevel9k.git'
   P9K_URL_02="git://github.com/Powerlevel9k/powerlevel9k"
-  COUNT=0
   ZINIT_LINE=$(cat ${ZSHRC_FILE} | egrep -n '^[^#]*source.*bin/zinit.zsh' | awk -F ':' '{print $1}' | head -n 1)
   if ! egrep -q '^[^#]*ZINIT_THEME_DIR=.*themes/_local' "${ZSHRC_FILE}"; then
     sed -i "${ZINIT_LINE} i\ZINIT_THEME_DIR=\${HOME}/.zinit/themes/_local" "${ZSHRC_FILE}"
@@ -312,10 +313,10 @@ case_zsh_theme() {
     #ZSH_THEME_URL_01='https://github.com/badouralix/oh-my-via.git'
     git_clone_zsh_theme_model_01
     ;;
-  xxf | solus | schminitz | reggae | random-emoji | philthy | oh-wonder | hedgehog | hub | mcquen | color-input | color-input-line | dpoggi-newline-timestamp | gitster | imperator | intika | kayid | kmac | matte-black-yellow | matte-black-yellow-line | minimal2 | oh-wonder | passion | philthy | retro-term | short)
+  xxf | solus | schminitz | reggae | random-emoji | philthy | hedgehog | hub | mcquen | color-input | color-input-line | dpoggi-newline-timestamp | gitster | imperator | intika | kayid | kmac | matte-black-yellow | matte-black-yellow-line | minimal2 | passion | retro-term | short)
     curl_new_zsh_theme_from_git_cdn
     ;;
-  abaykan | agkozak | agnosterzak | alien | alien-minimal | antsy | asciigit | avit-da2k | bender | blokkzh | bullet-train | bunnyruni | chi | chill | ciacho | classytouch | color-input | color-input-line | cordial | daivasmara | docker-zsh | drofloh | ducula | elessar | enlightenment | fishbone++ | fishy2 | funkyberlin | geometry | gitstatus | halil | haribo | hyper-oh-my-zsh | hyperzsh | igeek | igorsilva | imp | jovial | kimwz | kinda-fishy | lambda-mod | lambda-v | matte-black-yellow | matte-black-yellow-line | maza | minimal-improved | minimal2 | node | nodeys | nothing | nt9 | nuts | odin | omega | oxide | pi | punctual | rafiki-zsh | retro-term | robbyrussell-wip | shayan | short | sm | sobole | spaceship-zsh | staples | theta | traditional-plus | vero | windows-cmd | zeroastro | zeta | zsh2000 | λpure)
+  abaykan | agkozak | agnosterzak | alien | alien-minimal | antsy | asciigit | avit-da2k | bender | blokkzh | bullet-train | bunnyruni | chi | chill | ciacho | classytouch | cordial | daivasmara | docker-zsh | drofloh | ducula | elessar | enlightenment | fishbone++ | fishy2 | funkyberlin | geometry | gitstatus | halil | haribo | hyper-oh-my-zsh | hyperzsh | igeek | igorsilva | imp | jovial | kimwz | kinda-fishy | lambda-mod | lambda-v | maza | minimal-improved | node | nodeys | nothing | nt9 | nuts | odin | omega | oxide | pi | punctual | rafiki-zsh | robbyrussell-wip | shayan | sm | sobole | spaceship-zsh | staples | theta | traditional-plus | vero | windows-cmd | zeroastro | zeta | zsh2000 | λpure)
     git_clone_zsh_theme_model_01
     ;;
   *) copy_tmoe_zsh_theme ;;
@@ -336,6 +337,7 @@ select_termux_color() {
       echo "${BLUE}${TMOE_ZSH_THEME}${RESET}"
       temp_zsh_theme_env
       case_zsh_theme
+      exec zsh
       break
       ;;
     *)
@@ -358,7 +360,6 @@ choose_zsh_theme() {
   esac
   #您可以输${YELLOW}zshtheme${RESET}来更改${BLUE}主题${RESET}
   #You can type ${GREEN}zshtheme${RESET} to change the ${BLUE}theme${RESET}.
-  exec zsh
 }
 ##############
 tmoe_theme_main "$@"
