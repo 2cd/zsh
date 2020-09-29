@@ -97,9 +97,12 @@ get_tmoe_zsh_theme_help_info() {
   ${BOLD}${YELLOW}NOTES${RESET}${RESET} of ${GREEN}manual mode${RESET} 
   ${GREEN}手动模式${RESET}的${BOLD}${YELLOW}说明${RESET}${RESET}
   You can type ${GREEN}zshtheme${RESET} ${BLUE}\$THEME_NAME${RESET} to change the zsh theme.
+  In the process of typing zsh, you can press TAB to  complete.
   For example.01: If you type ${GREEN}zshtheme${RESET} ${BLUE}agnosterzak${RESET},then zsh theme will be changed to ${BLUE}agnosterzak${RESET}.
   02:   ${GREEN}zshtheme${RESET} ${BLUE}xiong-chiamiov-plus${RESET}
+  
   您可以输${GREEN}zshtheme${RESET} ${BLUE}\$主题名称${RESET}来修改主题。
+  在输入zshtheme的过程中，按下TAB键进行补全，按多次TAB键列出参数列表。
   例如： 输入${GREEN}zshtheme${RESET} ${BLUE}powerlevel10k${RESET}或者${GREEN}zshtheme${RESET} ${BLUE}p10k${RESET}，将主题修改为${BLUE}powerlevel10k${RESET}。
   --------------
   ${BOLD}${YELLOW}LIST OF ZSH THEMES${RESET}${RESET}:
