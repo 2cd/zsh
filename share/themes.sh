@@ -110,6 +110,11 @@ ENDOFTMOEZSHHELP01
   ${CATCAT} <<-'ENDOFTMOEZSHHELP02'
 3den , abaykan , adben , af-magic , afowler , agkozak , agnoster , agnosterzak , alanpeabody , alien , alien-minimal , amuse , antsy , aphrodite , apple , arrow , asciigit , aussiegeek , avit , avit-da2k , awesomepanda , bender , bira , blinks , blokkzh , bullet-train , bunnyruni , bureau , candy , candy-kingdom , chi , chill , ciacho , classytouch , clean , cloud , color-input , color-input-line , cordial , crcandy , crunch , cypher , daivasmara , dallas , darkblood , daveverwer , dieter , docker-zsh , dogenpunk , dpoggi , dpoggi-newline-timestamp , drofloh , dst , dstufft , ducula , duellj , eastwood , edvardm , elessar , emotty , enlightenment , essembeh , evan , fino , fino-time , fishbone++ , fishy , fishy2 , flazz , fletcherm , fox , frisk , frontcube , funky , funkyberlin , fwalch , gallifrey , gallois , garyblessington , gentoo , geoffgarside , geometry , gianu , gitstatus , gitster , gnzh , gozilla , half-life , halil , haribo , hedgehog , hub , humza , hyper-oh-my-zsh , hyperzsh , igeek , igorsilva , imajes , imp , imperator , intheloop , intika , itchy , jaischeema , jbergantine , jispwoso , jnrowe , jonathan , josh , jovial , jreese , jtriley , juanghurtado , junkfood , kafeitu , kardan , kayid , kennethreitz , kimwz , kinda-fishy , kiwi , kmac , kolo , kphoen , lambda , lambda-gitster , lambda-mod , lambda-v , linuxonly , lukerandall , macovsky , maran , matte-black-yellow , matte-black-yellow-line , maza , mcquen , mgutz , mh , michelebologna , mikeh , miloshadzic , minimal , minimal-improved , minimal2 , mira , mlh , mortalscumbag , mrtazz , murilasso , muse , nanotech , nebirhos , nicoulaj , node , nodeys , norm , nothing , nt9 , nuts , obraun , odin , oh-wonder , omega , oxide , passion , peepcode , philips , philthy , pi , pmcgee , powerlevel10k , punctual , pure , pygmalion , pygmalion-virtualenv , rafiki-zsh , random-emoji , re5et , refined , reggae , retro-term , rgm , risto , rixius , rkj , rkj-repos , robbyrussell , robbyrussell-wip , sammy , schminitz , shayan , short , simonoff , simple , skaro , sm , smt , sobole , Soliah , solus , sonicradish , sorin , spaceship-zsh , sporty_256 , staples , steeef , strug , sunaku , sunrise , superjarin , suvash , takashiyoshida , terminalparty , theta , theunraveler , tjkirch , tjkirch_mod , tonotdo , traditional-plus , trapd00r , typewritten , vero , via , wedisagree , wezm , wezm+ , windows-cmd , wuffers , xiong-chiamiov , xiong-chiamiov-plus , xxf , ys , zeroastro , zeta , zhann , zsh2000 , λpure
 ENDOFTMOEZSHHELP02
+  cat <<-ENDOFTMOEZSHHELP03
+  小技巧:
+  在ZSH环境下,输${YELLOW}zsht${RESET},不按回车,按两次TAB键${BLUE}⇄${RESET}切换为${BLUE}手动模式${RESET}。
+  Type ${GREEN}zsht${RESET}, then don't press ${RED}enter${RESET}, press Tab${BLUE}⇄${RESET} key to use ${GREEN}manual mode${RESET}.
+ENDOFTMOEZSHHELP03
 }
 ######
 tmoe_zsh_theme_env() {
@@ -302,55 +307,55 @@ case_zsh_theme() {
   case "${TMOE_ZSH_THEME}" in
   powerlevel9k) configure_p9k ;;
   powerlevel10k) configure_p10k ;;
-  pure)
+  pure | via | aphrodite | typewritten)
     #ZSH_THEME_URL_01='https://github.com/sindresorhus/pure.git'
-    git_clone_zsh_theme_model_01
-    ;;
-  via | aphrodite)
     #ZSH_THEME_URL_01='https://github.com/badouralix/oh-my-via.git'
     git_clone_zsh_theme_model_01
     ;;
-  typewritten) git_clone_zsh_theme_model_01 ;;
-  xxf | solus | schminitz | reggae | random-emoji | philthy | oh-wonder | hedgehog | hub | mcquen | color-input | color-input-line | dpoggi-newline-timestamp | gitster | imperator | intika | kayid | kmac | matte-black-yellow | matte-black-yellow-line | minimal2 | oh-wonder | passion | philthy | retro-term | short) curl_new_zsh_theme_from_git_cdn ;;
-  abaykan | agkozak | agnosterzak | alien | alien-minimal | antsy | asciigit | avit-da2k | bender | blokkzh | bullet-train | bunnyruni | chi | chill | ciacho | classytouch | color-input | color-input-line | cordial | daivasmara | docker-zsh | drofloh | ducula | elessar | enlightenment | fishbone++ | fishy2 | funkyberlin | geometry | gitstatus | halil | haribo | hyper-oh-my-zsh | hyperzsh | igeek | igorsilva | imp | jovial | kimwz | kinda-fishy | lambda-mod | lambda-v | matte-black-yellow | matte-black-yellow-line | maza | minimal-improved | minimal2 | node | nodeys | nothing | nt9 | nuts | odin | omega | oxide | pi | punctual | rafiki-zsh | retro-term | robbyrussell-wip | shayan | short | sm | sobole | spaceship-zsh | staples | theta | traditional-plus | vero | windows-cmd | zeroastro | zeta | zsh2000 | λpure) git_clone_zsh_theme_model_01 ;;
+  xxf | solus | schminitz | reggae | random-emoji | philthy | oh-wonder | hedgehog | hub | mcquen | color-input | color-input-line | dpoggi-newline-timestamp | gitster | imperator | intika | kayid | kmac | matte-black-yellow | matte-black-yellow-line | minimal2 | oh-wonder | passion | philthy | retro-term | short)
+    curl_new_zsh_theme_from_git_cdn
+    ;;
+  abaykan | agkozak | agnosterzak | alien | alien-minimal | antsy | asciigit | avit-da2k | bender | blokkzh | bullet-train | bunnyruni | chi | chill | ciacho | classytouch | color-input | color-input-line | cordial | daivasmara | docker-zsh | drofloh | ducula | elessar | enlightenment | fishbone++ | fishy2 | funkyberlin | geometry | gitstatus | halil | haribo | hyper-oh-my-zsh | hyperzsh | igeek | igorsilva | imp | jovial | kimwz | kinda-fishy | lambda-mod | lambda-v | matte-black-yellow | matte-black-yellow-line | maza | minimal-improved | minimal2 | node | nodeys | nothing | nt9 | nuts | odin | omega | oxide | pi | punctual | rafiki-zsh | retro-term | robbyrussell-wip | shayan | short | sm | sobole | spaceship-zsh | staples | theta | traditional-plus | vero | windows-cmd | zeroastro | zeta | zsh2000 | λpure)
+    git_clone_zsh_theme_model_01
+    ;;
   *) copy_tmoe_zsh_theme ;;
   esac
 }
 ##########
+select_termux_color() {
+  cat <<-ENDOFTMOEZSHHELP03
+	ENDOFTMOEZSHHELP03
+  PS3="请输入${YELLOW}选项数字${RESET},并按${BLUE}回车键${RESET}。 \
+  Please type the ${GREEN}option number${RESET} and press ${BLUE}Enter${RESET}${YELLOW}[1-238]:${RESET}"
+  select ZSH_THEME_FILE in "3den" "abaykan" "adben" "af-magic" "afowler" "agkozak" "agnoster" "agnosterzak" "alanpeabody" "alien" "alien-minimal" "amuse" "antsy" "aphrodite" "apple" "arrow" "asciigit" "aussiegeek" "avit" "avit-da2k" "awesomepanda" "bender" "bira" "blinks" "blokkzh" "bullet-train" "bunnyruni" "bureau" "candy" "candy-kingdom" "chi" "chill" "ciacho" "classytouch" "clean" "cloud" "color-input" "color-input-line" "cordial" "crcandy" "crunch" "cypher" "daivasmara" "dallas" "darkblood" "daveverwer" "dieter" "docker-zsh" "dogenpunk" "dpoggi" "dpoggi-newline-timestamp" "drofloh" "dst" "dstufft" "ducula" "duellj" "eastwood" "edvardm" "elessar" "emotty" "enlightenment" "essembeh" "evan" "fino" "fino-time" "'fishbone++'" "fishy" "fishy2" "flazz" "fletcherm" "fox" "frisk" "frontcube" "funky" "funkyberlin" "fwalch" "gallifrey" "gallois" "garyblessington" "gentoo" "geoffgarside" "geometry" "gianu" "gitstatus" "gitster" "gnzh" "gozilla" "half-life" "halil" "haribo" "hedgehog" "hub" "humza" "hyper-oh-my-zsh" "hyperzsh" "igeek" "igorsilva" "imajes" "imp" "imperator" "intheloop" "intika" "itchy" "jaischeema" "jbergantine" "jispwoso" "jnrowe" "jonathan" "josh" "jovial" "jreese" "jtriley" "juanghurtado" "junkfood" "kafeitu" "kardan" "kayid" "kennethreitz" "kimwz" "kinda-fishy" "kiwi" "kmac" "kolo" "kphoen" "lambda" "lambda-gitster" "lambda-mod" "lambda-v" "linuxonly" "lukerandall" "macovsky" "maran" "matte-black-yellow" "matte-black-yellow-line" "maza" "mcquen" "mgutz" "mh" "michelebologna" "mikeh" "miloshadzic" "minimal" "minimal-improved" "minimal2" "mira" "mlh" "mortalscumbag" "mrtazz" "murilasso" "muse" "nanotech" "nebirhos" "nicoulaj" "node" "nodeys" "norm" "nothing" "nt9" "nuts" "obraun" "odin" "oh-wonder" "omega" "oxide" "passion" "peepcode" "philips" "philthy" "pi" "pmcgee" "powerlevel10k" "punctual" "pure" "pygmalion" "pygmalion-virtualenv" "rafiki-zsh" "random" "random-emoji" "re5et" "refined" "reggae" "retro-term" "rgm" "risto" "rixius" "rkj" "rkj-repos" "robbyrussell" "robbyrussell-wip" "sammy" "schminitz" "shayan" "short" "simonoff" "simple" "skaro" "sm" "smt" "sobole" "Soliah" "solus" "sonicradish" "sorin" "spaceship-zsh" "sporty_256" "staples" "steeef" "strug" "sunaku" "sunrise" "superjarin" "suvash" "takashiyoshida" "terminalparty" "theta" "theunraveler" "tjkirch" "tjkirch_mod" "tonotdo" "traditional-plus" "trapd00r" "typewritten" "vero" "via" "wedisagree" "wezm" "wezm+" "windows-cmd" "wuffers" "xiong-chiamiov" "xiong-chiamiov-plus" "xxf" "ys" "zeroastro" "zeta" "zhann" "zsh2000" "λpure" 'skip跳过'; do
+    case ${ZSH_THEME_FILE} in
+    'skip跳过')
+      break
+      ;;
+    powerlevel10k | powerlevel9k | 3den | abaykan | adben | af-magic | afowler | agkozak | agnoster | agnosterzak | alanpeabody | alien | alien-minimal | amuse | antsy | aphrodite | apple | arrow | asciigit | aussiegeek | avit | avit-da2k | awesomepanda | bender | bira | blinks | blokkzh | bullet-train | bunnyruni | bureau | candy | candy-kingdom | chi | chill | ciacho | classytouch | clean | cloud | color-input | color-input-line | cordial | crcandy | crunch | cypher | daivasmara | dallas | darkblood | daveverwer | dieter | docker-zsh | dogenpunk | dpoggi | dpoggi-newline-timestamp | drofloh | dst | dstufft | ducula | duellj | eastwood | edvardm | elessar | emotty | enlightenment | essembeh | evan | fino | fino-time | 'fishbone++' | fishy | fishy2 | flazz | fletcherm | fox | frisk | frontcube | funky | funkyberlin | fwalch | gallifrey | gallois | garyblessington | gentoo | geoffgarside | geometry | gianu | gitstatus | gitster | gnzh | gozilla | half-life | halil | haribo | hedgehog | hub | humza | hyper-oh-my-zsh | hyperzsh | igeek | igorsilva | imajes | imp | imperator | intheloop | intika | itchy | jaischeema | jbergantine | jispwoso | jnrowe | jonathan | josh | jovial | jreese | jtriley | juanghurtado | junkfood | kafeitu | kardan | kayid | kennethreitz | kimwz | kinda-fishy | kiwi | kmac | kolo | kphoen | lambda | lambda-gitster | lambda-mod | lambda-v | linuxonly | lukerandall | macovsky | maran | matte-black-yellow | matte-black-yellow-line | maza | mcquen | mgutz | mh | michelebologna | mikeh | miloshadzic | minimal | minimal-improved | minimal2 | mira | mlh | mortalscumbag | mrtazz | murilasso | muse | nanotech | nebirhos | nicoulaj | node | nodeys | norm | nothing | nt9 | nuts | obraun | odin | oh-wonder | omega | oxide | passion | peepcode | philips | philthy | pi | pmcgee | powerlevel10k | punctual | pure | pygmalion | pygmalion-virtualenv | rafiki-zsh | random | random-emoji | re5et | refined | reggae | retro-term | rgm | risto | rixius | rkj | rkj-repos | robbyrussell | robbyrussell-wip | sammy | schminitz | shayan | short | simonoff | simple | skaro | sm | smt | sobole | Soliah | solus | sonicradish | sorin | spaceship-zsh | sporty_256 | staples | steeef | strug | sunaku | sunrise | superjarin | suvash | takashiyoshida | terminalparty | theta | theunraveler | tjkirch | tjkirch_mod | tonotdo | traditional-plus | trapd00r | typewritten | vero | via | wedisagree | wezm | wezm+ | windows-cmd | wuffers | xiong-chiamiov | xiong-chiamiov-plus | xxf | ys | zeroastro | zeta | zhann | zsh2000 | λpure)
+      echo "${BLUE}${ZSH_THEME_FILE}${RESET}"
+      temp_zsh_theme_env
+      case_zsh_theme
+      break
+      ;;
+    *)
+      echo ${BOLD}--------------${RESET}
+      echo "Please ${BLUE}type${RESET} the right ${BOLD}${RED}pure number${RESET}${RESET}!"
+      echo "请${BLUE}输入${RESET}正确的${BOLD}${RED}纯数字${RESET}${RESET}!"
+      ;;
+    esac
+  done
+}
+#########
+#echo -e "If it does not take effect, please ${YELLOW}restart${RESET} the terminal app.\n若修改完成后${RED}未生效${RESET}，则建议您${YELLOW}重启终端${RESET}。"
 choose_zsh_theme() {
   echo -e "The default theme is xiong-chiamiov-plus.\nYou can choose another one from the list below"
   echo "您可以在${BLUE}此列表${RESET}中选择${YELLOW}zsh主题${RESET}。"
-  for ZSH_THEME_FILE in "${TMOE_THEME_DIR}"/*; do
-    ZSH_THEME_NAME[COUNT]=$(echo ${ZSH_THEME_FILE} | awk -F '/' '{print $NF}')
-    echo -e "(${COUNT}) ${ZSH_THEME_NAME[COUNT]}"
-    COUNT=$((${COUNT} + 1))
-  done
-  COUNT=$((${COUNT} - 1))
-  ###############
-  while true; do
-    read -p "请输入${GREEN}选项数字${RESET},并按${BLUE}回车键${RESET},留空不更改。Please type the ${GREEN}option number${RESET} and press ${BLUE}Enter${RESET}:" ZSH_THEME_NUMBER
-    if [[ -z "${ZSH_THEME_NUMBER}" ]]; then
-      break
-    elif ! [[ ${ZSH_THEME_NUMBER} =~ ^[0-9]+$ ]]; then
-      echo "Please type the right number!"
-    elif ((${ZSH_THEME_NUMBER} >= 0 && ${ZSH_THEME_NUMBER} <= ${COUNT})); then
-      eval TMOE_ZSH_THEME=${ZSH_THEME_NAME[ZSH_THEME_NUMBER]}
-      temp_zsh_theme_env
-      case_zsh_theme
-      ##############
-      break
-    else
-      echo -e "If it does not take effect, please ${YELLOW}restart${RESET} the terminal app.\n若修改完成后${RED}未生效${RESET}，则建议您${YELLOW}重启终端${RESET}。"
-    fi
-  done
+  select_termux_color
   #source "${ZSHRC_FILE}" 2>/dev/null
   case "$(uname -o)" in
   Android) chsh -s zsh ;;
   esac
-  cat <<-ENDOFTMOEZSHHELP03
-  输${YELLOW}zshtheme h${RESET}来获取${BLUE}zsh主题帮助信息${RESET}。
-  You can type ${GREEN}zshtheme h${RESET} to get the ${BLUE}zsh theme help info${RESET}.
-ENDOFTMOEZSHHELP03
   #您可以输${YELLOW}zshtheme${RESET}来更改${BLUE}主题${RESET}
   #You can type ${GREEN}zshtheme${RESET} to change the ${BLUE}theme${RESET}.
   exec zsh

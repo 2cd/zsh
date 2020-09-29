@@ -89,7 +89,7 @@ get_tmoe_termux_color_help_info() {
   ${YELLOW}-num${RESET}    --number list. This is the default mode.
   If the parameter is empty, it will enter this mode.
   It is interactive, you need to type ${GREEN}zshcolor${RESET} or ${GREEN}zshcolor -num${RESET} to start this mode first, and then type the option number,finally press ${YELLOW}Enter${RESET} key.
-  序号列表模式。若参数为空，则将进入此模式。
+  ${GREEN}序号列表${RESET}模式。若参数为空，则将进入此模式。
   此模式为交互式操作，您可以先输${GREEN}zshcolor${RESET}启动,接着输入数字序号。
   --------------
   ${BOLD}${YELLOW}NOTES${RESET}${RESET} of ${GREEN}manual mode${RESET} 
@@ -111,7 +111,7 @@ select_termux_color() {
   cat <<-ENDOFTMOEZSHHELP03
 	ENDOFTMOEZSHHELP03
   PS3="请输入${YELLOW}选项数字${RESET},并按${BLUE}回车键${RESET}。 \
-  Please type the ${GREEN}option number${RESET} and press ${BLUE}Enter${RESET}[1-123]:"
+  Please type the ${GREEN}option number${RESET} and press ${BLUE}Enter${RESET}${YELLOW}[1-123]:${RESET}"
   select TERMUX_COLOR_NAME in '3024.dark' '3024.light' 'aci' 'aco' 'apathy.dark' 'apathy.light' 'argonaut' 'ashes.dark' 'ashes.light' 'atelierdune.dark' 'atelierdune.light' 'atelierforest.dark' 'atelierforest.light' 'atelierheath.dark' 'atelierheath.light' 'atelierlakeside.dark' 'atelierlakeside.light' 'atelierseaside.dark' 'atelierseaside.light' 'azu' 'base16.solarized.dark' 'base16.solarized.light' 'bespin.dark' 'bespin.light' 'bim' 'black.on.white' 'brewer.dark' 'brewer.light' 'bright.dark' 'bright.light' 'cai' 'chalk' 'chalk.dark' 'chalk.light' 'codeschool.dark' 'codeschool.light' 'colors.dark' 'colors.light' 'default' 'default.dark' 'default.light' 'dracula' 'eighties.dark' 'eighties.light' 'elementary' 'elic' 'elio' 'embers.dark' 'embers.light' 'flat' 'flat.dark' 'flat.light' 'freya' 'gnometerm' 'google.dark' 'google.light' 'gotham' 'grayscale.dark' 'grayscale.light' 'greenscreen.dark' 'greenscreen.light' 'gruvbox.dark' 'gruvbox.light' 'harmonic16.dark' 'harmonic16.light' 'hemisu.dark' 'hemisu.light' 'hybrid' 'isotope.dark' 'isotope.light' 'jup' 'londontube.dark' 'londontube.light' 'mar' 'marrakesh.dark' 'marrakesh.light' 'materia' 'material' 'miu' 'mocha.dark' 'mocha.light' 'monokai.dark' 'monokai.light' 'nancy' 'neon' 'nep' 'nord' 'ocean.dark' 'ocean.light' 'one.dark' 'one.light' 'pali' 'paraiso.dark' 'paraiso.light' 'peppermint' 'railscasts.dark' 'railscasts.light' 'rydgel' 'sat' 'shapeshifter.dark' 'shapeshifter.light' 'shel' 'smyck' 'solarized.dark' 'solarized.light' 'summerfruit.dark' 'summerfruit.light' 'tango' 'tin' 'tomorrow' 'tomorrow.dark' 'tomorrow.light' 'tomorrow.night' 'tomorrow.night.blue' 'tomorrow.night.bright' 'tomorrow.night.eighties' 'twilight.dark' 'twilight.light' 'ura' 'vag' 'white.on.black' 'wild.cherry' 'zenburn' 'skip跳过'; do
     case ${TERMUX_COLOR_NAME} in
     'skip跳过')
