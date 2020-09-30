@@ -90,10 +90,6 @@ gnu_linux_env() {
 }
 ##########
 check_system() {
-	#舊版（202009之前的版本）tmoe-zsh需要更新
-	#if grep -q 'alias zsh-i=' ${HOME}/.zshrc 2>/dev/null; then
-	#	upgrade_tmoe_zsh_manager
-	#fi
 	if [ -e "${TMOE_ZSH_GIT_DIR}/.termux/themes.sh" ]; then
 		cat <<-EOF
 			You are using ${RED}old version${RESET}.
