@@ -119,32 +119,32 @@ case_return_to_where() {
 }
 ########################
 do_you_want_to_continue() {
-	echo "${YELLOW}Do you want to continue?[Y/n]${RESET}"
-	echo "Press ${GREEN}enter${RESET} to ${BLUE}continue${RESET},type ${YELLOW}n${RESET} to ${BLUE}return.${RESET}"
-	echo "按${GREEN}回车键${RESET}${BLUE}继续${RESET}，输${YELLOW}n${RESET}${BLUE}返回${RESET}"
+	printf "%s\n" "${YELLOW}Do you want to continue?[Y/n]${RESET}"
+	printf "%s\n" "Press ${GREEN}enter${RESET} to ${BLUE}continue${RESET},type ${YELLOW}n${RESET} to ${BLUE}return.${RESET}"
+	printf "%s\n" "按${GREEN}回车键${RESET}${BLUE}继续${RESET}，输${YELLOW}n${RESET}${BLUE}返回${RESET}"
 	read opt
 	case $opt in
 	y* | Y* | "") ;;
 	n* | N*)
-		echo "skipped."
+		printf "%s\n" "skipped."
 		case_return_to_where
 		;;
 	*)
-		echo "Invalid choice. skipped."
+		printf "%s\n" "Invalid choice. skipped."
 		case_return_to_where
 		;;
 	esac
 }
 ################
 press_enter_to_continue() {
-	echo "Press ${GREEN}enter${RESET} to ${BLUE}continue.${RESET}"
-	echo "按${GREEN}回车键${RESET}${BLUE}继续${RESET}"
+	printf "%s\n" "Press ${GREEN}enter${RESET} to ${BLUE}continue.${RESET}"
+	printf "%s\n" "按${GREEN}回车键${RESET}${BLUE}继续${RESET}"
 	read
 }
 #################
 press_enter_to_return() {
-	echo "Press ${GREEN}enter${RESET} to ${BLUE}return.${RESET}"
-	echo "按${GREEN}回车键${RESET}${BLUE}返回${RESET}"
+	printf "%s\n" "Press ${GREEN}enter${RESET} to ${BLUE}return.${RESET}"
+	printf "%s\n" "按${GREEN}回车键${RESET}${BLUE}返回${RESET}"
 	read
 }
 ##################
@@ -164,7 +164,7 @@ check_release_version() {
 }
 #####################
 openwrt_router_zsh_command() {
-	echo "本工具已不再支持OpenWRT和Entware"
+	printf "%s\n" "本工具已不再支持OpenWRT和Entware"
 	LINUX_DISTRO='openwrt'
 	TMOE_UPDATE_COMMAND='opkg update'
 	TMOE_REMOVAL_COMMAND='opkg remove'
@@ -305,9 +305,9 @@ apk_update_source_index() {
 }
 ###########
 installing_dependencies() {
-	echo "正在${YELLOW}安装${RESET}相关${GREEN}软件包${RESET}及其${BLUE}依赖...${RESET}"
-	echo "${GREEN}${TMOE_INSTALLATON_COMMAND}${BLUE}${DEPENDENCIES}${RESET}"
-	echo "如需${BOLD}${RED}卸载${RESET}${RESET}，请${YELLOW}手动${RESET}输${RED}${TMOE_REMOVAL_COMMAND}${RESET}${BLUE}${DEPENDENCIES}${RESET}"
+	printf "%s\n" "正在${YELLOW}安装${RESET}相关${GREEN}软件包${RESET}及其${BLUE}依赖...${RESET}"
+	printf "%s\n" "${GREEN}${TMOE_INSTALLATON_COMMAND}${BLUE}${DEPENDENCIES}${RESET}"
+	printf "%s\n" "如需${BOLD}${RED}卸载${RESET}${RESET}，请${YELLOW}手动${RESET}输${RED}${TMOE_REMOVAL_COMMAND}${RESET}${BLUE}${DEPENDENCIES}${RESET}"
 }
 ###########
 check_gnu_linux_git_and_whiptail() {
@@ -351,7 +351,7 @@ check_gnu_linux_git_and_whiptail() {
 			install_dependencies_01
 			;;
 		*)
-			echo "不支持您当前的发行版，您可以前往git仓库地址提交issue,并附上${BLUE}cat /etc/os-release${RESET}的截图。"
+			printf "%s\n" "不支持您当前的发行版，您可以前往git仓库地址提交issue,并附上${BLUE}cat /etc/os-release${RESET}的截图。"
 			press_enter_to_continue
 			check_root
 			apt update
@@ -442,8 +442,8 @@ tmoe_zsh_main_menu() {
 ######################
 check_tmoe_zsh_plugin_script() {
 	if [ ! -e "${TMOE_ZSH_TOOL_DIR}/environment" ]; then
-		echo "检测到TMOE配置插件不存在，您需要克隆本项目才能继续使用。"
-		echo "Do you want to git clone this repo to ${BLUE}${TMOE_ZSH_GIT_DIR}${RESET}"
+		printf "%s\n" "检测到TMOE配置插件不存在，您需要克隆本项目才能继续使用。"
+		printf "%s\n" "Do you want to git clone this repo to ${BLUE}${TMOE_ZSH_GIT_DIR}${RESET}"
 		do_you_want_to_continue
 		tmoe_zsh_installation
 	fi
@@ -486,9 +486,9 @@ tmoe_zsh_backup_menu() {
 tmoe_install_batcat() {
 	if [ ! $(command -v batcat) ] && [ ! $(command -v bat) ] && [ ! -e "${TMOE_ZSH_DIR}/not_install_bat" ]; then
 		${TMOE_UPDATE_COMMAND} || sudo ${TMOE_UPDATE_COMMAND}
-		echo "${GREEN}${TMOE_INSTALLATON_COMMAND}${RESET} ${BLUE}bat${RESET}"
+		printf "%s\n" "${GREEN}${TMOE_INSTALLATON_COMMAND}${RESET} ${BLUE}bat${RESET}"
 		${TMOE_INSTALLATON_COMMAND} bat || sudo ${TMOE_INSTALLATON_COMMAND} bat
-		echo "If you want to remove it,then type ${RED}${TMOE_REMOVAL_COMMAND}${RESET} ${BLUE}bat${RESET}"
+		printf "%s\n" "If you want to remove it,then type ${RED}${TMOE_REMOVAL_COMMAND}${RESET} ${BLUE}bat${RESET}"
 	fi
 	if [ ! $(command -v batcat) ] && [ ! $(command -v bat) ]; then
 		touch "${TMOE_ZSH_DIR}/not_install_bat"

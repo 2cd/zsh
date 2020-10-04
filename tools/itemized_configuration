@@ -4,8 +4,8 @@ change_the_terminal_color_scheme() {
     case "${LINUX_DISTRO}" in
     Android) bash ${TMOE_ZSH_TERMUX_PATH}/colors.sh ;;
     *)
-        echo '非常抱歉，此功能只支持安卓'
-        echo "Sorry, this feature only supports Android"
+        printf '%s\n' '非常抱歉，此功能只支持安卓'
+        printf "%s\n" "Sorry, this feature only supports Android"
         press_enter_to_return
         zsh_itemized_configuration_menu
         ;;
@@ -16,8 +16,8 @@ change_the_terminal_font() {
     case "${LINUX_DISTRO}" in
     Android) bash ${TMOE_ZSH_TERMUX_PATH}/fonts.sh ;;
     *)
-        echo '非常抱歉，此功能只支持安卓'
-        echo "Sorry, this feature only supports Android"
+        printf '%s\n' '非常抱歉，此功能只支持安卓'
+        printf "%s\n" "Sorry, this feature only supports Android"
         press_enter_to_return
         zsh_itemized_configuration_menu
         ;;
@@ -74,23 +74,23 @@ download_iosevka_font() {
 configure_xfce_terminal_color() {
     case "${LINUX_DISTRO}" in
     Android)
-        echo 'Sorry，此功能不支持Android'
+        printf '%s\n' 'Sorry，此功能不支持Android'
         press_enter_to_return
         zsh_itemized_configuration_menu
         ;;
     esac
     if [ ! -d "/usr/share/xfce4/terminal" ]; then
-        echo "检测到xfce终端目录不存在，您当前可能没有安装xfce终端"
+        printf "%s\n" "检测到xfce终端目录不存在，您当前可能没有安装xfce终端"
         do_you_want_to_continue
-        #echo 'Press Ctrl+C to cancel.'
+        #printf '%s\n'  'Press Ctrl+C to cancel.'
         #press_enter_to_continue
         mkdir -p /usr/share/xfce4/terminal
         ${TMOE_INSTALLATON_COMMAND} xfce4-terminal || sudo ${TMOE_INSTALLATON_COMMAND} xfce4-terminal
     fi
 
     cd /usr/share/xfce4/terminal
-    echo "/usr/share/xfce4/terminal"
-    echo "正在配置xfce4终端配色..."
+    printf "%s\n" "/usr/share/xfce4/terminal"
+    printf "%s\n" "正在配置xfce4终端配色..."
     sudo wget -qO "colorschemes.tar.xz" 'https://gitee.com/mo2/xfce-themes/raw/terminal/colorschemes.tar.xz'
     sudo tar -Jxvf "colorschemes.tar.xz"
     DEPENDENCIES=""
@@ -102,7 +102,7 @@ configure_xfce_terminal_color() {
         DEPENDENCIES="${DEPENDENCIES} fontconfig"
     fi
     if [ ! -z "$DEPENDENCIES" ]; then
-        echo "正在安装相关依赖..."
+        printf "%s\n" "正在安装相关依赖..."
         case $(id -u) in
         0)
             ${TMOE_UPDATE_COMMAND}
@@ -115,7 +115,7 @@ configure_xfce_terminal_color() {
         esac
     fi
     if [ ! -f '/usr/share/fonts/Iosevka.ttf' ]; then
-        echo '正在刷新字体缓存...'
+        printf '%s\n' '正在刷新字体缓存...'
         mkdir -p /usr/share/fonts/
         cd /tmp
         if [ -e "font.ttf" ]; then
@@ -151,7 +151,7 @@ configure_default_shell() {
     Android) android_default_shell ;;
     *) gnu_linux_default_shell ;;
     esac
-    echo "${YELLOW}已将默认shell切换为zsh,按回车键返回。Press enter to return.${RESET}"
+    printf "%s\n" "${YELLOW}已将默认shell切换为zsh,按回车键返回。Press enter to return.${RESET}"
     read
     ${RETURN_TO_WHERE}
 }

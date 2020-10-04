@@ -24,21 +24,21 @@ tmoe_zsh_plugin_env() {
 }
 #############
 press_enter_to_return() {
-    echo "Press ${GREEN}enter${RESET} to ${BLUE}return.${RESET}"
-    echo "按${GREEN}回车键${RESET}${BLUE}返回${RESET}"
+    printf "%s\n" "Press ${GREEN}enter${RESET} to ${BLUE}return.${RESET}"
+    printf "%s\n" "按${GREEN}回车键${RESET}${BLUE}返回${RESET}"
     read
 }
 #####################
 press_enter_to_continue() {
-    echo "Press ${GREEN}enter${RESET} to ${BLUE}continue.${RESET}"
-    echo "按${GREEN}回车键${RESET}${BLUE}继续${RESET}"
+    printf "%s\n" "Press ${GREEN}enter${RESET} to ${BLUE}continue.${RESET}"
+    printf "%s\n" "按${GREEN}回车键${RESET}${BLUE}继续${RESET}"
     read
 }
 ################
 do_you_want_to_continue_00() {
-    echo "${YELLOW}Do you want to continue?[Y/n]${RESET}"
-    echo "Press ${GREEN}enter${RESET} to ${BLUE}continue${RESET},type ${YELLOW}n${RESET} to ${BLUE}return.${RESET}"
-    echo "按${GREEN}回车键${RESET}${BLUE}继续${RESET}，输${YELLOW}n${RESET}${BLUE}返回${RESET}"
+    printf "%s\n" "${YELLOW}Do you want to continue?[Y/n]${RESET}"
+    printf "%s\n" "Press ${GREEN}enter${RESET} to ${BLUE}continue${RESET},type ${YELLOW}n${RESET} to ${BLUE}return.${RESET}"
+    printf "%s\n" "按${GREEN}回车键${RESET}${BLUE}继续${RESET}，输${YELLOW}n${RESET}${BLUE}返回${RESET}"
 }
 #########
 do_you_want_to_continue() {
@@ -48,11 +48,11 @@ do_you_want_to_continue() {
     y* | Y* | "") ;;
 
     n* | N*)
-        echo "skipped."
+        printf "%s\n" "skipped."
         ${RETURN_TO_WHERE}
         ;;
     *)
-        echo "Invalid choice. skipped."
+        printf "%s\n" "Invalid choice. skipped."
         ${RETURN_TO_WHERE}
         ;;
     esac
@@ -65,11 +65,11 @@ do_you_want_to_continue_02() {
     y* | Y* | "") ;;
 
     n* | N*)
-        echo "skipped."
+        printf "%s\n" "skipped."
         ${RETURN_TO_MENU}
         ;;
     *)
-        echo "Invalid choice. skipped."
+        printf "%s\n" "Invalid choice. skipped."
         ${RETURN_TO_MENU}
         ;;
     esac
@@ -238,7 +238,7 @@ tmoe_zsh_plugin_menu_01() {
     ${GREEN}mkdir -p${RESET} ${BLUE}./tmp/test${RESET}
 
     #将指定命令输出到该目录的.env文件
-    ${GREEN}echo "echo I am using tmoe-zsh."${RESET} ${RED}>${RESET} ${BLUE}./tmp/test/.env${RESET}
+    ${GREEN}printf "%s\n"  "echo I am using tmoe-zsh."${RESET} ${RED}>${RESET} ${BLUE}./tmp/test/.env${RESET}
 
     #此时进入刚才新建的目录，将直接执行.env脚本命令
     ${GREEN}cd${RESET} ${BLUE}./tmp/test/${RESET}
@@ -405,7 +405,7 @@ EOF
     ${RETURN_TO_WHERE}
 }
 ######################
-#l | awk '{print $NF}' | egrep '^[d-g]' >233  ;cat 233 |sed 's@^@cat @g' | sed 's@$@/README.md | sed -n 3,4p | tr "\\n\\t" -d | tr -d "*" ; echo ""@g' >234
+#l | awk '{print $NF}' | egrep '^[d-g]' >233  ;cat 233 |sed 's@^@cat @g' | sed 's@$@/README.md | sed -n 3,4p | tr "\\n\\t" -d | tr -d "*" ; printf "%s\n"  ""@g' >234
 tmoe_zsh_plugin_menu_02() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_02'
@@ -1759,7 +1759,7 @@ EOF02
 }
 #################
 add_new_zinit_plugin_to_zshrc_03() {
-    echo "${ZINIT_SPECIAL_LOADING_CONTENT}" >>${HOME}/.zshrc
+    printf "%s\n" "${ZINIT_SPECIAL_LOADING_CONTENT}" >>${HOME}/.zshrc
 }
 #################
 add_new_zinit_plugin_to_zshrc_04() {
@@ -1782,15 +1782,15 @@ case_new_zinit_plugin() {
 enable_zsh_plugin() {
     check_zsh_plugin_folder
     case ${TMOE_ZSH_COMMENT_CONTENT} in
-    "") echo "${YELLOW}$(echo ${ZINIT_SPECIAL_LOADING_CONTENT} | sed 's@^.*#@@g')${RESET}" ;;
-    *) echo "${YELLOW}${TMOE_ZSH_COMMENT_CONTENT}${RESET}" ;;
+    "") printf "%s\n" "${YELLOW}$(echo ${ZINIT_SPECIAL_LOADING_CONTENT} | sed 's@^.*#@@g')${RESET}" ;;
+    *) printf "%s\n" "${YELLOW}${TMOE_ZSH_COMMENT_CONTENT}${RESET}" ;;
     esac
 
     case "${TMOE_ZSH_CONFIG_ENABLED}" in
     true | yes)
-        echo "您${YELLOW}已经启用过${RESET}本插件了，不要${RED}重复启用${RESET}哦！"
-        echo "若脚本检测${RED}出错${RESET}，则请${GREEN}手动修改${RESET}${BLUE}${TMOE_ZSH_FILE}${RESET}的第${TMOE_ZSH_CONFIG_LINE}行内容"
-        echo "${YELLOW}Do not enable this plugin repeatedly.${RESET}"
+        printf "%s\n" "您${YELLOW}已经启用过${RESET}本插件了，不要${RED}重复启用${RESET}哦！"
+        printf "%s\n" "若脚本检测${RED}出错${RESET}，则请${GREEN}手动修改${RESET}${BLUE}${TMOE_ZSH_FILE}${RESET}的第${TMOE_ZSH_CONFIG_LINE}行内容"
+        printf "%s\n" "${YELLOW}Do not enable this plugin repeatedly.${RESET}"
         ;;
     false)
         #sed -i "$ a\source ${ZSH_PLUGIN_FILE}" "${TMOE_ZSH_FILE}"
@@ -1807,7 +1807,7 @@ enable_zsh_plugin() {
 ############
 check_zsh_plugin_content() {
     ZINIT_PLUGIN_CONTENT=$(cat ${TMOE_ZSH_FILE} | sed -n ${TMOE_ZSH_CONFIG_LINE}p | sed 's@#.*@@')
-    echo "${BLUE}${ZINIT_PLUGIN_CONTENT}${RESET}"
+    printf "%s\n" "${BLUE}${ZINIT_PLUGIN_CONTENT}${RESET}"
 }
 ##########
 disable_zsh_plugin() {
@@ -1816,8 +1816,8 @@ disable_zsh_plugin() {
     yes | true)
         case ${TMOE_ZSH_CONFIG_LINE} in
         "" | 0)
-            echo "禁用失败，请手动编辑~/.zshrc"
-            echo "Disable failed, please edit zshrc manually."
+            printf "%s\n" "禁用失败，请手动编辑~/.zshrc"
+            printf "%s\n" "Disable failed, please edit zshrc manually."
             ;;
         *) sed -i "${TMOE_ZSH_CONFIG_LINE} d" "${TMOE_ZSH_FILE}" ;;
         esac
@@ -1830,8 +1830,8 @@ disable_zsh_plugin() {
         #check_zsh_plugin_content
         #;;
     false)
-        echo "您${YELLOW}已禁用${RESET}本插件，不要${RED}重复禁用${RESET}哦！"
-        echo "若脚本检测${RED}出错${RESET}，则请${GREEN}手动编辑${RESET}${BLUE}${TMOE_ZSH_FILE}${RESET}"
+        printf "%s\n" "您${YELLOW}已禁用${RESET}本插件，不要${RED}重复禁用${RESET}哦！"
+        printf "%s\n" "若脚本检测${RED}出错${RESET}，则请${GREEN}手动编辑${RESET}${BLUE}${TMOE_ZSH_FILE}${RESET}"
         ;;
     esac
     check_tmoe_zsh_config_value
@@ -1884,8 +1884,8 @@ edit_zshrc_manually() {
 ###########
 case_plugin_line() {
     case ${TMOE_ZSH_CONFIG_LINE} in
-    "") EDIT_ZSHRC_LINE=$(echo "edit .zshrc") ;;
-    *) EDIT_ZSHRC_LINE=$(echo "edit .zshrc[LINE ${TMOE_ZSH_CONFIG_LINE}]第${TMOE_ZSH_CONFIG_LINE}行") ;;
+    "") EDIT_ZSHRC_LINE=$(printf "%s\n" "edit .zshrc") ;;
+    *) EDIT_ZSHRC_LINE=$(printf "%s\n" "edit .zshrc[LINE ${TMOE_ZSH_CONFIG_LINE}]第${TMOE_ZSH_CONFIG_LINE}行") ;;
     esac
 }
 ############
@@ -1949,13 +1949,13 @@ tmoe_zsh_settings_model_02() {
 }
 ################
 pip_install_autoenv() {
-    echo "${GREEN}pip3 install autoenv${RESET}"
+    printf "%s\n" "${GREEN}pip3 install autoenv${RESET}"
     if [ $(command -v pip3) ]; then
         pip3 install autoenv || sudo pip3 install autoenv
     elif [ $(command -v pip) ]; then
         pip install autoenv || sudo pip install autoenv
     else
-        echo "${GREEN}apt install python3-pip${RESET}"
+        printf "%s\n" "${GREEN}apt install python3-pip${RESET}"
         if [ "$(uname -o)" = "Android" ]; then
             apt update
             apt install python
@@ -1964,9 +1964,9 @@ pip_install_autoenv() {
             sudo pip3 install autoenv
         fi
         if [ ! $(command -v pip) ]; then
-            echo "pip3 command not found."
-            echo "无法安装本插件,请先安装python-pip"
-            echo "例如apt install pyhon3-pip"
+            printf "%s\n" "pip3 command not found."
+            printf "%s\n" "无法安装本插件,请先安装python-pip"
+            printf "%s\n" "例如apt install pyhon3-pip"
         fi
     fi
 }
@@ -1984,7 +1984,7 @@ git_clone_zsh_plugin() {
     else
         cd "${ZSH_PLUGIN_GIT_FOLDER}"
         git_pull_origin_master
-        echo "${BLUE}${ZSH_PLUGIN_GIT_URL_02}${RESET}"
+        printf "%s\n" "${BLUE}${ZSH_PLUGIN_GIT_URL_02}${RESET}"
     fi
 }
 #############
@@ -1994,7 +1994,7 @@ git_clone_fzf_tab() {
         apt install -y fzf || sudo apt install fzf || sudo pacman -Syu fzf || sudo dnf install fzf
     fi
     if [ ! $(command -v fzf) ]; then
-        echo "检测到您尚未安装fzf,请手动使用包管理安装。"
+        printf "%s\n" "检测到您尚未安装fzf,请手动使用包管理安装。"
     fi
     ZSH_PLUGIN_GIT_URL_01='https://github.com/Aloxaf/fzf-tab.git'
     ZSH_PLUGIN_GIT_URL_02='git://github.com/Aloxaf/fzf-tab.git'

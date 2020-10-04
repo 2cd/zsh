@@ -59,7 +59,7 @@ check_zsh_theme_completion() {
     ZSH_THEME_COMPLETION_FILE="${TMOE_ZSH_TERMUX_PATH}/completion/_zshtheme"
     if ! egrep -q '^[^#]*zinit.*completion/_zshtheme' ${HOME}/.zshrc; then
         #mkdir -p ${ZINIT_SNIPPETS_LOCAL}
-        echo "zinit ice lucid wait="1" as"completion" && zinit snippet ${ZSH_THEME_COMPLETION_FILE}" >>${HOME}/.zshrc
+        printf "%s\n" "zinit ice lucid wait="1" as"completion" && zinit snippet ${ZSH_THEME_COMPLETION_FILE}" >>${HOME}/.zshrc
         update_zsh_theme_completion
     fi
     case ${UPDATE_ZSH_THEME_COMPLETION} in
@@ -105,8 +105,8 @@ upgrade_tmoe_zsh_script() {
     if [ -e "${HOME}/.bashrc" ]; then
         sed -i '/alias zsh-i=/d' "${HOME}/.bashrc"
     fi
-    echo "Update ${YELLOW}completed${RESET}, press ${GREEN}enter${RESET} to ${BLUE}return.${RESET}"
-    echo "${YELLOW}更新完成，按回车键返回。${RESET}"
+    printf "%s\n" "Update ${YELLOW}completed${RESET}, press ${GREEN}enter${RESET} to ${BLUE}return.${RESET}"
+    printf "%s\n" "${YELLOW}更新完成，按回车键返回。${RESET}"
     read
     source ${PREFIX}/bin/zsh-i
 }
@@ -179,7 +179,7 @@ git_pull_oh_my_zsh() {
     cd ${OMZ_DIR}
     git reset --hard origin/master
     git pull --rebase --stat --depth=1 origin master --allow-unrelated-histories || git rebase --skip
-    #echo "若oh-my-zsh更新失败，则请手动输${BLUE}zsh ${OMZ_DIR}/tools/upgrade.sh${RESET}" && zsh "${OMZ_DIR}/tools/upgrade.sh"
+    #printf "%s\n"  "若oh-my-zsh更新失败，则请手动输${BLUE}zsh ${OMZ_DIR}/tools/upgrade.sh${RESET}" && zsh "${OMZ_DIR}/tools/upgrade.sh"
 }
 ###########
 upgrade_zsh_plugins_main "$@"

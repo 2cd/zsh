@@ -20,15 +20,15 @@ zsh_faq_menu() {
     3)
         ZSH_PATH="${OMZ_DIR} ${HOME}/.zshrc ${TMOE_ZSH_GIT_DIR} ${HOME}/.zsh_history"
         fix_zsh_folder_permissions
-        echo "若无法修复，则请手动执行${GREEN}compaudit | xargs chmod g-w,o-w${RESET}"
+        printf "%s\n" "若无法修复，则请手动执行${GREEN}compaudit | xargs chmod g-w,o-w${RESET}"
         if [ "${LINUX_DISTRO}" != "Android" ] && [ ${HOME} != "/root" ]; then
-            echo "您亦可将${HOME}目录的权限修改为${CURRENT_USER_NAME}用户和${CURRENT_USER_GROUP}用户组"
-            echo "${RED}sudo chown -R ${CURRENT_USER_NAME}:${CURRENT_USER_GROUP} ${HOME}${RESET}"
+            printf "%s\n" "您亦可将${HOME}目录的权限修改为${CURRENT_USER_NAME}用户和${CURRENT_USER_GROUP}用户组"
+            printf "%s\n" "${RED}sudo chown -R ${CURRENT_USER_NAME}:${CURRENT_USER_GROUP} ${HOME}${RESET}"
         fi
         ;;
     4)
-        echo "请手动执行${GREEN}. ~/.zshrc${RESET}或者是${GREEN}source ${HOME}/.zshrc${RESET}"
-        echo "Please try running ${GREEN}source ~/.zshrc${RESET}"
+        printf "%s\n" "请手动执行${GREEN}. ~/.zshrc${RESET}或者是${GREEN}source ${HOME}/.zshrc${RESET}"
+        printf "%s\n" "Please try running ${GREEN}source ~/.zshrc${RESET}"
         #source ${HOME}/.zshrc
         ;;
     5) type_q_to_quit ;;
@@ -39,7 +39,7 @@ zsh_faq_menu() {
 }
 ###########
 type_q_to_quit() {
-    echo "You can type ${GREEN}q${RESET} to ${RED}quit${RESET} reader,输${GREEN}q${RESET}${RED}退出${RESET}"
+    printf "%s\n" "You can type ${GREEN}q${RESET} to ${RED}quit${RESET} reader,输${GREEN}q${RESET}${RED}退出${RESET}"
 }
 ###################
 reset_fzf_tab() {

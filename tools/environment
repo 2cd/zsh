@@ -117,13 +117,13 @@ unxz_fzf_deb_bin() {
 install_debian_fzf_bin() {
     if [ ! $(command -v fzf) ]; then
         if [ $(command -v zsh) ]; then
-            echo '' >${TMOE_ZSH_DIR}/non_install_fzf
+            printf '%s\n' '' >${TMOE_ZSH_DIR}/non_install_fzf
         fi
         case "${LINUX_DISTRO}" in
         debian)
             download_fzf_bin
             apt show ./${THE_LATEST_DEB_VERSION}
-            sudo apt install -y ./${THE_LATEST_DEB_VERSION}
+            sudo apt install -y ./${THE_LATEST_DEB_VERSION} 2>/dev/null
             ;;
         *)
             if [ $(command -v ar) ]; then
@@ -232,6 +232,8 @@ check_gnu_linux_dependencies_01() {
         gentoo) DEPENDENCIES="${DEPENDENCIES} sys-apps/less" ;;
         *) DEPENDENCIES="${DEPENDENCIES} less" ;;
         esac
+    else
+        [[ ! -L $(where less | tail -n 1 | awk '{print $NF}') ]] || DEPENDENCIES="${DEPENDENCIES} less"
     fi
     #########################################
     if [ ! $(command -v pv) ]; then
@@ -289,9 +291,9 @@ install_gnu_linux_dependencies() {
     #apk add -q xz newt tar zsh git wget bash zsh-vcs pv
     #dnf install -y zsh git pv wget xz tar newt
     if [ ! -z "${DEPENDENCIES}" ]; then
-        echo "正在${YELLOW}安装${RESET}相关${GREEN}软件包${RESET}及其${BLUE}依赖...${RESET}"
-        echo "${GREEN}${TMOE_INSTALLATON_COMMAND}${BLUE}${DEPENDENCIES}${RESET}"
-        echo "如需${BOLD}${RED}卸载${RESET}${RESET}，请${YELLOW}手动${RESET}输${RED}${TMOE_REMOVAL_COMMAND}${RESET}${BLUE}${DEPENDENCIES}${RESET}"
+        printf "%s\n" "正在${YELLOW}安装${RESET}相关${GREEN}软件包${RESET}及其${BLUE}依赖...${RESET}"
+        printf "%s\n" "${GREEN}${TMOE_INSTALLATON_COMMAND}${BLUE}${DEPENDENCIES}${RESET}"
+        printf "%s\n" "如需${BOLD}${RED}卸载${RESET}${RESET}，请${YELLOW}手动${RESET}输${RED}${TMOE_REMOVAL_COMMAND}${RESET}${BLUE}${DEPENDENCIES}${RESET}"
 
         case "${LINUX_DISTRO}" in
         debian)
@@ -345,6 +347,7 @@ check_gnu_linux_dependencies_02() {
             ;;
         esac
     fi
+    [[ $(command -v whereis) ]] || DEPENDENCIES="${DEPENDENCIES} util-linux"
 }
 ################
 check_gnu_linux_dependencies_03() {
@@ -372,7 +375,7 @@ check_gnu_linux_dependencies_03() {
     fi
 
     if [ $(command -v zsh) ] && [ ! $(command -v exa) ]; then
-        echo '' >${TMOE_ZSH_DIR}/non_install_exa
+        printf '%s\n' '' >${TMOE_ZSH_DIR}/non_install_exa
     fi
 }
 ##############
@@ -418,10 +421,10 @@ check_termux_dependencies() {
 }
 ####################
 fix_zsh_folder_permissions() {
-    echo "检测到${ZSH_PATH}文件权限所属非当前用户（${CURRENT_USER_NAME}）"
+    printf "%s\n" "检测到${ZSH_PATH}文件权限所属非当前用户（${CURRENT_USER_NAME}）"
     chmod 755 -R ${ZSH_PATH}
     if [ "${LINUX_DISTRO}" != "Android" ] && [ ${HOME} != "/root" ]; then
-        echo "正在将${ZSH_PATH}的权限修改为${CURRENT_USER_NAME}用户和${CURRENT_USER_GROUP}用户组"
+        printf "%s\n" "正在将${ZSH_PATH}的权限修改为${CURRENT_USER_NAME}用户和${CURRENT_USER_GROUP}用户组"
         sudo -E chown -Rv ${CURRENT_USER_NAME}:${CURRENT_USER_GROUP} ${ZSH_PATH}
     fi
 }

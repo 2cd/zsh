@@ -27,33 +27,33 @@ zinit_uninstallation_menu() {
 }
 #################################
 remove_zinit() {
-    #echo "uninstall_oh_my_zsh 2>/dev/null || rm -rfv ${OMZ_DIR}"
-    echo "${RED}rm -rv${RESET} ${BLUE}${ZINIT_DIR}${RESET}"
+    #printf "%s\n"  "uninstall_oh_my_zsh 2>/dev/null || rm -rfv ${OMZ_DIR}"
+    printf "%s\n" "${RED}rm -rv${RESET} ${BLUE}${ZINIT_DIR}${RESET}"
     do_you_want_to_continue
     rm -rv ${ZINIT_DIR}
 }
 #########
 remove_termux_fonts() {
-    echo "rm -rfv ${TERMUX_PATH}/fonts ${TERMUX_PATH}/font.ttf ${TMOE_ZSH_FONTS_PATH}"
+    printf "%s\n" "rm -rfv ${TERMUX_PATH}/fonts ${TERMUX_PATH}/font.ttf ${TMOE_ZSH_FONTS_PATH}"
     do_you_want_to_continue
     rm -rfv ${TERMUX_PATH}/fonts ${TMOE_ZSH_FONTS_PATH} ${TERMUX_PATH}/font.ttf 2>/dev/null
 }
 #########
 remove_tmoe_zsh() {
-    echo "${RED}rm -rf ${TMOE_ZSH_DIR} ${PREFIX}/bin/zsh-i ; sed -i '/alias zshtheme=/d' ${HOME}/.zshrc ${HOME}/.profile${RESET}"
+    printf "%s\n" "${RED}rm -rf ${TMOE_ZSH_DIR} ${PREFIX}/bin/zsh-i ; sed -i '/alias zshtheme=/d' ${HOME}/.zshrc ${HOME}/.profile${RESET}"
     do_you_want_to_continue
     rm -rfv ${TMOE_ZSH_DIR} ${PREFIX}/bin/zsh-i
     sed -i '/alias zshtheme=/d' "${HOME}/.zshrc" "${HOME}/.profile" 2>/dev/null
     sed -i '/alias zshfont=/d' "${HOME}/.zshrc"
     sed -i '/alias zshcolor=/d' "${HOME}/.zshrc"
-    echo "${YELLOW}删除完成，按回车键退出 Press Enter to exit.${RESET} "
+    printf "%s\n" "${YELLOW}删除完成，按回车键退出 Press Enter to exit.${RESET} "
     read
     exit 1
 }
 ###########
 remove_git_and_zsh() {
     DEPENDENCIES='git zsh whiptail newt xz dialog exa bat fzf'
-    echo "${RED}${TMOE_REMOVAL_COMMAND} ${DEPENDENCIES}${RESET}"
+    printf "%s\n" "${RED}${TMOE_REMOVAL_COMMAND} ${DEPENDENCIES}${RESET}"
     do_you_want_to_continue
     ${TMOE_REMOVAL_COMMAND} ${DEPENDENCIES} 2>/dev/null || sudo ${TMOE_REMOVAL_COMMAND} ${DEPENDENCIES}
     apt autoremove 2>/dev/null
@@ -61,12 +61,12 @@ remove_git_and_zsh() {
 }
 ##############
 remove_old_zsh_files() {
-    echo "以下文件夹将被删除，是否确认？"
+    printf "%s\n" "以下文件夹将被删除，是否确认？"
     ls -lAh ${HOME}/.zsh-syntax-highlighting 2>/dev/null
     ls -lAh ${HOME}/.oh-my-zsh 2>/dev/null
     ls -lAh ${HOME}/termux-ohmyzsh 2>/dev/null
     ls -lh ${HOME}/theme 2>/dev/null
-    echo "rm -rv ${HOME}/.zsh-syntax-highlighting ${HOME}/termux-ohmyzsh ${HOME}/theme ${HOME}/.oh-my-zsh"
+    printf "%s\n" "rm -rv ${HOME}/.zsh-syntax-highlighting ${HOME}/termux-ohmyzsh ${HOME}/theme ${HOME}/.oh-my-zsh"
     do_you_want_to_continue
     rm -rv ${HOME}/.zsh-syntax-highlighting ${HOME}/termux-ohmyzsh ${HOME}/theme ${HOME}/.oh-my-zsh
 }
@@ -76,7 +76,7 @@ remove_zshrc() {
     ls -lh ${HOME}/.zshrc
     do_you_want_to_continue
     rm -vf ${HOME}/.zshrc
-    echo "${YELLOW}删除完成，建议您返回主菜单选择安装与配置Installation and configuration.${RESET} "
+    printf "%s\n" "${YELLOW}删除完成，建议您返回主菜单选择安装与配置Installation and configuration.${RESET} "
 }
 ###########
 zinit_uninstallation_menu

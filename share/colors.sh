@@ -48,9 +48,9 @@ tmoe_termux_color_env() {
   Android) [[ -e "${HOME}/.termux" ]] || mkdir -p ${HOME}/.termux ;;
   *)
     get_tmoe_termux_color_help_info
-    echo "${RED}Sorry${RESET}！此功能暂未适配GNU/Linux"
-    echo "请输zsh-i，并选择分项配置。"
-    echo "The function of changing color scheme is only suitable for termux."
+    printf "%s\n" "${RED}Sorry${RESET}！此功能暂未适配GNU/Linux"
+    printf "%s\n" "请输zsh-i，并选择分项配置。"
+    printf "%s\n" "The function of changing color scheme is only suitable for termux."
     exit 1
     ;;
   esac
@@ -122,14 +122,14 @@ select_termux_color() {
       break
       ;;
     '3024.dark' | '3024.light' | 'aci' | 'aco' | 'apathy.dark' | 'apathy.light' | 'argonaut' | 'ashes.dark' | 'ashes.light' | 'atelierdune.dark' | 'atelierdune.light' | 'atelierforest.dark' | 'atelierforest.light' | 'atelierheath.dark' | 'atelierheath.light' | 'atelierlakeside.dark' | 'atelierlakeside.light' | 'atelierseaside.dark' | 'atelierseaside.light' | 'azu' | 'base16.solarized.dark' | 'base16.solarized.light' | 'bespin.dark' | 'bespin.light' | 'bim' | 'black.on.white' | 'brewer.dark' | 'brewer.light' | 'bright.dark' | 'bright.light' | 'cai' | 'chalk' | 'chalk.dark' | 'chalk.light' | 'codeschool.dark' | 'codeschool.light' | 'colors.dark' | 'colors.light' | 'default' | 'default.dark' | 'default.light' | 'dracula' | 'eighties.dark' | 'eighties.light' | 'elementary' | 'elic' | 'elio' | 'embers.dark' | 'embers.light' | 'flat' | 'flat.dark' | 'flat.light' | 'freya' | 'gnometerm' | 'google.dark' | 'google.light' | 'gotham' | 'grayscale.dark' | 'grayscale.light' | 'greenscreen.dark' | 'greenscreen.light' | 'gruvbox.dark' | 'gruvbox.light' | 'harmonic16.dark' | 'harmonic16.light' | 'hemisu.dark' | 'hemisu.light' | 'hybrid' | 'isotope.dark' | 'isotope.light' | 'jup' | 'londontube.dark' | 'londontube.light' | 'mar' | 'marrakesh.dark' | 'marrakesh.light' | 'materia' | 'material' | 'miu' | 'mocha.dark' | 'mocha.light' | 'monokai.dark' | 'monokai.light' | 'nancy' | 'neon' | 'nep' | 'nord' | 'ocean.dark' | 'ocean.light' | 'one.dark' | 'one.light' | 'pali' | 'paraiso.dark' | 'paraiso.light' | 'peppermint' | 'railscasts.dark' | 'railscasts.light' | 'rydgel' | 'sat' | 'shapeshifter.dark' | 'shapeshifter.light' | 'shel' | 'smyck' | 'solarized.dark' | 'solarized.light' | 'summerfruit.dark' | 'summerfruit.light' | 'tango' | 'tin' | 'tomorrow' | 'tomorrow.dark' | 'tomorrow.light' | 'tomorrow.night' | 'tomorrow.night.blue' | 'tomorrow.night.bright' | 'tomorrow.night.eighties' | 'twilight.dark' | 'twilight.light' | 'ura' | 'vag' | 'white.on.black' | 'wild.cherry' | 'zenburn')
-      echo "${BLUE}${TERMUX_COLOR_NAME}${RESET}"
+      printf "%s\n" "${BLUE}${TERMUX_COLOR_NAME}${RESET}"
       cp -rvf "${COLORS_DIR}/${TERMUX_COLOR_NAME}" "${TERMUX_COLOR_FILE}"
       break
       ;;
     *)
       echo ${BOLD}--------------${RESET}
-      echo "Please ${BLUE}type${RESET} the right ${BOLD}${RED}pure number${RESET}${RESET}!"
-      echo "请${BLUE}输入${RESET}正确的${BOLD}${RED}纯数字${RESET}${RESET}!"
+      printf "%s\n" "Please ${BLUE}type${RESET} the right ${BOLD}${RED}pure number${RESET}${RESET}!"
+      printf "%s\n" "请${BLUE}输入${RESET}正确的${BOLD}${RED}纯数字${RESET}${RESET}!"
       ;;
     esac
   done
@@ -137,9 +137,9 @@ select_termux_color() {
 ############
 choose_termux_color() {
   echo -e "The default color scheme is monokai dark.\nYou can choose another one from the list below"
-  echo "您可以在${BLUE}此列表${RESET}中选择终端${YELLOW}配色${RESET}。"
+  printf "%s\n" "您可以在${BLUE}此列表${RESET}中选择终端${YELLOW}配色${RESET}。"
   select_termux_color
-  #echo "您可以输${YELLOW}zshcolor${RESET} 来更改${BLUE}配色${RESET},you can type ${GREEN}zshcolor${RESET} to change the ${BLUE}color${RESET}."
+  #printf "%s\n"  "您可以输${YELLOW}zshcolor${RESET} 来更改${BLUE}配色${RESET},you can type ${GREEN}zshcolor${RESET} to change the ${BLUE}color${RESET}."
   termux-reload-settings
 }
 ##############

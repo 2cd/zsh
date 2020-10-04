@@ -35,8 +35,8 @@ tmoe_termux_font_env() {
 	Android) ;;
 	*)
 		get_tmoe_font_help_info
-		echo "${RED}Sorry${RESET}！此功能暂未适配GNU/Linux"
-		echo "The function of changing fonts is only suitable for termux."
+		printf "%s\n" "${RED}Sorry${RESET}！此功能暂未适配GNU/Linux"
+		printf "%s\n" "The function of changing fonts is only suitable for termux."
 		exit 1
 		;;
 	esac
@@ -78,10 +78,10 @@ get_tmoe_font_help_info() {
 ######
 choose_termux_font() {
 	echo -e "The default font is Iosevka.\nYou can choose another one from list below."
-	echo "您可以在${BLUE}此列表${RESET}中选择终端${YELLOW}字体${RESET}。"
+	printf "%s\n" "您可以在${BLUE}此列表${RESET}中选择终端${YELLOW}字体${RESET}。"
 	for TERMUX_FONT in ${FONTS_DIR}/*/{*.ttf,*.otf}; do
 		TERMUX_FONT_FILE[COUNT]=${TERMUX_FONT}
-		echo "[${COUNT}] $(echo ${TERMUX_FONT_FILE[COUNT]} | awk -F '/' '{print $NF}')"
+		printf "%s\n" "[${COUNT}] $(echo ${TERMUX_FONT_FILE[COUNT]} | awk -F '/' '{print $NF}')"
 		COUNT=$((${COUNT} + 1))
 	done
 	COUNT=$((${COUNT} - 1))
@@ -92,17 +92,17 @@ Please type the ${GREEN}option number${RESET} and press ${BLUE}Enter${RESET}${YE
 		if [[ -z "${FONT_NUMBER}" ]]; then
 			break
 		elif ! [[ ${FONT_NUMBER} =~ ^[0-9]+$ ]]; then
-			echo "Please type the right number."
+			printf "%s\n" "Please type the right number."
 		elif ((${FONT_NUMBER} >= 0 && ${FONT_NUMBER} <= ${COUNT})); then
 			#eval CHOICE=${TERMUX_FONT_FILE[FONT_NUMBER]}
 			#cp -pfvr "${CHOICE}" "${TERMUX_PATH}/font.ttf"
 			cp -fr "${TERMUX_FONT_FILE[FONT_NUMBER]}" "${TERMUX_PATH}/font.ttf"
 			break
 		else
-			echo "Please type the right number."
+			printf "%s\n" "Please type the right number."
 		fi
 	done
-	#echo "您可以输 ${YELLOW}zshfont${RESET}来更改${BLUE}字体${RESET}, you can type ${GREEN}zshfont${RESET} to change the ${BLUE}font${RESET}."
+	#printf "%s\n"  "您可以输 ${YELLOW}zshfont${RESET}来更改${BLUE}字体${RESET}, you can type ${GREEN}zshfont${RESET} to change the ${BLUE}font${RESET}."
 	cat <<-ENDOFTMOEZSHHELP03
 		  输${YELLOW}zshfont -h${RESET}来获取${BLUE}终端字体帮助信息${RESET}。
 		  You can type ${GREEN}zshfont -h${RESET} to get the ${BLUE}terminal font help info${RESET}.

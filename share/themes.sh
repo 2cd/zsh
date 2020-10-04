@@ -19,7 +19,7 @@ tmoe_theme_main() {
   p9k | powerlevel9k) TMOE_THEME=powerlevel9k ;;
   p10k | -p10k | powerlevel10k) TMOE_THEME=powerlevel10k ;;
   3den | abaykan | adben | af-magic | afowler | agkozak | agnoster | agnosterzak | alanpeabody | alien | alien-minimal | amuse | antsy | aphrodite | apple | arrow | asciigit | aussiegeek | avit | avit-da2k | awesomepanda | bender | bira | blinks | blokkzh | bullet-train | bunnyruni | bureau | candy | candy-kingdom | chi | chill | ciacho | classytouch | clean | cloud | color-input | color-input-line | cordial | crcandy | crunch | cypher | daivasmara | dallas | darkblood | daveverwer | dieter | docker-zsh | dogenpunk | dpoggi | dpoggi-newline-timestamp | drofloh | dst | dstufft | ducula | duellj | eastwood | edvardm | elessar | emotty | enlightenment | essembeh | evan | fino | fino-time | 'fishbone++' | fishy | fishy2 | flazz | fletcherm | fox | frisk | frontcube | funky | funkyberlin | fwalch | gallifrey | gallois | garyblessington | gentoo | geoffgarside | geometry | gianu | gitstatus | gitster | gnzh | gozilla | half-life | halil | haribo | hedgehog | hub | humza | hyper-oh-my-zsh | hyperzsh | igeek | igorsilva | imajes | imp | imperator | intheloop | intika | itchy | jaischeema | jbergantine | jispwoso | jnrowe | jonathan | josh | jovial | jreese | jtriley | juanghurtado | junkfood | kafeitu | kardan | kayid | kennethreitz | kimwz | kinda-fishy | kiwi | kmac | kolo | kphoen | lambda | lambda-gitster | lambda-mod | lambda-v | linuxonly | lukerandall | macovsky | maran | matte-black-yellow | matte-black-yellow-line | maza | mcquen | mgutz | mh | michelebologna | mikeh | miloshadzic | minimal | minimal-improved | minimal2 | mira | mlh | mortalscumbag | mrtazz | murilasso | muse | nanotech | nebirhos | nicoulaj | node | nodeys | norm | nothing | nt9 | nuts | obraun | odin | oh-wonder | omega | oxide | passion | peepcode | philips | philthy | pi | pmcgee | powerlevel10k | punctual | pure | pygmalion | pygmalion-virtualenv | rafiki-zsh | random | random-emoji | re5et | refined | reggae | retro-term | rgm | risto | rixius | rkj | rkj-repos | robbyrussell | robbyrussell-wip | sammy | schminitz | shayan | short | simonoff | simple | skaro | sm | smt | sobole | Soliah | solus | sonicradish | sorin | spaceship-zsh | sporty_256 | staples | steeef | strug | sunaku | sunrise | superjarin | suvash | takashiyoshida | terminalparty | theta | theunraveler | tjkirch | tjkirch_mod | tonotdo | traditional-plus | trapd00r | typewritten | vero | via | wedisagree | wezm | wezm+ | windows-cmd | wuffers | xiong-chiamiov | xiong-chiamiov-plus | xxf | ys | zeroastro | zeta | zhann | zsh2000 | λpure) TMOE_THEME="$1" ;;
-  *) echo "Unknown parameter,you can type ${GREEN}zshtheme h${RESET} to get help information.If you find a bug, please submit an issue to the git-repo of ${BLUE}tmoe-zsh${RESET}." ;;
+  *) printf "%s\n" "Unknown parameter,you can type ${GREEN}zshtheme h${RESET} to get help information.If you find a bug, please submit an issue to the git-repo of ${BLUE}tmoe-zsh${RESET}." ;;
   esac
   case_tmoe_zsh_theme
 }
@@ -218,14 +218,14 @@ git_pull_zsh_theme() {
 }
 ########
 configure_p10k() {
-  echo "${YELLOW}${P10K_URL_02}${RESET}"
-  echo "${BLUE}${CHOSEN_THEME_DIR}${RESET}"
-  echo "You can type ${GREEN}p10k configure${RESET} to configure ${BLUE}powerlevel 10k${RESET}."
-  echo "输${GREEN}p10k configure${RESET}配置powerlevel 10k${RESET}"
+  printf "%s\n" "${YELLOW}${P10K_URL_02}${RESET}"
+  printf "%s\n" "${BLUE}${CHOSEN_THEME_DIR}${RESET}"
+  printf "%s\n" "You can type ${GREEN}p10k configure${RESET} to configure ${BLUE}powerlevel 10k${RESET}."
+  printf "%s\n" "输${GREEN}p10k configure${RESET}配置powerlevel 10k${RESET}"
   if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
     cat_zsh_theme_readme_md
     rm_zsh_git_theme_dir
-    echo "若无法弹出powerlevel 10k配置面板，则请拉宽屏幕显示大小，然后输${GREEN}p10k configure${RESET}"
+    printf "%s\n" "若无法弹出powerlevel 10k配置面板，则请拉宽屏幕显示大小，然后输${GREEN}p10k configure${RESET}"
     git clone ${P10K_URL_01} "${CHOSEN_THEME_DIR}" --depth=1 || git clone ${P10K_URL_02} "${CHOSEN_THEME_DIR}" --depth=1
     configure_new_zsh_theme_01
   else
@@ -248,12 +248,12 @@ configure_p10k() {
 #############
 echo_git_repo_url() {
   ZSH_THEME_URL_01=$(cat ${TMOE_THEME_FILE}/git-repo.txt | head -n 1)
-  echo "${YELLOW}${ZSH_THEME_URL_01}${RESET}"
+  printf "%s\n" "${YELLOW}${ZSH_THEME_URL_01}${RESET}"
 }
 ############
 git_clone_zsh_theme_model_01() {
   echo_git_repo_url
-  echo "${BLUE}${CHOSEN_THEME_DIR}${RESET}"
+  printf "%s\n" "${BLUE}${CHOSEN_THEME_DIR}${RESET}"
   if [ ! -e "${CHOSEN_THEME_DIR}/.git" ]; then
     cat_zsh_theme_readme_md
     rm_zsh_git_theme_dir
@@ -293,7 +293,7 @@ curl_new_zsh_theme_from_git_cdn() {
     elif [ $(command -v wget) ]; then
       wget -O ${TMOE_ZSH_THEME}.zsh-theme ${GIT_THEME_CDN_URL}
     else
-      echo "Can not download this file.Please download manually."
+      printf "%s\n" "Can not download this file.Please download manually."
     fi
   else
     check_readme_file
@@ -334,7 +334,7 @@ select_termux_color() {
       break
       ;;
     powerlevel10k | powerlevel9k | 3den | abaykan | adben | af-magic | afowler | agkozak | agnoster | agnosterzak | alanpeabody | alien | alien-minimal | amuse | antsy | aphrodite | apple | arrow | asciigit | aussiegeek | avit | avit-da2k | awesomepanda | bender | bira | blinks | blokkzh | bullet-train | bunnyruni | bureau | candy | candy-kingdom | chi | chill | ciacho | classytouch | clean | cloud | color-input | color-input-line | cordial | crcandy | crunch | cypher | daivasmara | dallas | darkblood | daveverwer | dieter | docker-zsh | dogenpunk | dpoggi | dpoggi-newline-timestamp | drofloh | dst | dstufft | ducula | duellj | eastwood | edvardm | elessar | emotty | enlightenment | essembeh | evan | fino | fino-time | 'fishbone++' | fishy | fishy2 | flazz | fletcherm | fox | frisk | frontcube | funky | funkyberlin | fwalch | gallifrey | gallois | garyblessington | gentoo | geoffgarside | geometry | gianu | gitstatus | gitster | gnzh | gozilla | half-life | halil | haribo | hedgehog | hub | humza | hyper-oh-my-zsh | hyperzsh | igeek | igorsilva | imajes | imp | imperator | intheloop | intika | itchy | jaischeema | jbergantine | jispwoso | jnrowe | jonathan | josh | jovial | jreese | jtriley | juanghurtado | junkfood | kafeitu | kardan | kayid | kennethreitz | kimwz | kinda-fishy | kiwi | kmac | kolo | kphoen | lambda | lambda-gitster | lambda-mod | lambda-v | linuxonly | lukerandall | macovsky | maran | matte-black-yellow | matte-black-yellow-line | maza | mcquen | mgutz | mh | michelebologna | mikeh | miloshadzic | minimal | minimal-improved | minimal2 | mira | mlh | mortalscumbag | mrtazz | murilasso | muse | nanotech | nebirhos | nicoulaj | node | nodeys | norm | nothing | nt9 | nuts | obraun | odin | oh-wonder | omega | oxide | passion | peepcode | philips | philthy | pi | pmcgee | powerlevel10k | punctual | pure | pygmalion | pygmalion-virtualenv | rafiki-zsh | random | random-emoji | re5et | refined | reggae | retro-term | rgm | risto | rixius | rkj | rkj-repos | robbyrussell | robbyrussell-wip | sammy | schminitz | shayan | short | simonoff | simple | skaro | sm | smt | sobole | Soliah | solus | sonicradish | sorin | spaceship-zsh | sporty_256 | staples | steeef | strug | sunaku | sunrise | superjarin | suvash | takashiyoshida | terminalparty | theta | theunraveler | tjkirch | tjkirch_mod | tonotdo | traditional-plus | trapd00r | typewritten | vero | via | wedisagree | wezm | wezm+ | windows-cmd | wuffers | xiong-chiamiov | xiong-chiamiov-plus | xxf | ys | zeroastro | zeta | zhann | zsh2000 | λpure)
-      echo "${BLUE}${TMOE_ZSH_THEME}${RESET}"
+      printf "%s\n" "${BLUE}${TMOE_ZSH_THEME}${RESET}"
       temp_zsh_theme_env
       case_zsh_theme
       exec zsh
@@ -342,8 +342,8 @@ select_termux_color() {
       ;;
     *)
       echo ${BOLD}--------------${RESET}
-      echo "Please ${BLUE}type${RESET} the right ${BOLD}${RED}pure number${RESET}${RESET}!"
-      echo "请${BLUE}输入${RESET}正确的${BOLD}${RED}纯数字${RESET}${RESET}!"
+      printf "%s\n" "Please ${BLUE}type${RESET} the right ${BOLD}${RED}pure number${RESET}${RESET}!"
+      printf "%s\n" "请${BLUE}输入${RESET}正确的${BOLD}${RED}纯数字${RESET}${RESET}!"
       ;;
     esac
   done
@@ -352,7 +352,7 @@ select_termux_color() {
 #echo -e "If it does not take effect, please ${YELLOW}restart${RESET} the terminal app.\n若修改完成后${RED}未生效${RESET}，则建议您${YELLOW}重启终端${RESET}。"
 choose_zsh_theme() {
   echo -e "The default theme is xiong-chiamiov-plus.\nYou can choose another one from the list below"
-  echo "您可以在${BLUE}此列表${RESET}中选择${YELLOW}zsh主题${RESET}。"
+  printf "%s\n" "您可以在${BLUE}此列表${RESET}中选择${YELLOW}zsh主题${RESET}。"
   select_termux_color
   #source "${ZSHRC_FILE}" 2>/dev/null
   case "$(uname -o)" in

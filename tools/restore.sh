@@ -17,31 +17,31 @@ terminal_color() {
 }
 ###############
 press_enter_to_return() {
-    echo "Press ${GREEN}enter${RESET} to ${BLUE}return.${RESET}"
-    echo "按${GREEN}回车键${RESET}${BLUE}返回${RESET}"
+    printf "%s\n" "Press ${GREEN}enter${RESET} to ${BLUE}return.${RESET}"
+    printf "%s\n" "按${GREEN}回车键${RESET}${BLUE}返回${RESET}"
     read
 }
 #####################
 press_enter_to_continue() {
-    echo "Press ${GREEN}enter${RESET} to ${BLUE}continue.${RESET}"
-    echo "按${GREEN}回车键${RESET}${BLUE}继续${RESET}"
+    printf "%s\n" "Press ${GREEN}enter${RESET} to ${BLUE}continue.${RESET}"
+    printf "%s\n" "按${GREEN}回车键${RESET}${BLUE}继续${RESET}"
     read
 }
 ################
 do_you_want_to_continue() {
-    echo "${YELLOW}Do you want to continue?[Y/n]${RESET}"
-    echo "Press ${GREEN}enter${RESET} to ${BLUE}continue${RESET},type ${YELLOW}n${RESET} to ${BLUE}return.${RESET}"
-    echo "按${GREEN}回车键${RESET}${BLUE}继续${RESET}，输${YELLOW}n${RESET}${BLUE}返回${RESET}"
+    printf "%s\n" "${YELLOW}Do you want to continue?[Y/n]${RESET}"
+    printf "%s\n" "Press ${GREEN}enter${RESET} to ${BLUE}continue${RESET},type ${YELLOW}n${RESET} to ${BLUE}return.${RESET}"
+    printf "%s\n" "按${GREEN}回车键${RESET}${BLUE}继续${RESET}，输${YELLOW}n${RESET}${BLUE}返回${RESET}"
     read opt
     case $opt in
     y* | Y* | "") ;;
 
     n* | N*)
-        echo "skipped."
+        printf "%s\n" "skipped."
         ${RETURN_TO_WHERE}
         ;;
     *)
-        echo "Invalid choice. skipped."
+        printf "%s\n" "Invalid choice. skipped."
         ${RETURN_TO_WHERE}
         #beta_features
         ;;
@@ -92,38 +92,38 @@ restore_menu() {
 ############
 uncompress_other_format_file() {
     pwd
-    echo "即将为您解压..."
+    printf "%s\n" "即将为您解压..."
     if [ ! "$(command -v pv)" ] || [ "${COMPATIBILITY_MODE}" = 'true' ]; then
-        echo "${GREEN} tar -Ppxvf ${RESTORE} ${RESET}"
+        printf "%s\n" "${GREEN} tar -Ppxvf ${RESTORE} ${RESET}"
         tar -Ppxvf ${RESTORE}
     else
-        echo "${GREEN} pv ${RESTORE} | tar -Ppx ${RESET}"
+        printf "%s\n" "${GREEN} pv ${RESTORE} | tar -Ppx ${RESET}"
         pv ${RESTORE} | tar -Ppx
     fi
 }
 ##############
 uncompress_tar_xz_file() {
     pwd
-    echo 'tar.xz'
-    echo "即将为您解压..."
+    printf '%s\n' 'tar.xz'
+    printf "%s\n" "即将为您解压..."
     if [ ! "$(command -v pv)" ] || [ "${COMPATIBILITY_MODE}" = 'true' ]; then
-        echo "${GREEN} tar -PpJxvf ${RESTORE} ${RESET}"
+        printf "%s\n" "${GREEN} tar -PpJxvf ${RESTORE} ${RESET}"
         tar -PpJxvf ${RESTORE}
     else
-        echo "${GREEN} pv ${RESTORE} | tar -PpJx ${RESET}"
+        printf "%s\n" "${GREEN} pv ${RESTORE} | tar -PpJx ${RESET}"
         pv ${RESTORE} | tar -PpJx
     fi
 }
 ######################
 uncompress_tar_gz_file() {
     pwd
-    echo 'tar.gz'
-    echo "即将为您解压..."
+    printf '%s\n' 'tar.gz'
+    printf "%s\n" "即将为您解压..."
     if [ ! "$(command -v pv)" ] || [ "${COMPATIBILITY_MODE}" = 'true' ]; then
-        echo "${GREEN} tar -Ppzxvf ${RESTORE} ${RESET}"
+        printf "%s\n" "${GREEN} tar -Ppzxvf ${RESTORE} ${RESET}"
         tar -Ppzxvf ${RESTORE}
     else
-        echo "${GREEN} pv ${RESTORE} | tar -Ppzx ${RESET}"
+        printf "%s\n" "${GREEN} pv ${RESTORE} | tar -Ppzx ${RESET}"
         pv ${RESTORE} | tar -Ppzx
     fi
 }
@@ -146,7 +146,7 @@ uncompress_tar_file() {
 ################
 select_file_manually() {
     count=0
-    echo '您可以在此列表中选择需要恢复的压缩包'
+    printf '%s\n' '您可以在此列表中选择需要恢复的压缩包'
     for restore_file in "${START_DIR}"/${BACKUP_FILE_NAME}; do
         restore_file_name[count]=$(echo $restore_file | awk -F'/' '{print $NF}')
         echo -e "($count) ${restore_file_name[count]}"
@@ -159,8 +159,8 @@ select_file_manually() {
         if [[ -z "$number" ]]; then
             break
         elif ! [[ $number =~ ^[0-9]+$ ]]; then
-            echo "Please enter the right number!"
-            echo '请输入正确的数字编号！'
+            printf "%s\n" "Please enter the right number!"
+            printf '%s\n' '请输入正确的数字编号！'
         elif (($number >= 0 && $number <= $count)); then
             eval RESTORE=${restore_file_name[number]}
             # cp -fr "${START_DIR}/$choice" "$DIR/restore_file.properties"
@@ -168,8 +168,8 @@ select_file_manually() {
             uncompress_tar_file
             break
         else
-            echo "Please enter the right number!"
-            echo '请输入正确的数字编号！'
+            printf "%s\n" "Please enter the right number!"
+            printf '%s\n' '请输入正确的数字编号！'
         fi
     done
     press_enter_to_return
@@ -206,7 +206,7 @@ manually_select_the_file_directory() {
     START_DIR="$(echo ${TARGET_BACKUP_FILE_PATH} | head -n 1 | cut -d ' ' -f 1)"
     echo ${START_DIR}
     if [ -z ${START_DIR} ]; then
-        echo "文件目录不能为空"
+        printf "%s\n" "文件目录不能为空"
         press_enter_to_return
         restore_menu
     else
@@ -216,7 +216,7 @@ manually_select_the_file_directory() {
 ###############
 restore_the_latest_backup_file() {
     if [ -z "${RESTORE}" ]; then
-        echo "${RED}未检测${RESTORE}到${BLUE}备份文件${RESTORE},请${GREEN}手动选择${RESTORE}"
+        printf "%s\n" "${RED}未检测${RESTORE}到${BLUE}备份文件${RESTORE},请${GREEN}手动选择${RESTORE}"
         press_enter_to_continue
         BACKUP_FILE_NAME=*
         manually_select_the_file_directory

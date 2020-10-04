@@ -209,9 +209,9 @@ EOF
 }
 ############
 git_clone_fzf_tab() {
-    echo '正在克隆fzf-tab自动补全插件...'
-    echo "${YELLOW}github.com/Aloxaf/fzf-tab${RESET}"
-    echo "${BLUE}#aloxaf:fzf-tab 是一个能够极大提升 zsh 补全体验的插件。它通过 hook zsh 补全系统的底层函数 compadd 来截获补全列表，从而实现了在补全命令行参数、变量、目录栈和文件时都能使用 fzf 进行选择的功能。Replace zsh’s default completion selection menu with fzf! ${RESET}"
+    printf '%s\n' '正在克隆fzf-tab自动补全插件...'
+    printf "%s\n" "${YELLOW}github.com/Aloxaf/fzf-tab${RESET}"
+    printf "%s\n" "${BLUE}#aloxaf:fzf-tab 是一个能够极大提升 zsh 补全体验的插件。它通过 hook zsh 补全系统的底层函数 compadd 来截获补全列表，从而实现了在补全命令行参数、变量、目录栈和文件时都能使用 fzf 进行选择的功能。Replace zsh’s default completion selection menu with fzf! ${RESET}"
     git clone --depth=1 https://github.com/Aloxaf/fzf-tab.git "${FZF_TAB_PLUGIN_DIR}" || git clone --depth=1 git://github.com/Aloxaf/fzf-tab.git "${FZF_TAB_PLUGIN_DIR}"
     chmod 755 -R "${FZF_TAB_PLUGIN_DIR}"
     if ! egrep -q '^[^#]*zinit.*/fzf-tab' "${HOME}/.zshrc"; then
@@ -314,13 +314,13 @@ ENDOFPLUGININFO
 }
 #################
 tips_of_tmoe_zsh_01() {
-    echo "您已安装${BOLD}zsh${RESET},之后可以单独输${YELLOW}zshtheme -h${RESET}来获取${BLUE}切换主题${RESET}的帮助信息,输 ${YELLOW}zsh-i${RESET}进入zsh插件${BLUE}管理工具${RESET}。"
-    echo "You have installed ${BOLD}zsh${RESET},type ${GREEN}zshtheme -h${RESET} to get ${BLUE}theme${RESET} help info,type ${GREEN}zsh-i${RESET} to start ${BLUE}tmoe-zsh tool${RESET}."
+    printf "%s\n" "您已安装${BOLD}zsh${RESET},之后可以单独输${YELLOW}zshtheme -h${RESET}来获取${BLUE}切换主题${RESET}的帮助信息,输 ${YELLOW}zsh-i${RESET}进入zsh插件${BLUE}管理工具${RESET}。"
+    printf "%s\n" "You have installed ${BOLD}zsh${RESET},type ${GREEN}zshtheme -h${RESET} to get ${BLUE}theme${RESET} help info,type ${GREEN}zsh-i${RESET} to start ${BLUE}tmoe-zsh tool${RESET}."
 
     case "${LINUX_DISTRO}" in
     Android)
-        echo "输${YELLOW}zshcolor${RESET} 来更改${BLUE}配色${RESET}，输 ${YELLOW}zshfont${RESET}来更改${BLUE}字体${RESET}"
-        echo "You can also type ${GREEN}zshcolor${RESET} to change the ${BLUE}color${RESET}, type ${GREEN}zshfont${RESET} to change the ${BLUE}font${RESET}"
+        printf "%s\n" "输${YELLOW}zshcolor${RESET} 来更改${BLUE}配色${RESET}，输 ${YELLOW}zshfont${RESET}来更改${BLUE}字体${RESET}"
+        printf "%s\n" "You can also type ${GREEN}zshcolor${RESET} to change the ${BLUE}color${RESET}, type ${GREEN}zshfont${RESET} to change the ${BLUE}font${RESET}"
         ;;
     esac
     case ${TMOE_INSTALLATION_COMMAND} in
@@ -408,18 +408,18 @@ change_zsh_theme_and_termux_color() {
     cd ${CURRENT_DIR}
     case "${LINUX_DISTRO}" in
     Android)
-        echo "Choose your color scheme now~"
-        #echo '请选择您的配色'
+        printf "%s\n" "Choose your color scheme now~"
+        #printf '%s\n'  '请选择您的配色'
         bash ${TMOE_ZSH_TERMUX_PATH}/colors.sh
-        echo ''
-        echo "Choose your font now~"
-        #echo '请选择您的字体'
+        printf '%s\n' ''
+        printf "%s\n" "Choose your font now~"
+        #printf '%s\n'  '请选择您的字体'
         bash ${TMOE_ZSH_TERMUX_PATH}/fonts.sh
         ;;
     esac
-    echo ''
-    echo "Choose your theme now~"
-    #echo '请选择您的主题'
+    printf '%s\n' ''
+    printf "%s\n" "Choose your theme now~"
+    #printf '%s\n'  '请选择您的主题'
     #mkdir -p "${ZINIT_DIR}/themes/_local"
     source ${TMOE_ZSH_TERMUX_PATH}/themes.sh
 }
