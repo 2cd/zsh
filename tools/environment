@@ -232,6 +232,9 @@ check_gnu_linux_dependencies_01() {
         gentoo) DEPENDENCIES="${DEPENDENCIES} sys-apps/less" ;;
         *) DEPENDENCIES="${DEPENDENCIES} less" ;;
         esac
+    fi
+    if [ -L /usr//bin/less ]; then
+        DEPENDENCIES="${DEPENDENCIES} less"
     else
         [[ ! -L $(where less | tail -n 1 | awk '{print $NF}') ]] || DEPENDENCIES="${DEPENDENCIES} less"
     fi
