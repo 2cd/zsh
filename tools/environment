@@ -139,6 +139,14 @@ install_debian_fzf_bin() {
         esac
         rm -rfv ${FZF_TEMP_FOLDER} 2>/dev/null
     fi
+    FZF_BIN_FILE='/usr/local/bin/fzf'
+    if [ -e "${FZF_BIN_FILE}" ]; then
+        ${FZF_BIN_FILE} --help &>/dev/null
+        case "$?" in
+        0) ;;
+        *) rm -fv ${FZF_BIN_FILE} ;;
+        esac
+    fi
 }
 #################
 install_batcat_gitee_bin() {
@@ -169,6 +177,14 @@ install_batcat_gitee_bin() {
             tar -Jxvf ${BAT_CAT_BIN_TEMP_FOLDER}/bat.tar.xz -C /usr/local/bin
             rm -rfv ${BAT_CAT_BIN_TEMP_FOLDER} 2>/dev/null
             ;;
+        esac
+    fi
+    BAT_BIN_FILE='/usr/local/bin/bat'
+    if [ -e "${BAT_BIN_FILE}" ]; then
+        ${BAT_BIN_FILE} --help &>/dev/null
+        case "$?" in
+        0) ;;
+        *) rm -fv ${BAT_BIN_FILE} ;;
         esac
     fi
 }
