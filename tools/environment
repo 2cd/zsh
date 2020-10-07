@@ -123,7 +123,8 @@ install_debian_fzf_bin() {
         debian)
             download_fzf_bin
             apt show ./${THE_LATEST_DEB_VERSION}
-            sudo apt install -y ./${THE_LATEST_DEB_VERSION} 2>/dev/null
+            #此处apt install在ubt18.04将出错
+            sudo dpkg -i ./${THE_LATEST_DEB_VERSION} 2>/dev/null
             ;;
         *)
             if [ $(command -v ar) ]; then
