@@ -250,10 +250,14 @@ check_gnu_linux_dependencies_01() {
         *) DEPENDENCIES="${DEPENDENCIES} less" ;;
         esac
     fi
-    if [ -L /usr//bin/less ]; then
+    if [ -L /usr/bin/less ]; then
         DEPENDENCIES="${DEPENDENCIES} less"
     else
-        [[ ! -L $(where less | tail -n 1 | awk '{print $NF}') ]] || DEPENDENCIES="${DEPENDENCIES} less"
+        if [ $(command -v whereis) ]; then
+            [[ ! -L $(whereis less | tail -n 1 | awk '{print $2}') ]] || DEPENDENCIES="${DEPENDENCIES} less"
+        else
+            [[ ! -L $(where less | tail -n 1 | awk '{print $NF}') ]] || DEPENDENCIES="${DEPENDENCIES} less"
+        fi
     fi
     #########################################
     if [ ! $(command -v pv) ]; then
