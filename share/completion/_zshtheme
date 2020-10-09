@@ -268,7 +268,7 @@ function _zshtheme() {
         "vero:A theme designed for simplicity, neatness and availability of information, adapted from the 'bureau' theme. Vero offers:- Time-stamp "
         "windows-cmd:See [repository](https://github.com/juliavallina/windows-zsh-theme) for source. "
         "zeroastro:Simple, minimalistic theme for Oh My ZSH. "
-        "zeta:Currently it shows: "
+        "zeta:Currently it shows:- ✔ Clean branch,✘ Dirty branch,+ Added files,- Deleted files,* Modified files,> Renamed files,= Unmerged changes, ? Untracked changes"
         "zsh2000:Powerline looking zsh theme with rvm prompt, git status and branch, current time, user, hostname, pwd, exit status, root and background job status. "
         "λpure:A minimal zsh theme, based on Pure, with added NodeJS version (async!) "
     )

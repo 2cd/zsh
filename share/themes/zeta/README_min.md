@@ -20,4 +20,3 @@ Currently it shows:
 - Prompt indicator turns red if the last run fails
 
 source: [here](https://github.com/skylerlee/zeta-zsh-theme)
-
