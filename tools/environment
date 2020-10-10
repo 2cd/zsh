@@ -122,7 +122,7 @@ install_debian_fzf_bin() {
         case "${LINUX_DISTRO}" in
         debian)
             download_fzf_bin
-            apt show ./${THE_LATEST_DEB_VERSION}
+            #apt show ./${THE_LATEST_DEB_VERSION}
             #此处apt install在ubt18.04将出错
             sudo dpkg -i ./${THE_LATEST_DEB_VERSION} 2>/dev/null
             ;;
