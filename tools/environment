@@ -244,20 +244,50 @@ check_gnu_linux_dependencies_01() {
         esac
     fi
     ###########################################
-    if [ ! $(command -v less) ]; then
+    case_grep_name() {
+        case "${LINUX_DISTRO}" in
+        gentoo) DEPENDENCIES="${DEPENDENCIES} sys-apps/grep" ;;
+        *) DEPENDENCIES="${DEPENDENCIES} grep" ;;
+        esac
+    }
+    where_is_grep() {
+        if [ -L /bin/grep ]; then
+            DEPENDENCIES="${DEPENDENCIES} grep"
+        else
+            if [ $(command -v whereis) ]; then
+                [[ ! -L $(whereis grep | tail -n 1 | awk '{print $2}') ]] || DEPENDENCIES="${DEPENDENCIES} grep"
+            else
+                [[ ! -L $(where grep | tail -n 1 | awk '{print $NF}') ]] || DEPENDENCIES="${DEPENDENCIES} grep"
+            fi
+        fi
+    }
+    if [ ! $(command -v grep) ]; then
+        case_grep_name
+    else
+        where_is_grep
+    fi
+    ############
+    case_less_name() {
         case "${LINUX_DISTRO}" in
         gentoo) DEPENDENCIES="${DEPENDENCIES} sys-apps/less" ;;
         *) DEPENDENCIES="${DEPENDENCIES} less" ;;
         esac
-    fi
-    if [ -L /usr/bin/less ]; then
-        DEPENDENCIES="${DEPENDENCIES} less"
-    else
-        if [ $(command -v whereis) ]; then
-            [[ ! -L $(whereis less | tail -n 1 | awk '{print $2}') ]] || DEPENDENCIES="${DEPENDENCIES} less"
+    }
+    where_is_less() {
+        if [ -L /usr/bin/less ]; then
+            DEPENDENCIES="${DEPENDENCIES} less"
         else
-            [[ ! -L $(where less | tail -n 1 | awk '{print $NF}') ]] || DEPENDENCIES="${DEPENDENCIES} less"
+            if [ $(command -v whereis) ]; then
+                [[ ! -L $(whereis less | tail -n 1 | awk '{print $2}') ]] || DEPENDENCIES="${DEPENDENCIES} less"
+            else
+                [[ ! -L $(where less | tail -n 1 | awk '{print $NF}') ]] || DEPENDENCIES="${DEPENDENCIES} less"
+            fi
         fi
+    }
+    if [ ! $(command -v less) ]; then
+        case_less_name
+    else
+        where_is_less
     fi
     #########################################
     if [ ! $(command -v pv) ]; then
