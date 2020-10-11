@@ -179,7 +179,7 @@ git_pull_oh_my_zsh() {
     cd ${OMZ_DIR}
     git reset --hard origin/master
     git pull --rebase --stat --depth=1 origin master --allow-unrelated-histories || git rebase --skip
-    #printf "%s\n"  "若oh-my-zsh更新失败，则请手动输${BLUE}zsh ${OMZ_DIR}/tools/upgrade.sh${RESET}" && zsh "${OMZ_DIR}/tools/upgrade.sh"
+    #printf "%s\n" "若oh-my-zsh更新失败，则请手动输${BLUE}zsh ${OMZ_DIR}/tools/upgrade.sh${RESET}" && zsh "${OMZ_DIR}/tools/upgrade.sh"
 }
 ###########
 upgrade_zsh_plugins_main "$@"

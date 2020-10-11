@@ -238,7 +238,7 @@ tmoe_zsh_plugin_menu_01() {
     ${GREEN}mkdir -p${RESET} ${BLUE}./tmp/test${RESET}
 
     #将指定命令输出到该目录的.env文件
-    ${GREEN}printf "%s\n"  "echo I am using tmoe-zsh."${RESET} ${RED}>${RESET} ${BLUE}./tmp/test/.env${RESET}
+    ${GREEN}printf "%s\n" "echo I am using tmoe-zsh."${RESET} ${RED}>${RESET} ${BLUE}./tmp/test/.env${RESET}
 
     #此时进入刚才新建的目录，将直接执行.env脚本命令
     ${GREEN}cd${RESET} ${BLUE}./tmp/test/${RESET}

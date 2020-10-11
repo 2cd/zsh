@@ -127,7 +127,7 @@ select_termux_color() {
       break
       ;;
     *)
-      printf '%s\n' ${BOLD}--------------${RESET}
+      printf '%s\n' "${BOLD}--------------${RESET}"
       printf "%s\n" "Please ${BLUE}type${RESET} the right ${BOLD}${RED}pure number${RESET}${RESET}!"
       printf "%s\n" "请${BLUE}输入${RESET}正确的${BOLD}${RED}纯数字${RESET}${RESET}!"
       ;;
