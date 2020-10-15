@@ -314,6 +314,8 @@ check_gnu_linux_dependencies_01() {
         gentoo) DEPENDENCIES="${DEPENDENCIES} app-arch/tar" ;;
         *) DEPENDENCIES="${DEPENDENCIES} tar" ;;
         esac
+    elif [ -L /bin/tar ]; then
+        DEPENDENCIES="${DEPENDENCIES} tar"
     fi
     ############################
     if [ ! $(command -v wget) ]; then
