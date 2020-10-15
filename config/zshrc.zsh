@@ -23,7 +23,7 @@ load_zinit_compinit_function() {
     #autoload -Uz compinit ;compinit #载入补全相关function
     zpcompinit
     zpcdreplay
-    autoload -U compinit && compinit -u
+    compinit -u
     #zinit cdreplay -q
 }
 ########
