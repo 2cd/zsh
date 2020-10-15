@@ -205,7 +205,7 @@ check_gnu_linux_dependencies() {
         ;;
     esac
     install_debian_fzf_bin
-    install_batcat_gitee_bin
+    #install_batcat_gitee_bin
 }
 ########
 check_gnu_linux_dependencies_01() {
@@ -380,8 +380,9 @@ install_gnu_linux_dependencies() {
 #######################
 check_gnu_linux_dependencies_02() {
     DEPENDENCIES=""
-    if [ ! $(command -v batcat) ] && [ ! $(command -v bat) ]; then
+    if [ ! $(command -v batcat) ] && [ ! $(command -v bat) ] && [ ! -e ${TMOE_ZSH_DIR}/non_install_bat ]; then
         #gentoo:sys-apps/bat
+        printf '%s\n' '' >${TMOE_ZSH_DIR}/non_install_bat
         case "${LINUX_DISTRO}" in
         arch | debian) DEPENDENCIES="${DEPENDENCIES} bat" ;;
         redhat)
