@@ -143,7 +143,12 @@ configure_tmoe_zsh_default_theme() {
 ##########
 case_tmoe_zsh_default_theme() {
     case "${TMOE_CONTAINER_AUTO_CONFIGURE}" in
-    true) source ${TMOE_ZSH_TERMUX_PATH}/themes.sh -p10k ;;
+    true)
+        case ${LINUX_DISTRO} in
+        openwrt) configure_tmoe_zsh_default_theme ;;
+        *) source ${TMOE_ZSH_TERMUX_PATH}/themes.sh -p10k ;;
+        esac
+        ;;
     *) configure_tmoe_zsh_default_theme ;;
     esac
 }
