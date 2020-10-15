@@ -168,18 +168,6 @@ openwrt_router_zsh_command() {
 	LINUX_DISTRO='openwrt'
 	TMOE_UPDATE_COMMAND='opkg update'
 	TMOE_REMOVAL_COMMAND='opkg remove'
-	cd /tmp
-	if [ ! -e "router-zsh.bash" ]; then
-		wget --no-check-certificate -qO "router-zsh.bash" ${TMOE_GIT_REPO}/raw/master/zsh.sh
-	fi
-	chmod +x 'router-zsh.bash'
-	#bash -c "$(cat 'router-zsh.bash' |sed 's@/usr/bin@/opt/bin@g' |sed 's@-e /bin@-e /opt/bin@g' |sed 's@whiptail@dialog@g')"
-	sed -i 's@/usr/bin@/opt/bin@g' 'router-zsh.bash'
-	sed -i 's@-e /bin@-e /opt/bin@g' 'router-zsh.bash'
-	sed -i 's@whiptail@dialog@g' 'router-zsh.bash'
-	sed -i 's@wget --no-check-certificate -qO "router-zsh.bash"@#&@' 'router-zsh.bash'
-	sed -i 's@bash router-zsh.bash@#&@' 'router-zsh.bash'
-	source router-zsh.bash
 }
 ############
 check_linux_distro() {
