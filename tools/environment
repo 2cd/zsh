@@ -382,7 +382,6 @@ check_gnu_linux_dependencies_02() {
     DEPENDENCIES=""
     if [ ! $(command -v batcat) ] && [ ! $(command -v bat) ] && [ ! -e ${TMOE_ZSH_DIR}/non_install_bat ]; then
         #gentoo:sys-apps/bat
-        printf '%s\n' '' >${TMOE_ZSH_DIR}/non_install_bat
         case "${LINUX_DISTRO}" in
         arch | debian) DEPENDENCIES="${DEPENDENCIES} bat" ;;
         redhat)
@@ -391,6 +390,10 @@ check_gnu_linux_dependencies_02() {
             esac
             ;;
         esac
+    fi
+    if [ ! $(command -v batcat) ] && [ ! $(command -v bat) ]; then
+        printf '%s\n' '' >${TMOE_ZSH_DIR}/non_install_bat
+
     fi
 
     if [ ! $(command -v fzf) ] && [ ! -e ${TMOE_ZSH_DIR}/non_install_fzf ]; then
