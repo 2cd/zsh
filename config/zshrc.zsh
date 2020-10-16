@@ -94,9 +94,9 @@ if [ $(command -v exa) ]; then
     alias lls=${LS_BIN_FILE}
     alias ls="exa -b --color=always" #exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。Exa is a modern version of ls.
     alias l='exa -lbah'
-    alias la='exa -lbahgR'
+    alias la='exa -labgh'
     alias ll='exa -lbgh'
-    alias lsa='exa -labgh'
+    alias lsa='exa -lbahgR'
     alias lst='exa -lTabgh' #输入lst,将展示类似于tree的树状列表。
 else
     alias ls='ls --color=always'
