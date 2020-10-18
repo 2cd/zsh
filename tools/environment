@@ -204,6 +204,8 @@ check_gnu_linux_dependencies() {
         install_gnu_linux_dependencies
         ;;
     esac
+    check_gnu_linux_dependencies_05
+    install_gnu_linux_dependencies
     install_debian_fzf_bin
     #install_batcat_gitee_bin
 }
@@ -395,19 +397,6 @@ check_gnu_linux_dependencies_02() {
         printf '%s\n' '' >${TMOE_ZSH_DIR}/non_install_bat
 
     fi
-
-    if [ ! $(command -v fzf) ] && [ ! -e ${TMOE_ZSH_DIR}/non_install_fzf ]; then
-        #gentoo) DEPENDENCIES="${DEPENDENCIES} app-shells/fzf" ;; #Masked
-        case "${LINUX_DISTRO}" in
-        alpine | arch | debian | suse) DEPENDENCIES="${DEPENDENCIES} fzf" ;;
-        redhat)
-            case "${REDHAT_DISTRO}" in
-            fedora) DEPENDENCIES="${DEPENDENCIES} fzf" ;;
-            esac
-            ;;
-        esac
-    fi
-    [[ $(command -v whereis) ]] || DEPENDENCIES="${DEPENDENCIES} util-linux"
 }
 ################
 check_gnu_linux_dependencies_03() {
@@ -447,6 +436,22 @@ check_gnu_linux_dependencies_04() {
         *) DEPENDENCIES="${DEPENDENCIES} htop" ;;
         esac
     fi
+}
+##############
+check_gnu_linux_dependencies_05() {
+    DEPENDENCIES=""
+    if [ ! $(command -v fzf) ] && [ ! -e ${TMOE_ZSH_DIR}/non_install_fzf ]; then
+        #gentoo) DEPENDENCIES="${DEPENDENCIES} app-shells/fzf" ;; #Masked
+        case "${LINUX_DISTRO}" in
+        alpine | arch | debian | suse) DEPENDENCIES="${DEPENDENCIES} fzf" ;;
+        redhat)
+            case "${REDHAT_DISTRO}" in
+            fedora) DEPENDENCIES="${DEPENDENCIES} fzf" ;;
+            esac
+            ;;
+        esac
+    fi
+    [[ $(command -v whereis) ]] || DEPENDENCIES="${DEPENDENCIES} util-linux"
 }
 ##############
 check_termux_dependencies() {
