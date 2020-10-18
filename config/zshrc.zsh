@@ -111,8 +111,8 @@ fi
 set_bat_paper_variable() {
     local CAT_BIN_FILE=$(whereis cat 2>/dev/null | awk '{print $2}')
     alias lcat=${CAT_BIN_FILE}
-    #export BAT_PAGER="less -m -RFeQ"
     export BAT_PAGER=""
+    #export BAT_PAGER="less -m -RFeQ" #自动分页已禁用
 }
 if [ $(command -v batcat) ]; then
     set_bat_paper_variable
