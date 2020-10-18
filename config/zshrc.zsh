@@ -111,15 +111,8 @@ fi
 set_bat_paper_variable() {
     local CAT_BIN_FILE=$(whereis cat 2>/dev/null | awk '{print $2}')
     alias lcat=${CAT_BIN_FILE}
-    if [ -e "/etc/os-release" ]; then
-        if ! egrep -q 'bionic|Bionic Beaver|Eoan Ermine|buster|stretch|jessie|deepin|uos' "/etc/os-release"; then
-            export BAT_PAGER="less -m -RFeQ"
-        fi
-    elif [[ $(uname -o) = 'Android' ]]; then
-        export BAT_PAGER="less -m -RFeQ"
-    else
-        export BAT_PAGER="less"
-    fi
+    #export BAT_PAGER="less -m -RFeQ"
+    export BAT_PAGER=""
 }
 if [ $(command -v batcat) ]; then
     set_bat_paper_variable

@@ -157,11 +157,12 @@ install_batcat_gitee_bin() {
         BAT_CAT_BIN_TEMP_FOLDER='/tmp/.BAT_CAT_BIN_TEMP_FOLDER'
         rm -rv ${BAT_CAT_BIN_TEMP_FOLDER} 2>/dev/null
         case "${ARCH_TYPE}" in
-        amd64)
-            case "${LINUX_DISTRO}" in
-            arch | debian | redhat | suse) BRANCH_NAME=amd64 ;;
-            *) BRANCH_NAME=alpine-amd64 ;;
-            esac
+        amd64 | i386)
+            #case "${LINUX_DISTRO}" in
+            #arch | debian | redhat | suse) BRANCH_NAME=amd64 ;;
+            #*) BRANCH_NAME=alpine-amd64 ;;
+            #esac
+            BRANCH_NAME=${ARCH_TYPE}
             ;;
         arm64 | armhf)
             case "${LINUX_DISTRO}" in
@@ -206,8 +207,8 @@ check_gnu_linux_dependencies() {
     esac
     check_gnu_linux_dependencies_05
     install_gnu_linux_dependencies
+    install_batcat_gitee_bin
     install_debian_fzf_bin
-    #install_batcat_gitee_bin
 }
 ########
 check_gnu_linux_dependencies_01() {
