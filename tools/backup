@@ -14,13 +14,13 @@ compress_zsh_dir_as_tar_gz() {
         tar -Ppzcvf ${TMPtime}.tar.gz ${ZSH_BACKUP_FILES}
     fi
     mv -f ${TMPtime}.tar.gz ${START_DIR} || sudo mv -f ${TMPtime}.tar.gz ${START_DIR}
-    printf "%s\n" "Don't worry too much, it is normal for some directories to backup without permission."
-    printf "%s\n" "部分目录无权限备份是正常现象。"
+    #printf "%s\n" "Don't worry too much, it is normal for some directories to backup without permission."
+    #printf "%s\n" "部分目录无权限备份是正常现象。"
     rm -f ${BACKUP_TIME_FILE}
     #  whiptail --gauge "正在备份,可能需要几分钟的时间请稍后.........." 6 60 0
     pwd
     ls -lth ${START_DIR}/tmoe-zsh*tar.gz | grep ^- | head -n 1
-    printf '%s\n' 'gzip压缩至60%完成是正常现象。'
+    #printf '%s\n' 'gzip压缩至60%完成是正常现象。'
     printf "%s\n" "${YELLOW}备份完成,按回车键返回。${RESET} "
     printf "%s\n" "Press enter to return."
     read
@@ -40,8 +40,8 @@ compress_zsh_dir_as_tar_xz() {
     fi
     mv -f ${TMPtime}.tar.xz ${START_DIR} || sudo mv -f ${TMPtime}.tar.xz ${START_DIR}
     #xz -z -T0 -e -9 -f -v ${TMPtime}.tar
-    printf "%s\n" "Don't worry too much, it is normal for some directories to backup without permission."
-    printf "%s\n" "部分目录无权限备份是正常现象。"
+    #printf "%s\n" "Don't worry too much, it is normal for some directories to backup without permission."
+    #printf "%s\n" "部分目录无权限备份是正常现象。"
     rm -f ${BACKUP_TIME_FILE}
     pwd
     ls -lth ${START_DIR}/tmoe-zsh*tar.xz | grep ^- | head -n 1
