@@ -80,10 +80,10 @@ check_zsh_backup_dir() {
     for i in ${HOME}/.z ${HOME}/.zsh_history ${TMOE_ZSH_GIT_DIR} ${TERMUX_PATH} ${HOME}/.p10k.zsh ${HOME}/.cache/gitstatus; do
         if [ -e "${i}" ]; then
             ZSH_BACKUP_FILES="${ZSH_BACKUP_FILES} ${i}"
-            echo ${ZSH_BACKUP_FILES}
         fi
     done
     unset i
+    printf "%s\n" "${ZSH_BACKUP_FILES}"
     ############
     if (whiptail --title "Select compression type 选择压缩类型 " --yes-button "tar.xz" --no-button "tar.gz" --yesno "Which do yo like better? \n tar.xz压缩率高，但速度慢。tar.xz has a higher compression ration, but is slower.\n tar.gz速度快,但压缩率低。tar.gz compresses faster, but with a lower compression ratio.\n 压缩过程中，进度条倒着跑是正常现象。" 12 60); then
         compress_zsh_dir_as_tar_xz
