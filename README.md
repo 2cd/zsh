@@ -135,9 +135,9 @@ mv "${ZSHRC_FILE}" "${ZSHRC_FILE}_$(date +%Y%m%d).bak"
 
 10.No other systems tested.  
 For example:**GuixSD**,etc.  
-And Unix system,such as：**MacOS、FreeBSD、OpenBSD、NetBSD**and**SunOS**.  
 I think you can resolve dependencies yourself.  
-The relevant dependencies are `zsh git pv wget tar xz newt(whiptail)`
+The relevant dependencies are `zsh git pv wget tar xz newt(whiptail)`  
+This tool does not support Unix system,such as：**MacOS、FreeBSD、OpenBSD、NetBSD** and **SunOS**.  
 
 ### 2-2.MUNUALLY GIT CLONE
 
