@@ -18,9 +18,11 @@ zsh_faq_menu() {
     1) remove_plugin_command_not_found ;;
     2) reset_fzf_tab ;;
     3)
-        ZSH_PATH="${OMZ_DIR} ${HOME}/.zshrc ${TMOE_ZSH_GIT_DIR} ${HOME}/.zsh_history"
+        ZSH_PATH="${ZINIT_DIR} ${HOME}/.zshrc ${TMOE_ZSH_GIT_DIR} ${HOME}/.zsh_history"
         fix_zsh_folder_permissions
         printf "%s\n" "若无法修复，则请手动执行${GREEN}compaudit | xargs chmod g-w,o-w${RESET}"
+        printf "${GREEN}%s ${PURPLE}%s ${BLUE}%s${RESET}" "sudo -E chown -Rv" "${CURRENT_USER_NAME}:${CURRENT_USER_GROUP}" "${ZINIT_DIR}"
+        ${CURRENT_USER_NAME}:${CURRENT_USER_GROUP} ${ZINIT_DIR}
         if [ "${LINUX_DISTRO}" != "Android" ] && [ ${HOME} != "/root" ]; then
             printf "%s\n" "您亦可将${HOME}目录的权限修改为${CURRENT_USER_NAME}用户和${CURRENT_USER_GROUP}用户组"
             printf "%s\n" "${RED}sudo chown -R ${CURRENT_USER_NAME}:${CURRENT_USER_GROUP} ${HOME}${RESET}"

@@ -394,6 +394,9 @@ onekey_configure_tmoe_zsh() {
     git_clone_fast_syntax_highlighting
     git_clone_zsh_autosuggestions
     #######################
+    if [ "${LINUX_DISTRO}" != "Android" ] && [ ${HOME} != "/root" ]; then
+        sudo -E chown -Rv ${CURRENT_USER_NAME}:${CURRENT_USER_GROUP} ${HOME}/.zinit
+    fi
     #配置完成后的提示内容。
     tips_of_tmoe_zsh_01
     ####################
