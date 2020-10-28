@@ -23,7 +23,8 @@ change_the_terminal_font() {
         LOCAL_FONT_DIR="/usr/local/share/fonts/truetype/terminal-fonts"
         printf "%s\n" "${LOCAL_FONT_DIR}/fonts"
         if [ -e "${LOCAL_FONT_DIR}/fonts/Iosevka/Iosevka.ttf" ]; then
-            su - ${CURRENT_USER_NAME} -c "xdg-open ${LOCAL_FONT_DIR}/fontfs"
+            #su - ${CURRENT_USER_NAME} -c ""
+            xdg-open ${LOCAL_FONT_DIR}/fontfs
         else
             sudo mv -v ${LOCAL_FONT_DIR} ${LOCAL_FONT_DIR}.bak 2>/dev/null
             sudo mkdir -p ${LOCAL_FONT_DIR}
