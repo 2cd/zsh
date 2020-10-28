@@ -25,16 +25,17 @@ change_the_terminal_font() {
         if [ -e "${LOCAL_FONT_DIR}/fonts/Iosevka/Iosevka.ttf" ]; then
             su - ${CURRENT_USER_NAME} -c "xdg-open ${LOCAL_FONT_DIR}/fontfs"
         else
-            mv ${LOCAL_FONT_DIR} ${LOCAL_FONT_DIR}.bak
-            mkdir -p ${LOCAL_FONT_DIR}
-            git clone --depth=1 https://gitee.com/ak2/termux-fonts.git ${LOCAL_FONT_DIR}
+            sudo mv -v ${LOCAL_FONT_DIR} ${LOCAL_FONT_DIR}.bak 2>/dev/null
+            sudo mkdir -p ${LOCAL_FONT_DIR}
+            sudo git clone --depth=1 https://gitee.com/ak2/termux-fonts.git ${LOCAL_FONT_DIR}
             cd ${LOCAL_FONT_DIR}
-            tar -Jxvf fonts.tar.xz
-            rm -rvf .git fonts.tar.xz
-            mkfontscale 2>/dev/null
-            mkfontdir 2>/dev/null
-            fc-cache 2>/dev/null
-            su - ${CURRENT_USER_NAME} -c "xdg-open ${LOCAL_FONT_DIR}/fontfs"
+            sudo tar -Jxvf fonts.tar.xz
+            sudo rm -rvf .git fonts.tar.xz
+            sudo mkfontscale 2>/dev/null
+            sudo mkfontdir 2>/dev/null
+            sudo fc-cache 2>/dev/null
+            #su - ${CURRENT_USER_NAME} -c ""
+            xdg-open ${LOCAL_FONT_DIR}/fontfs
         fi
         ;;
     esac
