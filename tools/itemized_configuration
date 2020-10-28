@@ -21,7 +21,7 @@ change_the_terminal_font() {
         #press_enter_to_return
         #zsh_itemized_configuration_menu
         LOCAL_FONT_DIR="/usr/local/share/fonts/truetype/terminal-fonts"
-        printf "%s\n" "${LOCAL_FONT_DIR}/fonts"
+        printf "${BLUE}%s${RESET}\n" "${LOCAL_FONT_DIR}/fonts"
         if [ -e "${LOCAL_FONT_DIR}/fonts/Iosevka/Iosevka.ttf" ]; then
             #su - ${CURRENT_USER_NAME} -c ""
             xdg-open ${LOCAL_FONT_DIR}/fontfs
@@ -37,6 +37,7 @@ change_the_terminal_font() {
             sudo fc-cache 2>/dev/null
             #su - ${CURRENT_USER_NAME} -c ""
             xdg-open ${LOCAL_FONT_DIR}/fontfs
+            printf "${BLUE}%s${RESET}\n" "${LOCAL_FONT_DIR}/fonts"
         fi
         ;;
     esac
