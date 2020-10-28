@@ -24,7 +24,7 @@ change_the_terminal_font() {
         printf "${BLUE}%s${RESET}\n" "${LOCAL_FONT_DIR}/fonts"
         if [ -e "${LOCAL_FONT_DIR}/fonts/Iosevka/Iosevka.ttf" ]; then
             #su - ${CURRENT_USER_NAME} -c ""
-            xdg-open ${LOCAL_FONT_DIR}/fontfs
+            xdg-open "${LOCAL_FONT_DIR}/fontfs" || sudo su - ${CURRENT_USER_NAME} -c "xdg-open ${LOCAL_FONT_DIR}/fontfs"
         else
             sudo mv -v ${LOCAL_FONT_DIR} ${LOCAL_FONT_DIR}.bak 2>/dev/null
             sudo mkdir -p ${LOCAL_FONT_DIR}
@@ -35,9 +35,8 @@ change_the_terminal_font() {
             sudo mkfontscale 2>/dev/null
             sudo mkfontdir 2>/dev/null
             sudo fc-cache 2>/dev/null
-            #su - ${CURRENT_USER_NAME} -c ""
-            xdg-open ${LOCAL_FONT_DIR}/fontfs
             printf "${BLUE}%s${RESET}\n" "${LOCAL_FONT_DIR}/fonts"
+            xdg-open "${LOCAL_FONT_DIR}/fontfs" || sudo su - ${CURRENT_USER_NAME} -c "xdg-open ${LOCAL_FONT_DIR}/fontfs"
         fi
         ;;
     esac
