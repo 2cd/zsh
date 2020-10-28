@@ -16,10 +16,25 @@ change_the_terminal_font() {
     case "${LINUX_DISTRO}" in
     Android) bash ${TMOE_ZSH_TERMUX_PATH}/fonts.sh ;;
     *)
-        printf '%s\n' '非常抱歉，此功能只支持安卓'
-        printf "%s\n" "Sorry, this feature only supports Android"
-        press_enter_to_return
-        zsh_itemized_configuration_menu
+        #printf '%s\n' '非常抱歉，此功能只支持安卓'
+        #printf "%s\n" "Sorry, this feature only supports Android"
+        #press_enter_to_return
+        #zsh_itemized_configuration_menu
+        LOCAL_FONT_DIR="/usr/local/share/fonts/truetype/powerline"
+        printf "%s\n" "${LOCAL_FONT_DIR}/fonts"
+        if [ -e "${LOCAL_FONT_DIR}/fonts/Iosevka/Iosevka.ttf" ]; then
+            su - ${CURRENT_USER_NAME} -c "xdg-open ${LOCAL_FONT_DIR}/fontfs"
+        else
+            mkdir -p ${LOCAL_FONT_DIR}
+            git clone --depth=1 https://gitee.com/ak2/termux-fonts.git ${LOCAL_FONT_DIR}
+            cd ${LOCAL_FONT_DIR}
+            tar -Jxvf fonts.tar.xz
+            rm -rvf .git fonts.tar.xz
+            mkfontscale 2>/dev/null
+            mkfontdir 2>/dev/null
+            fc-cache 2>/dev/null
+            su - ${CURRENT_USER_NAME} -c "xdg-open ${LOCAL_FONT_DIR}/fontfs"
+        fi
         ;;
     esac
 }
@@ -44,7 +59,7 @@ zsh_itemized_configuration_menu() {
         "1" "edit .zshrc手动编辑配置" \
         "2" "zsh主题 themes" \
         "3" "Termux配色 color schemes" \
-        "4" "Termux字体 fonts" \
+        "4" "终端字体 fonts" \
         "5" "xfce4终端配色 xfce4-terminal color schemes" \
         "6" "Set zsh as the default(默认) shell" \
         "0" "🌚 Back to the main menu 返回主菜单" \
@@ -68,7 +83,7 @@ download_iosevka_font() {
     wget -qO 'Iosevka.tar.xz' 'https://gitee.com/mo2/Termux-zsh/raw/p10k/Iosevka.tar.xz'
     tar -xvf 'Iosevka.tar.xz'
     rm -f 'Iosevka.tar.xz'
-    mv -f font.ttf '/usr/share/fonts/Iosevka.ttf'
+    mv -f font.ttf '/usr/share/fonts/truetype/iosevka/Iosevka.ttf'
 }
 ###############
 configure_xfce_terminal_color() {
@@ -114,16 +129,16 @@ configure_xfce_terminal_color() {
             ;;
         esac
     fi
-    if [ ! -f '/usr/share/fonts/Iosevka.ttf' ]; then
+    if [ ! -f '/usr/share/fonts/truetype/iosevka/Iosevka.ttf' ]; then
         printf '%s\n' '正在刷新字体缓存...'
-        mkdir -p /usr/share/fonts/
+        mkdir -p /usr/share/fonts/truetype/iosevka/
         cd /tmp
         if [ -e "font.ttf" ]; then
-            mv -f font.ttf '/usr/share/fonts/Iosevka.ttf'
+            mv -f font.ttf '/usr/share/fonts/truetype/iosevka/Iosevka.ttf'
         else
             download_iosevka_font
         fi
-        cd /usr/share/fonts/
+        cd /usr/share/fonts/truetype/iosevka/
         mkfontscale
         mkfontdir
         fc-cache
