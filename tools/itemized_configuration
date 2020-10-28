@@ -20,11 +20,12 @@ change_the_terminal_font() {
         #printf "%s\n" "Sorry, this feature only supports Android"
         #press_enter_to_return
         #zsh_itemized_configuration_menu
-        LOCAL_FONT_DIR="/usr/local/share/fonts/truetype/powerline"
+        LOCAL_FONT_DIR="/usr/local/share/fonts/truetype/terminal-fonts"
         printf "%s\n" "${LOCAL_FONT_DIR}/fonts"
         if [ -e "${LOCAL_FONT_DIR}/fonts/Iosevka/Iosevka.ttf" ]; then
             su - ${CURRENT_USER_NAME} -c "xdg-open ${LOCAL_FONT_DIR}/fontfs"
         else
+            mv ${LOCAL_FONT_DIR} ${LOCAL_FONT_DIR}.bak
             mkdir -p ${LOCAL_FONT_DIR}
             git clone --depth=1 https://gitee.com/ak2/termux-fonts.git ${LOCAL_FONT_DIR}
             cd ${LOCAL_FONT_DIR}
