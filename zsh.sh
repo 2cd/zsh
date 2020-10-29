@@ -198,9 +198,15 @@ check_linux_distro() {
 
 	elif grep -Eqi "Fedora|CentOS|Red Hat|redhat" "/etc/os-release" 2>/dev/null; then
 		LINUX_DISTRO='redhat'
-		TMOE_UPDATE_COMMAND='dnf update'
-		TMOE_INSTALLATON_COMMAND='dnf install -y --skip-broken'
-		TMOE_REMOVAL_COMMAND='dnf remove -y'
+		if [ $(command -v dnf) ]; then
+			TMOE_UPDATE_COMMAND='dnf update'
+			TMOE_INSTALLATON_COMMAND='dnf install -y --skip-broken'
+			TMOE_REMOVAL_COMMAND='dnf remove -y'
+		else
+			TMOE_UPDATE_COMMAND='yum update'
+			TMOE_INSTALLATON_COMMAND='yum install -y --skip-broken'
+			TMOE_REMOVAL_COMMAND='yum remove -y'
+		fi
 		if [ "$(cat /etc/os-release | grep 'ID=' | head -n 1 | cut -d '"' -f 2)" = "centos" ]; then
 			REDHAT_DISTRO='centos'
 		elif grep -q 'Fedora' "/etc/os-release"; then
