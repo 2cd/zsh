@@ -109,7 +109,7 @@ configure_konsole_terminal_color() {
         ${TMOE_INSTALLATON_COMMAND} xfce4-terminal || sudo ${TMOE_INSTALLATON_COMMAND} xfce4-terminal
     fi
     printf "${PURPLE}%s${RESET}\n" "/usr/share/konsole"
-    printf "%s\n" "正在添加xfce4终端配色方案，您需要手动在终端设置里进行修改。"
+    printf "%s\n" "正在添加konsole终端配色方案，您需要手动在终端设置里进行修改。"
     cd ${TMPDIR}
     rm_color_scheme_tar_xz
     wget -qO "colorschemes.tar.xz" 'https://gitee.com/ak2/konsole-color-schemes/raw/master/konsole.tar.xz'
