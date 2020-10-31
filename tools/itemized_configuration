@@ -114,6 +114,7 @@ configure_konsole_terminal_color() {
     rm_color_scheme_tar_xz
     wget -qO "colorschemes.tar.xz" 'https://gitee.com/ak2/konsole-color-schemes/raw/master/konsole.tar.xz'
     sudo tar -Jxvf "colorschemes.tar.xz" -C /usr/share || su -c "tar -Jxvf colorschemes.tar.xz -C /usr/share"
+    rm_color_scheme_tar_xz
     printf "${GREEN}%s${RESET}\n" "You need to manually modify the color scheme in the terminal settings."
 }
 #################
@@ -157,6 +158,7 @@ configure_xfce_terminal_color() {
     rm_color_scheme_tar_xz
     wget -qO "colorschemes.tar.xz" 'https://gitee.com/mo2/xfce-themes/raw/terminal/colorschemes.tar.xz'
     sudo tar -Jxvf "colorschemes.tar.xz" -C /usr/share/xfce4/terminal || su -c "tar -Jxvf colorschemes.tar.xz -C /usr/share/xfce4/terminal"
+    rm_color_scheme_tar_xz
     DEPENDENCIES=""
     if [ ! -e /usr/bin/mkfontscale ]; then
         DEPENDENCIES="${DEPENDENCIES} xfonts-utils"
