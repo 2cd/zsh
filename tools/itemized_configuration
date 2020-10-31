@@ -61,10 +61,11 @@ zsh_itemized_configuration_menu() {
     TMOE_OPTION=$(whiptail --title "Itemized Configuration" --menu "您想要配置哪个项目?\nWhich configuration do you want to modify?" 0 0 0 \
         "1" "edit .zshrc手动编辑配置" \
         "2" "zsh主题 themes" \
-        "3" "Termux配色 color schemes" \
-        "4" "终端字体 fonts" \
+        "3" "终端字体 fonts" \
+        "4" "konsole终端配色 konsole color schemes" \
         "5" "xfce4终端配色 xfce4-terminal color schemes" \
-        "6" "Set zsh as the default(默认) shell" \
+        "6" "Termux配色 color schemes" \
+        "7" "Set zsh as the default(默认) shell" \
         "0" "🌚 Back to the main menu 返回主菜单" \
         3>&1 1>&2 2>&3)
     ###########
@@ -72,16 +73,48 @@ zsh_itemized_configuration_menu() {
     0 | "") tmoe_zsh_main_menu ;;
     1) edit_zshrc_manually ;;
     2) bash ${TMOE_ZSH_TERMUX_PATH}/themes.sh ;;
-    3) change_the_terminal_color_scheme ;;
-    4) change_the_terminal_font ;;
+    3) change_the_terminal_font ;;
+    4) configure_konsole_terminal_color ;;
     5) configure_xfce_terminal_color ;;
-    6) configure_default_shell ;;
+    6) change_the_terminal_color_scheme ;;
+    7) configure_default_shell ;;
     esac
     ##############################
     press_enter_to_return
     ${RETURN_TO_WHERE}
 }
-############################
+#################
+configure_konsole_terminal_color() {
+    this_feature_is_not_support_android
+    if [[ ! -d "/usr/share/konsole" ]]; then
+        printf "%s\n" "检测到konsole终端目录不存在，您当前可能没有安装konsole终端"
+        if [ ! $(command -v konsole) ]; then
+            printf "${GREEN}%s ${BLUE}%s${RESET}\n" "${TMOE_INSTALLATON_COMMAND}" "${DEPENDENCIES}"
+            do_you_want_to_continue
+            printf "%s\n" "正在安装相关依赖..."
+            case $(id -u) in
+            0)
+                ${TMOE_UPDATE_COMMAND}
+                ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+                ;;
+            *)
+                sudo ${TMOE_UPDATE_COMMAND}
+                sudo ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+                ;;
+            esac
+        fi
+        #printf '%s\n'  'Press Ctrl+C to cancel.'
+        #press_enter_to_continue
+        mkdir -p /usr/share/xfce4/terminal
+        ${TMOE_INSTALLATON_COMMAND} xfce4-terminal || sudo ${TMOE_INSTALLATON_COMMAND} xfce4-terminal
+    fi
+    printf "${PURPLE}%s${RESET}\n" "/usr/share/konsole"
+    printf "%s\n" "正在添加xfce4终端配色方案，您需要手动在终端设置里进行修改。"
+    cd ${TMPDIR}
+    wget -qO "colorschemes.tar.xz" 'https://gitee.com/ak2/konsole-color-schemes/raw/master/konsole.tar.xz'
+    sudo tar -Jxvf "colorschemes.tar.xz" -C /usr/share || su -c "tar -Jxvf colorschemes.tar.xz -C /usr/share"
+}
+#################
 download_iosevka_font() {
     wget -qO 'Iosevka.tar.xz' 'https://gitee.com/mo2/Termux-zsh/raw/p10k/Iosevka.tar.xz'
     tar -xvf 'Iosevka.tar.xz'
@@ -89,7 +122,7 @@ download_iosevka_font() {
     mv -f font.ttf '/usr/share/fonts/truetype/iosevka/Iosevka.ttf'
 }
 ###############
-configure_xfce_terminal_color() {
+this_feature_is_not_support_android() {
     case "${LINUX_DISTRO}" in
     Android)
         printf '%s\n' 'Sorry，此功能不支持Android'
@@ -97,6 +130,9 @@ configure_xfce_terminal_color() {
         zsh_itemized_configuration_menu
         ;;
     esac
+}
+configure_xfce_terminal_color() {
+    this_feature_is_not_support_android
     if [ ! -d "/usr/share/xfce4/terminal" ]; then
         printf "%s\n" "检测到xfce终端目录不存在，您当前可能没有安装xfce终端"
         do_you_want_to_continue
@@ -106,11 +142,12 @@ configure_xfce_terminal_color() {
         ${TMOE_INSTALLATON_COMMAND} xfce4-terminal || sudo ${TMOE_INSTALLATON_COMMAND} xfce4-terminal
     fi
 
-    cd /usr/share/xfce4/terminal
+    #cd /usr/share/xfce4/terminal
+    cd ${TMPDIR}
     printf "%s\n" "/usr/share/xfce4/terminal"
-    printf "%s\n" "正在配置xfce4终端配色..."
-    sudo wget -qO "colorschemes.tar.xz" 'https://gitee.com/mo2/xfce-themes/raw/terminal/colorschemes.tar.xz'
-    sudo tar -Jxvf "colorschemes.tar.xz"
+    printf "${PURPLE}%s${RESET}\n" "正在添加xfce4终端配色方案，您需要手动在终端设置里进行修改。"
+    wget -qO "colorschemes.tar.xz" 'https://gitee.com/mo2/xfce-themes/raw/terminal/colorschemes.tar.xz'
+    sudo tar -Jxvf "colorschemes.tar.xz" -C /usr/share/xfce4/terminal || su -c "tar -Jxvf colorschemes.tar.xz -C /usr/share/xfce4/terminal"
     DEPENDENCIES=""
     if [ ! -e /usr/bin/mkfontscale ]; then
         DEPENDENCIES="${DEPENDENCIES} xfonts-utils"

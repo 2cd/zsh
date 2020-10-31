@@ -31,6 +31,7 @@ get_tmoe_zsh_help_info() {
 ###########
 terminal_color() {
 	RED=$(printf '\033[31m')
+	PURPLE=$(printf '\033[0;35m')
 	GREEN=$(printf '\033[32m')
 	YELLOW=$(printf '\033[33m')
 	BLUE=$(printf '\033[34m')
@@ -406,7 +407,7 @@ tmoe_zsh_main_menu() {
 	#20 50 7
 	RETURN_TO_WHERE='tmoe_zsh_main_menu'
 	# --backtitle "You can select installation for initial installation."
-	TMOE_OPTION=$(whiptail --title "TMOE-ZSH running on ${OSRELEASE}(202009)" --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate." 0 50 0 \
+	TMOE_OPTION=$(whiptail --title "TMOE-ZSH running on ${OSRELEASE}(202011)" --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate." 0 50 0 \
 		"1" "🍭 Installation and configuration 安装与配置" \
 		"2" "🌸 Itemized configuration 分项配置" \
 		"3" "🍀 Plugins 插件管理" \
