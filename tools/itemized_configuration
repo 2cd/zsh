@@ -113,6 +113,7 @@ configure_konsole_terminal_color() {
     cd ${TMPDIR}
     wget -qO "colorschemes.tar.xz" 'https://gitee.com/ak2/konsole-color-schemes/raw/master/konsole.tar.xz'
     sudo tar -Jxvf "colorschemes.tar.xz" -C /usr/share || su -c "tar -Jxvf colorschemes.tar.xz -C /usr/share"
+    printf "${GREEN}%s${RESET}\n" "You need to manually modify the color scheme in the terminal settings."
 }
 #################
 download_iosevka_font() {
@@ -183,6 +184,7 @@ configure_xfce_terminal_color() {
         mkfontdir
         fc-cache
     fi
+    printf "${GREEN}%s${RESET}\n" "You need to manually modify the color scheme in the terminal settings."
 }
 ########################################################
 android_default_shell() {
