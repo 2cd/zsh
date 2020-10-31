@@ -111,6 +111,7 @@ configure_konsole_terminal_color() {
     printf "${PURPLE}%s${RESET}\n" "/usr/share/konsole"
     printf "%s\n" "正在添加xfce4终端配色方案，您需要手动在终端设置里进行修改。"
     cd ${TMPDIR}
+    [[ ! -e "colorschemes.tar.xz" ]] || rm -fv "colorschemes.tar.xz"
     wget -qO "colorschemes.tar.xz" 'https://gitee.com/ak2/konsole-color-schemes/raw/master/konsole.tar.xz'
     sudo tar -Jxvf "colorschemes.tar.xz" -C /usr/share || su -c "tar -Jxvf colorschemes.tar.xz -C /usr/share"
     printf "${GREEN}%s${RESET}\n" "You need to manually modify the color scheme in the terminal settings."
@@ -147,6 +148,7 @@ configure_xfce_terminal_color() {
     cd ${TMPDIR}
     printf "%s\n" "/usr/share/xfce4/terminal"
     printf "${PURPLE}%s${RESET}\n" "正在添加xfce4终端配色方案，您需要手动在终端设置里进行修改。"
+    [[ ! -e "colorschemes.tar.xz" ]] || rm -fv "colorschemes.tar.xz"
     wget -qO "colorschemes.tar.xz" 'https://gitee.com/mo2/xfce-themes/raw/terminal/colorschemes.tar.xz'
     sudo tar -Jxvf "colorschemes.tar.xz" -C /usr/share/xfce4/terminal || su -c "tar -Jxvf colorschemes.tar.xz -C /usr/share/xfce4/terminal"
     DEPENDENCIES=""
