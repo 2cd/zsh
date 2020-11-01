@@ -382,6 +382,7 @@ check_termux_git_and_dialog() {
 ###############################################
 git_clone_tmoe_zsh() {
 	if [ ! -e "${TMOE_ZSH_GIT_DIR}/.git" ]; then
+		rm -rvf ${TMOE_ZSH_GIT_DIR} 2>/dev/null
 		git clone --depth=1 ${TMOE_GIT_REPO} ${TMOE_ZSH_GIT_DIR}
 		source_tmoe_zsh_env
 	else

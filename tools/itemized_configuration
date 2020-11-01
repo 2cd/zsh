@@ -35,12 +35,18 @@ git_clone_nerd_fonts() {
         printf "%s\n" "Do you want to download it?[Y/n]"
         do_you_want_to_continue
         rm -rvf ${LOCAL_FONT_DIR} 2>/dev/null || sudo rm -rvf ${LOCAL_FONT_DIR}
-        mkdir -p ${LOCAL_FONT_DIR}
-        git clone --depth=1 https://gitee.com/ak2/mono-nerd-fonts.git ${LOCAL_FONT_DIR}
-        cd ${LOCAL_FONT_DIR}
+        mkdir -p ${LOCAL_FONT_DIR} 2>/dev/null || sudo mkdir -p ${LOCAL_FONT_DIR}
+        cd ${TMPDIR}
+        if [[ -e .mono-nerd-fonts ]]; then
+            rm -rfv .mono-nerd-fonts || sudo rm -rvf .mono-nerd-fonts
+        fi
+        git clone --depth=1 https://gitee.com/ak2/mono-nerd-fonts.git ${TMPDIR}/.mono-nerd-fonts
+        cd .mono-nerd-fonts
         cat .nerd_fonts_0* >nerd_fonts.tar.xz
+        sudo mv -f nerd_fonts.tar.xz ${LOCAL_FONT_DIR}
+        cd ${LOCAL_FONT_DIR}
         sudo tar -Jxvf nerd_fonts.tar.xz
-        sudo rm -rvf .git .nerd_fonts_0*
+        sudo rm -rvf .git /tmp/.mono-nerd-fonts
         sudo mkfontscale 2>/dev/null
         sudo mkfontdir 2>/dev/null
         sudo fc-cache 2>/dev/null
@@ -57,6 +63,7 @@ termux_git_clone_nerd_fonts() {
     else
         printf "%s\n" "Do you want to download it?[Y/n]"
         do_you_want_to_continue
+        cd ${TMPDIR}
         chmod -Rv 777 ${LOCAL_FONT_DIR} 2>/dev/null
         rm -rvf ${LOCAL_FONT_DIR} 2>/dev/null
         mkdir -p ${LOCAL_FONT_DIR}
@@ -133,7 +140,7 @@ zsh_itemized_configuration_menu() {
         "1" "edit .zshrc手动编辑配置" \
         "2" "zsh themes 主题" \
         "3" "fonts 字体基础包(17.9MiB)" \
-        "4" "fonts-DLC 字体扩展包(139MiB)" \
+        "4" "nerd-fonts-DLC 字体扩展包(139MiB)" \
         "5" "konsole终端配色 color schemes" \
         "6" "xfce4-terminal终端配色 color schemes" \
         "7" "Termux color schemes(only for Android)" \
