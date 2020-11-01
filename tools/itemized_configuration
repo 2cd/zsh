@@ -22,7 +22,7 @@ change_the_terminal_font() {
         #zsh_itemized_configuration_menu
         LOCAL_FONT_DIR="/usr/local/share/fonts/truetype/terminal-fonts"
         printf "${BLUE}%s${RESET}\n" "${LOCAL_FONT_DIR}/fonts"
-        if [ -e "${LOCAL_FONT_DIR}/fonts/Iosevka/Iosevka.ttf" ]; then
+        if [ -e "${LOCAL_FONT_DIR}/fonts/Iosevka/Iosevka Term Nerd Font Complete Mono Windows Compatible.ttf" ]; then
             #su - ${CURRENT_USER_NAME} -c ""
             xdg-open "${LOCAL_FONT_DIR}/fonts" || sudo su - ${CURRENT_USER_NAME} -c "xdg-open ${LOCAL_FONT_DIR}/fonts"
         else
@@ -60,11 +60,11 @@ zsh_itemized_configuration_menu() {
     #zsh主题全平台通用,Termux配色和字体仅适用Android Termux,xfce4终端配色仅适用于linux。You can use zsh theme on all platforms,but termux colors and fonts are only available for Android.
     TMOE_OPTION=$(whiptail --title "Itemized Configuration" --menu "您想要配置哪个项目?\nWhich configuration do you want to modify?" 0 0 0 \
         "1" "edit .zshrc手动编辑配置" \
-        "2" "zsh主题 themes" \
-        "3" "终端字体 fonts" \
-        "4" "konsole终端配色 konsole color schemes" \
-        "5" "xfce4终端配色 xfce4-terminal color schemes" \
-        "6" "Termux配色 color schemes" \
+        "2" "zsh themes 主题" \
+        "3" "fonts 字体基础包(17.9MiB)" \
+        "4" "konsole终端配色 color schemes" \
+        "5" "xfce4-terminal终端配色 color schemes" \
+        "6" "Termux color schemes(only for Android)" \
         "7" "Set zsh as the default(默认) shell" \
         "0" "🌚 Back to the main menu 返回主菜单" \
         3>&1 1>&2 2>&3)

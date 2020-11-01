@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #################
 git_clone_termux_font_files() {
+    [[ -e ${TMOE_ZSH_FONTS_PATH} ]] || rm -rvf ${TMOE_ZSH_FONTS_PATH}
     git clone https://gitee.com/ak2/termux-fonts.git --depth=1 "${TMOE_ZSH_FONTS_PATH}"
     cd ${TMOE_ZSH_FONTS_PATH}
     tar -Jxvf fonts.tar.xz
@@ -8,7 +9,7 @@ git_clone_termux_font_files() {
 ###################
 android_git_clone_fonts() {
     mkdir -p "${TERMUX_PATH}"
-    if [ ! -d "${TMOE_ZSH_FONTS_PATH}/fonts" ]; then
+    if [ ! -d "${TMOE_ZSH_FONTS_PATH}/fonts/SourceCodePro" ]; then
         git_clone_termux_font_files
     fi
     chsh -s zsh
