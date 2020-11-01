@@ -168,25 +168,22 @@ configure_konsole_terminal_color() {
     this_feature_is_not_support_android
     if [[ ! -d "/usr/share/konsole" ]]; then
         printf "%s\n" "检测到konsole终端目录不存在，您当前可能没有安装konsole终端"
-        if [ ! $(command -v konsole) ]; then
-            printf "${GREEN}%s ${BLUE}%s${RESET}\n" "${TMOE_INSTALLATON_COMMAND}" "${DEPENDENCIES}"
-            do_you_want_to_continue
-            printf "%s\n" "正在安装相关依赖..."
-            case $(id -u) in
-            0)
-                ${TMOE_UPDATE_COMMAND}
-                ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
-                ;;
-            *)
-                sudo ${TMOE_UPDATE_COMMAND}
-                sudo ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
-                ;;
-            esac
-        fi
-        #printf '%s\n'  'Press Ctrl+C to cancel.'
-        #press_enter_to_continue
-        mkdir -p /usr/share/xfce4/terminal
-        ${TMOE_INSTALLATON_COMMAND} xfce4-terminal || sudo ${TMOE_INSTALLATON_COMMAND} xfce4-terminal
+    fi
+    if [ ! $(command -v konsole) ]; then
+        DEPENDENCIES='konsole'
+        printf "${GREEN}%s ${BLUE}%s${RESET}\n" "${TMOE_INSTALLATON_COMMAND}" "${DEPENDENCIES}"
+        do_you_want_to_continue
+        printf "%s\n" "正在安装相关依赖..."
+        case $(id -u) in
+        0)
+            #${TMOE_UPDATE_COMMAND}
+            ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+            ;;
+        *)
+            #sudo ${TMOE_UPDATE_COMMAND}
+            sudo ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+            ;;
+        esac
     fi
     printf "${PURPLE}%s${RESET}\n" "/usr/share/konsole"
     printf "%s\n" "正在添加konsole终端配色方案，您需要手动在终端设置里进行修改。"
@@ -224,11 +221,23 @@ configure_xfce_terminal_color() {
     this_feature_is_not_support_android
     if [ ! -d "/usr/share/xfce4/terminal" ]; then
         printf "%s\n" "检测到xfce终端目录不存在，您当前可能没有安装xfce终端"
+        mkdir -p /usr/share/xfce4/terminal || sudo mkdir -p /usr/share/xfce4/terminal
+    fi
+    if [ ! $(command -v xfce4-terminal) ]; then
+        DEPENDENCIES='xfce4-terminal'
+        printf "${GREEN}%s ${BLUE}%s${RESET}\n" "${TMOE_INSTALLATON_COMMAND}" "${DEPENDENCIES}"
         do_you_want_to_continue
-        #printf '%s\n'  'Press Ctrl+C to cancel.'
-        #press_enter_to_continue
-        mkdir -p /usr/share/xfce4/terminal
-        ${TMOE_INSTALLATON_COMMAND} xfce4-terminal || sudo ${TMOE_INSTALLATON_COMMAND} xfce4-terminal
+        printf "%s\n" "正在安装相关依赖..."
+        case $(id -u) in
+        0)
+            #${TMOE_UPDATE_COMMAND}
+            ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+            ;;
+        *)
+            #sudo ${TMOE_UPDATE_COMMAND}
+            sudo ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+            ;;
+        esac
     fi
 
     #cd /usr/share/xfce4/terminal
