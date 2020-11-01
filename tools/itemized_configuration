@@ -12,6 +12,77 @@ change_the_terminal_color_scheme() {
     esac
 }
 ###############
+check_fonts_sha256hash() {
+    LOCAL_FILE_SHA256HASH=$(sha256sum nerd_fonts.tar.xz)
+    CORRENT_SHA256HASH=$(sed -n p sha256sum.txt)
+    case ${LOCAL_FILE_SHA256HASH} in
+    ${CORRENT_SHA256HASH}) ;;
+    *)
+        printf "${PURPLE}%s${RESET}" "校验本地字体包的sha256hash值出错,请重新下载。"
+        rm -fv nerd_fonts.tar.xz
+        ;;
+    *) ;;
+    esac
+}
+git_clone_nerd_fonts() {
+    printf "${BLUE}%s${RESET}\n" "${LOCAL_FONT_DIR}/fonts"
+    if [ -e "${LOCAL_FONT_DIR}/nerd_fonts.tar.xz" ]; then
+        cd ${LOCAL_FONT_DIR}
+        check_fonts_sha256hash
+        sudo tar -Jxvf nerd_fonts.tar.xz
+        xdg-open "${LOCAL_FONT_DIR}/fonts" || sudo su - ${CURRENT_USER_NAME} -c "xdg-open ${LOCAL_FONT_DIR}/fonts"
+    else
+        printf "%s\n" "Do you want to download it?[Y/n]"
+        do_you_want_to_continue
+        rm -rvf ${LOCAL_FONT_DIR} 2>/dev/null || sudo rm -rvf ${LOCAL_FONT_DIR}
+        mkdir -p ${LOCAL_FONT_DIR}
+        git clone --depth=1 https://gitee.com/ak2/mono-nerd-fonts.git ${LOCAL_FONT_DIR}
+        cd ${LOCAL_FONT_DIR}
+        cat .nerd_fonts_0* >nerd_fonts.tar.xz
+        sudo tar -Jxvf nerd_fonts.tar.xz
+        sudo rm -rvf .git .nerd_fonts_0*
+        sudo mkfontscale 2>/dev/null
+        sudo mkfontdir 2>/dev/null
+        sudo fc-cache 2>/dev/null
+        printf "${BLUE}%s${RESET}\n" "${LOCAL_FONT_DIR}/fonts"
+        xdg-open "${LOCAL_FONT_DIR}/fonts" || sudo su - ${CURRENT_USER_NAME} -c "xdg-open ${LOCAL_FONT_DIR}/fonts"
+    fi
+}
+##########
+termux_git_clone_nerd_fonts() {
+    printf "${BLUE}%s${RESET}\n" "${LOCAL_FONT_DIR}/fonts"
+    if [ -e "${LOCAL_FONT_DIR}/nerd_fonts.tar.xz" ]; then
+        cd ${LOCAL_FONT_DIR}
+        tar -Jxvf nerd_fonts.tar.xz
+    else
+        printf "%s\n" "Do you want to download it?[Y/n]"
+        do_you_want_to_continue
+        chmod -Rv 777 ${LOCAL_FONT_DIR} 2>/dev/null
+        rm -rvf ${LOCAL_FONT_DIR} 2>/dev/null
+        mkdir -p ${LOCAL_FONT_DIR}
+        git clone --depth=1 https://gitee.com/ak2/mono-nerd-fonts.git ${LOCAL_FONT_DIR}
+        cd ${LOCAL_FONT_DIR}
+        cat .nerd_fonts_0* >nerd_fonts.tar.xz
+        tar -Jxvf nerd_fonts.tar.xz
+        rm -rvf .git .nerd_fonts_0*
+        printf "${BLUE}%s${RESET}\n" "${LOCAL_FONT_DIR}/fonts"
+    fi
+    bash ${TMOE_ZSH_TERMUX_PATH}/fonts.sh
+}
+download_nerd_fonts_content() {
+    case "${LINUX_DISTRO}" in
+    Android)
+        LOCAL_FONT_DIR=${TMOE_ZSH_FONTS_PATH}
+        termux_git_clone_nerd_fonts
+        ;;
+    *)
+        LOCAL_FONT_DIR="/usr/local/share/fonts/truetype/terminal-fonts"
+        git_clone_nerd_fonts
+        ;;
+    esac
+
+}
+##################
 change_the_terminal_font() {
     case "${LINUX_DISTRO}" in
     Android) bash ${TMOE_ZSH_TERMUX_PATH}/fonts.sh ;;
@@ -62,10 +133,11 @@ zsh_itemized_configuration_menu() {
         "1" "edit .zshrc手动编辑配置" \
         "2" "zsh themes 主题" \
         "3" "fonts 字体基础包(17.9MiB)" \
-        "4" "konsole终端配色 color schemes" \
-        "5" "xfce4-terminal终端配色 color schemes" \
-        "6" "Termux color schemes(only for Android)" \
-        "7" "Set zsh as the default(默认) shell" \
+        "4" "fonts-DLC 字体扩展包(139MiB)" \
+        "5" "konsole终端配色 color schemes" \
+        "6" "xfce4-terminal终端配色 color schemes" \
+        "7" "Termux color schemes(only for Android)" \
+        "8" "Set zsh as the default(默认) shell" \
         "0" "🌚 Back to the main menu 返回主菜单" \
         3>&1 1>&2 2>&3)
     ###########
@@ -74,10 +146,11 @@ zsh_itemized_configuration_menu() {
     1) edit_zshrc_manually ;;
     2) bash ${TMOE_ZSH_TERMUX_PATH}/themes.sh ;;
     3) change_the_terminal_font ;;
-    4) configure_konsole_terminal_color ;;
-    5) configure_xfce_terminal_color ;;
-    6) change_the_terminal_color_scheme ;;
-    7) configure_default_shell ;;
+    4) download_nerd_fonts_content ;;
+    5) configure_konsole_terminal_color ;;
+    6) configure_xfce_terminal_color ;;
+    7) change_the_terminal_color_scheme ;;
+    8) configure_default_shell ;;
     esac
     ##############################
     press_enter_to_return

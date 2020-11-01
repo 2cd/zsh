@@ -70,10 +70,10 @@ get_tmoe_font_help_info() {
 		  此模式为交互式操作，您可以先输${GREEN}zshfont${RESET}启动,接着输入数字序号。
 		  --------------
 		  ${BOLD}${YELLOW}此脚本不包含手动模式${RESET}${RESET}
-		  以下绝大多数字体支持powerline，少部分字体支持powerlevel 10k的特殊字符。
-		  例如：Iosevka，MesloLGS-NF-Bold,MesloLGS-NF-Bold-Italic,MesloLGS-NF-Italic和MesloLGS-NF-Regular。
 		  --------------
 	ENDOFTMOEZSHHELP01
+	#以下绝大多数字体支持powerline，少部分字体支持powerlevel 10k的特殊字符。
+	#例如：Iosevka，MesloLGS-NF-Bold,MesloLGS-NF-Bold-Italic,MesloLGS-NF-Italic和MesloLGS-NF-Regular。
 }
 ######
 choose_termux_font() {
@@ -81,7 +81,7 @@ choose_termux_font() {
 	printf "%s\n" "您可以在${BLUE}此列表${RESET}中选择终端${YELLOW}字体${RESET}。"
 	for TERMUX_FONT in ${FONTS_DIR}/*/{*.ttf,*.otf}; do
 		TERMUX_FONT_FILE[COUNT]=${TERMUX_FONT}
-		printf "%s\n" "[${COUNT}] $(echo ${TERMUX_FONT_FILE[COUNT]} | awk -F '/' '{print $NF}')"
+		printf "%s\n" "[${COUNT}] $(echo ${TERMUX_FONT_FILE[COUNT]} | sed 's@Nerd Font Complete Mono Windows Compatible@@g;s@Windows Compatible@@g;s@Nerd Font@@g' | awk -F '/' '{print $NF}' | sed 's@ .ttf@@g;sed 's@ .otf@@g)"
 		COUNT=$((${COUNT} + 1))
 	done
 	COUNT=$((${COUNT} - 1))
