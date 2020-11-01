@@ -43,7 +43,7 @@ git_clone_nerd_fonts() {
         git clone --depth=1 https://gitee.com/ak2/mono-nerd-fonts.git ${TMPDIR}/.mono-nerd-fonts
         cd .mono-nerd-fonts
         cat .nerd_fonts_0* >nerd_fonts.tar.xz
-        sudo mv -f nerd_fonts.tar.xz ${LOCAL_FONT_DIR}
+        sudo mv -f nerd_fonts.tar.xz sha256sum.txt ${LOCAL_FONT_DIR}
         cd ${LOCAL_FONT_DIR}
         sudo tar -Jxvf nerd_fonts.tar.xz
         sudo rm -rvf .git /tmp/.mono-nerd-fonts
