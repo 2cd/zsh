@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #################
 git_clone_termux_font_files() {
-    [[ -e ${TMOE_ZSH_FONTS_PATH} ]] || rm -rvf ${TMOE_ZSH_FONTS_PATH}
+    [[ ! -e ${TMOE_ZSH_FONTS_PATH} ]] || rm -rvf ${TMOE_ZSH_FONTS_PATH}
     git clone https://gitee.com/ak2/termux-fonts.git --depth=1 "${TMOE_ZSH_FONTS_PATH}"
     cd ${TMOE_ZSH_FONTS_PATH}
     tar -Jxvf fonts.tar.xz
