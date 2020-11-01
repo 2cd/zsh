@@ -79,9 +79,9 @@ get_tmoe_font_help_info() {
 choose_termux_font() {
 	echo -e "The default font is Iosevka.\nYou can choose another one from list below."
 	printf "%s\n" "您可以在${BLUE}此列表${RESET}中选择终端${YELLOW}字体${RESET}。"
-	for TERMUX_FONT in ${FONTS_DIR}/*/{*.ttf,*.otf}; do
+	for TERMUX_FONT in ${FONTS_DIR}/*/{*.ttf,*.TTF,*.otf}; do
 		TERMUX_FONT_FILE[COUNT]=${TERMUX_FONT}
-		printf "%s\n" "[${COUNT}] $(echo ${TERMUX_FONT_FILE[COUNT]} | sed 's@Nerd Font Complete Mono Windows Compatible@@g;s@Windows Compatible@@g;s@Nerd Font@@g' | awk -F '/' '{print $NF}' | sed 's@ .ttf@@g;s@ .otf@@g')"
+		printf "%s\n" "[${COUNT}] $(echo ${TERMUX_FONT_FILE[COUNT]} | awk -F '/' '{print $NF}' | sed 's@Nerd Font Complete Mono Windows Compatible@@g;s@Windows Compatible@@g;s@Nerd Font@@g;s@ .ttf@@g;s@ .otf@@g')"
 		COUNT=$((${COUNT} + 1))
 	done
 	COUNT=$((${COUNT} - 1))
