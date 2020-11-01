@@ -83,7 +83,7 @@ download_nerd_fonts_content() {
         termux_git_clone_nerd_fonts
         ;;
     *)
-        LOCAL_FONT_DIR="/usr/local/share/fonts/truetype/terminal-fonts"
+        LOCAL_FONT_DIR="/usr/local/share/fonts/nerd-fonts/terminal-fonts"
         git_clone_nerd_fonts
         ;;
     esac
@@ -98,7 +98,7 @@ change_the_terminal_font() {
         #printf "%s\n" "Sorry, this feature only supports Android"
         #press_enter_to_return
         #zsh_itemized_configuration_menu
-        LOCAL_FONT_DIR="/usr/local/share/fonts/truetype/terminal-fonts"
+        LOCAL_FONT_DIR="/usr/local/share/fonts/nerd-fonts/terminal-fonts"
         printf "${BLUE}%s${RESET}\n" "${LOCAL_FONT_DIR}/fonts"
         if [ -e "${LOCAL_FONT_DIR}/fonts/Iosevka/Iosevka Term Nerd Font Complete Mono Windows Compatible.ttf" ]; then
             #su - ${CURRENT_USER_NAME} -c ""
@@ -199,10 +199,10 @@ configure_konsole_terminal_color() {
 }
 #################
 download_iosevka_font() {
-    wget -qO 'Iosevka.tar.xz' 'https://gitee.com/mo2/Termux-zsh/raw/p10k/Iosevka.tar.xz'
-    tar -xvf 'Iosevka.tar.xz'
+    wget -qO 'Iosevka.tar.xz' 'https://gitee.com/ak2/iosevka-bold/raw/master/Iosevka.tar.xz'
+    tar -Jxvf 'Iosevka.tar.xz'
     rm -f 'Iosevka.tar.xz'
-    mv -f font.ttf '/usr/share/fonts/truetype/iosevka/Iosevka.ttf'
+    mv -f Iosevka.ttf '/usr/share/fonts/truetype/iosevka/Iosevka.ttf'
 }
 ###############
 this_feature_is_not_support_android() {
