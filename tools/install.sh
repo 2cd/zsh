@@ -349,20 +349,24 @@ tips_of_tmoe_zsh_01() {
     -----------
     ${BOLD}${YELLOW}应用名称 APP NAME${RESET}${RESET}:${BOLD}${BLUE}exa${RESET}${RESET}
     ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}exa${RESET}${RESET}
+    alias lls=ls
     alias ls=exa
     若您的系统满足依赖条件，则ls将alias为exa.
     exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。
     Exa is a modern version of ls. 
     输入${GREEN}lst${RESET},将展示类似于tree的树状列表。
     输入${GREEN}l${RESET},将显示当前目录的文件列表。
+    输入${GREEN}lls${RESET},使用原版ls
     -----------
     ${BOLD}${YELLOW}应用名称 APP NAME${RESET}${RESET}:${BOLD}${BLUE}bat${RESET}${RESET}
     ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}bat${RESET}${RESET}
+    alias lcat=cat
     alias cat=bat
     bat是cat的替代品，支持多语言语法高亮。
     支持自动分页，对于大文本，以 less 命令输出，可使用类似 vim 的快捷键移动光标。 你可以输q退出bat的页面视图，you can type q to quit bat.
     用法示例：${GREEN}bat -l zsh /etc/os-release${RESET}
     输入${GREEN}bat -L${RESET}获取支持的语言
+    ${GREEN}lcat${RESET}命令为原版cat
     ------------
     ${BOLD}${YELLOW}插件名称PLUGIN NAME${RESET}${RESET}:${BOLD}${BLUE}colored-man-pages${RESET}${RESET}
     ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}man${RESET}${RESET} 
