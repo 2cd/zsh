@@ -93,15 +93,16 @@ alias rd=rmdir
 if [ $(command -v exa) ]; then
     DISABLE_LS_COLORS=true
     local LS_BIN_FILE=$(whereis ls 2>/dev/null | awk '{print $2}')
-    alias lls=${LS_BIN_FILE}
-    alias ls="exa -b --color=always" #exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。Exa is a modern version of ls.
+    alias lls=${LS_BIN_FILE} #lls为原版ls
+    #color不应为always
+    alias ls="exa -b --color=auto" #exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。Exa is a modern version of ls.
     alias l='exa -lbah'
     alias la='exa -labgh'
     alias ll='exa -lbgh'
     alias lsa='exa -lbahgR'
     alias lst='exa -lTabgh' #输入lst,将展示类似于tree的树状列表。
 else
-    alias ls='ls --color=always'
+    alias ls='ls --color=auto'
     alias lst='tree -pCsh'
     alias l='ls -lah'
     alias la='ls -lAh'
@@ -112,16 +113,16 @@ fi
 ######
 set_bat_paper_variable() {
     local CAT_BIN_FILE=$(whereis cat 2>/dev/null | awk '{print $2}')
-    alias lcat=${CAT_BIN_FILE}
+    alias lcat=${CAT_BIN_FILE} #lcat为原版cat
     export BAT_PAGER=""
     #export BAT_PAGER="less -m -RFeQ" #自动分页已禁用
 }
 if [ $(command -v batcat) ]; then
     set_bat_paper_variable
-    alias cat='batcat -p ' #bat是cat的替代品，支持多语言语法高亮。支持自动分页，对于大文本，以 less 命令输出，则可使用类似 vim 的快捷键移动光标。
+    alias cat='batcat -p' #bat是cat的替代品，支持多语言语法高亮。支持自动分页，对于大文本，以 less 命令输出，则可使用类似 vim 的快捷键移动光标。
 elif [ $(command -v bat) ]; then
     set_bat_paper_variable
-    alias cat='bat -p ' #输q退出bat的页面视图，you can type q to quit bat.
+    alias cat='bat -p' #输q退出bat的页面视图，you can type q to quit bat.
 fi
 ########
 #########
