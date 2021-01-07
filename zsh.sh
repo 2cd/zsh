@@ -255,9 +255,7 @@ install_dependencies_01() {
 	esac
 	######
 	case $(id -u) in
-	0)
-		${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
-		;;
+	0) ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES} ;;
 	*)
 		if [ $(command -v sudo) ]; then
 			sudo ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}

@@ -52,11 +52,14 @@ remove_tmoe_zsh() {
 }
 ###########
 remove_git_and_zsh() {
-    DEPENDENCIES='git zsh whiptail newt xz dialog exa bat fzf'
-    printf "%s\n" "${RED}${TMOE_REMOVAL_COMMAND} ${DEPENDENCIES}${RESET}"
+    unset DEPENDENCIES
+    DEPENDENCIES=$(sed ":a;N;s/\n/ /g;ta" ${TMOE_LINUX_DIR}/DEPENDENCIES_01.txt)
+    [[ -n ${DEPENDENCIES} ]] || DEPENDENCIES='git zsh whiptail newt xz dialog exa bat fzf'
+    printf "%s\n" "${RED}${TMOE_REMOVAL_COMMAND} ${BLUE}${DEPENDENCIES}${RESET}"
+    printf "%s\n" "If you want to remove other dependencies,manually type ${RED}${TMOE_REMOVAL_COMMAND} ${BLUE}exa bat fzf${RESET}"
     do_you_want_to_continue
     ${TMOE_REMOVAL_COMMAND} ${DEPENDENCIES} 2>/dev/null || sudo ${TMOE_REMOVAL_COMMAND} ${DEPENDENCIES}
-    apt autoremove 2>/dev/null
+    sudo apt autoremove 2>/dev/null
     exit 1
 }
 ##############

@@ -337,33 +337,36 @@ tips_of_tmoe_zsh_01() {
     ------------
     ${BOLD}${YELLOW}插件名称PLUGIN NAME${RESET}${RESET}:${BOLD}${BLUE}z${RESET}${RESET}
     ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}z${RESET}${RESET}
+    ${BOLD}${YELLOW}Description${RESET}${RESET}:记录访问目录，输z获取,输$(z 目录名称)快速跳转  
     若您曾访问过~/sd/Download，则您可以输${YELLOW}z Down${RESET}或${YELLOW}z load${RESET}来快速跳转，访问列表可以输 ${YELLOW}z${RESET}获取。
+    This plugin defines the [z command](https://github.com/rupa/z) that tracks your most visited directories and allows you to access them with very few keystrokes.
+    Just type ${GREEN}z${RESET}.
     ------------
     ${BOLD}${YELLOW}插件名称PLUGIN NAME${RESET}${RESET}:${BOLD}${BLUE}extract${RESET}${RESET}
     ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}x${RESET}${RESET}
     ${BOLD}${YELLOW}Description${RESET}${RESET}: ${BLUE}This plugin defines a function called "extract" that extracts the archive file you pass it, and it supports a wide variety of archive filetypes${RESET}.
-
     例如某文件名为233.tar.xz，则您无需输${YELLOW}tar -Jxf 233.tar.xz${RESET}，只需输${YELLOW}x 233.tar.xz${RESET}。
     同理，若另一文件为233.7z，则您只需输入${YELLOW}x 233.7z${RESET}即可解压。
-    注意：您在解压前必须先安装相关依赖，例如：zip需要unzip，7z需要p7zip，安装方法类似于${TEMP_INSTALLATION_COMMAND} unzip
+    注意：您在解压前必须先安装相关依赖，例如：zip需要unzip，7z需要p7zip，zst需要zstd, 安装方法类似于${TEMP_INSTALLATION_COMMAND} zstd
+    You can type ${GREEN}x 233.tar.zst${RESET} to extract ${BLUE}233.tar.zst${RESET}
     -----------
     ${BOLD}${YELLOW}应用名称 APP NAME${RESET}${RESET}:${BOLD}${BLUE}exa${RESET}${RESET}
     ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}exa${RESET}${RESET}
     alias lls=ls
-    alias ls=exa
+    alias l="exa -lbah"
     若您的系统满足依赖条件，则ls将alias为exa.
     exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。
     Exa is a modern version of ls. 
-    输入${GREEN}lst${RESET},将展示类似于tree的树状列表。
     输入${GREEN}l${RESET},将显示当前目录的文件列表。
+    输入${GREEN}lst${RESET},将展示类似于tree的树状列表。
     输入${GREEN}lls${RESET},使用原版ls
+    You can type ${GREEN}l${RESET} to list current file list.
     -----------
     ${BOLD}${YELLOW}应用名称 APP NAME${RESET}${RESET}:${BOLD}${BLUE}bat${RESET}${RESET}
     ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}bat${RESET}${RESET}
-    alias lcat=cat
-    alias cat=bat
+    alias lcat=/bin/cat
+    alias cat='bat -p'
     bat是cat的替代品，支持多语言语法高亮。
-    支持自动分页，对于大文本，以 less 命令输出，可使用类似 vim 的快捷键移动光标。 你可以输q退出bat的页面视图，you can type q to quit bat.
     用法示例：${GREEN}bat -l zsh /etc/os-release${RESET}
     输入${GREEN}bat -L${RESET}获取支持的语言
     ${GREEN}lcat${RESET}命令为原版cat
@@ -375,12 +378,21 @@ tips_of_tmoe_zsh_01() {
     用法示例：${GREEN}man ssh${RESET}高亮显示ssh-client的文档（用户手册）。
     ${GREEN}man bash${RESET}获取bash的用户手册。
     ------------
-    ${BOLD}${YELLOW}Other${RESET}${RESET}
-    补全插件用法：
-    输入已知命令或函数的部分字符后，按下${BOLD}${BLUE}TAB键${RESET}${RESET}
-    You can press ${BOLD}${BLUE}TAB KEY${RESET}${RESET} to use auto completion plugin.
+    ${BOLD}${YELLOW}插件名称PLUGIN NAME${RESET}${RESET}:${BOLD}${BLUE}sudo${RESET}${RESET}
+    ${BOLD}${YELLOW}Description${RESET}${RESET}: ${BLUE}按两下ESC键,可以在当前命令前加上sudo前缀${RESET}.
+    Easily prefix your current or previous commands with ${GREEN}sudo${RESET} by pressing ${YELLOW}ESC${RESET} twice
     ------------
-    Plugins such as extract, git ,fast-syntax-highlighting , fzf-tab and z have been configured for you. Enjoy the fun of zsh!
+    ${BOLD}${YELLOW}Other${RESET}${RESET}
+    ${BOLD}${YELLOW}补全插件${RESET}${RESET}:输入已知命令或函数的部分字符后，按下${BOLD}${BLUE}TAB键⇄${RESET}${RESET}
+    用法示例：输入${GREEN}zshtheme${RESET}后，按下空格，再按下${BLUE}TAB键${RESET}
+    ${BOLD}${YELLOW}Description${RESET}${RESET}:You can press ${BOLD}${BLUE}TAB KEY ⇄ ${RESET}${RESET} to use auto completion plugin.
+    ------------
+    ${BOLD}${YELLOW}插件名称PLUGIN NAME${RESET}${RESET}:${BOLD}${BLUE}zsh-autosuggestions${RESET}${RESET}
+    ${BOLD}${YELLOW}历史记录插件用法${RESET}${RESET}:输入曾输过的命令，按方向键上${BOLD}${YELLOW}↑${RESET}或右${BOLD}${YELLOW}→${RESET}进行补全。
+    ${BOLD}${YELLOW}Description${RESET}${RESET}:It suggests commands as you type based on history and completions.
+    Just type arrow key ${BOLD}${YELLOW}↑${RESET}or${BOLD}${YELLOW}→${RESET}
+    ------------
+    Plugins such as extract, git, fast-syntax-highlighting, fzf-tab, zshtheme and z have been configured for you. Enjoy the fun of zsh!
 ENDOFTMOEZSHHELPINFO
 }
 ######################

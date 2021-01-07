@@ -350,6 +350,7 @@ install_gnu_linux_dependencies() {
     #apk add -q xz newt tar zsh git wget bash zsh-vcs pv
     #dnf install -y zsh git pv wget xz tar newt
     if [ ! -z "${DEPENDENCIES}" ]; then
+        [[ -s ${TMOE_ZSH_DIR}/DEPENDENCIES_01.txt ]] || printf "%s\n" "${DEPENDENCIES}" >${TMOE_ZSH_DIR}/DEPENDENCIES_01.txt
         printf "%s\n" "正在${YELLOW}安装${RESET}相关${GREEN}软件包${RESET}及其${BLUE}依赖...${RESET}"
         printf "%s\n" "${GREEN}${TMOE_INSTALLATON_COMMAND}${BLUE}${DEPENDENCIES}${RESET}"
         printf "%s\n" "如需${BOLD}${RED}卸载${RESET}${RESET}，请${YELLOW}手动${RESET}输${RED}${TMOE_REMOVAL_COMMAND}${RESET}${BLUE}${DEPENDENCIES}${RESET}"
@@ -358,7 +359,10 @@ install_gnu_linux_dependencies() {
         debian)
             case ${DEPENDENCIES_02} in
             "") install_dependencies_01 ;;
-            *) install_dependencies_02 ;;
+            *)
+                printf "%s\n" "${DEPENDENCIES}" >>${TMOE_ZSH_DIR}/DEPENDENCIES_01.txt
+                install_dependencies_02
+                ;;
             esac
             ;;
         alpine)
