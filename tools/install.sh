@@ -340,7 +340,7 @@ tips_of_tmoe_zsh_01() {
     ${BOLD}${YELLOW}Description${RESET}${RESET}:记录访问目录，输z获取,输$(z 目录名称)快速跳转  
     若您曾访问过~/sd/Download，则您可以输${YELLOW}z Down${RESET}或${YELLOW}z load${RESET}来快速跳转，访问列表可以输 ${YELLOW}z${RESET}获取。
     This plugin defines the [z command](https://github.com/rupa/z) that tracks your most visited directories and allows you to access them with very few keystrokes.
-    Just type ${GREEN}z${RESET}.
+    Just type ${GREEN}z${RESET}
     ------------
     ${BOLD}${YELLOW}插件名称PLUGIN NAME${RESET}${RESET}:${BOLD}${BLUE}extract${RESET}${RESET}
     ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}x${RESET}${RESET}
@@ -384,8 +384,9 @@ tips_of_tmoe_zsh_01() {
     ------------
     ${BOLD}${YELLOW}Other${RESET}${RESET}
     ${BOLD}${YELLOW}补全插件${RESET}${RESET}:输入已知命令或函数的部分字符后，按下${BOLD}${BLUE}TAB键⇄${RESET}${RESET}
-    用法示例：输入${GREEN}zshtheme${RESET}后，按下空格，再按下${BLUE}TAB键${RESET}
+    用法示例：输入${GREEN}zsht${RESET}后，按下${BLUE}⇄${RESET}补全为${GREEN}zshtheme${RESET},按下空格，再按下${BLUE}TAB键${RESET}
     ${BOLD}${YELLOW}Description${RESET}${RESET}:You can press ${BOLD}${BLUE}TAB KEY ⇄ ${RESET}${RESET} to use auto completion plugin.
+    For example,type ${GREEN}git${RESET},and press space key, and press ${BLUE}⇄${RESET}
     ------------
     ${BOLD}${YELLOW}插件名称PLUGIN NAME${RESET}${RESET}:${BOLD}${BLUE}zsh-autosuggestions${RESET}${RESET}
     ${BOLD}${YELLOW}历史记录插件用法${RESET}${RESET}:输入曾输过的命令，按方向键上${BOLD}${YELLOW}↑${RESET}或右${BOLD}${YELLOW}→${RESET}进行补全。
