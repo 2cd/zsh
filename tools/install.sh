@@ -342,14 +342,22 @@ tips_of_tmoe_zsh_01() {
     This plugin defines the [z command](https://github.com/rupa/z) that tracks your most visited directories and allows you to access them with very few keystrokes.
     Just type ${GREEN}z${RESET}
     ------------
-    ${BOLD}${YELLOW}插件名称PLUGIN NAME${RESET}${RESET}:${BOLD}${BLUE}extract${RESET}${RESET}
-    ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}x${RESET}${RESET}
-    ${BOLD}${YELLOW}Description${RESET}${RESET}: ${BLUE}This plugin defines a function called "extract" that extracts the archive file you pass it, and it supports a wide variety of archive filetypes${RESET}.
-    例如某文件名为233.tar.xz，则您无需输${YELLOW}tar -Jxf 233.tar.xz${RESET}，只需输${YELLOW}x 233.tar.xz${RESET}。
-    同理，若另一文件为233.7z，则您只需输入${YELLOW}x 233.7z${RESET}即可解压。
-    注意：您在解压前必须先安装相关依赖，例如：zip需要unzip，7z需要p7zip，zst需要zstd, 安装方法类似于${TEMP_INSTALLATION_COMMAND} zstd
-    You can type ${GREEN}x 233.tar.zst${RESET} to extract ${BLUE}233.tar.zst${RESET}
-    -----------
+    ${BOLD}${YELLOW}插件名称PLUGIN NAME${RESET}${RESET}:${BOLD}${BLUE}colored-man-pages${RESET}${RESET}
+    ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}man${RESET}${RESET} 
+    ${BOLD}${YELLOW}Description${RESET}${RESET}: ${BLUE}man手册彩色输出 This plugin adds colors to man pages.${RESET}.
+    输入${GREEN}man 软件包或命令名称${RESET}获取该软件包的文档。
+    用法示例：${GREEN}man ssh${RESET}高亮显示ssh-client的文档（用户手册）。
+    ${GREEN}man bash${RESET}获取bash的用户手册。
+    ------------
+    ${BOLD}${YELLOW}应用名称 APP NAME${RESET}${RESET}:${BOLD}${BLUE}bat${RESET}${RESET}
+    ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}bat${RESET}${RESET}
+    alias lcat=/bin/cat
+    alias cat='bat -p'
+    bat是cat的替代品，支持多语言语法高亮。
+    用法示例：${GREEN}bat -l zsh /etc/os-release${RESET}
+    输入${GREEN}bat -L${RESET}获取支持的语言
+    ${GREEN}lcat${RESET}命令为原版cat
+    ------------
     ${BOLD}${YELLOW}应用名称 APP NAME${RESET}${RESET}:${BOLD}${BLUE}exa${RESET}${RESET}
     ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}exa${RESET}${RESET}
     alias lls=ls
@@ -362,22 +370,14 @@ tips_of_tmoe_zsh_01() {
     输入${GREEN}lls${RESET},使用原版ls
     You can type ${GREEN}l${RESET} to list current file list.
     -----------
-    ${BOLD}${YELLOW}应用名称 APP NAME${RESET}${RESET}:${BOLD}${BLUE}bat${RESET}${RESET}
-    ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}bat${RESET}${RESET}
-    alias lcat=/bin/cat
-    alias cat='bat -p'
-    bat是cat的替代品，支持多语言语法高亮。
-    用法示例：${GREEN}bat -l zsh /etc/os-release${RESET}
-    输入${GREEN}bat -L${RESET}获取支持的语言
-    ${GREEN}lcat${RESET}命令为原版cat
-    ------------
-    ${BOLD}${YELLOW}插件名称PLUGIN NAME${RESET}${RESET}:${BOLD}${BLUE}colored-man-pages${RESET}${RESET}
-    ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}man${RESET}${RESET} 
-    ${BOLD}${YELLOW}Description${RESET}${RESET}: ${BLUE}man手册彩色输出 This plugin adds colors to man pages.${RESET}.
-    输入${GREEN}man 软件包或命令名称${RESET}获取该软件包的文档。
-    用法示例：${GREEN}man ssh${RESET}高亮显示ssh-client的文档（用户手册）。
-    ${GREEN}man bash${RESET}获取bash的用户手册。
-    ------------
+    ${BOLD}${YELLOW}插件名称PLUGIN NAME${RESET}${RESET}:${BOLD}${BLUE}extract${RESET}${RESET}
+    ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}x${RESET}${RESET}
+    ${BOLD}${YELLOW}Description${RESET}${RESET}: ${BLUE}This plugin defines a function called "extract" that extracts the archive file you pass it, and it supports a wide variety of archive filetypes${RESET}.
+    例如某文件名为233.tar.xz，则您无需输${YELLOW}tar -Jxf 233.tar.xz${RESET}，只需输${YELLOW}x 233.tar.xz${RESET}。
+    同理，若另一文件为233.7z，则您只需输入${YELLOW}x 233.7z${RESET}即可解压。
+    注意：您在解压前必须先安装相关依赖，例如：zip需要unzip，7z需要p7zip，zst需要zstd, 安装方法类似于${TEMP_INSTALLATION_COMMAND} zstd
+    You can type ${GREEN}x 233.tar.zst${RESET} to extract ${BLUE}233.tar.zst${RESET}
+    -----------
     ${BOLD}${YELLOW}插件名称PLUGIN NAME${RESET}${RESET}:${BOLD}${BLUE}sudo${RESET}${RESET}
     ${BOLD}${YELLOW}Description${RESET}${RESET}: ${BLUE}按两下ESC键,可以在当前命令前加上sudo前缀${RESET}.
     Easily prefix your current or previous commands with ${GREEN}sudo${RESET} by pressing ${YELLOW}ESC${RESET} twice
