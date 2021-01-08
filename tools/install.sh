@@ -17,7 +17,11 @@ android_git_clone_fonts() {
 ###########################################
 modify_termux_color_and_font() {
     if [ ! -e "${TERMUX_KEYBOARD_FILE}" ]; then
-        cp -f ${TMOE_ZSH_TERMUX_PATH}/termux.properties ${TERMUX_KEYBOARD_FILE}
+        if (whiptail --title "termux.properties" --yes-button "yes" --no-button "no" --yesno "Your termux.properties is empty,do you want to creat it? It will modify the keyboard layout.\n是否需要创建termux.properties？这将会修改小键盘布局。" 10 50); then
+            cp -f ${TMOE_ZSH_TERMUX_PATH}/termux.properties ${TERMUX_KEYBOARD_FILE}
+        fi
+    else
+        cp -f ${TERMUX_KEYBOARD_FILE} "${TERMUX_KEYBOARD_BACKUP_FILE}"
     fi
     if [ ! -e "${TMOE_ZSH_TERMUX_PATH}/colors.properties" ]; then
         cp -f ${TMOE_ZSH_TERMUX_PATH}/colors.properties ${TERMUX_PATH}/colors.properties
@@ -31,9 +35,6 @@ do_you_want_to_backup_zsh_folder() {
         check_termux_dependencies
         android_git_clone_fonts
         git_clone_tmoe_zsh
-        if [ -f ${TERMUX_KEYBOARD_FILE} ]; then
-            cp -f ${TERMUX_KEYBOARD_FILE} "${TERMUX_KEYBOARD_BACKUP_FILE}"
-        fi
         modify_termux_color_and_font
         ;;
     *)
