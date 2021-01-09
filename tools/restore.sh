@@ -180,7 +180,7 @@ check_dir() {
     START_DIR="${HOME}/sd/Download/backup/zsh"
     for i in /sdcard /sd ${HOME}/sd /media/sd; do
         if [[ -d "${i}" ]]; then
-            START_DIR=${i}
+            START_DIR=${i}/Download/backup/zsh
             break
         fi
     done
