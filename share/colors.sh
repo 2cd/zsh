@@ -45,7 +45,7 @@ case_tmoe_zsh_color_scheme() {
 tmoe_termux_color_env() {
   TMOE_COLOR=''
   case $(uname -o) in
-  Android) [[ -e "${HOME}/.termux" ]] || mkdir -p ${HOME}/.termux ;;
+  Android) [[ -e "${HOME}/.termux" ]] || mkdir -pv ${HOME}/.termux ;;
   *)
     get_tmoe_termux_color_help_info
     printf "%s\n" "${RED}Sorry${RESET}！此功能暂未适配GNU/Linux"

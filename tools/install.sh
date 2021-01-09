@@ -8,7 +8,7 @@ git_clone_termux_font_files() {
 }
 ###################
 android_git_clone_fonts() {
-    mkdir -p "${TERMUX_PATH}"
+    mkdir -pv "${TERMUX_PATH}"
     if [ ! -d "${TMOE_ZSH_FONTS_PATH}/fonts/SourceCodePro" ]; then
         git_clone_termux_font_files
     fi
@@ -98,7 +98,7 @@ check_zsh_dir_permissions() {
 #############
 git_clone_zinit_and_omz() {
     #git clone oh-my-zsh
-    mkdir -p ${ZINIT_DIR}
+    mkdir -pv ${ZINIT_DIR}
     cd ${ZINIT_DIR}
     if [ ! -e "bin/.git" ]; then
         rm -rv bin 2>/dev/null
@@ -129,7 +129,7 @@ git_clone_zinit_and_omz() {
 configure_tmoe_zsh_p10k_theme() {
     DEFAULT_ZSH_THEME_FILE_DIR="${ZINIT_THEME_DIR}/${DEFAULT_ZSH_THEME_FILE_NAME}"
     if [ ! -e "${DEFAULT_ZSH_THEME_FILE_DIR}/${DEFAULT_ZSH_THEME_FILE_NAME}.zsh-theme" ]; then
-        mkdir -p ${DEFAULT_ZSH_THEME_FILE_DIR}
+        mkdir -pv ${DEFAULT_ZSH_THEME_FILE_DIR}
         ln -sv ${OMZ_THEME_DIR}/${DEFAULT_ZSH_THEME_FILE_NAME}.zsh-theme ${DEFAULT_ZSH_THEME_FILE_DIR}
     fi
 }
@@ -138,7 +138,7 @@ configure_tmoe_zsh_default_theme() {
     DEFAULT_ZSH_THEME_FILE_NAME="xiong-chiamiov-plus"
     DEFAULT_ZSH_THEME_FILE_DIR="${ZINIT_THEME_DIR}/${DEFAULT_ZSH_THEME_FILE_NAME}"
     if [ ! -e "${DEFAULT_ZSH_THEME_FILE_DIR}/${DEFAULT_ZSH_THEME_FILE_NAME}.zsh-theme" ]; then
-        mkdir -p ${DEFAULT_ZSH_THEME_FILE_DIR}
+        mkdir -pv ${DEFAULT_ZSH_THEME_FILE_DIR}
         ln -sv ${OMZ_THEME_DIR}/${DEFAULT_ZSH_THEME_FILE_NAME}.zsh-theme ${DEFAULT_ZSH_THEME_FILE_DIR}
     fi
 }
@@ -157,7 +157,7 @@ case_tmoe_zsh_default_theme() {
 #########
 link_omz_plugin_to_zinit() {
     #create zsh plugins目录
-    mkdir -p "${ZINIT_DIR}/plugins"
+    mkdir -pv "${ZINIT_DIR}/plugins"
     cd "${ZINIT_DIR}/plugins"
 
     cd ${OMZ_DIR}/plugins
@@ -447,7 +447,7 @@ change_zsh_theme_and_termux_color() {
     printf '%s\n' ''
     printf "%s\n" "Choose your theme now~"
     #printf '%s\n'  '请选择您的主题'
-    #mkdir -p "${ZINIT_DIR}/themes/_local"
+    #mkdir -pv "${ZINIT_DIR}/themes/_local"
     source ${TMOE_ZSH_TERMUX_PATH}/themes.sh
 }
 ##################

@@ -162,7 +162,7 @@ configure_new_zsh_theme_01() {
 ###########
 rm_zsh_git_theme_dir() {
   rm -rv "${CHOSEN_THEME_DIR}" 2>/dev/null
-  mkdir -p "${ZINIT_THEME_DIR}"
+  mkdir -pv "${ZINIT_THEME_DIR}"
 }
 ###########
 check_catcat() {
@@ -269,7 +269,7 @@ git_clone_zsh_theme_model_01() {
 ##########
 copy_tmoe_zsh_theme() {
   if [ ! -e "${CHOSEN_THEME_FILE}" ]; then
-    mkdir -p "${CHOSEN_THEME_DIR}"
+    mkdir -pv "${CHOSEN_THEME_DIR}"
     if [ -e "${OMZ_THEME_FILE}" ]; then
       ln -sv "${OMZ_THEME_FILE}" ${CHOSEN_THEME_FILE}
     else
@@ -284,7 +284,7 @@ curl_new_zsh_theme_from_git_cdn() {
   GIT_THEME_CDN_URL=$(cat ${TMOE_THEME_FILE}/git-cdn.txt | head -n 1)
   if [ ! -s "${CHOSEN_THEME_FILE}" ]; then
     cat_zsh_theme_readme_md
-    mkdir -p "${CHOSEN_THEME_DIR}"
+    mkdir -pv "${CHOSEN_THEME_DIR}"
     cd "${CHOSEN_THEME_DIR}"
     if [ $(command -v aria2c) ]; then
       aria2c --allow-overwrite=true -o ${TMOE_ZSH_THEME}.zsh-theme ${GIT_THEME_CDN_URL}

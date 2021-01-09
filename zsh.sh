@@ -78,7 +78,7 @@ gnu_linux_env() {
 	CURRENT_DIR=$(pwd)
 	source_tmoe_zsh_env
 	if [ ! -e "${TMOE_ZSH_DIR}" ]; then
-		mkdir -p ${TMOE_ZSH_DIR}
+		mkdir -pv ${TMOE_ZSH_DIR}
 	fi
 	case $(uname -o) in
 	Android) LINUX_DISTRO='Android' ;;

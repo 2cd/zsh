@@ -104,7 +104,7 @@ download_fzf_bin() {
     THE_LATEST_DEB_VERSION=$(curl ${DEB_REPO_URL} | grep -v '.origin' | grep ${ARCH_TYPE} | tail -n 1 | cut -d '=' -f 3 | cut -d '"' -f 2)
     THE_LATEST_ISO_LINK="${DEB_REPO_URL}${THE_LATEST_DEB_VERSION}"
     FZF_TEMP_FOLDER='/tmp/.FZF-BIN-TEMP-FOLDER'
-    mkdir -p ${FZF_TEMP_FOLDER}
+    mkdir -pv ${FZF_TEMP_FOLDER}
     cd ${FZF_TEMP_FOLDER}
     curl -Lo ${THE_LATEST_DEB_VERSION} ${THE_LATEST_ISO_LINK}
 }
@@ -500,15 +500,13 @@ fix_zsh_folder_permissions() {
 }
 ################
 where_is_start_dir() {
-    if [ -e "/sdcard" ]; then
-        START_DIR='/sdcard/Download/backup'
-    elif [ -e "/sd" ]; then
-        START_DIR="/sd/Download/backup"
-    elif [ -e "${HOME}/sd" ]; then
-        START_DIR="${HOME}/sd/Download/backup"
-    else
-        START_DIR="${HOME}/backup"
-    fi
+    START_DIR="${HOME}/sd/Download/backup/zsh"
+    for i in /sdcard /sd ${HOME}/sd /media/sd; do
+        if [[ -d "${i}" ]]; then
+            START_DIR=${i}
+            break
+        fi
+    done
 }
 ############
 tmoe_zsh_main_env "$@"

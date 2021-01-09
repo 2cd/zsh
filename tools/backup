@@ -54,7 +54,7 @@ compress_zsh_dir_as_tar_xz() {
 check_zsh_backup_dir() {
     where_is_start_dir
     if [ ! -d ${START_DIR} ]; then
-        mkdir -p ${START_DIR} || sudo mkdir -p ${START_DIR}
+        mkdir -pv ${START_DIR} || sudo mkdir -pv ${START_DIR}
         cd ${START_DIR}
     else
         cd ${START_DIR}

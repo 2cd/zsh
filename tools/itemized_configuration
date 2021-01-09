@@ -35,7 +35,7 @@ git_clone_nerd_fonts() {
         printf "%s\n" "Do you want to download it?[Y/n]"
         do_you_want_to_continue
         rm -rvf ${LOCAL_FONT_DIR} 2>/dev/null || sudo rm -rvf ${LOCAL_FONT_DIR}
-        mkdir -p ${LOCAL_FONT_DIR} 2>/dev/null || sudo mkdir -p ${LOCAL_FONT_DIR}
+        mkdir -pv ${LOCAL_FONT_DIR} 2>/dev/null || sudo mkdir -pv ${LOCAL_FONT_DIR}
         cd ${TMPDIR}
         if [[ -e .mono-nerd-fonts ]]; then
             rm -rfv .mono-nerd-fonts || sudo rm -rvf .mono-nerd-fonts
@@ -66,7 +66,7 @@ termux_git_clone_nerd_fonts() {
         cd ${TMPDIR}
         chmod -Rv 777 ${LOCAL_FONT_DIR} 2>/dev/null
         rm -rvf ${LOCAL_FONT_DIR} 2>/dev/null
-        mkdir -p ${LOCAL_FONT_DIR}
+        mkdir -pv ${LOCAL_FONT_DIR}
         git clone --depth=1 https://gitee.com/ak2/mono-nerd-fonts.git ${LOCAL_FONT_DIR}
         cd ${LOCAL_FONT_DIR}
         cat .nerd_fonts_0* >nerd_fonts.tar.xz
@@ -105,7 +105,7 @@ change_the_terminal_font() {
             xdg-open "${LOCAL_FONT_DIR}/fonts" || sudo su - ${CURRENT_USER_NAME} -c "xdg-open ${LOCAL_FONT_DIR}/fonts"
         else
             sudo mv -v ${LOCAL_FONT_DIR} ${LOCAL_FONT_DIR}.bak 2>/dev/null
-            sudo mkdir -p ${LOCAL_FONT_DIR}
+            sudo mkdir -pv ${LOCAL_FONT_DIR}
             sudo git clone --depth=1 https://gitee.com/ak2/termux-fonts.git ${LOCAL_FONT_DIR}
             cd ${LOCAL_FONT_DIR}
             sudo tar -Jxvf fonts.tar.xz
@@ -221,7 +221,7 @@ configure_xfce_terminal_color() {
     this_feature_is_not_support_android
     if [ ! -d "/usr/share/xfce4/terminal" ]; then
         printf "%s\n" "检测到xfce终端目录不存在，您当前可能没有安装xfce终端"
-        mkdir -p /usr/share/xfce4/terminal || sudo mkdir -p /usr/share/xfce4/terminal
+        mkdir -pv /usr/share/xfce4/terminal || sudo mkdir -pv /usr/share/xfce4/terminal
     fi
     if [ ! $(command -v xfce4-terminal) ]; then
         DEPENDENCIES='xfce4-terminal'
@@ -271,7 +271,7 @@ configure_xfce_terminal_color() {
     fi
     if [ ! -f '/usr/share/fonts/truetype/iosevka/Iosevka.ttf' ]; then
         printf '%s\n' '正在刷新字体缓存...'
-        mkdir -p /usr/share/fonts/truetype/iosevka/
+        mkdir -pv /usr/share/fonts/truetype/iosevka/
         cd /tmp
         if [ -e "font.ttf" ]; then
             mv -f font.ttf '/usr/share/fonts/truetype/iosevka/Iosevka.ttf'

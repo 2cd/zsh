@@ -53,7 +53,7 @@ remove_tmoe_zsh() {
 ###########
 remove_git_and_zsh() {
     unset DEPENDENCIES
-    DEPENDENCIES=$(sed ":a;N;s/\n/ /g;ta" ${TMOE_LINUX_DIR}/DEPENDENCIES_01.txt)
+    DEPENDENCIES=$(sed ":a;N;s/\n/ /g;ta" ${TMOE_ZSH_DIR}/DEPENDENCIES_01.txt)
     [[ -n ${DEPENDENCIES} ]] || DEPENDENCIES='git zsh whiptail xz-utils exa bat fzf'
     printf "%s\n" "${RED}${TMOE_REMOVAL_COMMAND} ${BLUE}${DEPENDENCIES}${RESET}"
     printf "%s\n" "${RED}rm -fv ${BLUE}/usr/local/bin/bat${RESET}"

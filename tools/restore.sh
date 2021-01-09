@@ -177,13 +177,13 @@ select_file_manually() {
 }
 ###############################################
 check_dir() {
-    if [ -d "/sdcard" ]; then
-        START_DIR='/sdcard/Download/backup'
-    elif [ -d "${HOME}/sd" ]; then
-        START_DIR="${HOME}/sd/Download/backup"
-    else
-        START_DIR="$(pwd)"
-    fi
+    START_DIR="${HOME}/sd/Download/backup/zsh"
+    for i in /sdcard /sd ${HOME}/sd /media/sd; do
+        if [[ -d "${i}" ]]; then
+            START_DIR=${i}
+            break
+        fi
+    done
 }
 ###########
 where_is_start_dir() {
