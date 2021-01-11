@@ -196,10 +196,10 @@ configure_konsole_terminal_color() {
 }
 #################
 download_iosevka_font() {
-    wget -qO 'Iosevka.tar.xz' 'https://gitee.com/ak2/iosevka-bold/raw/master/Iosevka.tar.xz'
+    wget -qO 'Iosevka.tar.xz' 'https://gitee.com/ak2/inconsolata-go-font/raw/master/Iosevka-Term-Mono.tar.xz'
     tar -Jxvf 'Iosevka.tar.xz'
     rm -f 'Iosevka.tar.xz'
-    mv -f Iosevka.ttf '/usr/share/fonts/truetype/iosevka/Iosevka.ttf'
+    mv -f Iosevka.ttf '/usr/share/fonts/truetype/iosevka/Iosevka-Term-Mono.ttf'
 }
 ###############
 this_feature_is_not_support_android() {
@@ -269,7 +269,7 @@ configure_xfce_terminal_color() {
             ;;
         esac
     fi
-    if [ ! -f '/usr/share/fonts/truetype/iosevka/Iosevka.ttf' ]; then
+    if [ ! -f '/usr/share/fonts/truetype/iosevka/Iosevka.ttf' && ! -f '/usr/share/fonts/truetype/iosevka/Iosevka-Term-Mono.ttf' ]; then
         printf '%s\n' '正在刷新字体缓存...'
         mkdir -pv /usr/share/fonts/truetype/iosevka/
         cd /tmp
