@@ -213,7 +213,7 @@ check_gnu_linux_dependencies() {
 ########
 check_gnu_linux_dependencies_01() {
     DEPENDENCIES=""
-    DEPENDENCIES_02='command-not-found zsh git pv wget xz-utils tar whiptail'
+    DEPENDENCIES_02='command-not-found zsh git pv wget xz-utils whiptail'
     case "${LINUX_DISTRO}" in
     debian)
         #apt-file为command-not-found的依赖
@@ -360,7 +360,7 @@ install_gnu_linux_dependencies() {
             case ${DEPENDENCIES_02} in
             "") install_dependencies_01 ;;
             *)
-                printf "%s\n" "${DEPENDENCIES_02}" >>${TMOE_ZSH_DIR}/DEPENDENCIES_01.txt
+                #printf "%s\n" "${DEPENDENCIES_02}" >>${TMOE_ZSH_DIR}/DEPENDENCIES_01.txt
                 install_dependencies_02
                 ;;
             esac
