@@ -77,7 +77,7 @@ check_zsh_backup_dir() {
 
     ZSH_BACKUP_FILES="${HOME}/.zshrc ${ZINIT_DIR}"
     #绝对路径
-    for i in ${HOME}/.z ${HOME}/.zsh_history ${TMOE_ZSH_GIT_DIR} ${TERMUX_PATH} ${HOME}/.p10k.zsh ${HOME}/.cache/gitstatus; do
+    for i in ${HOME}/.z ${HOME}/.zsh_history ${TMOE_ZSH_GIT_DIR} ${TERMUX_PATH} ${HOME}/.p10k.zsh ${HOME}/.cache/gitstatus ${HOME}/.zshenv ${HOME}/.zprofile ${HOME}/.zlogin ${HOME}/.zlogout; do
         if [ -e "${i}" ]; then
             ZSH_BACKUP_FILES="${ZSH_BACKUP_FILES} ${i}"
         fi
