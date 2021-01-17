@@ -235,7 +235,7 @@ configure_p10k() {
   fi
   P10K_CONFIG_FILE="${HOME}/.p10k.zsh"
   if [ ! -e "${P10K_CONFIG_FILE}" ]; then
-    curl -Lo ${P10K_CONFIG_FILE} 'https://gitee.com/ak2/p10k_config/raw/master/.p10k.zsh'
+    curl -Lo ${P10K_CONFIG_FILE} 'https://github.com/2moe/p10k_config/raw/master/.p10k.zsh'
     chmod a+r ${P10K_CONFIG_FILE}
   fi
 

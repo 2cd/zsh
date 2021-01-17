@@ -16,3 +16,4 @@ sed -i 's@gitee.com/ak2/fast-syntax-highlighting@github.com/zdharma/fast-syntax-
 sed -i 's@gitee.com/ak2/zsh-autosuggestions@github.com/zsh-users/zsh-autosuggestions@g' zsh.sh ./tools/*sh
 sed -i 's@gitee.com/ak2/zinit.git@github.com/zdharma/zinit.git@g' ./tools/*sh
 sed -i 's@gitee.com/mo2/zsh@github.com/2moe/tmoe-zsh@g' zsh.sh
+sed -i 's@gitee.com/ak2/p10k_config/@github.com/2moe/p10k_config/@g' share/themes.sh
