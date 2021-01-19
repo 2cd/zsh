@@ -196,7 +196,8 @@ configure_konsole_terminal_color() {
 }
 #################
 download_iosevka_font() {
-    wget -qO 'Iosevka.tar.xz' 'https://gitee.com/ak2/inconsolata-go-font/raw/master/Iosevka-Term-Mono.tar.xz'
+    wget -qO 'Iosevka.tar.xz' 'https://gitee.com/ak2/inconsolata-go-font/raw/master/Iosevka-Term-Mono.tar.xz' || curl -Lo 'Iosevka-Term-Mono.tar.xz' "https://github.com/cu233/inconsolata-go-font/raw/master/Iosevka-Term-Mono.tar.xz"
+    tar -Jxvf 'Iosevka-Term-Mono.tar.xz'
     tar -Jxvf 'Iosevka.tar.xz'
     rm -f 'Iosevka.tar.xz'
     mv -f Iosevka.ttf '/usr/share/fonts/truetype/iosevka/Iosevka-Term-Mono.ttf'
