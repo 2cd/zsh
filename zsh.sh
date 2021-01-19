@@ -258,9 +258,9 @@ install_dependencies_01() {
 	0) ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES} ;;
 	*)
 		if [ $(command -v sudo) ]; then
-			sudo ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+			sudo ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES} || sudo ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES} || su -c "${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}"
 		else
-			su -c "${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}"
+			su -c "${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}" || su -c "${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}" || su -c "${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}"
 		fi
 		;;
 	esac
@@ -270,15 +270,15 @@ install_dependencies_02() {
 	case $(id -u) in
 	0)
 		apt update
-		apt install -y ${DEPENDENCIES} || apt install -y ${DEPENDENCIES_02}
+		apt install -y ${DEPENDENCIES} || apt install -y ${DEPENDENCIES_02} || apt-get install -y ${DEPENDENCIES_02}
 		;;
 	*)
 		if [ $(command -v sudo) ]; then
 			sudo apt update
-			sudo apt install -y ${DEPENDENCIES} || sudo apt install -y ${DEPENDENCIES_02}
+			sudo apt install -y ${DEPENDENCIES} || sudo apt install -y ${DEPENDENCIES_02} || su -c "apt install -y ${DEPENDENCIES_02}"
 		else
 			su -c "apt update"
-			su -c "apt install -y ${DEPENDENCIES} || apt install -y ${DEPENDENCIES_02}"
+			su -c "apt install -y ${DEPENDENCIES} || apt install -y ${DEPENDENCIES_02}" || apt-get install -y "${DEPENDENCIES_02}"
 		fi
 		;;
 	esac
