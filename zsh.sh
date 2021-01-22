@@ -9,7 +9,7 @@ main() {
 		upgrade_tmoe_zsh_manager
 		;;
 	h | -h | --h | --help) get_tmoe_zsh_help_info ;;
-	--tmoe_container_automatic_configure)
+	--tmoe_container_auto_configure | --auto)
 		TMOE_CONTAINER_AUTO_CONFIGURE='true'
 		tmoe_zsh_installation
 		;;
@@ -24,7 +24,7 @@ get_tmoe_zsh_help_info() {
 	cat <<-'EOF'
 		u                                                                            --更新(update tmoe-zsh)
 		h                                                                            --get help info
-		--tmoe_container_automatic_configure                                          --容器环境自动配置zsh
+		--auto                                                                       --容器环境自动配置zsh
 		p                                                                            -- 插件管理器 plugins manager
 	EOF
 }
@@ -274,7 +274,7 @@ install_dependencies_02() {
 		;;
 	*)
 		if [ $(command -v sudo) ]; then
-			sudo apt update
+			sudo apt update || su -c "apt update"
 			sudo apt install -y ${DEPENDENCIES} || sudo apt install -y ${DEPENDENCIES_02} || su -c "apt install -y ${DEPENDENCIES_02}"
 		else
 			su -c "apt update"
