@@ -11,13 +11,13 @@ tmoe_zsh_02_main() {
 			online                                                                       --加载在线文件 Load online file
 			u                                                                            --更新(update tmoe-zsh)
 			h                                                                            --get help info
-			--tmoe_container_automatic_configure                                         --容器环境自动配置zsh
+			--auto                                                                       --容器环境自动配置zsh
 			p                                                                            -- 插件管理器 plugins manager
 		EOF
 		;;
 	u | up | -u) source ${TMOE_ZSH_GIT_DIR}/zsh.sh -u ;;
 	h | -h | --h | --help) source ${TMOE_ZSH_GIT_DIR}/zsh.sh -h ;;
-	--tmoe_container_automatic_configure) source ${TMOE_ZSH_GIT_DIR}/zsh.sh --tmoe_container_automatic_configure ;;
+	--tmoe_container_auto_configure|--auto) source ${TMOE_ZSH_GIT_DIR}/zsh.sh --tmoe_container_automatic_configure ;;
 	p | -p | plugin) source ${TMOE_ZSH_GIT_DIR}/zsh.sh -p ;;
 	local) check_local_git_dir ;;
 	ol | online) curl_tmoe_zsh_script_file ;;
