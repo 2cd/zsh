@@ -176,7 +176,7 @@ check_linux_distro() {
 	if grep -Eq 'debian|ubuntu|deepin|uos' "/etc/os-release" 2>/dev/null; then
 		LINUX_DISTRO='debian'
 		TMOE_UPDATE_COMMAND='apt update'
-		TMOE_INSTALLATON_COMMAND='apt install -y'
+		TMOE_INSTALLATON_COMMAND='eatmydata apt install -y'
 		TMOE_REMOVAL_COMMAND='apt purge -y'
 		if grep -q 'ubuntu' /etc/os-release; then
 			DEBIAN_DISTRO='ubuntu'
@@ -269,13 +269,13 @@ install_dependencies_01() {
 install_dependencies_02() {
 	case $(id -u) in
 	0)
-		apt update
-		apt install -y ${DEPENDENCIES} || apt install -y ${DEPENDENCIES_02} || apt-get install -y ${DEPENDENCIES_02}
+		eatmydata apt update || apt update
+		eatmydata apt install -y ${DEPENDENCIES} || apt-get install -y ${DEPENDENCIES} || eatmydata apt install -y ${DEPENDENCIES_02} || apt-get install -y ${DEPENDENCIES_02}
 		;;
 	*)
 		if [ $(command -v sudo) ]; then
-			sudo apt update || su -c "apt update"
-			sudo apt install -y ${DEPENDENCIES} || sudo apt install -y ${DEPENDENCIES_02} || su -c "apt install -y ${DEPENDENCIES_02}"
+			sudo eatmydata apt update || su -c "apt update"
+			sudo eatmydata apt install -y ${DEPENDENCIES} || sudo apt install -y ${DEPENDENCIES} || sudo apt install -y ${DEPENDENCIES_02} || su -c "apt install -y ${DEPENDENCIES_02}"
 		else
 			su -c "apt update"
 			su -c "apt install -y ${DEPENDENCIES} || apt install -y ${DEPENDENCIES_02}" || apt-get install -y "${DEPENDENCIES_02}"
@@ -328,6 +328,16 @@ check_gnu_linux_git_and_whiptail() {
 		*) DEPENDENCIES="${DEPENDENCIES} newt" ;;
 		esac
 	fi
+	case "${LINUX_DISTRO}" in
+	debian)
+		if [ ! $(command -v eatmydata) ]; then
+			printf "%s\n" "apt install -y eatmydata"
+			apt update
+			apt install -y eatmydata
+			#DEPENDENCIES="${DEPENDENCIES} eatmydata"
+		fi
+		;;
+	esac
 	#########
 	if [ ! -z "${DEPENDENCIES}" ]; then
 		installing_dependencies

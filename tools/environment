@@ -11,8 +11,8 @@ tmoe_zsh_main_env() {
 }
 ##############
 check_current_user_name_and_group() {
-    CURRENT_USER_NAME=$(cat /etc/passwd | grep "${HOME}" | awk -F ':' '{print $1}' | head -n 1)
-    CURRENT_USER_GROUP=$(cat /etc/passwd | grep "${HOME}" | awk -F ':' '{print $5}' | cut -d ',' -f 1 | head -n 1)
+    CURRENT_USER_NAME=$(grep "${HOME}" /etc/passwd | awk -F ':' '{print $1}' | head -n 1)
+    CURRENT_USER_GROUP=$(grep "${HOME}" /etc/passwd | awk -F ':' '{print $5}' | cut -d ',' -f 1 | head -n 1)
     if [ -z "${CURRENT_USER_GROUP}" ]; then
         CURRENT_USER_GROUP=${CURRENT_USER_NAME}
     fi
@@ -219,6 +219,13 @@ check_gnu_linux_dependencies_01() {
         #apt-file为command-not-found的依赖
         if [ ! -d /usr/share/command-not-found ] && [ ! -e "/usr/lib/command-not-found" ]; then
             DEPENDENCIES="${DEPENDENCIES} command-not-found"
+        fi
+
+        if [ ! $(command -v eatmydata) ]; then
+            printf "%s\n" "apt install -y eatmydata"
+            apt update
+            apt install -y eatmydata
+            DEPENDENCIES="${DEPENDENCIES} eatmydata"
         fi
 
         if [ ! -d /usr/share/doc/fonts-powerline ]; then
