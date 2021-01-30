@@ -397,7 +397,7 @@ check_gnu_linux_dependencies_02() {
     if [ ! $(command -v batcat) ] && [ ! $(command -v bat) ] && [ ! -e ${TMOE_ZSH_DIR}/non_install_bat ]; then
         #gentoo:sys-apps/bat
         case "${LINUX_DISTRO}" in
-        arch | debian) DEPENDENCIES="${DEPENDENCIES} bat" ;;
+        arch | debian | alpine | void | suse | gentoo) DEPENDENCIES="${DEPENDENCIES} bat" ;;
         redhat)
             case "${REDHAT_DISTRO}" in
             fedora) DEPENDENCIES="${DEPENDENCIES} bat" ;;
