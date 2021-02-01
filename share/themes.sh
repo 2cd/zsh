@@ -360,7 +360,8 @@ select_termux_color() {
 #########
 #echo -e "If it does not take effect, please ${YELLOW}restart${RESET} the terminal app.\n若修改完成后${RED}未生效${RESET}，则建议您${YELLOW}重启终端${RESET}。"
 choose_zsh_theme() {
-  echo -e "The default theme is powerlevel 10k.\nYou can choose another one from the list below"
+  printf "%s\n" "The ${YELLOW}default theme${RESET} is ${PURPLE}powerlevel 10k${RESET}."
+  printf "%s\n" "You can choose ${GREEN}another one${RESET} from ${BLUE}list below${RESET}."
   printf "%s\n" "您可以在${BLUE}此列表${RESET}中选择${YELLOW}zsh主题${RESET}。"
   select_termux_color
   #source "${ZSHRC_FILE}" 2>/dev/null

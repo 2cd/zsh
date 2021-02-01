@@ -136,7 +136,8 @@ select_termux_color() {
 }
 ############
 choose_termux_color() {
-  echo -e "The default color scheme is monokai dark.\nYou can choose another one from the list below"
+  printf "%s\n" "The ${YELLOW}default color scheme${RESET} is ${PURPLE}monokai dark${RESET}."
+  printf "%s\n" "You can choose ${GREEN}another one${RESET} from ${BLUE}list below${RESET}."
   printf "%s\n" "您可以在${BLUE}此列表${RESET}中选择终端${YELLOW}配色${RESET}。"
   select_termux_color
   #printf "%s\n"  "您可以输${YELLOW}zshcolor${RESET} 来更改${BLUE}配色${RESET},you can type ${GREEN}zshcolor${RESET} to change the ${BLUE}color${RESET}."
