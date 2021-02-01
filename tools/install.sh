@@ -29,6 +29,12 @@ modify_termux_color_and_font() {
 }
 ###############
 do_you_want_to_backup_zsh_folder() {
+    unset P10K_STYLE
+    if [[ ${TMOE_CONTAINER_AUTO_CONFIGURE} != true && ! -s ${HOME}/.p10k.zsh ]]; then
+        which_p10k_style_do_you_prefer
+    else
+        P10K_STYLE=round
+    fi
     cp "${HOME}/.zshrc" "${HOME}/.zshrc.bak.$(date +%Y.%m.%d-%H:%M:%S)" 2>/dev/null
     case "${LINUX_DISTRO}" in
     Android)
@@ -46,6 +52,13 @@ do_you_want_to_backup_zsh_folder() {
     onekey_configure_tmoe_zsh
 }
 ################################
+which_p10k_style_do_you_prefer() {
+    if (whiptail --title "p10k style" --yes-button "round" --no-button "sharp" --yesno "The default theme is powerlevel 10k.\nWhich p10k style do you prefer?" 8 50); then
+        P10K_STYLE=round
+    else
+        P10K_STYLE=sharp
+    fi
+}
 gnu_linux_chsh_zsh() {
     if [ $(command -v chsh) ]; then
         [[ "$(cat /etc/passwd | grep "${HOME}" | grep zsh)" ]] || chsh -s $(command -v zsh) || sudo chsh -s $(command -v zsh)
@@ -144,6 +157,18 @@ configure_tmoe_zsh_default_theme() {
 }
 ##########
 case_tmoe_zsh_default_theme() {
+    P10K_CONFIG_FILE="${HOME}/.p10k.zsh"
+    case ${P10K_STYLE} in
+    round | sharp)
+        cp -f ${TMOE_ZSH_CONFIG_DIR}/p10k/.p10k-${P10K_STYLE}.zsh ${P10K_CONFIG_FILE}
+        chmod a+x -v ${P10K_CONFIG_FILE}
+        ;;
+    esac
+    unset NON_EXEC_ZSH
+    case ${LINUX_DISTRO} in
+    Android) NON_EXEC_ZSH=true ;;
+    esac
+    ONKEY_INSTALLATION=true
     case "${TMOE_CONTAINER_AUTO_CONFIGURE}" in
     true)
         case ${LINUX_DISTRO} in
@@ -151,8 +176,12 @@ case_tmoe_zsh_default_theme() {
         *) source ${TMOE_ZSH_TERMUX_PATH}/themes.sh -p10k ;;
         esac
         ;;
-    *) configure_tmoe_zsh_default_theme ;;
+    *)
+        configure_tmoe_zsh_default_theme
+        source ${TMOE_ZSH_TERMUX_PATH}/themes.sh -p10k
+        ;;
     esac
+    unset ONKEY_INSTALLATION
 }
 #########
 link_omz_plugin_to_zinit() {
@@ -433,6 +462,11 @@ onekey_configure_tmoe_zsh() {
 ###########################################
 change_zsh_theme_and_termux_color() {
     cd ${CURRENT_DIR}
+    printf '%s\n' ''
+    printf "%s\n" "Choose your theme now~"
+    #printf '%s\n'  '请选择您的主题'
+    #mkdir -pv "${ZINIT_DIR}/themes/_local"
+    source ${TMOE_ZSH_TERMUX_PATH}/themes.sh
     case "${LINUX_DISTRO}" in
     Android)
         printf "%s\n" "Choose your color scheme now~"
@@ -444,11 +478,6 @@ change_zsh_theme_and_termux_color() {
         bash ${TMOE_ZSH_TERMUX_PATH}/fonts.sh
         ;;
     esac
-    printf '%s\n' ''
-    printf "%s\n" "Choose your theme now~"
-    #printf '%s\n'  '请选择您的主题'
-    #mkdir -pv "${ZINIT_DIR}/themes/_local"
-    source ${TMOE_ZSH_TERMUX_PATH}/themes.sh
 }
 ##################
 do_you_want_to_backup_zsh_folder

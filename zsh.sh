@@ -66,6 +66,7 @@ gnu_linux_env() {
 	TMOE_ZSH_FONTS_PATH="${TMOE_ZSH_DIR}/fonts"
 	TMOE_ZSH_GIT_DIR="${TMOE_ZSH_DIR}/git"
 	TMOE_ZSH_TERMUX_PATH="${TMOE_ZSH_DIR}/git/share"
+	TMOE_ZSH_CONFIG_DIR="${TMOE_ZSH_TERMUX_PATH}/config"
 	TMOE_ZSH_TOOL_DIR="${TMOE_ZSH_GIT_DIR}/tools"
 	PLUGIN_SCRIPT="${TMOE_ZSH_TOOL_DIR}/plugins.sh"
 	RESTORE_SCRIPT="${TMOE_ZSH_TOOL_DIR}/restore.sh"
@@ -416,7 +417,7 @@ tmoe_zsh_main_menu() {
 	#20 50 7
 	RETURN_TO_WHERE='tmoe_zsh_main_menu'
 	# --backtitle "You can select installation for initial installation."
-	TMOE_OPTION=$(whiptail --title "TMOE-ZSH running on ${OSRELEASE}(202011)" --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate." 0 50 0 \
+	TMOE_OPTION=$(whiptail --title "TMOE-ZSH running on ${OSRELEASE}(202102)" --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate." 0 50 0 \
 		"1" "🍭 Installation and configuration 安装与配置" \
 		"2" "🌸 Itemized configuration 分项配置" \
 		"3" "🍀 Plugins 插件管理" \

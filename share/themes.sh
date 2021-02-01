@@ -24,6 +24,11 @@ tmoe_theme_main() {
   case_tmoe_zsh_theme
 }
 ##############
+exec_zsh() {
+  if [[ ${NON_EXEC_ZSH} != true && ${TMOE_CONTAINER_AUTO_CONFIGURE} != true && ${ONKEY_INSTALLATION} != true ]]; then
+    exec zsh
+  fi
+}
 case_tmoe_zsh_theme() {
   case ${TMOE_THEME} in
   "") ;;
@@ -31,10 +36,7 @@ case_tmoe_zsh_theme() {
     TMOE_ZSH_THEME="${TMOE_THEME}"
     temp_zsh_theme_env
     case_zsh_theme
-    case "${TMOE_CONTAINER_AUTO_CONFIGURE}" in
-    true) ;;
-    *) exec zsh ;;
-    esac
+    exec_zsh
     ;;
   esac
 }
@@ -125,6 +127,7 @@ tmoe_zsh_theme_env() {
   ZINIT_THEME_DIR="${ZINIT_DIR}/themes/_local"
   OMZ_DIR="${ZINIT_DIR}/omz"
   OMZ_THEME_DIR="${OMZ_DIR}/themes"
+  TMOE_ZSH_CONFIG_DIR="${HOME}/.config/tmoe-zsh/git/share/config"
   TMOE_THEME_DIR="${HOME}/.config/tmoe-zsh/git/share/themes"
   #ZSH_CUSTOM_THEME_PATH="${OMZ_DIR}/custom/themes"
   ZSHRC_FILE="${HOME}/.zshrc"
@@ -179,7 +182,7 @@ cat_zsh_theme_readme_md() {
   check_catcat
   case ${CATCAT} in
   "") cat ${TMOE_THEME_FILE}/README_min.md ;;
-  *) cat ${TMOE_THEME_FILE}/README_min.md | head -n 16 | ${CATCAT} -l markdown --pager "less -m -RFeQ" ;;
+  *) cat ${TMOE_THEME_FILE}/README_min.md | head -n 16 | ${CATCAT} -l markdown -ppn ;;
   esac
 }
 ############
@@ -192,7 +195,9 @@ cat_zsh_theme_readme_full_md() {
 }
 ############
 check_readme_file() {
-  if [ -e "${CHOSEN_THEME_DIR}/README.md" ]; then
+  if [[ ${ONKEY_INSTALLATION} = true ]]; then
+    cat_zsh_theme_readme_md
+  elif [[ -e "${CHOSEN_THEME_DIR}/README.md" ]]; then
     README_LINE_NUM=$(wc -l "${CHOSEN_THEME_DIR}/README.md" | awk '{print $1}')
     cat_zsh_theme_readme_full_md
   elif [ -e "${TMOE_THEME_FILE}/README_min.md" ]; then
@@ -235,7 +240,11 @@ configure_p10k() {
   fi
   P10K_CONFIG_FILE="${HOME}/.p10k.zsh"
   if [ ! -e "${P10K_CONFIG_FILE}" ]; then
-    curl -Lo ${P10K_CONFIG_FILE} 'https://github.com/2moe/p10k_config/raw/master/.p10k.zsh'
+    cp -f ${TMOE_ZSH_CONFIG_DIR}/p10k/.p10k-round.zsh ${P10K_CONFIG_FILE}
+  fi
+
+  if [ ! -s "${P10K_CONFIG_FILE}" ]; then
+    curl -Lo ${P10K_CONFIG_FILE} 'https://github.com/2moe/p10k_config/raw/master/.p10k-round.zsh'
     chmod a+r ${P10K_CONFIG_FILE}
   fi
 
@@ -337,7 +346,7 @@ select_termux_color() {
       printf "%s\n" "${BLUE}${TMOE_ZSH_THEME}${RESET}"
       temp_zsh_theme_env
       case_zsh_theme
-      exec zsh
+      exec_zsh
       break
       ;;
     *)
@@ -351,7 +360,7 @@ select_termux_color() {
 #########
 #echo -e "If it does not take effect, please ${YELLOW}restart${RESET} the terminal app.\n若修改完成后${RED}未生效${RESET}，则建议您${YELLOW}重启终端${RESET}。"
 choose_zsh_theme() {
-  echo -e "The default theme is xiong-chiamiov-plus.\nYou can choose another one from the list below"
+  echo -e "The default theme is powerlevel 10k.\nYou can choose another one from the list below"
   printf "%s\n" "您可以在${BLUE}此列表${RESET}中选择${YELLOW}zsh主题${RESET}。"
   select_termux_color
   #source "${ZSHRC_FILE}" 2>/dev/null
