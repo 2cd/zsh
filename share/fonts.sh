@@ -77,7 +77,7 @@ get_tmoe_font_help_info() {
 }
 ######
 choose_termux_font() {
-	echo -e "The default font is Iosevka.\nYou can choose another one from list below."
+	echo -e "The default font is InconsolataGo Bold.\nYou can choose another one from list below."
 	printf "%s\n" "您可以在${BLUE}此列表${RESET}中选择终端${YELLOW}字体${RESET}。"
 	for TERMUX_FONT in ${FONTS_DIR}/*/{*.ttf,*.TTF,*.otf}; do
 		TERMUX_FONT_FILE[COUNT]=${TERMUX_FONT}
