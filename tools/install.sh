@@ -367,7 +367,7 @@ tips_of_tmoe_zsh_01() {
     ------------
     ${BOLD}${YELLOW}插件名称PLUGIN NAME${RESET}${RESET}:${BOLD}${BLUE}z${RESET}${RESET}
     ${BOLD}${YELLOW}命令COMMAND${RESET}${RESET}:${BOLD}${BLUE}z${RESET}${RESET}
-    ${BOLD}${YELLOW}Description${RESET}${RESET}:记录访问目录，输z获取,输$(z 目录名称)快速跳转  
+    ${BOLD}${YELLOW}Description${RESET}${RESET}:记录访问目录，输z获取,输\$(z 目录名称)快速跳转  
     若您曾访问过~/sd/Download，则您可以输${YELLOW}z Down${RESET}或${YELLOW}z load${RESET}来快速跳转，访问列表可以输 ${YELLOW}z${RESET}获取。
     This plugin defines the [z command](https://github.com/rupa/z) that tracks your most visited directories and allows you to access them with very few keystrokes.
     Just type ${GREEN}z${RESET}
