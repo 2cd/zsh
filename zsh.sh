@@ -302,7 +302,7 @@ installing_dependencies() {
 	printf "%s\n" "Tmoe-zsh will ${YELLOW}install${RESET} relevant ${BLUE}dependencies${RESET} for you."
 	printf "%s\n" "正在${YELLOW}安装${RESET}相关${GREEN}软件包${RESET}及其${BLUE}依赖...${RESET}"
 	printf "%s\n" "${GREEN}${TMOE_INSTALLATON_COMMAND}${BLUE}${DEPENDENCIES}${RESET}"
-	printf "%s\n" "If you want to ${BOLD}${RED}remove it${RESET}${RESET}，please ${YELLOW}type manually ${PURPLE}${TMOE_REMOVAL_COMMAND} ${BLUE}${DEPENDENCIES}${RESET}"
+	printf "%s\n" "If you want to ${BOLD}${RED}remove it${RESET}${RESET}，please ${YELLOW}manually type ${PURPLE}${TMOE_REMOVAL_COMMAND} ${BLUE}${DEPENDENCIES}${RESET}"
 }
 ###########
 check_gnu_linux_git_and_whiptail() {
