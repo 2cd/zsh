@@ -174,6 +174,7 @@ configure_konsole_terminal_color() {
         printf "${GREEN}%s ${BLUE}%s${RESET}\n" "${TMOE_INSTALLATON_COMMAND}" "${DEPENDENCIES}"
         do_you_want_to_continue
         printf "%s\n" "正在安装相关依赖..."
+        printf "%s\n" "Tmoe-zsh will ${YELLOW}install${RESET} relevant ${BLUE}dependencies${RESET} for you."
         case $(id -u) in
         0)
             #${TMOE_UPDATE_COMMAND}
@@ -229,6 +230,7 @@ configure_xfce_terminal_color() {
         printf "${GREEN}%s ${BLUE}%s${RESET}\n" "${TMOE_INSTALLATON_COMMAND}" "${DEPENDENCIES}"
         do_you_want_to_continue
         printf "%s\n" "正在安装相关依赖..."
+        printf "%s\n" "Tmoe-zsh will ${YELLOW}install${RESET} relevant ${BLUE}dependencies${RESET} for you."
         case $(id -u) in
         0)
             #${TMOE_UPDATE_COMMAND}
@@ -259,6 +261,7 @@ configure_xfce_terminal_color() {
     fi
     if [ ! -z "$DEPENDENCIES" ]; then
         printf "%s\n" "正在安装相关依赖..."
+        printf "%s\n" "Tmoe-zsh will ${YELLOW}install${RESET} relevant ${BLUE}dependencies${RESET} for you."
         case $(id -u) in
         0)
             ${TMOE_UPDATE_COMMAND}
