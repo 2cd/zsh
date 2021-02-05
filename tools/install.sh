@@ -61,7 +61,14 @@ which_p10k_style_do_you_prefer() {
 }
 gnu_linux_chsh_zsh() {
     if [ $(command -v chsh) ]; then
-        [[ "$(cat /etc/passwd | grep "${HOME}" | grep zsh)" ]] || chsh -s $(command -v zsh) || sudo chsh -s $(command -v zsh)
+        if [[ ! "$(cat /etc/passwd | grep "${HOME}" | grep zsh)" ]]; then
+            for i in /usr/bin/zsh /bin/zsh /usr/local/bin/zsh $(command -v zsh); do
+                if [[ -e ${i} ]]; then
+                    chsh -s ${i} || sudo chsh -s ${i}
+                    break
+                fi
+            done
+        fi
     fi
 }
 ######################
