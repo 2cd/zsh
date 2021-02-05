@@ -300,7 +300,12 @@ android_default_shell() {
 ##########
 gnu_linux_default_shell() {
     if (whiptail --title "gnu_linux_default_shell" --yes-button 'Yes' --no-button 'no' --yesno 'Linux在设置时需要输密码,若需手动配置，请输chsh -s $(command -v zsh)或chsh -s /bin/zsh,您是否需要将默认shell设置为zsh?' 10 50); then
-        chsh -s $(command -v zsh) || sudo chsh -s $(command -v zsh)
+        for i in /usr/bin/zsh /bin/zsh /usr/local/bin/zsh $(command -v zsh); do
+            if [[ -e ${i} ]]; then
+                chsh -s ${i} || sudo chsh -s ${i}
+                break
+            fi
+        done
     else
         ${RETURN_TO_WHERE}
     fi
