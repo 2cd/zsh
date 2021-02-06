@@ -19,6 +19,7 @@ tmoe_font_main() {
 }
 ###############
 terminal_color() {
+	PURPLE=$(printf '\033[0;35m')
 	RED=$(printf '\033[31m')
 	GREEN=$(printf '\033[32m')
 	YELLOW=$(printf '\033[33m')
