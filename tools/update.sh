@@ -19,6 +19,7 @@ upgrade_zsh_plugins_main() {
         neko_01
         git_clone_tmoe_zsh
         upgrade_tmoe_zsh_script
+        termux_fix_shebang_zshtheme
         #tmoe_zsh_main_menu
         ;;
     esac
@@ -60,6 +61,11 @@ update_zsh_theme_completion() {
     fi
 }
 #############
+termux_fix_shebang_zshtheme() {
+    if [[ $(uname -o) = Android && $(command -v termux-fix-shebang) ]]; then
+        termux-fix-shebang $(command -v zshtheme)
+    fi
+}
 check_zsh_theme_completion() {
     ZSH_THEME_COMPLETION_FILE="${TMOE_ZSH_TERMUX_PATH}/completion/_zshtheme"
     if ! egrep -q '^[^#]*zinit.*completion/_zshtheme' ${HOME}/.zshrc; then
@@ -70,10 +76,6 @@ check_zsh_theme_completion() {
     case ${UPDATE_ZSH_THEME_COMPLETION} in
     true) update_zsh_theme_completion ;;
     esac
-
-    if [[ $(uname -o) = Android && $(command -v termux-fix-shebang) ]]; then
-        termux-fix-shebang $(command -v zshtheme)
-    fi
 }
 ################
 download_tmoe_zsh() {
