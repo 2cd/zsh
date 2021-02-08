@@ -6,6 +6,7 @@ upgrade_zsh_plugins_main() {
     -download)
         check_zsh_theme_completion
         download_tmoe_zsh
+        termux_fix_shebang_zshtheme
         ;;
     *)
         check_zsh_theme_completion
@@ -18,8 +19,8 @@ upgrade_zsh_plugins_main() {
         git_pull_zinit
         neko_01
         git_clone_tmoe_zsh
-        upgrade_tmoe_zsh_script
         termux_fix_shebang_zshtheme
+        upgrade_tmoe_zsh_script
         #tmoe_zsh_main_menu
         ;;
     esac
