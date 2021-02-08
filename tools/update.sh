@@ -58,6 +58,10 @@ update_zsh_theme_completion() {
         sed -i '/alias zshtheme=/d' ${HOME}/.zshrc ${HOME}/.profile 2>/dev/null
         ln -svf ${TMOE_ZSH_TERMUX_PATH}/themes.sh ${PREFIX}/bin/zshtheme || sudo ln -svf ${TMOE_ZSH_TERMUX_PATH}/themes.sh ${PREFIX}/bin/zshtheme
     fi
+
+    if [[ $(uname -o) = Android && $(command -v termux-fix-shebang) ]]; then
+        termux-fix-shebang $(command -v zshtheme)
+    fi
 }
 #############
 check_zsh_theme_completion() {
