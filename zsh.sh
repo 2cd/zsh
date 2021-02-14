@@ -9,7 +9,7 @@ main() {
 		upgrade_tmoe_zsh_manager
 		;;
 	h | -h | --h | --help) get_tmoe_zsh_help_info ;;
-	--tmoe_container_auto_configure | --auto)
+	--tmoe_container_auto_configure | --tmoe_container_automatic_configure | --auto)
 		TMOE_CONTAINER_AUTO_CONFIGURE='true'
 		tmoe_zsh_installation
 		;;
