@@ -1,5 +1,6 @@
 #!/bin/bash
 cd ..
+sed -i 's!https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh@master/.mirror/zsh!${TMOE_GIT_REPO}/raw/master/zsh.sh!g' zsh.sh
 sed -i 's@gitee.com/mo2/fzf-tab@github.com/Aloxaf/fzf-tab@g' zsh.sh ./tools/*sh
 sed -i 's@gitee.com/mirrors/neofetch/raw/master/neofetch@raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch@g' zsh.sh ./tools/*sh
 sed -i 's@gitee.com/mirrors/oh-my-zsh/raw/master/templates/zshrc.zsh-template@raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/templates/zshrc.zsh-template@g' zsh.sh ./tools/*sh

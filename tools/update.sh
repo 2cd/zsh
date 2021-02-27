@@ -88,7 +88,7 @@ download_tmoe_zsh() {
         ;;
     *)
         ZSH_I_URL="${TMOE_GIT_REPO}/raw/2/zsh-i"
-        ZSH_I_URL_02="${TMOE_GIT_REPO}/raw/master/zsh.sh"
+        ZSH_I_URL_02="https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh@master/.mirror/zsh"
         ;;
     esac
     case "${LINUX_DISTRO}" in
