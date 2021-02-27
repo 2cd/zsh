@@ -398,7 +398,7 @@ check_gnu_linux_dependencies_02() {
     if [ ! $(command -v batcat) ] && [ ! $(command -v bat) ] && [ ! -e ${TMOE_ZSH_DIR}/non_install_bat ]; then
         #gentoo:sys-apps/bat
         case "${LINUX_DISTRO}" in
-        arch | debian | alpine | void | suse | gentoo) DEPENDENCIES="${DEPENDENCIES} bat" ;;
+        arch | debian | alpine | void | suse | gentoo | solus) DEPENDENCIES="${DEPENDENCIES} bat" ;;
         redhat)
             case "${REDHAT_DISTRO}" in
             fedora) DEPENDENCIES="${DEPENDENCIES} bat" ;;
@@ -417,7 +417,7 @@ check_gnu_linux_dependencies_03() {
     if [ ! $(command -v exa) ] && [ ! -e ${TMOE_ZSH_DIR}/non_install_exa ]; then
         case "${LINUX_DISTRO}" in
         gentoo) DEPENDENCIES="${DEPENDENCIES} sys-apps/exa" ;;
-        alpine | arch | debian | suse) DEPENDENCIES="${DEPENDENCIES} exa" ;;
+        alpine | arch | debian | suse | solus) DEPENDENCIES="${DEPENDENCIES} exa" ;;
         redhat)
             case "${REDHAT_DISTRO}" in
             fedora) DEPENDENCIES="${DEPENDENCIES} exa" ;;
@@ -427,7 +427,7 @@ check_gnu_linux_dependencies_03() {
     fi
     if [ ! $(command -v lolcat) ] && [ ! -e /usr/games/lolcat ]; then
         case "${LINUX_DISTRO}" in
-        arch | debian) DEPENDENCIES="${DEPENDENCIES} lolcat" ;;
+        arch | debian | solus) DEPENDENCIES="${DEPENDENCIES} lolcat" ;;
         redhat)
             case "${REDHAT_DISTRO}" in
             fedora) DEPENDENCIES="${DEPENDENCIES} lolcat" ;;
@@ -456,7 +456,7 @@ check_gnu_linux_dependencies_05() {
     if [ ! $(command -v fzf) ] && [ ! -e ${TMOE_ZSH_DIR}/non_install_fzf ]; then
         #gentoo) DEPENDENCIES="${DEPENDENCIES} app-shells/fzf" ;; #Masked
         case "${LINUX_DISTRO}" in
-        alpine | arch | debian | suse) DEPENDENCIES="${DEPENDENCIES} fzf" ;;
+        alpine | arch | debian | suse | solus) DEPENDENCIES="${DEPENDENCIES} fzf" ;;
         redhat)
             case "${REDHAT_DISTRO}" in
             fedora) DEPENDENCIES="${DEPENDENCIES} fzf" ;;

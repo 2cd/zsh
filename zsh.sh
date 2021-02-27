@@ -233,6 +233,11 @@ check_linux_distro() {
 
 	elif grep -Eq "Slackware" '/etc/os-release' 2>/dev/null; then
 		LINUX_DISTRO='slackware'
+
+	elif grep -q 'Solus' '/etc/os-release'; then
+		LINUX_DISTRO='solus'
+		TMOE_INSTALLATION_COMMAND='eopkg install -y'
+		TMOE_REMOVAL_COMMAND='eopkg remove -y'
 	fi
 }
 #################
