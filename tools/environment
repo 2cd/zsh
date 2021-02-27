@@ -381,7 +381,7 @@ install_gnu_linux_dependencies() {
             opkg update
             install_dependencies_01 || opkg install ${DEPENDENCIES}
             ;;
-        arch | redhat | void | gentoo | suse | slackware)
+        arch | redhat | void | gentoo | suse | slackware | solus)
             install_dependencies_01
             ;;
         *)
