@@ -171,18 +171,18 @@ configure_konsole_terminal_color() {
     fi
     if [ ! $(command -v konsole) ]; then
         DEPENDENCIES='konsole'
-        printf "${GREEN}%s ${BLUE}%s${RESET}\n" "${TMOE_INSTALLATON_COMMAND}" "${DEPENDENCIES}"
+        printf "${GREEN}%s ${BLUE}%s${RESET}\n" "${TMOE_INSTALLATION_COMMAND}" "${DEPENDENCIES}"
         do_you_want_to_continue
         printf "%s\n" "正在安装相关依赖..."
         printf "%s\n" "Tmoe-zsh will ${YELLOW}install${RESET} relevant ${BLUE}dependencies${RESET} for you."
         case $(id -u) in
         0)
             #${TMOE_UPDATE_COMMAND}
-            ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+            ${TMOE_INSTALLATION_COMMAND} ${DEPENDENCIES}
             ;;
         *)
             #sudo ${TMOE_UPDATE_COMMAND}
-            sudo ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+            sudo ${TMOE_INSTALLATION_COMMAND} ${DEPENDENCIES}
             ;;
         esac
     fi
@@ -227,18 +227,18 @@ configure_xfce_terminal_color() {
     fi
     if [ ! $(command -v xfce4-terminal) ]; then
         DEPENDENCIES='xfce4-terminal'
-        printf "${GREEN}%s ${BLUE}%s${RESET}\n" "${TMOE_INSTALLATON_COMMAND}" "${DEPENDENCIES}"
+        printf "${GREEN}%s ${BLUE}%s${RESET}\n" "${TMOE_INSTALLATION_COMMAND}" "${DEPENDENCIES}"
         do_you_want_to_continue
         printf "%s\n" "正在安装相关依赖..."
         printf "%s\n" "Tmoe-zsh will ${YELLOW}install${RESET} relevant ${BLUE}dependencies${RESET} for you."
         case $(id -u) in
         0)
             #${TMOE_UPDATE_COMMAND}
-            ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+            ${TMOE_INSTALLATION_COMMAND} ${DEPENDENCIES}
             ;;
         *)
             #sudo ${TMOE_UPDATE_COMMAND}
-            sudo ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+            sudo ${TMOE_INSTALLATION_COMMAND} ${DEPENDENCIES}
             ;;
         esac
     fi
@@ -265,11 +265,11 @@ configure_xfce_terminal_color() {
         case $(id -u) in
         0)
             ${TMOE_UPDATE_COMMAND}
-            ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+            ${TMOE_INSTALLATION_COMMAND} ${DEPENDENCIES}
             ;;
         *)
             sudo ${TMOE_UPDATE_COMMAND}
-            sudo ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}
+            sudo ${TMOE_INSTALLATION_COMMAND} ${DEPENDENCIES}
             ;;
         esac
     fi

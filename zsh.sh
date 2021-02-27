@@ -174,10 +174,10 @@ openwrt_router_zsh_command() {
 ############
 check_linux_distro() {
 	TMOE_UPDATE_COMMAND=''
-	if grep -Eq 'debian|ubuntu|deepin|uos' "/etc/os-release" 2>/dev/null; then
+	if grep -Eq 'debian|ubuntu|deepin|uos\.com' "/etc/os-release" 2>/dev/null || [[ $(command -v apt-cache) && $(command -v dpkg) ]]; then
 		LINUX_DISTRO='debian'
 		TMOE_UPDATE_COMMAND='apt update'
-		TMOE_INSTALLATON_COMMAND='eatmydata apt install -y'
+		TMOE_INSTALLATION_COMMAND='eatmydata apt install -y'
 		TMOE_REMOVAL_COMMAND='apt purge -y'
 		if grep -q 'ubuntu' /etc/os-release; then
 			DEBIAN_DISTRO='ubuntu'
@@ -190,23 +190,23 @@ check_linux_distro() {
 
 	elif grep -q "Alpine" '/etc/issue' || grep -q "Alpine" '/etc/os-release' 2>/dev/null; then
 		LINUX_DISTRO='alpine'
-		TMOE_INSTALLATON_COMMAND='apk add'
+		TMOE_INSTALLATION_COMMAND='apk add'
 		TMOE_REMOVAL_COMMAND='apk del'
 
 	elif grep -Eq "Arch|Manjaro" '/etc/os-release' 2>/dev/null || grep -Eq "Arch|Manjaro" '/etc/issue' 2>/dev/null; then
 		LINUX_DISTRO='arch'
 		TMOE_REMOVAL_COMMAND='pacman -Rsc'
-		TMOE_INSTALLATON_COMMAND='pacman -Syu --noconfirm'
+		TMOE_INSTALLATION_COMMAND='pacman -Syu --noconfirm'
 
 	elif grep -Eqi "Fedora|CentOS|Red Hat|redhat" "/etc/os-release" 2>/dev/null; then
 		LINUX_DISTRO='redhat'
 		if [ $(command -v dnf) ]; then
 			TMOE_UPDATE_COMMAND='dnf update'
-			TMOE_INSTALLATON_COMMAND='dnf install -y --skip-broken'
+			TMOE_INSTALLATION_COMMAND='dnf install -y --skip-broken'
 			TMOE_REMOVAL_COMMAND='dnf remove -y'
 		else
 			TMOE_UPDATE_COMMAND='yum update'
-			TMOE_INSTALLATON_COMMAND='yum install -y --skip-broken'
+			TMOE_INSTALLATION_COMMAND='yum install -y --skip-broken'
 			TMOE_REMOVAL_COMMAND='yum remove -y'
 		fi
 		if [ "$(cat /etc/os-release | grep 'ID=' | head -n 1 | cut -d '"' -f 2)" = "centos" ]; then
@@ -217,22 +217,25 @@ check_linux_distro() {
 
 	elif grep -Eq "gentoo|funtoo" '/etc/os-release' 2>/dev/null; then
 		LINUX_DISTRO='gentoo'
-		TMOE_INSTALLATON_COMMAND='emerge -avk'
+		TMOE_INSTALLATION_COMMAND='emerge -avk'
 		TMOE_REMOVAL_COMMAND='emerge -C'
 
 	elif grep -qi 'suse' '/etc/os-release' 2>/dev/null; then
 		LINUX_DISTRO='suse'
-		TMOE_INSTALLATON_COMMAND='zypper in -y'
+		TMOE_INSTALLATION_COMMAND='zypper in -y'
 		TMOE_REMOVAL_COMMAND='zypper rm'
 
 	elif [ "$(cat /etc/issue | cut -c 1-4)" = "Void" ]; then
 		LINUX_DISTRO='void'
 		export LANG='en_US.UTF-8'
-		TMOE_INSTALLATON_COMMAND='xbps-install -S -y'
+		TMOE_INSTALLATION_COMMAND='xbps-install -S -y'
 		TMOE_REMOVAL_COMMAND='xbps-remove -R'
 
-	elif grep -Eq "Slackware" '/etc/os-release' 2>/dev/null; then
+	elif grep -q "Slackware" '/etc/os-release' 2>/dev/null; then
 		LINUX_DISTRO='slackware'
+		TMOE_UPDATE_COMMAND='slackpkg update'
+		TMOE_INSTALLATION_COMMAND='slackpkg install'
+		TMOE_REMOVAL_COMMAND='slackpkg remove'
 
 	elif grep -q 'Solus' '/etc/os-release'; then
 		LINUX_DISTRO='solus'
@@ -261,12 +264,12 @@ install_dependencies_01() {
 	esac
 	######
 	case $(id -u) in
-	0) ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES} ;;
+	0) ${TMOE_INSTALLATION_COMMAND} ${DEPENDENCIES} ;;
 	*)
 		if [ $(command -v sudo) ]; then
-			sudo ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES} || sudo ${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES} || su -c "${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}"
+			sudo ${TMOE_INSTALLATION_COMMAND} ${DEPENDENCIES} || sudo ${TMOE_INSTALLATION_COMMAND} ${DEPENDENCIES} || su -c "${TMOE_INSTALLATION_COMMAND} ${DEPENDENCIES}"
 		else
-			su -c "${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}" || su -c "${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}" || su -c "${TMOE_INSTALLATON_COMMAND} ${DEPENDENCIES}"
+			su -c "${TMOE_INSTALLATION_COMMAND} ${DEPENDENCIES}" || su -c "${TMOE_INSTALLATION_COMMAND} ${DEPENDENCIES}" || su -c "${TMOE_INSTALLATION_COMMAND} ${DEPENDENCIES}"
 		fi
 		;;
 	esac
@@ -306,7 +309,7 @@ apk_update_source_index() {
 installing_dependencies() {
 	printf "%s\n" "Tmoe-zsh will ${YELLOW}install${RESET} relevant ${BLUE}dependencies${RESET} for you."
 	printf "%s\n" "正在${YELLOW}安装${RESET}相关${GREEN}软件包${RESET}及其${BLUE}依赖...${RESET}"
-	printf "%s\n" "${GREEN}${TMOE_INSTALLATON_COMMAND}${BLUE}${DEPENDENCIES}${RESET}"
+	printf "%s\n" "${GREEN}${TMOE_INSTALLATION_COMMAND}${BLUE}${DEPENDENCIES}${RESET}"
 	printf "%s\n" "If you want to ${BOLD}${RED}remove it${RESET}${RESET}，please ${YELLOW}manually type ${PURPLE}${TMOE_REMOVAL_COMMAND} ${BLUE}${DEPENDENCIES}${RESET}"
 }
 ###########
@@ -357,11 +360,11 @@ check_gnu_linux_git_and_whiptail() {
 			opkg update
 			install_dependencies_01 || opkg install ${DEPENDENCIES}
 			;;
-		alpine | arch | redhat | void | gentoo | suse | slackware)
+		alpine | arch | redhat | void | gentoo | suse | slackware | solus)
 			install_dependencies_01
 			;;
 		*)
-			printf "%s\n" "不支持您当前的发行版，您可以前往git仓库地址提交issue,并附上${BLUE}cat /etc/os-release${RESET}的截图。"
+			printf "%s\n" "${RED}不支持${RESET}您当前的发行版，您可以前往${YELLOW}https://github.com/2moe/tmoe-zsh${RESET}提交issue,并附上${BLUE}cat /etc/os-release${RESET}的截图。"
 			press_enter_to_continue
 			check_root
 			apt update
@@ -373,7 +376,7 @@ check_gnu_linux_git_and_whiptail() {
 ####################################################
 check_termux_git_and_dialog() {
 	TMOE_UPDATE_COMMAND='apt update'
-	TMOE_INSTALLATON_COMMAND='apt install -y'
+	TMOE_INSTALLATION_COMMAND='apt install -y'
 	TMOE_REMOVAL_COMMAND='apt purge -y'
 	if [ ! -h "/data/data/com.termux/files/home/storage/shared" ]; then
 		termux-setup-storage
@@ -497,8 +500,8 @@ tmoe_zsh_backup_menu() {
 tmoe_install_batcat() {
 	if [ ! $(command -v batcat) ] && [ ! $(command -v bat) ] && [ ! -e "${TMOE_ZSH_DIR}/not_install_bat" ]; then
 		${TMOE_UPDATE_COMMAND} || sudo ${TMOE_UPDATE_COMMAND}
-		printf "%s\n" "${GREEN}${TMOE_INSTALLATON_COMMAND}${RESET} ${BLUE}bat${RESET}"
-		${TMOE_INSTALLATON_COMMAND} bat || sudo ${TMOE_INSTALLATON_COMMAND} bat
+		printf "%s\n" "${GREEN}${TMOE_INSTALLATION_COMMAND}${RESET} ${BLUE}bat${RESET}"
+		${TMOE_INSTALLATION_COMMAND} bat || sudo ${TMOE_INSTALLATION_COMMAND} bat
 		printf "%s\n" "If you want to remove it,then type ${RED}${TMOE_REMOVAL_COMMAND}${RESET} ${BLUE}bat${RESET}"
 	fi
 	if [ ! $(command -v batcat) ] && [ ! $(command -v bat) ]; then
