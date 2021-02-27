@@ -85,6 +85,7 @@ gnu_linux_env() {
 	Android) LINUX_DISTRO='Android' ;;
 	*)
 		PREFIX='/usr/local'
+		[[ -d ${PREFIX} ]] || PREFIX='/usr'
 		check_linux_distro
 		;;
 	esac

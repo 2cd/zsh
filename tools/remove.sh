@@ -59,7 +59,7 @@ remove_git_and_zsh() {
     printf "%s\n" "${RED}rm -fv ${BLUE}/usr/local/bin/bat${RESET}"
     printf "%s\n" "If you want to remove other dependencies,manually type ${RED}${TMOE_REMOVAL_COMMAND} ${BLUE}exa bat fzf${RESET}"
     do_you_want_to_continue
-    [[ -e /usr/local/bin/bat ]] || sudo rm -fv /usr/local/bin/bat
+    [[ ! -e /usr/local/bin/bat ]] || sudo rm -fv /usr/local/bin/bat
     ${TMOE_REMOVAL_COMMAND} ${DEPENDENCIES} 2>/dev/null || sudo ${TMOE_REMOVAL_COMMAND} ${DEPENDENCIES}
     sudo apt autoremove 2>/dev/null
     exit 1

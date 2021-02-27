@@ -111,7 +111,9 @@ download_fzf_bin() {
 ############
 unxz_fzf_deb_bin() {
     tar -Jxvf data.tar.xz
-    cp ./usr/bin/fzf /usr/local/bin
+    BIN_DIR='/usr/local/bin'
+    [[ -d ${BIN_DIR} ]] || BIN_DIR='/usr/bin'
+    cp -v ./usr/bin/fzf ${BIN_DIR} || sudo cp -v ./usr/bin/fzf ${BIN_DIR}
 }
 ###########
 install_debian_fzf_bin() {
@@ -176,7 +178,9 @@ install_batcat_gitee_bin() {
         *)
             cd /tmp
             git clone --depth=1 -b ${BRANCH_NAME} ${BAT_BIN_GIT_REPO} ${BAT_CAT_BIN_TEMP_FOLDER}
-            tar -Jxvf ${BAT_CAT_BIN_TEMP_FOLDER}/bat.tar.xz -C /usr/local/bin
+            BIN_DIR='/usr/local/bin'
+            [[ -d ${BIN_DIR} ]] || BIN_DIR='/usr/bin'
+            tar -Jxvf ${BAT_CAT_BIN_TEMP_FOLDER}/bat.tar.xz -C ${BIN_DIR} || sudo tar -Jxvf ${BAT_CAT_BIN_TEMP_FOLDER}/bat.tar.xz -C ${BIN_DIR}
             rm -rfv ${BAT_CAT_BIN_TEMP_FOLDER} 2>/dev/null
             ;;
         esac
