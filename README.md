@@ -186,7 +186,9 @@ fi
 If you are using Apple Silicon arm64 CPU, then you should add `brew` to your PATH.  
 
 ```bash
-    grep -qF '/opt/homebrew/bin' /etc/paths || sudo sed -i "" '1i/opt/homebrew/bin' /etc/paths
+grep -qF '/opt/homebrew/bin' /etc/paths || sudo sed -i "" '1i \
+/opt/homebrew/bin
+' /etc/paths
 ```
 
 ##### install dependencies

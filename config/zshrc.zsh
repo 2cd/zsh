@@ -92,7 +92,11 @@ alias rd=rmdir
 #######
 if [ $(command -v exa) ]; then
     DISABLE_LS_COLORS=true
-    local LS_BIN_FILE=$(whereis ls 2>/dev/null | awk '{print $2}')
+    if [[ -x /bin/ls ]];then
+        local LS_BIN_FILE=/bin/ls
+    else
+        local LS_BIN_FILE=$(whereis ls 2>/dev/null | awk '{print $2}')
+    fi
     alias lls=${LS_BIN_FILE} #lls is the original ls. lls为原版ls
     #color不应为always
     alias ls="exa -b --color=auto" #Exa is a modern version of ls. exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。
@@ -112,7 +116,11 @@ fi
 [[ ! $(command -v tmoe) ]] || alias t=tmoe
 ######
 set_bat_paper_variable() {
-    local CAT_BIN_FILE=$(whereis cat 2>/dev/null | awk '{print $2}')
+    if [[ -x /bin/cat ]];then
+        local CAT_BIN_FILE=/bin/cat
+    else
+        local CAT_BIN_FILE=$(whereis cat 2>/dev/null | awk '{print $2}')
+    fi
     alias lcat=${CAT_BIN_FILE} #lcat is the original cat.
     export BAT_PAGER="less -m -RFQ" #You can type q to quit bat. 输q退出bat的页面视图
 }
