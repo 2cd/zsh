@@ -246,6 +246,7 @@ done
 
 chmod -R g-w /usr/local/share/zsh || sudo chmod -R g-w /usr/local/share/zsh
 ln -sv ${TMOE_ZSH_DIR}/git/share/themes.sh ${BIN_DIR}/zshtheme || sudo ln -svf ${TMOE_ZSH_DIR}/git/share/themes.sh ${BIN_DIR}/zshtheme
+ln -sv ${TMOE_ZSH_DIR}/git/zsh.sh ${BIN_DIR}/zsh-i || sudo ln -svf ${TMOE_ZSH_DIR}/git/zsh.sh ${BIN_DIR}/zsh-i
 ```
 
 ##### bsd-sed -> gnu-sed ; bsd-awk -> gnu-awk
