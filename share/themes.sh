@@ -138,9 +138,18 @@ tmoe_zsh_theme_env() {
   P10K_URL_02="git://github.com/romkatv/powerlevel10k"
   P9K_URL_01='https://github.com/Powerlevel9k/powerlevel9k.git'
   P9K_URL_02="git://github.com/Powerlevel9k/powerlevel9k"
-  ZINIT_LINE=$(cat ${ZSHRC_FILE} | egrep -n '^[^#]*source.*bin/zinit.zsh' | awk -F ':' '{print $1}' | head -n 1)
+  if [ $(command -v gawk) ]; then
+    ZINIT_LINE=$(egrep -n '^[^#]*source.*bin/zinit.zsh' ${ZSHRC_FILE} | gawk -F ':' '{print $1}' | head -n 1)
+  else
+    ZINIT_LINE=$(egrep -n '^[^#]*source.*bin/zinit.zsh' ${ZSHRC_FILE} | awk -F ':' '{print $1}' | head -n 1)
+  fi
+
   if ! egrep -q '^[^#]*ZINIT_THEME_DIR=.*themes/_local' "${ZSHRC_FILE}"; then
-    sed -i "${ZINIT_LINE} i\ZINIT_THEME_DIR=\${HOME}/.zinit/themes/_local" "${ZSHRC_FILE}"
+    if [ $(command -v gsed) ]; then
+      gsed -i "${ZINIT_LINE} i\ZINIT_THEME_DIR=\${HOME}/.zinit/themes/_local" "${ZSHRC_FILE}"
+    else
+      sed -i "${ZINIT_LINE} i\ZINIT_THEME_DIR=\${HOME}/.zinit/themes/_local" "${ZSHRC_FILE}"
+    fi
   fi
   ZINIT_THEME_LINE=$((${ZINIT_LINE} + 3))
 }
@@ -153,15 +162,23 @@ temp_zsh_theme_env() {
 }
 ##########
 del_zsh_theme_line() {
-  sed -i '/^ZSH_THEME=/d' "${ZSHRC_FILE}"
-  sed -i "/zinit light.*\${ZINIT_THEME_DIR}/d" "${ZSHRC_FILE}"
+  if [ $(command -v gsed) ]; then
+    gsed -i '/^ZSH_THEME=/d;/zinit light.*\${ZINIT_THEME_DIR}/d' "${ZSHRC_FILE}"
+  else
+    sed -i '/^ZSH_THEME=/d' "${ZSHRC_FILE}"
+    sed -i "/zinit light.*\${ZINIT_THEME_DIR}/d" "${ZSHRC_FILE}"
+  fi
 }
 ############
 configure_new_zsh_theme_01() {
   #if ! egrep -q "^[^#]*zinit.*${TMOE_ZSH_THEME}" "${ZSHRC_FILE}"; then; fi
   del_zsh_theme_line
   #此处请保持$ZINIT_THEME_DIR
-  sed -i "${ZINIT_THEME_LINE} a\zinit light \${ZINIT_THEME_DIR}/${TMOE_ZSH_THEME}" "${ZSHRC_FILE}"
+  if [ $(command -v gsed) ]; then
+    gsed -i "${ZINIT_THEME_LINE} a\zinit light \${ZINIT_THEME_DIR}/${TMOE_ZSH_THEME}" "${ZSHRC_FILE}"
+  else
+    sed -i "${ZINIT_THEME_LINE} a\zinit light \${ZINIT_THEME_DIR}/${TMOE_ZSH_THEME}" "${ZSHRC_FILE}"
+  fi
 }
 ###########
 rm_zsh_git_theme_dir() {
@@ -199,7 +216,11 @@ check_readme_file() {
   if [[ ${ONKEY_INSTALLATION} = true ]]; then
     cat_zsh_theme_readme_md
   elif [[ -e "${CHOSEN_THEME_DIR}/README.md" ]]; then
-    README_LINE_NUM=$(wc -l "${CHOSEN_THEME_DIR}/README.md" | awk '{print $1}')
+    if [ $(command -v gawk) ]; then
+      README_LINE_NUM=$(wc -l "${CHOSEN_THEME_DIR}/README.md" | gawk '{print $1}')
+    else
+      README_LINE_NUM=$(wc -l "${CHOSEN_THEME_DIR}/README.md" | awk '{print $1}')
+    fi
     cat_zsh_theme_readme_full_md
   elif [ -e "${TMOE_THEME_FILE}/README_min.md" ]; then
     cat_zsh_theme_readme_md

@@ -303,7 +303,7 @@ configure_zinit_plugin_fzf_tab() {
             git_clone_fzf_tab
             fzf_tab_extra_opt
         fi
-        configure_fzf_tab_ls_colors
+        #configure_fzf_tab_ls_colors
     fi
 }
 ############
