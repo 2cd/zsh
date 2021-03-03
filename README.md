@@ -274,7 +274,7 @@ Open [this json file](https://github.com/2moe/tmoe-zsh/blob/master/config/window
 And copy the contents of the **"schemes"** array to **settings.json**  
 ![settings.json](https://images.gitee.com/uploads/images/2021/0303/170741_5b42d4d4_5617340.png "Screenshot_20210303_164039.png")
 
-If you are using [windows terminal preview](https://aka.ms/terminal-preview), then you can add `settingsUI` hot key to **settings.json**  
+If you are using [windows terminal preview](https://aka.ms/terminal-preview), then you can add `settingsUI` hot key to **"keybindings"** array.
 
 ```json
  "keybindings": [
