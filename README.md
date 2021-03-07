@@ -8,7 +8,7 @@
 
 ## Preview
 
-You can press TAB key to complete.
+You can press <kbd>TAB</kbd> key to complete.
 ![zshtheme completion](https://images.gitee.com/uploads/images/2020/0929/185820_e054932c_7793225.gif)
 
 ### Screenshot
@@ -74,16 +74,26 @@ mv "${ZSHRC_FILE}" "${ZSHRC_FILE}_$(date +%Y%m%d).bak"
 
 2.Debian/Ubuntu/Mint/Kali
 
+If you are using a container, then install `sudo` and `wget`.
+
 ```shell
-    sudo apt update
-    sudo apt install -y curl
-    bash <(curl -L git.io/zsh.sh)
+    sudo apt update || su -c "apt update"
+    [[ $(command -v sudo) ]] || su -c "apt install -y sudo"
+    [[ $(command -v eatmydata) ]] || sudo apt install -y eatmydata || su -c "apt install -y eatmydata"
+    [[ $(command -v wget) ]] || sudo eatmydata apt install -y wget || su -c "apt install -y wget"
+```
+
+```shell
+    bash -c "$(wget -qO- git.io/zsh.sh)"
 ```
 
 3.RedHat/Fedora/CentOS
 
 ```shell
-    sudo dnf install -y curl || sudo yum install -y curl
+    if ! grep -q 'Fedora' "/etc/os-release";then
+        [[ -s "/etc/yum.repos.d/epel.repo" ]] || sudo yum install --skip-broken -y epel-release tar dnf
+    fi
+    [[ $(command -v curl) ]] || sudo dnf install -y curl || sudo yum install -y curl
     bash -c "$(curl -L git.io/zsh.sh)"
 ```
 
@@ -107,7 +117,7 @@ mv "${ZSHRC_FILE}" "${ZSHRC_FILE}_$(date +%Y%m%d).bak"
 6.Alpine/iOS-[iSH](https://ish.app/)
 
 ```shell
-    sudo apk add wget bash
+    apk add bash sudo wget || su -c "apk add bash sudo wget"
     wget -O /tmp/.tmoe-zsh git.io/zsh.sh
     bash /tmp/.tmoe-zsh
 ```
@@ -142,7 +152,7 @@ mv "${ZSHRC_FILE}" "${ZSHRC_FILE}_$(date +%Y%m%d).bak"
 
 11.No other systems tested.  
 For example:**GuixSD**,etc.  
-I think you can resolve dependencies yourself.  
+You can refer to [the environment file](https://github.com/2moe/tmoe-zsh/blob/master/tools/environment), and I think you can resolve dependencies yourself.  
 The relevant dependencies are `zsh git pv wget tar xz newt(whiptail)`  
 If you are using Unix, then configure it manually.
 
@@ -354,7 +364,7 @@ You can use `-h` or `--help` parameter to get help information.
   NOTES of manual mode
   手动模式的说明
   You can type zshtheme $THEME_NAME to change the zsh theme.
-  In the process of typing zsh, you can press TAB to  complete.
+  In the process of typing zsh, you can press TAB to complete.
   For example.01: If you type zshtheme agnosterzak,then zsh theme will be changed to agnosterzak.
   02:   zshtheme xiong-chiamiov-plus
   您可以输zshtheme $主题名称来修改主题。
