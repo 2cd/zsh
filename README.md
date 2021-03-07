@@ -156,7 +156,7 @@ You can refer to [the environment file](https://github.com/2moe/tmoe-zsh/blob/ma
 The relevant dependencies are `zsh git pv wget tar xz newt(whiptail)`  
 If you are using Unix, then configure it manually.
 
-> Unix system,such as：**MacOS、FreeBSD、OpenBSD、NetBSD** and **SunOS**.
+> Unix system,such as：**MacOS, FreeBSD, OpenBSD, NetBSD** and **SunOS**.
 
 ### 2-2.MANUALLY GIT CLONE
 
