@@ -428,7 +428,7 @@ tips_of_tmoe_zsh_01() {
     ${BOLD}${YELLOW}插件名称PLUGIN NAME${RESET}${RESET}:${BOLD}${BLUE}zsh-autosuggestions${RESET}${RESET}
     ${BOLD}${YELLOW}历史记录插件用法${RESET}${RESET}:输入曾输过的命令，按方向键上${BOLD}${YELLOW}↑${RESET}或右${BOLD}${YELLOW}→${RESET}进行补全。
     ${BOLD}${YELLOW}Description${RESET}${RESET}:It suggests commands as you type based on history and completions.
-    Just type arrow key ${BOLD}${YELLOW}↑${RESET} or ${BOLD}${YELLOW}→${RESET}
+    Just press arrow key ${BOLD}${YELLOW}↑${RESET} or ${BOLD}${YELLOW}→${RESET}
     ------------
     Plugins such as extract, git, fast-syntax-highlighting, fzf-tab, zshtheme and z have been configured for you. Enjoy the fun of zsh!
 ENDOFTMOEZSHHELPINFO
