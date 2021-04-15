@@ -10,7 +10,7 @@ main() {
 		;;
 	h | -h | --h | --help) get_tmoe_zsh_help_info ;;
 	--tmoe_container_auto_configure | --tmoe_container_automatic_configure | --auto)
-		TMOE_CONTAINER_AUTO_CONFIGURE='true'
+		TMOE_CONTAINER_AUTO_CONFIGURE=true
 		tmoe_zsh_installation
 		;;
 	p | -p | plugin) tmoe_zsh_plugin_manager ;;
@@ -54,7 +54,7 @@ source_tmoe_zsh_env() {
 }
 ##########
 gnu_linux_env() {
-	TMOE_CONTAINER_AUTO_CONFIGURE='false'
+	TMOE_CONTAINER_AUTO_CONFIGURE=false
 	if [ -z "${TMPDIR}" ]; then
 		TMPDIR='/tmp'
 	fi

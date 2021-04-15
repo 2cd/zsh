@@ -1733,7 +1733,7 @@ check_tmoe_zsh_config_value() {
     #if ! egrep -q '^[^#]*zinit.*/fast-syntax-highlighting' "${HOME}/.zshrc"; then
     if egrep -q "^[^#]*zinit.*pick\"${TMOE_ZSH_GREP_NAME}\.(zsh|plugin.zsh)\"" "${TMOE_ZSH_FILE}"; then
         TMOE_ZSH_CONFIG_STATUS="您已启用${TMOE_ZSH_GREP_NAME}插件 You have enabled this plugin."
-        TMOE_ZSH_CONFIG_ENABLED='true'
+        TMOE_ZSH_CONFIG_ENABLED=true
         TMOE_ZSH_CONFIG_LINE=$(cat ${TMOE_ZSH_FILE} | egrep -n "^[^#]*zinit.*pick\"${TMOE_ZSH_GREP_NAME}\.(zsh|plugin.zsh)\"" | head -n 1 | awk '{print $1}' | cut -d ':' -f 1)
     elif egrep -q "^[^#]*zinit.*snippet.*${TMOE_ZSH_GREP_NAME}/_" "${TMOE_ZSH_FILE}"; then
         TMOE_ZSH_CONFIG_STATUS="您已启用${TMOE_ZSH_GREP_NAME}插件 You have enabled this zsh plugin."
@@ -1742,7 +1742,7 @@ check_tmoe_zsh_config_value() {
     else
         TMOE_ZSH_CONFIG_LINE=''
         TMOE_ZSH_CONFIG_STATUS="您已禁用${TMOE_ZSH_GREP_NAME}插件 You have disabled this plugin."
-        TMOE_ZSH_CONFIG_ENABLED='false'
+        TMOE_ZSH_CONFIG_ENABLED=false
     fi
 }
 ######################

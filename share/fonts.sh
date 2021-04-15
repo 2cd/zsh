@@ -2,10 +2,10 @@
 tmoe_font_main() {
 	terminal_color
 	tmoe_termux_font_env
-	CATCAT_COLOR='false'
+	CATCAT_COLOR=false
 	case "$1" in
 	h | -h | help | --help | --get-help-info)
-		CATCAT_COLOR='true'
+		CATCAT_COLOR=true
 		get_tmoe_font_help_info
 		;;
 	-n | --no-color)

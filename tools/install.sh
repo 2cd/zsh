@@ -17,7 +17,7 @@ android_git_clone_fonts() {
 ###########################################
 modify_termux_color_and_font() {
     if [ ! -e "${TERMUX_KEYBOARD_FILE}" ]; then
-        if (whiptail --title "termux.properties" --yes-button "yes" --no-button "no" --yesno "Your termux.properties is empty,do you want to creat it? It will modify the keyboard layout.\n是否需要创建termux.properties？这将会修改小键盘布局。" 10 50); then
+        if (whiptail --title "termux.properties" --yes-button "yes" --no-button "no" --yesno "Your termux.properties is empty,do you want to create it? It will modify the keyboard layout.\n是否需要创建termux.properties？这将会修改小键盘布局。" 10 50); then
             cp -f ${TMOE_ZSH_TERMUX_PATH}/termux.properties ${TERMUX_KEYBOARD_FILE}
         fi
     else
@@ -278,24 +278,24 @@ configure_fzf_tab_ls_colors() {
 #################
 configure_zinit_plugin_fzf_tab() {
     FZF_TAB_PLUGIN_DIR="${ZINIT_DIR}/plugins/_local---fzf-tab"
-    ENABLE_FZF_TAB_EXTRA_OPT='true'
+    ENABLE_FZF_TAB_EXTRA_OPT=true
     if grep -Eq 'buster|stretch|jessie|Bionic Beaver|Xenial|Cosmic|Disco' "/etc/os-release" 2>/dev/null; then
-        ENABLE_FZF_TAB_EXTRA_OPT='false'
+        ENABLE_FZF_TAB_EXTRA_OPT=false
     fi
     case ${TMOE_PROOT} in
-    true) ENABLE_FZF_TAB_EXTRA_OPT='false' ;;
+    true) ENABLE_FZF_TAB_EXTRA_OPT=false ;;
     esac
     case ${TMOE_CHROOT} in
-    true | false) ENABLE_FZF_TAB_EXTRA_OPT='false' ;;
+    true | false) ENABLE_FZF_TAB_EXTRA_OPT=false ;;
     esac
 
     case "${LINUX_DISTRO}" in
     Android | debian | arch) ;;
-    *) ENABLE_FZF_TAB_EXTRA_OPT='false' ;;
+    *) ENABLE_FZF_TAB_EXTRA_OPT=false ;;
     esac
 
     case "${TMOE_CONTAINER_AUTO_CONFIGURE}" in
-    true) ENABLE_FZF_TAB_EXTRA_OPT='false' ;;
+    true) ENABLE_FZF_TAB_EXTRA_OPT=false ;;
     esac
 
     if [ $(command -v fzf) ]; then

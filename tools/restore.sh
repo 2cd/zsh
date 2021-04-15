@@ -67,7 +67,7 @@ select_zsh_backup_path_manually() {
 ##########
 restore_zsh_with_compatibility_mode() {
     BACKUP_FILE_NAME="*zsh*tar*"
-    COMPATIBILITY_MODE='true'
+    COMPATIBILITY_MODE=true
     file_directory_selection
 }
 ##########
