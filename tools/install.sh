@@ -299,9 +299,11 @@ configure_zinit_plugin_fzf_tab() {
     esac
 
     if [ $(command -v fzf) ]; then
-        if [ ! -d "${FZF_TAB_PLUGIN_DIR}/.git" ]; then
-            git_clone_fzf_tab
-            fzf_tab_extra_opt
+        if [[ "$(uname -r | cut -d '-' -f 3)" != "Microsoft" && "$(uname -r | cut -d '-' -f 2)" != "microsoft" ]]; then
+            if [ ! -d "${FZF_TAB_PLUGIN_DIR}/.git" ]; then
+                git_clone_fzf_tab
+                fzf_tab_extra_opt
+            fi
         fi
         #configure_fzf_tab_ls_colors
     fi
