@@ -429,16 +429,16 @@ check_gnu_linux_dependencies_03() {
             ;;
         esac
     fi
-    if [ ! $(command -v lolcat) ] && [ ! -e /usr/games/lolcat ]; then
-        case "${LINUX_DISTRO}" in
-        arch | debian | solus) DEPENDENCIES="${DEPENDENCIES} lolcat" ;;
-        redhat)
-            case "${REDHAT_DISTRO}" in
-            fedora) DEPENDENCIES="${DEPENDENCIES} lolcat" ;;
-            esac
-            ;;
-        esac
-    fi
+    # if [ ! $(command -v lolcat) ] && [ ! -e /usr/games/lolcat ]; then
+    #     case "${LINUX_DISTRO}" in
+    #     arch | debian | solus) DEPENDENCIES="${DEPENDENCIES} lolcat" ;;
+    #     redhat)
+    #         case "${REDHAT_DISTRO}" in
+    #         fedora) DEPENDENCIES="${DEPENDENCIES} lolcat" ;;
+    #         esac
+    #         ;;
+    #     esac
+    # fi
 
     if [ $(command -v zsh) ] && [ ! $(command -v exa) ]; then
         printf '%s\n' '' >${TMOE_ZSH_DIR}/non_install_exa
