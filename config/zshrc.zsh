@@ -99,9 +99,9 @@ if [ $(command -v exa) ]; then
     alias ls="exa --color=auto" #Exa is a modern version of ls. exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。
     alias l='exa -lbah --icons'
     alias la='exa -labgh --icons'
-    alias ll='exa -lbgh --icons'
-    alias lsa='exa -lbahgR --icons'
-    alias lst='exa -lTabgh --icons' #输入lst,将展示类似于tree的树状列表。
+    alias ll='exa -lbg --icons'
+    alias lsa='exa -lbagR --icons'
+    alias lst='exa -lTabgh --git --icons' #输入lst,将展示类似于tree的树状列表。
 else
     alias ls='ls --color=auto'
     #color should not be always.

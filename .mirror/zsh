@@ -89,7 +89,7 @@ gnu_linux_env() {
 		check_linux_distro
 		;;
 	*)
-		printf "%s\n" "${RED}ERROR${RESET}, this tool does not support${BLUE}$(uname -o)${RESET}."
+		printf "%s\n" "${RED}ERROR${RESET}, this tool does not support ${BLUE}$(uname -o)${RESET}."
 		uname -a
 		exit 1
 		;;
