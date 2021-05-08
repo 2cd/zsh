@@ -138,7 +138,8 @@ upgrade_tmoe_zsh_script() {
     printf "%s\n" "Update ${YELLOW}completed${RESET}, press ${GREEN}enter${RESET} to ${BLUE}return.${RESET}"
     printf "%s\n" "${YELLOW}更新完成，按回车键返回。${RESET}"
     read
-    source ${PREFIX}/bin/zsh-i
+    source ${HOME}/.local/bin/zsh-i
+    # source ${PREFIX}/bin/zsh-i
 }
 ##############
 update_command_not_found() {
