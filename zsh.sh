@@ -83,10 +83,15 @@ gnu_linux_env() {
 	fi
 	case $(uname -o) in
 	Android) LINUX_DISTRO='Android' ;;
-	*)
+	GNU/Linux | Linux | linux)
 		PREFIX='/usr/local'
 		[[ -d ${PREFIX} ]] || PREFIX='/usr'
 		check_linux_distro
+		;;
+	*)
+		printf "%s\n" "${RED}ERROR${RESET}, this tool does not support${BLUE}$(uname -o)${RESET}."
+		uname -a
+		exit 1
 		;;
 	esac
 	check_release_version

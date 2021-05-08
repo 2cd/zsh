@@ -7,7 +7,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 #EOF
-############
+########
 load_omz_lib() {
     for i in theme-and-appearance.zsh git.zsh prompt_info_functions.zsh history.zsh; do
         zinit snippet ${HOME}/.zinit/omz/lib/${i}
@@ -34,23 +34,23 @@ TMOE_ZSH_TOOL_DIR="${TMOE_ZSH_GIT_DIR}/tools"
 ZINIT_THEME_DIR="${HOME}/.zinit/themes/_local"
 source ${HOME}/.zinit/bin/zinit.zsh
 load_omz_lib
-############
+########
 ##THEME
 zinit light ${ZINIT_THEME_DIR}/xiong-chiamiov-plus
 #theme-and-appearance的加载顺序要先于主题,请在load_omz_lib之后加载主题。
 skip_global_compinit=1
 load_zinit_compinit_function
-##############
+########
 ALOXAF_FZF_TAB_EXTRA=01
 #当变量ALOXAF_FZF_TAB_EXTRA的值为01时，仅加载补全项颜色函数;为02时，加载右侧窗口配置;为true时，启用所有额外函数;为false时禁用。
 source ${TMOE_ZSH_GIT_DIR}/config/aloxaf_fzf_tab_extra_opts.zsh
-##########
+########
 zinit ice lucid wait="1" pick"extract.plugin.zsh" && zinit light _local/extract && zinit ice lucid as"completion" wait="1" && zinit snippet ${HOME}/.zinit/plugins/_local---extract/_extract #解压插件，输x 压缩包名称（例如`x 233.7z`或`x 233.tar.xz`) 即可解压文件。This plugin defines a function called `extract` that extracts the archive file you pass it, and it supports a wide variety of archive filetypes.
-#########
+########
 zinit ice lucid wait="1" pick"z.plugin.zsh" && zinit light _local/z && unsetopt BG_NICE #记录访问目录，输z获取,输`z 目录名称`快速跳转  This plugin defines the [z command](https://github.com/rupa/z) that tracks your most visited directories and allows you to access them with very few keystrokes.
 ########
 zinit ice lucid pick"git.plugin.zsh" wait="1" && zinit light _local/git #The git plugin provides many aliases and a few useful functions. git的一些alias,例如将git clone简化为gcl.
-##########
+########
 [[ -e /usr/lib/command-not-found ]] && zinit ice lucid wait="0" pick"command-not-found.plugin.zsh" && zinit light _local/command-not-found #用于显示未找到的命令来源于哪个软件包  This plugin uses the command-not-found package for zsh to provide suggested packages to be installed if a command cannot be found.
 
 zinit ice lucid wait="3" pick"colored-man-pages.plugin.zsh" && zinit light _local/colored-man-pages #This plugin adds colors to man pages. man手册彩色输出
@@ -64,7 +64,7 @@ zinit ice lucid wait="2" pick"sudo.plugin.zsh" && zinit light _local/sudo #Easil
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh #powerlevel10k的prompt
 #######
-#ALIAS
+#ALIASES
 alias ...=../..
 alias ....=../../..
 alias .....=../../../..
@@ -87,7 +87,7 @@ alias globurl='noglob urlglobber '
 alias grep='grep --color=auto'
 alias md='mkdir -p'
 alias rd=rmdir
-#######
+########
 if [ $(command -v exa) ]; then
     DISABLE_LS_COLORS=true
     if [[ -x /bin/ls ]];then
@@ -96,15 +96,15 @@ if [ $(command -v exa) ]; then
         local LS_BIN_FILE=$(whereis ls 2>/dev/null | awk '{print $2}')
     fi
     alias lls=${LS_BIN_FILE} #lls is the original ls. lls为原版ls
-    #color不应为always
-    alias ls="exa -b --color=auto" #Exa is a modern version of ls. exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。
-    alias l='exa -lbah'
-    alias la='exa -labgh'
-    alias ll='exa -lbgh'
-    alias lsa='exa -lbahgR'
-    alias lst='exa -lTabgh' #输入lst,将展示类似于tree的树状列表。
+    alias ls="exa --color=auto" #Exa is a modern version of ls. exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。
+    alias l='exa -lbah --icons'
+    alias la='exa -labgh --icons'
+    alias ll='exa -lbgh --icons'
+    alias lsa='exa -lbahgR --icons'
+    alias lst='exa -lTabgh --icons' #输入lst,将展示类似于tree的树状列表。
 else
     alias ls='ls --color=auto'
+    #color should not be always.
     alias lst='tree -pCsh'
     alias l='ls -lah'
     alias la='ls -lAh'
@@ -112,7 +112,7 @@ else
     alias lsa='ls -lah'
 fi
 [[ ! $(command -v tmoe) ]] || alias t=tmoe
-######
+########
 set_bat_paper_variable() {
     if [[ -x /bin/cat ]];then
         local CAT_BIN_FILE=/bin/cat
@@ -130,7 +130,7 @@ elif [ $(command -v bat) ]; then
     alias cat='bat -pp' 
 fi
 ########
-#########
+########
 : <<\ENDOFZINITHELP
     zinit 基本用法
     zinit 可以简化为zi
@@ -194,4 +194,4 @@ add-fpath|fpath [-f|--front] \
     plg-spec [subdirectory]      – adds given plugin directory to $fpath; if the second argument is given, it is appended to the directory path; if the option -f/--front is given, the directory path is prepended instead of appended to $fpath. The plg-spec can be absolute path
 run [-l] [plugin] {command}   – runs the given command in the given plugin's directory; if the option -l will be given then the plugin should be skipped – the option will cause the previous plugin to be reused
 ENDOFZINITHELP
-#################
+########
