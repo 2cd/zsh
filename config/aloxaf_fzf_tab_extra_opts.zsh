@@ -1,11 +1,9 @@
 #!/usr/bin/env zsh
-#: <<\EOF
 #分组和补全项颜色
 aloxaf_fzf_tab_extra_opt_01() {
     zstyle ':completion:*:descriptions' format '[%d]'
     zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 }
-#EOF
 ###############
 aloxaf_fzf_tab_extra_opt_02() {
     #FZF-TAB右侧窗口配置

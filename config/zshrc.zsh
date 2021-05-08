@@ -1,22 +1,26 @@
+##SET VAR
+typeset -x PATH="${HOME}/.local/bin${PATH:+:${PATH}}"
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+TMOE_ZSH_DIR="${HOME}/.config/tmoe-zsh"
+TMOE_ZSH_GIT_DIR="${TMOE_ZSH_DIR}/git"
+TMOE_ZSH_TOOL_DIR="${TMOE_ZSH_GIT_DIR}/tools"
+ZINIT_THEME_DIR="${HOME}/.zinit/themes/_local"
+########
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-#: <<\EOF
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]] {
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-#EOF
+}
 ########
 load_omz_lib() {
-    for i in theme-and-appearance.zsh git.zsh prompt_info_functions.zsh history.zsh; do
+    for i (theme-and-appearance.zsh git.zsh prompt_info_functions.zsh history.zsh) {
         zinit snippet ${HOME}/.zinit/omz/lib/${i}
-    done
-    for i in completion.zsh key-bindings.zsh; do
+    }
+    for i (completion.zsh key-bindings.zsh) {
         zinit ice lucid wait="1"
         zinit snippet ${HOME}/.zinit/omz/lib/${i}
-    done
-    unset i
+    }
 }
 ########
 load_zinit_compinit_function() {
@@ -28,10 +32,6 @@ load_zinit_compinit_function() {
 }
 ########
 ##LOAD MAIN LIB
-TMOE_ZSH_DIR="${HOME}/.config/tmoe-zsh"
-TMOE_ZSH_GIT_DIR="${TMOE_ZSH_DIR}/git"
-TMOE_ZSH_TOOL_DIR="${TMOE_ZSH_GIT_DIR}/tools"
-ZINIT_THEME_DIR="${HOME}/.zinit/themes/_local"
 source ${HOME}/.zinit/bin/zinit.zsh
 load_omz_lib
 ########
@@ -88,13 +88,16 @@ alias grep='grep --color=auto'
 alias md='mkdir -p'
 alias rd=rmdir
 ########
-if [ $(command -v exa) ]; then
+if [[ $(command -v exa) ]] {
     DISABLE_LS_COLORS=true
-    if [[ -x /bin/ls ]];then
-        local LS_BIN_FILE=/bin/ls
-    else
-        local LS_BIN_FILE=$(whereis ls 2>/dev/null | awk '{print $2}')
-    fi
+    unset LS_BIN_FILE
+    for i (/bin/ls ${PREFIX}/bin/ls /usr/bin/ls /usr/local/bin/ls) {
+        [[ ! -x ${i} ]] || {
+            local LS_BIN_FILE=${i}
+            break
+        }
+    }
+    [[ -n ${LS_BIN_FILE} ]] || local LS_BIN_FILE=$(whereis ls 2>/dev/null | awk '{print $2}')
     alias lls=${LS_BIN_FILE} #lls is the original ls. lls为原版ls
     alias ls="exa --color=auto" #Exa is a modern version of ls. exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。
     alias l='exa -lbah --icons'
@@ -102,7 +105,7 @@ if [ $(command -v exa) ]; then
     alias ll='exa -lbg --icons'
     alias lsa='exa -lbagR --icons'
     alias lst='exa -lTabgh --git --icons' #输入lst,将展示类似于tree的树状列表。
-else
+} else {
     alias ls='ls --color=auto'
     #color should not be always.
     alias lst='tree -pCsh'
@@ -110,25 +113,30 @@ else
     alias la='ls -lAh'
     alias ll='ls -lh'
     alias lsa='ls -lah'
-fi
+}
 [[ ! $(command -v tmoe) ]] || alias t=tmoe
 ########
 set_bat_paper_variable() {
-    if [[ -x /bin/cat ]];then
-        local CAT_BIN_FILE=/bin/cat
-    else
-        local CAT_BIN_FILE=$(whereis cat 2>/dev/null | awk '{print $2}')
-    fi
+    unset CAT_BIN_FILE i
+    for i (/bin/cat ${PREFIX}/bin/cat /usr/bin/cat /usr/local/bin/cat) {
+        [[ ! -x ${i} ]] || {
+            local CAT_BIN_FILE=${i}
+            unset i
+            break
+        }
+    }
+    [[ -n ${CAT_BIN_FILE} ]] || local CAT_BIN_FILE=$(whereis cat 2>/dev/null | awk '{print $2}')
     alias lcat=${CAT_BIN_FILE} #lcat is the original cat.
-    export BAT_PAGER="less -m -RFQ" #You can type q to quit bat. 输q退出bat的页面视图
+    typeset -g BAT_PAGER="less -m -RFQ" #You can type q to quit bat. 输q退出bat的页面视图
 }
-if [ $(command -v batcat) ]; then
-    set_bat_paper_variable
-    alias cat='batcat -pp' #bat supports syntax highlighting for a large number of programming and markup languages. bat是cat的替代品，支持多语言语法高亮。
-elif [ $(command -v bat) ]; then
-    set_bat_paper_variable
-    alias cat='bat -pp' 
-fi
+#bat supports syntax highlighting for a large number of programming and markup languages. bat是cat的替代品，支持多语言语法高亮。
+for i (batcat bat) {
+    if [[ $(command -v ${i}) ]] {
+        alias cat="${i} -pp"
+        set_bat_paper_variable
+        break
+    }
+}
 ########
 ########
 : <<\ENDOFZINITHELP
