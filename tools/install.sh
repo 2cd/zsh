@@ -62,8 +62,10 @@ which_p10k_style_do_you_prefer() {
 gnu_linux_chsh_zsh() {
     if [ $(command -v chsh) ]; then
         if [[ ! "$(cat /etc/passwd | grep "${HOME}" | grep zsh)" ]]; then
-            for i in /usr/bin/zsh /bin/zsh /usr/local/bin/zsh $(command -v zsh); do
+            for i in /usr/local/bin/zsh /usr/bin/zsh /bin/zsh $(command -v zsh); do
                 if [[ -e ${i} ]]; then
+                    printf "%s\n" "${GREEN}Changing${RESET} the default ${YELLOW}shell${RESET} to ${BLUE}zsh${RESET}..."
+                    printf "%s\n" "${GREEN}chsh ${YELLOW}-s ${BLUE}${i}${RESET}"
                     chsh -s ${i} || sudo chsh -s ${i}
                     break
                 fi
