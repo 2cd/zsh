@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 ##############
 compress_zsh_dir_as_tar_gz() {
+    printf "%s\n" "tar -Ppczf - ${ZSH_BACKUP_FILES} | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)"
     printf "%s\n" "您选择了tar.gz,即将为您备份至${START_DIR}/${TMPtime}.tar.gz"
     printf "%s\n" "${YELLOW}按回车键开始备份,按Ctrl+C取消。Press Enter to start the backup.${RESET} "
     read
-
+    cd ${HOME}
     #tar -Ppczf - ${HOME}/.z ${HOME}/.zshrc ${TERMUX_PATH} ${HOME}/.zsh_history ${OMZ_DIR} ${TMOE_ZSH_GIT_DIR} | (pv -n >${TMPtime}.tar.gz) 2>&1 | whiptail --gauge "Compressing into tar.gz \n正在压缩成tar.gz" 10 70
     #tar -Ppczf - ${HOME}/.z ${HOME}/.zshrc ${TERMUX_PATH} ${HOME}/.zsh_history ${OMZ_DIR} ${TMOE_ZSH_GIT_DIR} | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)
-    cd ${HOME}
     if [ $(command -v pv) ]; then
         tar -Ppczf - ${ZSH_BACKUP_FILES} | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)
     else
@@ -28,6 +28,7 @@ compress_zsh_dir_as_tar_gz() {
 }
 ################
 compress_zsh_dir_as_tar_xz() {
+    printf "%s\n" "tar -PJpcf - ${ZSH_BACKUP_FILES} | (pv -p --timer --rate --bytes >${TMPtime}.tar.xz)"
     printf "%s\n" "您选择了tar.xz,即将为您备份至${START_DIR}/${TMPtime}.tar.xz"
     printf "%s\n" "${YELLOW}按回车键开始备份,按Ctrl+C取消。Press Enter to start the backup.${RESET} "
     read
@@ -77,7 +78,7 @@ check_zsh_backup_dir() {
 
     ZSH_BACKUP_FILES="${HOME}/.zshrc ${ZINIT_DIR}"
     #绝对路径
-    for i in ${HOME}/.z ${HOME}/.zsh_history ${TMOE_ZSH_GIT_DIR} ${TERMUX_PATH} ${HOME}/.p10k.zsh ${HOME}/.cache/gitstatus ${HOME}/.zshenv ${HOME}/.zprofile ${HOME}/.zlogin ${HOME}/.zlogout; do
+    for i in ${HOME}/.z ${HOME}/.zsh_history ${TMOE_ZSH_GIT_DIR} ${TERMUX_PATH} ${HOME}/.p10k.zsh ${HOME}/.cache/gitstatus ${HOME}/.zshenv ${HOME}/.zprofile ${HOME}/.zlogin ${HOME}/.zlogout ${HOME}/.local/bin/zshtheme ${HOME}/.local/bin/zsh-i; do
         if [ -e "${i}" ]; then
             ZSH_BACKUP_FILES="${ZSH_BACKUP_FILES} ${i}"
         fi

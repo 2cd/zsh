@@ -5,7 +5,7 @@ upgrade_zsh_plugins_main() {
     case "$1" in
     -download)
         check_zsh_theme_completion
-        download_tmoe_zsh
+        check_zsh_i
         termux_fix_shebang_zshtheme
         ;;
     *)
@@ -90,7 +90,8 @@ check_zsh_theme_completion() {
 }
 ################
 download_tmoe_zsh() {
-    #bash -c "$(curl -L https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh/zsh.sh)"
+    #This feature has been abandoned.
+    bash -c "$(curl -L https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh/zsh.sh)"
     case ${TMOE_GIT_REPO} in
     'https://github.com/2moe/tmoe-zsh')
         ZSH_I_URL='https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh@2/zsh-i'
@@ -120,9 +121,16 @@ download_tmoe_zsh() {
     esac
 }
 ############
+check_zsh_i() {
+    if [[ ! -e ${HOME}/.local/bin/zsh-i ]]; then
+        mkdir -pv ${HOME}/.local/bin
+        ln -svf ${HOME}/.config/tmoe-zsh/git/zsh.sh ${HOME}/.local/bin/zsh-i
+    fi
+    [[ ! $(command -v termux-fix-shebang) ]] || termux-fix-shebang ${HOME}/.local/bin/zsh-i
+}
 upgrade_tmoe_zsh_script() {
-    #download_tmoe_zsh
-    [[ $(command -v zsh-i) ]] || download_tmoe_zsh
+    # [[ $(command -v zsh-i) ]] || download_tmoe_zsh
+    check_zsh_i
     sed -i '/alias zsh-i=/d' "${HOME}/.zshrc"
     if [ -e "${HOME}/.bashrc" ]; then
         sed -i '/alias zsh-i=/d' "${HOME}/.bashrc"

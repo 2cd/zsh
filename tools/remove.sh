@@ -40,9 +40,9 @@ remove_termux_fonts() {
 }
 #########
 remove_tmoe_zsh() {
-    printf "%s\n" "${RED}rm -rf ${TMOE_ZSH_DIR} ${PREFIX}/bin/zsh-i ; sed -i '/alias zshtheme=/d' ${HOME}/.zshrc ${HOME}/.profile${RESET}"
+    printf "%s\n" "${RED}rm -rf ${TMOE_ZSH_DIR} ${HOME}/.local/bin/zsh-i  ${HOME}/.local/bin/zshtheme ; sed -i '/alias zshtheme=/d' ${HOME}/.zshrc ${HOME}/.profile${RESET}"
     do_you_want_to_continue
-    rm -rfv ${TMOE_ZSH_DIR} ${PREFIX}/bin/zsh-i
+    rm -rfv ${TMOE_ZSH_DIR} ${HOME}/.local/bin/zsh-i ${HOME}/.local/bin/zshtheme
     sed -i '/alias zshtheme=/d' "${HOME}/.zshrc" "${HOME}/.profile" 2>/dev/null
     sed -i '/alias zshfont=/d' "${HOME}/.zshrc"
     sed -i '/alias zshcolor=/d' "${HOME}/.zshrc"
