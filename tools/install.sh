@@ -142,6 +142,16 @@ git_clone_zinit_and_omz() {
         cp ${TMOE_ZSH_GIT_DIR}/config/zshrc.zsh "${HOME}/.zshrc"
         #cp "${OMZ_DIR}/templates/zshrc.zsh-template" "${HOME}/.zshrc" || wget -O "${HOME}/.zshrc" 'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/templates/zshrc.zsh-template'
     fi
+
+    if [ $(command -v exa) ]; then
+        EXA_VERSION=$(exa --version 2>&1 | head -n 1 | awk '{print $NF}')
+        case ${EXA_VERSION} in
+        v0.[0-8].*) sed -i 's@ --icons@@g' "${HOME}/.zshrc" ;;
+        esac
+    else
+        sed -i 's@ --icons@@g' "${HOME}/.zshrc"
+    fi
+
     case ${LINUX_DISTRO} in
     Android) ;;
     *) check_zsh_dir_permissions ;;
