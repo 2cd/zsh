@@ -45,6 +45,7 @@ main() {
 check_tmoe_zsh_file() {
 	if [[ ! -s ${HOME}/.config/tmoe-zsh/git/zsh.sh && ${TMOE_ZSH} != true ]]; then
 		show_tmoe_zsh_package_info
+		RETURN_TO_WHERE="exit"
 		do_you_want_to_continue
 	fi
 }
