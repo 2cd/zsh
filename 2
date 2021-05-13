@@ -29,7 +29,7 @@ tmoe_zsh_02_main() {
         ;;
     local) check_local_git_dir ;;
     online) curl_tmoe_zsh_script_file ;;
-    *) curl_tmoe_zsh_script_file ;;
+    *) check_local_git_dir ;;
     esac
 }
 ##############
@@ -37,8 +37,9 @@ tmoe_zsh_02_env() {
     TMOE_ZSH_DIR="${HOME}/.config/tmoe-zsh"
     TMOE_ZSH_GIT_DIR="${TMOE_ZSH_DIR}/git"
     TMOE_ZSH_TOOL_DIR="${TMOE_ZSH_GIT_DIR}/tools"
-    TMOE_ZSH_SCRIPT_URL="https://raw.githubusercontent.com/2cd/zsh/master/zsh.sh"
-    TMOE_ZSH_SCRIPT_URL_02='https://cdn.jsdelivr.net/gh/2cd/zsh@master/zsh.sh'
+    # TMOE_URL="https://gitee.com/mo2/zsh/raw/master/zsh.sh"
+    TMOE_URL="https://raw.githubusercontent.com/2cd/zsh/master/zsh.sh"
+    TMOE_URL_02='https://cdn.jsdelivr.net/gh/2cd/zsh@master/zsh.sh'
     RED=$(printf '\033[31m')
     GREEN=$(printf '\033[32m')
     YELLOW=$(printf '\033[33m')
@@ -64,7 +65,7 @@ do_you_want_to_continue() {
     printf "%s\n" "按${GREEN}回车键${RESET}${BLUE}继续${RESET}，输${YELLOW}n${RESET}${PURPLE}退出${RESET}"
     read opt
     case $opt in
-    y* | Y* | "") ;;
+    y* | Y* | "") export TMOE_ZSH=true ;;
     n* | N*)
         printf "%s\n" "${PURPLE}skipped${RESET}."
         exit 1
@@ -77,14 +78,11 @@ do_you_want_to_continue() {
 }
 curl_tmoe_zsh_script_file() {
     if [ $(command -v curl) ]; then
-        bash -c "$(curl -L ${TMOE_ZSH_SCRIPT_URL})"
+        bash -c "$(curl --connect-timeout 7 -L ${TMOE_URL} || curl -Lv ${TMOE_URL_02})"
     elif [ $(command -v wget) ]; then
-        bash -c "$(wget -qO- ${TMOE_ZSH_SCRIPT_URL})"
+        bash -c "$(wget --connect-timeout=7 -qO- ${TMOE_URL} || wget --connect-timeout=7 -qO- ${TMOE_URL_02})"
     else
-        bash -c "$(busybox wget --no-check-certificate -qO- ${TMOE_ZSH_SCRIPT_URL})"
-    fi
-    if [ ! -e ${HOME}/.local/bin/zsh-i ]; then
-        bash -c "$(curl -L ${TMOE_ZSH_SCRIPT_URL_02})"
+        bash -c "$(busybox wget --no-check-certificate -qO- ${TMOE_URL})"
     fi
 }
 ################
