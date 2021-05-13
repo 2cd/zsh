@@ -264,7 +264,7 @@ EOF
 ############
 check_fzf_version() {
     if [ $(command -v fzf) ]; then
-        FZF_VERSION=$(fzf --version 2>&1)
+        FZF_VERSION=$(fzf --version 2>&1 | awk '{print $1}')
         case ${FZF_VERSION} in
         0.[0-1][0-9].* | "") FZF_VERSION=old ;;
         *) FZF_VERSION=new ;;

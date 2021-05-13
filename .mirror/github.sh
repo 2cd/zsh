@@ -8,7 +8,7 @@ for i in ${ALL_SHARE_FILE}; do
     fi
 done
 SHARE_FILE="${SHARE_FILE} zsh.sh"
-# sed -i 's!https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh@master/.mirror/zsh!${TMOE_GIT_REPO}/raw/master/zsh.sh!g' zsh.sh
+# sed -i 's!https://gitee.com/mo2/zsh/raw/master/zsh.sh!${TMOE_GIT_REPO}/raw/master/zsh.sh!g' zsh.sh
 # sed -i 's@gitee.com/mo2/fzf-tab@github.com/Aloxaf/fzf-tab@g' zsh.sh ./tools/*sh
 # sed -i 's@gitee.com/mirrors/neofetch/raw/master/neofetch@raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch@g' zsh.sh ./tools/*sh
 # sed -i 's@gitee.com/mirrors/oh-my-zsh/raw/master/templates/zshrc.zsh-template@raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/templates/zshrc.zsh-template@g' zsh.sh ./tools/*sh
@@ -25,7 +25,7 @@ SHARE_FILE="${SHARE_FILE} zsh.sh"
 # sed -i 's@gitee.com/mo2/zsh@github.com/2moe/tmoe-zsh@g' zsh.sh
 # sed -i 's@gitee.com/ak2/p10k_config/@github.com/2moe/p10k_config/@g' share/themes.sh
 
-sed -e 's!https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh@master/.mirror/zsh!${TMOE_GIT_REPO}/raw/master/zsh.sh!g' \
+sed -e 's!https://gitee.com/mo2/zsh/raw/master/zsh.sh!${TMOE_GIT_REPO}/raw/master/zsh.sh!g' \
     -e 's@gitee.com/mo2/fzf-tab@github.com/Aloxaf/fzf-tab@g' \
     -e 's@gitee.com/mirrors/neofetch/raw/master/neofetch@raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch@g' \
     -e 's@gitee.com/mo2/zsh.git@github.com/2cd/zsh.git@g' \

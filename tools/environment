@@ -118,7 +118,7 @@ unxz_fzf_deb_bin() {
 ###########
 install_debian_fzf_bin() {
     if [ $(command -v fzf) ]; then
-        FZF_VERSION=$(fzf --version 2>&1)
+        FZF_VERSION=$(fzf --version 2>&1 | awk '{print $1}')
         case ${FZF_VERSION} in
         0.[0-1][0-9].*)
             rm -fv $(command -v fzf)
@@ -399,9 +399,12 @@ install_gnu_linux_dependencies() {
             install_dependencies_01
             ;;
         *)
-            check_root
-            apt update
-            apt install -y zsh git pv wget xz-utils tar whiptail command-not-found || port install ${DEPENDENCIES} || guix package -i ${DEPENDENCIES} || pkg install ${DEPENDENCIES} || pkg_add ${DEPENDENCIES} || pkgutil -i ${DEPENDENCIES}
+            printf "%s\n" "${RED}不支持${RESET}您当前的发行版，您可以前往${YELLOW}https://github.com/2cd/zsh${RESET}提交issue,并附上${BLUE}cat /etc/os-release${RESET}的截图。"
+            sleep 2
+            exit 1
+            # check_root
+            # apt update
+            # apt install -y zsh git pv wget xz-utils tar whiptail command-not-found || port install ${DEPENDENCIES} || guix package -i ${DEPENDENCIES} || pkg install ${DEPENDENCIES} || pkg_add ${DEPENDENCIES} || pkgutil -i ${DEPENDENCIES}
             ;;
         esac
     fi

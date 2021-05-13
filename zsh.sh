@@ -1,25 +1,57 @@
 #!/usr/bin/env bash
 #################################################
+show_tmoe_zsh_package_info() {
+	if [ $(uname -o) = Android ]; then EXTRA_DEPS=", debianutils, dialog, termux-tools"; fi
+	cat <<-EndOfShow
+		Package: tmoe-zsh
+		Version: 1.288
+		Priority: optional
+		Section: shells
+		Maintainer: 2moe <25324935+2moe@users.noreply.github.com>
+		Depends: bat (>= 0.12.1), binutils (>= 2.28-5), curl (>= 7.52.1) | wget (>= 1.18-5), diffutils (>= 1:3.5-3), exa(>= 0.8.0), fzf (>= 0.20.0), git, grep, less, pv (>= 1.6.0), sed (>= 4.4-1), sudo (>= 1.8.19p1-2.1), tar (>= 1.29b-1.1), whiptail (>= 0.52.19), xz-utils (>= 5.2.2), zsh (>= 5.3.0)${EXTRA_DEPS}
+		Recommends: eatmydata, gzip, htop
+		Suggests: lolcat, micro, neofetch, zstd
+		Homepage: https://github.com/2cd/zsh
+		Tag: interface::TODO, interface::shell, interface::text-mode, role::program, works-with::text
+		Description: Easily configure zsh themes and plugins.
+	EndOfShow
+}
+################
 main() {
 	terminal_color
-	gnu_linux_env
-	check_system
 	case "$1" in
 	u | up | -u)
+		tmoe_zsh_preconfigure
 		upgrade_tmoe_zsh_manager
 		;;
 	h | -h | --h | --help) get_tmoe_zsh_help_info ;;
 	--tmoe_container_auto_configure | --tmoe_container_automatic_configure | --auto)
+		tmoe_zsh_preconfigure
 		TMOE_CONTAINER_AUTO_CONFIGURE=true
 		tmoe_zsh_installation
 		;;
-	p | -p | plugin) tmoe_zsh_plugin_manager ;;
+	p | -p | plugin)
+		tmoe_zsh_preconfigure
+		tmoe_zsh_plugin_manager
+		;;
 	*)
+		check_tmoe_zsh_file
+		tmoe_zsh_preconfigure
 		tmoe_zsh_main_menu
 		;;
 	esac
 }
 ################
+check_tmoe_zsh_file() {
+	if [[ ! -s ${HOME}/.config/tmoe-zsh/git/zsh.sh ]]; then
+		show_tmoe_zsh_package_info
+		do_you_want_to_continue
+	fi
+}
+tmoe_zsh_preconfigure() {
+	gnu_linux_env
+	check_system
+}
 get_tmoe_zsh_help_info() {
 	cat <<-'EOF'
 		u                                                                            --更新(update tmoe-zsh)
@@ -251,19 +283,6 @@ check_linux_distro() {
 	fi
 }
 #################
-check_root() {
-	if [ "$(id -u)" != "0" ]; then
-		if [ $(command -v curl) ]; then
-			sudo -E bash -c "$(curl -LfsS ${TMOE_GIT_REPO}/raw/master/zsh.sh)" ||
-				su -c "$(curl -LfsS ${TMOE_GIT_REPO}/raw/master/zsh.sh)"
-		else
-			sudo -E bash -c "$(wget -qO- ${TMOE_GIT_REPO}/raw/master/zsh.sh)" ||
-				su -c "$(wget -qO- ${TMOE_GIT_REPO}/raw/master/zsh.sh)"
-		fi
-		exit 0
-	fi
-}
-###########
 install_dependencies_01() {
 	case "${LINUX_DISTRO}" in
 	debian) ${TMOE_UPDATE_COMMAND} ;;
@@ -371,11 +390,12 @@ check_gnu_linux_git_and_whiptail() {
 			install_dependencies_01
 			;;
 		*)
-			printf "%s\n" "${RED}不支持${RESET}您当前的发行版，您可以前往${YELLOW}https://github.com/2moe/tmoe-zsh${RESET}提交issue,并附上${BLUE}cat /etc/os-release${RESET}的截图。"
+			printf "%s\n" "${RED}不支持${RESET}您当前的发行版，您可以前往${YELLOW}https://github.com/2cd/zsh${RESET}提交issue,并附上${BLUE}cat /etc/os-release${RESET}的截图。"
 			press_enter_to_continue
-			check_root
-			apt update
-			apt install -y bash git whiptail || port install ${DEPENDENCIES} || guix package -i ${DEPENDENCIES} || pkg install ${DEPENDENCIES} || pkg_add ${DEPENDENCIES} || pkgutil -i ${DEPENDENCIES}
+			exit 1
+			# check_root
+			# apt update
+			# apt install -y bash git whiptail || port install ${DEPENDENCIES} || guix package -i ${DEPENDENCIES} || pkg install ${DEPENDENCIES} || pkg_add ${DEPENDENCIES} || pkgutil -i ${DEPENDENCIES}
 			;;
 		esac
 	fi
