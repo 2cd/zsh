@@ -140,7 +140,6 @@ git_clone_zinit_and_omz() {
         fi
     else
         cp ${TMOE_ZSH_GIT_DIR}/config/zshrc.zsh "${HOME}/.zshrc"
-        #cp "${OMZ_DIR}/templates/zshrc.zsh-template" "${HOME}/.zshrc" || wget -O "${HOME}/.zshrc" 'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/templates/zshrc.zsh-template'
     fi
 
     if [ $(command -v exa) ]; then
@@ -263,14 +262,34 @@ add_zinit_plugin_fzf_tab() {
 EOF
 }
 ############
+check_fzf_version() {
+    if [ $(command -v fzf) ]; then
+        FZF_VERSION=$(fzf --version 2>&1)
+        case ${FZF_VERSION} in
+        0.[0-1][0-9].* | "") FZF_VERSION=old ;;
+        *) FZF_VERSION=new ;;
+        esac
+    fi
+}
 git_clone_fzf_tab() {
     printf '%s\n' '正在克隆fzf-tab自动补全插件...'
     printf "%s\n" "${YELLOW}github.com/Aloxaf/fzf-tab${RESET}"
     printf "%s\n" "${BLUE}#aloxaf:fzf-tab 是一个能够极大提升 zsh 补全体验的插件。它通过 hook zsh 补全系统的底层函数 compadd 来截获补全列表，从而实现了在补全命令行参数、变量、目录栈和文件时都能使用 fzf 进行选择的功能。Replace zsh’s default completion selection menu with fzf! ${RESET}"
-    git clone --depth=1 https://github.com/Aloxaf/fzf-tab.git "${FZF_TAB_PLUGIN_DIR}" || git clone --depth=1 git://github.com/Aloxaf/fzf-tab.git "${FZF_TAB_PLUGIN_DIR}"
-    chmod 755 -R "${FZF_TAB_PLUGIN_DIR}"
-    if ! egrep -q '^[^#]*zinit.*/fzf-tab' "${HOME}/.zshrc"; then
-        add_zinit_plugin_fzf_tab
+    if [ $(command -v fzf) ]; then
+        check_fzf_version
+        case ${FZF_VERSION} in
+        old)
+            printf "%s\n" "${RED}ERROR${RESET}, you are using an old version of fzf."
+            #  sed -i '/aloxaf:fzf-tab/d' ${HOME}/.zshrc
+            ;;
+        new)
+            git clone --depth=1 https://github.com/Aloxaf/fzf-tab.git "${FZF_TAB_PLUGIN_DIR}" || git clone --depth=1 git://github.com/Aloxaf/fzf-tab.git "${FZF_TAB_PLUGIN_DIR}"
+            chmod 755 -R "${FZF_TAB_PLUGIN_DIR}"
+            if ! egrep -q '^[^#]*zinit.*/fzf-tab' "${HOME}/.zshrc"; then
+                add_zinit_plugin_fzf_tab
+            fi
+            ;;
+        esac
     fi
 }
 ############
@@ -311,11 +330,18 @@ configure_zinit_plugin_fzf_tab() {
     esac
 
     if [ $(command -v fzf) ]; then
-        if [[ "$(uname -r | cut -d '-' -f 3)" != "Microsoft" && "$(uname -r | cut -d '-' -f 2)" != "microsoft" ]]; then
-            if [ ! -d "${FZF_TAB_PLUGIN_DIR}/.git" ]; then
-                git_clone_fzf_tab
-                fzf_tab_extra_opt
-            fi
+        # if [[ "$(uname -r | cut -d '-' -f 3)" != "Microsoft" && "$(uname -r | cut -d '-' -f 2)" != "microsoft" ]]; then
+        if [ ! -d "${FZF_TAB_PLUGIN_DIR}/.git" ]; then
+            git_clone_fzf_tab
+            fzf_tab_extra_opt
+        else
+            check_fzf_version
+            case ${FZF_VERSION} in
+            old)
+                printf "%s\n" "${RED}ERROR${RESET}, you are using an old version of fzf."
+                sed -i '/aloxaf:fzf-tab/d' ${HOME}/.zshrc
+                ;;
+            esac
         fi
         #configure_fzf_tab_ls_colors
     fi

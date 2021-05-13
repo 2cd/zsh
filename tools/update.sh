@@ -89,38 +89,6 @@ check_zsh_theme_completion() {
     esac
 }
 ################
-download_tmoe_zsh() {
-    #This feature has been abandoned.
-    bash -c "$(curl -L https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh/zsh.sh)"
-    case ${TMOE_GIT_REPO} in
-    'https://github.com/2moe/tmoe-zsh')
-        ZSH_I_URL='https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh@2/zsh-i'
-        ZSH_I_URL_02='https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh/zsh.sh'
-        ;;
-    *)
-        ZSH_I_URL="${TMOE_GIT_REPO}/raw/2/zsh-i"
-        ZSH_I_URL_02="https://cdn.jsdelivr.net/gh/2moe/tmoe-zsh@master/.mirror/zsh"
-        ;;
-    esac
-    case "${LINUX_DISTRO}" in
-    Android)
-        curl_zsh_i
-        termux-fix-shebang ${PREFIX}/bin/zsh-i
-        chmod +x ${PREFIX}/bin/zsh-i
-        ;;
-    alpine)
-        cd /tmp
-        wget -O .zsh-i ${ZSH_I_URL}
-        chmod_plus_x_zsh_i
-        ;;
-    *)
-        cd /tmp
-        curl -Lv -o .zsh-i ${ZSH_I_URL}
-        chmod_plus_x_zsh_i
-        ;;
-    esac
-}
-############
 check_zsh_i() {
     if [[ ! -e ${HOME}/.local/bin/zsh-i ]]; then
         mkdir -pv ${HOME}/.local/bin
@@ -129,7 +97,6 @@ check_zsh_i() {
     [[ ! $(command -v termux-fix-shebang) ]] || termux-fix-shebang ${HOME}/.local/bin/zsh-i
 }
 upgrade_tmoe_zsh_script() {
-    # [[ $(command -v zsh-i) ]] || download_tmoe_zsh
     check_zsh_i
     sed -i '/alias zsh-i=/d' "${HOME}/.zshrc"
     if [ -e "${HOME}/.bashrc" ]; then

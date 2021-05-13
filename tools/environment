@@ -117,6 +117,16 @@ unxz_fzf_deb_bin() {
 }
 ###########
 install_debian_fzf_bin() {
+    if [ $(command -v fzf) ]; then
+        FZF_VERSION=$(fzf --version 2>&1)
+        case ${FZF_VERSION} in
+        0.[0-1][0-9].*)
+            rm -fv $(command -v fzf)
+            ${TMOE_REMOVAL_COMMAND} fzf
+            ;;
+        esac
+    fi
+
     if [ ! $(command -v fzf) ]; then
         if [ $(command -v zsh) ]; then
             printf '%s\n' '' >${TMOE_ZSH_DIR}/non_install_fzf

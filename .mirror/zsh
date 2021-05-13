@@ -31,12 +31,13 @@ get_tmoe_zsh_help_info() {
 ###########
 terminal_color() {
 	RED=$(printf '\033[31m')
-	PURPLE=$(printf '\033[0;35m')
 	GREEN=$(printf '\033[32m')
 	YELLOW=$(printf '\033[33m')
 	BLUE=$(printf '\033[34m')
-	BOLD=$(printf '\033[1m')
+	PURPLE=$(printf '\033[35m')
+	CYAN=$(printf '\033[36m')
 	RESET=$(printf '\033[m')
+	BOLD=$(printf '\033[1m')
 
 	RB_RED=$(printf '\033[38;5;196m')
 	RB_ORANGE=$(printf '\033[38;5;202m')
