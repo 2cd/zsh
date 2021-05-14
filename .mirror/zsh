@@ -1,1 +1,1 @@
-bash -c "$(curl -Lv https://raw.githubusercontent.com/2cd/zsh/master/zsh.sh)"
+bash -c "$(curl -Lv https://gitee.com/mo2/zsh/raw/master/zsh.sh)"

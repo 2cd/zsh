@@ -8,7 +8,7 @@ for i in ${ALL_SHARE_FILE}; do
     fi
 done
 SHARE_FILE="${SHARE_FILE} zsh.sh"
-sed -i 's!gitee.com/mo2/zsh/raw/master/zsh.sh!raw.githubusercontent.com/2cd/zsh/master/zsh.sh!g' ./.mirror/zsh
+# sed -i 's!gitee.com/mo2/zsh/raw/master/zsh.sh!raw.githubusercontent.com/2cd/zsh/master/zsh.sh!g' ./.mirror/zsh
 # sed -i 's!https://gitee.com/mo2/zsh/raw/master/zsh.sh!${TMOE_GIT_REPO}/raw/master/zsh.sh!g' zsh.sh
 # sed -i 's@gitee.com/mo2/fzf-tab@github.com/Aloxaf/fzf-tab@g' zsh.sh ./tools/*sh
 # sed -i 's@gitee.com/mirrors/neofetch/raw/master/neofetch@raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch@g' zsh.sh ./tools/*sh
