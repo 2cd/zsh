@@ -212,33 +212,34 @@ openwrt_router_zsh_command() {
 	TMOE_REMOVAL_COMMAND='opkg remove'
 }
 ############
-check_linux_distro() {
-	TMOE_UPDATE_COMMAND=''
-	if grep -Eq 'debian|ubuntu|deepin|uos\.com' "/etc/os-release" 2>/dev/null || [[ $(command -v apt-cache) && $(command -v dpkg) ]]; then
-		LINUX_DISTRO='debian'
-		TMOE_UPDATE_COMMAND='apt update'
-		TMOE_INSTALLATION_COMMAND='eatmydata apt install -y'
-		TMOE_REMOVAL_COMMAND='apt purge -y'
-		if grep -q 'ubuntu' /etc/os-release; then
-			DEBIAN_DISTRO='ubuntu'
-		elif [ "$(cat /etc/issue | cut -c 1-4)" = "Kali" ]; then
-			DEBIAN_DISTRO='kali'
-		fi
-
-	elif grep -Eq "opkg|entware" '/opt/etc/opkg.conf' 2>/dev/null || grep -q 'openwrt' "/etc/os-release"; then
-		openwrt_router_zsh_command
-
-	elif grep -q "Alpine" '/etc/issue' || grep -q "Alpine" '/etc/os-release' 2>/dev/null; then
-		LINUX_DISTRO='alpine'
-		TMOE_INSTALLATION_COMMAND='apk add'
-		TMOE_REMOVAL_COMMAND='apk del'
-
-	elif grep -Eq "Arch|Manjaro" '/etc/os-release' 2>/dev/null || grep -Eq "Arch|Manjaro" '/etc/issue' 2>/dev/null; then
-		LINUX_DISTRO='arch'
-		TMOE_REMOVAL_COMMAND='pacman -Rsc'
-		TMOE_INSTALLATION_COMMAND='pacman -Syu --noconfirm'
-
-	elif grep -Eqi "Fedora|CentOS|Red Hat|redhat" "/etc/os-release" 2>/dev/null; then
+debian_env() {
+	LINUX_DISTRO='debian'
+	TMOE_INSTALLATION_COMMAND='eatmydata apt install -y'
+	TMOE_INSTALLATION_COMMAND_NON_AUTO='sudo apt install'
+	TMOE_REMOVAL_COMMAND='apt purge -y'
+	# TMOE_UPDATE_COMMAND='sudo apt update'
+	TMOE_UPDATE_COMMAND='apt update'
+}
+arch_linux_env() {
+	LINUX_DISTRO='arch'
+	TMOE_UPDATE_COMMAND='pacman -Syy'
+	TMOE_INSTALLATION_COMMAND='pacman -Syu --noconfirm --needed'
+	TMOE_INSTALLATION_COMMAND_NON_AUTO='sudo pacman -Syu --needed'
+	TMOE_REMOVAL_COMMAND='pacman -Rsc'
+}
+check_linux_distro_etc_release() {
+	OS_RELEASE=$(cat /etc/os-release)
+	case ${OS_RELEASE} in
+	*debian* | *ubuntu* | *deepin* | *uos.com*)
+		debian_env
+		case ${OS_RELEASE} in
+		*ubuntu*) DEBIAN_DISTRO='ubuntu' ;;
+		*Kali*) DEBIAN_DISTRO='kali' ;; #"$(cut -c 1-4 /etc/issue)" = "Kali"
+		*deepin* | *uos.com*) DEBIAN_DISTRO='deepin' ;;
+		esac
+		;;
+	*Arch* | *Manjaro*) arch_linux_env ;;
+	*Fedora* | *CentOS* | "*Red Hat*" | *redhat*)
 		LINUX_DISTRO='redhat'
 		if [ $(command -v dnf) ]; then
 			TMOE_UPDATE_COMMAND='dnf update'
@@ -249,38 +250,71 @@ check_linux_distro() {
 			TMOE_INSTALLATION_COMMAND='yum install -y --skip-broken'
 			TMOE_REMOVAL_COMMAND='yum remove -y'
 		fi
-		if [ "$(cat /etc/os-release | grep 'ID=' | head -n 1 | cut -d '"' -f 2)" = "centos" ]; then
-			REDHAT_DISTRO='centos'
-		elif grep -q 'Fedora' "/etc/os-release"; then
-			REDHAT_DISTRO='fedora'
-		fi
-
-	elif grep -Eq "gentoo|funtoo" '/etc/os-release' 2>/dev/null; then
+		case ${OS_RELEASE} in
+		*Fedora*) REDHAT_DISTRO='fedora' ;;
+		*ID=*centos*) REDHAT_DISTRO='centos' ;; #"$(grep 'ID=' /etc/os-release | head -n 1 | cut -d '"' -f 2)" = "centos"
+		esac
+		;;
+	*Alpine*)
+		LINUX_DISTRO='alpine'
+		TMOE_UPDATE_COMMAND='apk update'
+		TMOE_INSTALLATION_COMMAND='apk add'
+		TMOE_REMOVAL_COMMAND='sudo apk del'
+		;;
+	*gentoo* | *funtoo*)
 		LINUX_DISTRO='gentoo'
 		TMOE_INSTALLATION_COMMAND='emerge -avk'
+		# TMOE_INSTALLATION_COMMAND_NO_SUDO='emerge -avk'
+		# TMOE_INSTALLATION_COMMAND_NON_AUTO='sudo emerge -avk'
 		TMOE_REMOVAL_COMMAND='emerge -C'
-
-	elif grep -qi 'suse' '/etc/os-release' 2>/dev/null; then
+		;;
+	*Solus*)
+		LINUX_DISTRO='solus'
+		TMOE_INSTALLATION_COMMAND='eopkg install -y'
+		# TMOE_INSTALLATION_COMMAND_NO_SUDO='eopkg install -y'
+		# TMOE_INSTALLATION_COMMAND_NON_AUTO='sudo eopkg install'
+		TMOE_REMOVAL_COMMAND='eopkg remove -y'
+		;;
+	*ID=\"void\"*)
+		LINUX_DISTRO='void'
+		export LANG='en_US.UTF-8'
+		TMOE_INSTALLATION_COMMAND='xbps-install -Sy'
+		TMOE_REMOVAL_COMMAND='xbps-remove -R'
+		;;
+	*openSUSE* | *suse*)
 		LINUX_DISTRO='suse'
 		TMOE_INSTALLATION_COMMAND='zypper in -y'
 		TMOE_REMOVAL_COMMAND='zypper rm'
-
-	elif [ "$(cat /etc/issue | cut -c 1-4)" = "Void" ]; then
-		LINUX_DISTRO='void'
-		export LANG='en_US.UTF-8'
-		TMOE_INSTALLATION_COMMAND='xbps-install -S -y'
-		TMOE_REMOVAL_COMMAND='xbps-remove -R'
-
-	elif grep -q "Slackware" '/etc/os-release' 2>/dev/null; then
+		;;
+	*Slackware*)
 		LINUX_DISTRO='slackware'
 		TMOE_UPDATE_COMMAND='slackpkg update'
 		TMOE_INSTALLATION_COMMAND='slackpkg install'
 		TMOE_REMOVAL_COMMAND='slackpkg remove'
-
-	elif grep -q 'Solus' '/etc/os-release'; then
-		LINUX_DISTRO='solus'
-		TMOE_INSTALLATION_COMMAND='eopkg install -y'
-		TMOE_REMOVAL_COMMAND='eopkg remove -y'
+		;;
+	*openwrt*)
+		openwrt_router_zsh_command
+		LINUX_DISTRO='openwrt'
+		TMOE_UPDATE_COMMAND='opkg update'
+		TMOE_INSTALLATION_COMMAND='opkg install'
+		TMOE_REMOVAL_COMMAND='opkg remove'
+		;;
+	*) check_linux_distro_pkg_manager ;;
+	esac
+}
+check_linux_distro_pkg_manager() {
+	if [[ $(command -v dpkg) && $(command -v apt-cache) ]]; then
+		debian_env
+	elif [[ $(command -v pacman) ]]; then
+		arch_linux_env
+	fi
+}
+check_linux_distro() {
+	unset TMOE_UPDATE_COMMAND
+	if [[ -e /etc/os-release ]]; then
+		check_linux_distro_etc_release
+	else
+		check_linux_distro_pkg_manager
 	fi
 }
 #################

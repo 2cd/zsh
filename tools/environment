@@ -19,35 +19,31 @@ check_current_user_name_and_group() {
 }
 #################
 check_architecture() {
-    case $(uname -m) in
-    armv7* | armv8l)
-        ARCH_TYPE="armhf"
-        ;;
-    armv6* | armv5*)
-        ARCH_TYPE="armel"
-        ;;
-    aarch64 | armv8* | arm64)
-        ARCH_TYPE="arm64"
-        ;;
-    x86_64 | amd64)
-        ARCH_TYPE="amd64"
-        ;;
-    i*86 | x86)
-        ARCH_TYPE="i386"
-        ;;
-    s390*)
-        ARCH_TYPE="s390x"
-        ;;
-    ppc*)
-        ARCH_TYPE="ppc64el"
-        ;;
-    mips*)
-        ARCH_TYPE="mipsel"
-        ;;
-    risc*)
-        ARCH_TYPE="riscv"
-        ;;
-    esac
+    if [[ $(command -v dpkg) && $(command -v apt-get) ]]; then
+        DPKG_ARCH=$(dpkg --print-architecture)
+        case ${DPKG_ARCH} in
+        armv7* | armv8l | armhf) ARCH_TYPE="armhf" ;;
+        aarch64 | arm64* | armv8*) ARCH_TYPE="arm64" ;;
+        i*86 | x86) ARCH_TYPE="i386" ;;
+        x86_64 | amd64) ARCH_TYPE="amd64" ;;
+        *) ARCH_TYPE=${DPKG_ARCH} ;;
+        esac
+    else
+        UNAME_ARCH=$(uname -m)
+        case ${UNAME_ARCH} in
+        armv7* | armv8l) ARCH_TYPE="armhf" ;;
+        armv6* | armv5*) ARCH_TYPE="armel" ;;
+        aarch64 | armv8* | arm64) ARCH_TYPE="arm64" ;;
+        x86_64 | amd64) ARCH_TYPE="amd64" ;;
+        i*86 | x86) ARCH_TYPE="i386" ;;
+        s390*) ARCH_TYPE="s390x" ;;
+        ppc*) ARCH_TYPE="ppc64el" ;;
+        mips64) ARCH_TYPE="mips64el" ;;
+        mips*) ARCH_TYPE="mipsel" ;;
+        risc*) ARCH_TYPE="riscv64" ;;
+        *) ARCH_TYPE=${UNAME_ARCH} ;;
+        esac
+    fi
     TRUE_ARCH_TYPE=${ARCH_TYPE}
 }
 #################
@@ -244,6 +240,11 @@ check_gnu_linux_dependencies_01() {
 
         if [ ! -d /usr/share/doc/fonts-powerline ]; then
             DEPENDENCIES="${DEPENDENCIES} fonts-powerline"
+        fi
+        ;;
+    redhat)
+        if [ ! $(command -v sqlite3) ]; then
+            DEPENDENCIES="${DEPENDENCIES} sqlite"
         fi
         ;;
     esac

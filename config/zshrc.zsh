@@ -1,17 +1,21 @@
-##SET VAR
-typeset -x PATH="${HOME}/.local/bin${PATH:+:${PATH}}"
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-TMOE_ZSH_DIR="${HOME}/.config/tmoe-zsh"
-TMOE_ZSH_GIT_DIR="${TMOE_ZSH_DIR}/git"
-TMOE_ZSH_TOOL_DIR="${TMOE_ZSH_GIT_DIR}/tools"
-ZINIT_THEME_DIR="${HOME}/.zinit/themes/_local"
-########
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]] {
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 }
+########
+# NOTE
+# If you find a permission problem with zsh-related directories, then try running `compaudit | xargs chmod g-w,o-w`
+
+########
+# SET ENV
+typeset -x PATH="${HOME}/.local/bin${PATH:+:${PATH}}"
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+TMOE_ZSH_DIR="${HOME}/.config/tmoe-zsh"
+TMOE_ZSH_GIT_DIR="${TMOE_ZSH_DIR}/git"
+TMOE_ZSH_TOOL_DIR="${TMOE_ZSH_GIT_DIR}/tools"
+ZINIT_THEME_DIR="${HOME}/.zinit/themes/_local"
 ########
 load_omz_lib() {
     for i (theme-and-appearance.zsh git.zsh prompt_info_functions.zsh history.zsh) {
@@ -24,25 +28,25 @@ load_omz_lib() {
 }
 ########
 load_zinit_compinit_function() {
-    #autoload -Uz compinit ;compinit #载入补全相关function
+    # autoload -Uz compinit ;compinit #载入补全相关function
     zpcompinit
     zpcdreplay
-    #compinit -u
-    #zinit cdreplay -q
+    # compinit -u
+    # zinit cdreplay -q
 }
 ########
-##LOAD MAIN LIB
+# LOAD MAIN LIB
 source ${HOME}/.zinit/bin/zinit.zsh
 load_omz_lib
 ########
-##THEME
+# THEME
 zinit light ${ZINIT_THEME_DIR}/xiong-chiamiov-plus
-#theme-and-appearance的加载顺序要先于主题,请在load_omz_lib之后加载主题。
+# theme-and-appearance的加载顺序要先于主题,请在load_omz_lib之后加载主题。
 skip_global_compinit=1
 load_zinit_compinit_function
 ########
 ALOXAF_FZF_TAB_EXTRA=01
-#当变量ALOXAF_FZF_TAB_EXTRA的值为01时，仅加载补全项颜色函数;为02时，加载右侧窗口配置;为true时，启用所有额外函数;为false时禁用。
+# 当变量ALOXAF_FZF_TAB_EXTRA的值为01时，仅加载补全项颜色函数;为02时，加载右侧窗口配置;为true时，启用所有额外函数;为false时禁用。
 source ${TMOE_ZSH_GIT_DIR}/config/aloxaf_fzf_tab_extra_opts.zsh
 ########
 zinit ice lucid wait="1" pick"extract.plugin.zsh" && zinit light _local/extract && zinit ice lucid as"completion" wait="1" && zinit snippet ${HOME}/.zinit/plugins/_local---extract/_extract #解压插件，输x 压缩包名称（例如`x 233.7z`或`x 233.tar.xz`) 即可解压文件。This plugin defines a function called `extract` that extracts the archive file you pass it, and it supports a wide variety of archive filetypes.
@@ -62,9 +66,9 @@ zinit ice wait lucid pick"zsh-autosuggestions.zsh" atload'_zsh_autosuggest_start
 zinit ice lucid wait="2" pick"sudo.plugin.zsh" && zinit light _local/sudo #Easily prefix your current or previous commands with `sudo` by pressing <kbd>esc</kbd> twice 按两次ESC键,可以在当前命令前加上sudo前缀  
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh #powerlevel10k的prompt
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh # powerlevel10k的prompt
 #######
-#ALIASES
+# ALIASES
 alias ...=../..
 alias ....=../../..
 alias .....=../../../..
@@ -98,16 +102,18 @@ if [[ $(command -v exa) ]] {
         }
     }
     [[ -n ${LS_BIN_FILE} ]] || local LS_BIN_FILE=$(whereis ls 2>/dev/null | awk '{print $2}')
-    alias lls=${LS_BIN_FILE} #lls is the original ls. lls为原版ls
-    alias ls="exa --color=auto" #Exa is a modern version of ls. exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。
+    alias lls=${LS_BIN_FILE} 
+    # lls is the original ls. lls为原版ls
+    alias ls="exa --color=auto" 
+    # Exa is a modern version of ls. exa是一款优秀的ls替代品,拥有更好的文件展示体验,输出结果更快,使用rust编写。
     alias l='exa -lbah --icons'
     alias la='exa -labgh --icons'
     alias ll='exa -lbg --icons'
     alias lsa='exa -lbagR --icons'
-    alias lst='exa -lTabgh --git --icons' #输入lst,将展示类似于tree的树状列表。
+    alias lst='exa -lTabgh --git --icons' # 输入lst,将展示类似于tree的树状列表。
 } else {
     alias ls='ls --color=auto'
-    #color should not be always.
+    # color should not be always.
     alias lst='tree -pCsh'
     alias l='ls -lah'
     alias la='ls -lAh'
@@ -126,10 +132,11 @@ set_bat_paper_variable() {
         }
     }
     [[ -n ${CAT_BIN_FILE} ]] || local CAT_BIN_FILE=$(whereis cat 2>/dev/null | awk '{print $2}')
-    alias lcat=${CAT_BIN_FILE} #lcat is the original cat.
-    typeset -g BAT_PAGER="less -m -RFQ" #You can type q to quit bat. 输q退出bat的页面视图
+    alias lcat=${CAT_BIN_FILE} 
+    # lcat is the original cat.
+    typeset -g BAT_PAGER="less -m -RFQ" # You can type q to quit bat. 输q退出bat的页面视图
 }
-#bat supports syntax highlighting for a large number of programming and markup languages. bat是cat的替代品，支持多语言语法高亮。
+# bat supports syntax highlighting for a large number of programming and markup languages. bat是cat的替代品，支持多语言语法高亮。
 for i (batcat bat) {
     if [[ $(command -v ${i}) ]] {
         alias cat="${i} -pp"
