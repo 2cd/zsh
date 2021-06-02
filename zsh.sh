@@ -239,7 +239,7 @@ check_linux_distro_etc_release() {
 		esac
 		;;
 	*Arch* | *Manjaro*) arch_linux_env ;;
-	*Fedora* | *CentOS* | "*Red Hat*" | *redhat*)
+	*Fedora* | *CentOS* | "*Red Hat*" | *redhat* | *fedora*)
 		LINUX_DISTRO='redhat'
 		if [ $(command -v dnf) ]; then
 			TMOE_UPDATE_COMMAND='dnf update'
@@ -252,7 +252,7 @@ check_linux_distro_etc_release() {
 		fi
 		case ${OS_RELEASE} in
 		*Fedora*) REDHAT_DISTRO='fedora' ;;
-		*ID=*centos*) REDHAT_DISTRO='centos' ;; #"$(grep 'ID=' /etc/os-release | head -n 1 | cut -d '"' -f 2)" = "centos"
+		*ID=*centos* | *rhel*) REDHAT_DISTRO='centos' ;; #"$(grep 'ID=' /etc/os-release | head -n 1 | cut -d '"' -f 2)" = "centos"
 		esac
 		;;
 	*Alpine*)
