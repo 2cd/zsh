@@ -273,7 +273,7 @@ configure_xfce_terminal_color() {
             ;;
         esac
     fi
-    if [ ! -f '/usr/share/fonts/truetype/iosevka/Iosevka.ttf' && ! -f '/usr/share/fonts/truetype/iosevka/Iosevka-Term-Mono.ttf' ]; then
+    if [[ ! -f '/usr/share/fonts/truetype/iosevka/Iosevka.ttf' && ! -f '/usr/share/fonts/truetype/iosevka/Iosevka-Term-Mono.ttf' ]]; then
         printf '%s\n' '正在刷新字体缓存...'
         mkdir -pv /usr/share/fonts/truetype/iosevka/
         cd /tmp
