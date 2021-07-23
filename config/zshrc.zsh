@@ -11,6 +11,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 ########
 # SET ENV
 typeset -x PATH="${HOME}/.local/bin${PATH:+:${PATH}}"
+typeset -x XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 TMOE_ZSH_DIR="${HOME}/.config/tmoe-zsh"
 TMOE_ZSH_GIT_DIR="${TMOE_ZSH_DIR}/git"
