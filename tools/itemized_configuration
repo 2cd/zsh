@@ -252,9 +252,9 @@ configure_xfce_terminal_color() {
     sudo tar -Jxvf "colorschemes.tar.xz" -C /usr/share/xfce4/terminal || su -c "tar -Jxvf colorschemes.tar.xz -C /usr/share/xfce4/terminal"
     rm_color_scheme_tar_xz
     DEPENDENCIES=""
-    if [ ! -e /usr/bin/mkfontscale ]; then
-        DEPENDENCIES="${DEPENDENCIES} xfonts-utils"
-    fi
+    # if [ ! -e /usr/bin/mkfontscale ]; then
+    #     DEPENDENCIES="${DEPENDENCIES} xfonts-utils"
+    # fi
 
     if [ ! -e /usr/bin/fc-cache ]; then
         DEPENDENCIES="${DEPENDENCIES} fontconfig"
