@@ -38,16 +38,16 @@ Based on [zinit](https://github.com/zdharma/zinit), use "Turbo Mode" to delay lo
 
 2020-03-19 ：
 
-Added support for more GNU/Linux distributions.
+Support for more GNU/Linux distributions.
 
 2020-03-24 ：  
 Support Gentoo/Funtoo
 
 2020-08-13:
-Supports management of about 283 plugins.
+Support for managing 280+ plugins.
 
 2020-09: Refactored code, not compatible with the old version.
-You can execute the following command to delete the old version.
+You can run the following commands to delete the old version.
 
 ```shell
 ZSHRC_FILE="${HOME}/.zshrc"
@@ -66,7 +66,7 @@ mv "${ZSHRC_FILE}" "${ZSHRC_FILE}_$(date +%Y%m%d).bak"
     . <(curl -L git.io/zsh.sh)
 ```
 
-如果您居住在中国内地，那么可以使用 gitee 仓库。
+您如果居住在中国，那么可以使用 gitee 仓库。
 
 ```shell
     bash -c "$(curl -L gitee.com/mo2/zsh/raw/2/2)"
@@ -77,10 +77,8 @@ mv "${ZSHRC_FILE}" "${ZSHRC_FILE}_$(date +%Y%m%d).bak"
 If you are using a container, then install `sudo` and `wget`.
 
 ```shell
-    sudo apt update || su -c "apt update"
-    [[ $(command -v sudo) ]] || su -c "apt install -y sudo"
-    [[ $(command -v eatmydata) ]] || sudo apt install -y eatmydata || su -c "apt install -y eatmydata"
-    [[ $(command -v wget) ]] || sudo eatmydata apt install -y wget || su -c "apt install -y wget"
+    apt update
+    apt install -y sudo wget
 ```
 
 ```shell
@@ -93,7 +91,7 @@ If you are using a container, then install `sudo` and `wget`.
     if ! grep -q 'Fedora' "/etc/os-release";then
         [[ -s "/etc/yum.repos.d/epel.repo" ]] || sudo yum install --skip-broken -y epel-release tar dnf
     fi
-    [[ $(command -v curl) ]] || sudo dnf install -y curl || sudo yum install -y curl
+    [[ $(command -v curl) ]] || sudo dnf install -y curl
     bash -c "$(curl -L git.io/zsh.sh)"
 ```
 
@@ -117,7 +115,7 @@ If you are using a container, then install `sudo` and `wget`.
 6.Alpine/iOS-[iSH](https://ish.app/)
 
 ```shell
-    apk add bash sudo wget || su -c "apk add bash sudo wget"
+    apk add bash sudo wget
     wget -O /tmp/.tmoe-zsh git.io/zsh.sh
     bash /tmp/.tmoe-zsh
 ```
@@ -153,7 +151,7 @@ If you are using a container, then install `sudo` and `wget`.
 11.No other systems tested.  
 For example:**GuixSD**,etc.  
 You can refer to [the environment file](https://github.com/2moe/tmoe-zsh/blob/master/tools/environment), and I think you can resolve dependencies yourself.  
-The relevant dependencies are `zsh git pv wget tar xz newt(whiptail)`  
+The relevant dependencies are `zsh git pv wget tar xz newt(whiptail)`
 
 ### 2-2.MANUALLY GIT CLONE
 
@@ -272,7 +270,7 @@ You can use `-h` or `--help` parameter to get help information.
   NOTES of manual mode
   手动模式的说明
   You can type zshcolor $COLOR_NAME to change the terminal color scheme.
-  For example.01: If you type zshcolor monokai.dark,then terminal color will be changed to monokai.dark.
+  For example.01: If you type zshcolor monokai.dark, then terminal color will be changed to monokai.dark.
   您可以输zshcolor $配色名称来修改配色。
   例如： 输入zshcolor neon，将配色修改为neon。
   --------------
@@ -462,5 +460,5 @@ zinit ice wait lucid pick"fast-syntax-highlighting.plugin.zsh" atinit"ZINIT[COMP
 **[maverick9000/zsh2000](https://github.com/maverick9000/zsh2000)**  
 **[marszall87/lambda-pure](https://github.com/marszall87/lambda-pure)**
 
-部分zsh额外主题来自 [oh-my-zsh/external-themes](https://github.com/ohmyzsh/ohmyzsh/wiki/External-themes)  
-If you find a theme loading error, then you can submit an issue.
+部分 zsh 额外主题来自 [oh-my-zsh/external-themes](https://github.com/ohmyzsh/ohmyzsh/wiki/External-themes)  
+If you find a theme loading error, then you can report an issue.
