@@ -138,7 +138,7 @@ If you are using a container, then install `sudo` and `wget`.
 
 ```bash
     sudo zypper in curl
-     bash -c "$(curl -L git.io/zsh.sh)"
+    bash -c "$(curl -L git.io/zsh.sh)"
 ```
 
 10.Solus
