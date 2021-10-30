@@ -36,12 +36,11 @@ sed -e 's!https://gitee.com/mo2/zsh/raw/master/zsh.sh!${TMOE_GIT_REPO}/raw/maste
     -e 's@gitee.com/mo2/linux/raw/master/@raw.githubusercontent.com/2moe/tmoe-linux/master/@g' \
     -e 's@gitee.com/romkatv/powerlevel10k@github.com/romkatv/powerlevel10k@g' \
     -e 's@gitee.com/ak2/powerlevel9k@github.com/Powerlevel9k/powerlevel9k@g' \
-    -e 's@gitee.com/ak2/fast-syntax-highlighting@github.com/zdharma/fast-syntax-highlighting@g' \
     -e 's@gitee.com/ak2/zsh-autosuggestions@github.com/zsh-users/zsh-autosuggestions@g' \
-    -e 's@gitee.com/ak2/zinit.git@github.com/zdharma/zinit.git@g' \
     -e 's@gitee.com/mo2/zsh@github.com/2cd/zsh@g' \
     -e 's@gitee.com/ak2/p10k_config/@github.com/2moe/p10k_config/@g' \
-    -i ${SHARE_FILE}
+    -i ${SHARE_FILE} #-e 's@gitee.com/ak2/zinit.git@github.com/zdharma/zinit.git@g' \
+#-e 's@gitee.com/ak2/fast-syntax-highlighting@github.com/zdharma/fast-syntax-highlighting@g' \
 
 # raw.githubusercontent.com/2moe/tmoe-zsh/master/
 
