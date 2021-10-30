@@ -2003,7 +2003,7 @@ git_clone_fzf_tab() {
 ###########
 git_clone_fast_syntax_highlighting() {
     ZSH_PLUGIN_GIT_URL_01='https://gitee.com/ak2/fast-syntax-highlighting.git'
-    ZSH_PLUGIN_GIT_URL_02='git://github.com/ak2/fast-syntax-highlighting'
+    ZSH_PLUGIN_GIT_URL_02='git://gitee.com/ak2/fast-syntax-highlighting'
     git_clone_zsh_plugin
 }
 ################

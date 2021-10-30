@@ -363,7 +363,7 @@ git_clone_fast_syntax_highlighting() {
     ${GREEN}(Short name F-Sy-H). Syntax-highlighting for Zshell – fine granularity, number of features, 40 work hours themes${RESET}
 ENDOFPLUGININFO
         #sed -i '/fast-syntax-highlighting.zsh/d' "${HOME}/.zshrc"
-        git clone --depth=1 https://gitee.com/ak2/fast-syntax-highlighting.git ${FAST_SYNTAX_HIGH_LIGHTING_PLUGIN_DIR} || git clone --depth=1 git://github.com/ak2/fast-syntax-highlighting ${FAST_SYNTAX_HIGH_LIGHTING_PLUGIN_DIR}
+        git clone --depth=1 https://gitee.com/ak2/fast-syntax-highlighting.git ${FAST_SYNTAX_HIGH_LIGHTING_PLUGIN_DIR} || git clone --depth=1 git://gitee.com/ak2/fast-syntax-highlighting ${FAST_SYNTAX_HIGH_LIGHTING_PLUGIN_DIR}
         chmod 755 -R "${FAST_SYNTAX_HIGH_LIGHTING_PLUGIN_DIR}"
     fi
 
