@@ -1,6 +1,6 @@
 # 已经废弃的功能
 
-## 不再支持macos
+## 不再支持 macos
 
 ### MANUALLY CONFIGURE 手动配置
 
@@ -18,7 +18,7 @@ If you are using MacOS, then install **homebrew** before configuration.
 您可以通过[BFSU 镜像站](https://mirrors.bfsu.edu.cn/help/homebrew/)或者[TUNA 镜像站](https://mirrors.tuna.tsinghua.edu.cn/help/homebrew/)来安装 **homebrew**
 
 ```bash
-if ! egrep -q '^[^#]*ex.*HOMEBREW_BREW_GIT_REMOTE=' ~/.zprofile;then
+if ! grep -Eq '^[^#]*ex.*HOMEBREW_BREW_GIT_REMOTE=' ~/.zprofile;then
     cat >>~/.zprofile<<-'EOF'
 export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.bfsu.edu.cn/git/homebrew/brew.git"
 export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.bfsu.edu.cn/git/homebrew/homebrew-core.git"
@@ -78,7 +78,7 @@ cp -av ${TMOE_ZSH_DIR}/git/config/zshrc.zsh ${ZSHRC_FILE}
 ##### load zshtheme plugin
 
 ```shell
-if ! egrep -q '^[^#]*zinit.*completion/_zshtheme' ${ZSHRC_FILE}; then
+if ! grep -Eq '^[^#]*zinit.*completion/_zshtheme' ${ZSHRC_FILE}; then
     printf "%s\n" "zinit ice lucid wait="1" as"completion" && zinit snippet ${TMOE_ZSH_DIR}/git/share/completion/_zshtheme" >>${ZSHRC_FILE}
 fi
 

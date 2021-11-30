@@ -97,7 +97,7 @@ add_zsh_alias() {
     #if [ ! -e "${PREFIX}/bin/zsh-i" ]; then
     source ${TMOE_ZSH_TOOL_DIR}/update.sh -download
     #fi
-    if ! egrep -q '^[^#]*alias t=tmoe' "${HOME}/.zshrc"; then
+    if ! grep -Eq '^[^#]*alias t=tmoe' "${HOME}/.zshrc"; then
         sed -i '$ a\[[ ! $(command -v tmoe) ]] || alias t=tmoe' "${HOME}/.zshrc"
     fi
 }
@@ -124,7 +124,7 @@ git_clone_zinit_and_omz() {
     cd ${ZINIT_DIR}
     if [ ! -e "bin/.git" ]; then
         rm -rv bin 2>/dev/null
-        git clone --depth=1 https://gitee.com/ak2/zinit.git ${ZINIT_DIR}/bin || git clone --depth=1 git://gitee.com/ak2/zinit ${ZINIT_DIR}/bin
+        git clone --depth=1 https://github.com/2cd/zinit.git ${ZINIT_DIR}/bin || git clone --depth=1 git://github.com/2cd/zinit ${ZINIT_DIR}/bin
     fi
 
     if [ ! -e "omz/.git" ]; then
@@ -134,7 +134,7 @@ git_clone_zinit_and_omz() {
     neko_01
     zinit_ascii
     if [ -f "${HOME}/.zshrc" ]; then
-        if ! egrep -q '^[^#]*zinit ice lucid wait' "${HOME}/.zshrc" || ! egrep -q '^[^#]*source.*zinit.zsh' "${HOME}/.zshrc"; then
+        if ! grep -Eq '^[^#]*zinit ice lucid wait' "${HOME}/.zshrc" || ! grep -Eq '^[^#]*source.*zinit.zsh' "${HOME}/.zshrc"; then
             sed -i 's@^@#&@g' "${HOME}/.zshrc"
             sed -i "1r ${TMOE_ZSH_GIT_DIR}/config/zshrc.zsh" "${HOME}/.zshrc"
         fi
@@ -228,7 +228,7 @@ configure_command_not_found() {
     if [ -e "/usr/lib/command-not-found" ]; then
         case "${LINUX_DISTRO}" in
         debian)
-            if ! egrep -q '^[^#]*zinit.*/command-not-found' "${HOME}/.zshrc"; then
+            if ! grep -Eq '^[^#]*zinit.*/command-not-found' "${HOME}/.zshrc"; then
                 add_zinit_plugin_command_not_found
             fi
             cat <<-ENDOFPLUGININFO
@@ -285,7 +285,7 @@ git_clone_fzf_tab() {
         new)
             git clone --depth=1 https://github.com/Aloxaf/fzf-tab.git "${FZF_TAB_PLUGIN_DIR}" || git clone --depth=1 git://github.com/Aloxaf/fzf-tab.git "${FZF_TAB_PLUGIN_DIR}"
             chmod 755 -R "${FZF_TAB_PLUGIN_DIR}"
-            if ! egrep -q '^[^#]*zinit.*/fzf-tab' "${HOME}/.zshrc"; then
+            if ! grep -Eq '^[^#]*zinit.*/fzf-tab' "${HOME}/.zshrc"; then
                 add_zinit_plugin_fzf_tab
             fi
             ;;
@@ -363,11 +363,11 @@ git_clone_fast_syntax_highlighting() {
     ${GREEN}(Short name F-Sy-H). Syntax-highlighting for Zshell – fine granularity, number of features, 40 work hours themes${RESET}
 ENDOFPLUGININFO
         #sed -i '/fast-syntax-highlighting.zsh/d' "${HOME}/.zshrc"
-        git clone --depth=1 https://gitee.com/ak2/fast-syntax-highlighting.git ${FAST_SYNTAX_HIGH_LIGHTING_PLUGIN_DIR} || git clone --depth=1 git://gitee.com/ak2/fast-syntax-highlighting ${FAST_SYNTAX_HIGH_LIGHTING_PLUGIN_DIR}
+        git clone --depth=1 https://github.com/2cd/fsyh.git ${FAST_SYNTAX_HIGH_LIGHTING_PLUGIN_DIR} || git clone --depth=1 git://github.com/2cd/fsyh ${FAST_SYNTAX_HIGH_LIGHTING_PLUGIN_DIR}
         chmod 755 -R "${FAST_SYNTAX_HIGH_LIGHTING_PLUGIN_DIR}"
     fi
 
-    if ! egrep -q '^[^#]*zinit.*/fast-syntax-highlighting' "${HOME}/.zshrc"; then
+    if ! grep -Eq '^[^#]*zinit.*/fast-syntax-highlighting' "${HOME}/.zshrc"; then
         add_zinit_plugin_fast_syntax_highlighting
     fi
 }
@@ -391,7 +391,7 @@ ENDOFPLUGININFO
         git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ${ZSH_AUTO_SUGGESTIONS_PLUGIN_DIR} || git clone --depth=1 git://github.com/zsh-users/zsh-autosuggestions ${ZSH_AUTO_SUGGESTIONS_PLUGIN_DIR}
         chmod 755 -R "${ZSH_AUTO_SUGGESTIONS_PLUGIN_DIR}"
     fi
-    if ! egrep -q '^[^#]*zinit.*/zsh-autosuggestions' "${HOME}/.zshrc"; then
+    if ! grep -Eq '^[^#]*zinit.*/zsh-autosuggestions' "${HOME}/.zshrc"; then
         add_zinit_plugin_zsh_autosuggestions
     fi
 }

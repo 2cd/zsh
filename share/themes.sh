@@ -139,12 +139,12 @@ tmoe_zsh_theme_env() {
   P9K_URL_01='https://github.com/Powerlevel9k/powerlevel9k.git'
   P9K_URL_02="git://github.com/Powerlevel9k/powerlevel9k"
   if [ $(command -v gawk) ]; then
-    ZINIT_LINE=$(egrep -n '^[^#]*source.*bin/zinit.zsh' ${ZSHRC_FILE} | gawk -F ':' '{print $1}' | head -n 1)
+    ZINIT_LINE=$(grep -E -n '^[^#]*source.*bin/zinit.zsh' ${ZSHRC_FILE} | gawk -F ':' '{print $1}' | head -n 1)
   else
-    ZINIT_LINE=$(egrep -n '^[^#]*source.*bin/zinit.zsh' ${ZSHRC_FILE} | awk -F ':' '{print $1}' | head -n 1)
+    ZINIT_LINE=$(grep -E -n '^[^#]*source.*bin/zinit.zsh' ${ZSHRC_FILE} | awk -F ':' '{print $1}' | head -n 1)
   fi
 
-  if ! egrep -q '^[^#]*ZINIT_THEME_DIR=.*themes/_local' "${ZSHRC_FILE}"; then
+  if ! grep -Eq '^[^#]*ZINIT_THEME_DIR=.*themes/_local' "${ZSHRC_FILE}"; then
     if [ $(command -v gsed) ]; then
       gsed -i "${ZINIT_LINE} i\ZINIT_THEME_DIR=\${HOME}/.zinit/themes/_local" "${ZSHRC_FILE}"
     else
@@ -171,7 +171,7 @@ del_zsh_theme_line() {
 }
 ############
 configure_new_zsh_theme_01() {
-  #if ! egrep -q "^[^#]*zinit.*${TMOE_ZSH_THEME}" "${ZSHRC_FILE}"; then; fi
+  #if ! grep -Eq "^[^#]*zinit.*${TMOE_ZSH_THEME}" "${ZSHRC_FILE}"; then; fi
   del_zsh_theme_line
   #此处请保持$ZINIT_THEME_DIR
   if [ $(command -v gsed) ]; then

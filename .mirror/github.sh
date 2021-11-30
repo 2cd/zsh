@@ -39,6 +39,8 @@ sed -e 's!https://gitee.com/mo2/zsh/raw/master/zsh.sh!${TMOE_GIT_REPO}/raw/maste
     -e 's@gitee.com/ak2/zsh-autosuggestions@github.com/zsh-users/zsh-autosuggestions@g' \
     -e 's@gitee.com/mo2/zsh@github.com/2cd/zsh@g' \
     -e 's@gitee.com/ak2/p10k_config/@github.com/2moe/p10k_config/@g' \
+    -e 's@gitee.com/ak2/zinit.git@github.com/2cd/zinit.git@g' \
+    -e 's@gitee.com/ak2/fast-syntax-highlighting.git@github.com/2cd/fsyh.git@g' \
     -i ${SHARE_FILE} #-e 's@gitee.com/ak2/zinit.git@github.com/zdharma/zinit.git@g' \
 #-e 's@gitee.com/ak2/fast-syntax-highlighting@github.com/zdharma/fast-syntax-highlighting@g' \
 
