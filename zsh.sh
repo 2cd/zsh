@@ -4,7 +4,7 @@ show_tmoe_zsh_package_info() {
 	if [ $(uname -o) = Android ]; then EXTRA_DEPS=", debianutils, dialog, termux-tools"; fi
 	cat <<-EndOfShow
 		Package: tmoe-zsh
-		Version: 1.288
+		Version: 1.289
 		Priority: optional
 		Section: shells
 		Maintainer: 2moe <25324935+2moe@users.noreply.github.com>
@@ -436,6 +436,9 @@ check_gnu_linux_git_and_whiptail() {
 	fi
 }
 ####################################################
+check_android_termux_whiptail() {
+	[[ -e ${PREFIX}/bin/whiptail ]] || apt install -y whiptail
+}
 check_termux_git_and_dialog() {
 	TMOE_UPDATE_COMMAND='apt update'
 	TMOE_INSTALLATION_COMMAND='apt install -y'
@@ -458,6 +461,7 @@ check_termux_git_and_dialog() {
 		apt update
 		apt install -y ${DEPENDENCIES}
 	fi
+	check_android_termux_whiptail
 }
 ###############################################
 git_clone_tmoe_zsh() {
