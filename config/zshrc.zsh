@@ -5,18 +5,24 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 }
 ########
-# NOTE
+# Note
 # If you find a permission problem with zsh-related directories, then try running `compaudit | xargs chmod g-w,o-w`
 
 ########
-# SET ENV
-typeset -x PATH="${HOME}/.local/bin${PATH:+:${PATH}}"
+# Set env
+path=(~/.local/bin $path)
 typeset -x XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 TMOE_ZSH_DIR="${HOME}/.config/tmoe-zsh"
 TMOE_ZSH_GIT_DIR="${TMOE_ZSH_DIR}/git"
 TMOE_ZSH_TOOL_DIR="${TMOE_ZSH_GIT_DIR}/tools"
 ZINIT_THEME_DIR="${HOME}/.zinit/themes/_local"
+########
+# Setopt
+setopt correct
+# setopt autocd
+
+setopt interactive_comments
 ########
 load_omz_lib() {
     for i (theme-and-appearance.zsh git.zsh prompt_info_functions.zsh history.zsh) {
@@ -145,69 +151,4 @@ for i (batcat bat) {
         break
     }
 }
-########
-########
-: <<\ENDOFZINITHELP
-    zinit 基本用法
-    zinit 可以简化为zi
-    zi times 显示插件加载时间，默认单位为毫秒。
-    zi loaded 显示已经加载的插件
-    zi csearch 搜索所有可用的补全插件
-    zi cenable docker 启用docker命令的补全，docker可替换为其他命令，但必须在zi csearch输出的列表中。
-    zi cdisable docker 禁用docker命令的补全
-    zi clist 列举已经启用的补全插件
-    ---------------------
-    zinit=zi
-    You can type `zi -h` to get more help info.
-Usage:
--h|--help|help                – usage information
-man                           – manual
-self-update                   – updates and compiles Zinit
-times [-s] [-m]               – statistics on plugin load times, sorted in order of loading; -s – use seconds instead of milliseconds, -m – show plugin loading moments
-zstatus                       – overall Zinit status
-load plg-spec                 – load plugin, can also receive absolute local path
-light [-b] plg-spec           – light plugin load, without reporting/tracking (-b – do track but bindkey-calls only)
-unload plg-spec               – unload plugin loaded with `zinit load ...', -q – quiet
-snippet [-f] {url}            – source local or remote file (by direct URL), -f: force – don't use cache
-ls                            – list snippets in formatted and colorized manner
-ice <ice specification>       – add ICE to next command, argument is e.g. from"gitlab"
-update [-q] plg-spec|URL      – Git update plugin or snippet (or all plugins and snippets if ——all passed); besides -q accepts also ——quiet, and also -r/--reset – this option causes to run git reset --hard / svn revert before pulling changes
-status plg-spec|URL           – Git status for plugin or svn status for snippet (or for all those if ——all passed)
-report plg-spec               – show plugin's report (or all plugins' if ——all passed)
-delete [--all|--clean] plg-spec|URL – remove plugin or snippet from disk (good to forget wrongly passed ice-mods); --all – purge, --clean – delete plugins and snippets that are not loaded
-loaded|list {keyword}         – show what plugins are loaded (filter with \'keyword')
-cd plg-spec                   – cd into plugin's directory; also support snippets, if feed with URL
-create plg-spec               – create plugin (also together with Github repository)
-edit plg-spec                 – edit plugin's file with $EDITOR
-glance plg-spec               – look at plugin's source (pygmentize, {,source-}highlight)
-stress plg-spec               – test plugin for compatibility with set of options
-changes plg-spec              – view plugin's git log
-recently [time-spec]          – show plugins that changed recently, argument is e.g. 1 month 2 days
-clist|completions             – list completions in use
-cdisable cname                – disable completion `cname'
-cenable cname                 – enable completion `cname'
-creinstall plg-spec           – install completions for plugin, can also receive absolute local path; -q – quiet
-cuninstall plg-spec           – uninstall completions for plugin
-csearch                       – search for available completions from any plugin
-compinit                      – refresh installed completions
-dtrace|dstart                 – start tracking what's going on in session
-dstop                         – stop tracking what's going on in session
-dunload                       – revert changes recorded between dstart and dstop
-dreport                       – report what was going on in session
-dclear                        – clear report of what was going on in session
-compile plg-spec              – compile plugin (or all plugins if ——all passed)
-uncompile plg-spec            – remove compiled version of plugin (or of all plugins if ——all passed)
-compiled                      – list plugins that are compiled
-cdlist                        – show compdef replay list
-cdreplay [-q]                 – replay compdefs (to be done after compinit), -q – quiet
-cdclear [-q]                  – clear compdef replay list, -q – quiet
-srv {service-id} [cmd]        – control a service, command can be: stop,start,restart,next,quit; `next' moves the service to another Zshell
-recall plg-spec|URL           – fetch saved ice modifiers and construct `zinit ice ...' command
-env-whitelist [-v|-h] {env..} – allows to specify names (also patterns) of variables left unchanged during an unload. -v – verbose
-bindkeys                      – lists bindkeys set up by each plugin
-module                        – manage binary Zsh module shipped with Zinit, see `zinit module help'
-add-fpath|fpath [-f|--front] \
-    plg-spec [subdirectory]      – adds given plugin directory to $fpath; if the second argument is given, it is appended to the directory path; if the option -f/--front is given, the directory path is prepended instead of appended to $fpath. The plg-spec can be absolute path
-run [-l] [plugin] {command}   – runs the given command in the given plugin's directory; if the option -l will be given then the plugin should be skipped – the option will cause the previous plugin to be reused
-ENDOFZINITHELP
 ########
