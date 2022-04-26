@@ -1,7 +1,7 @@
 # Tmoe-zsh 介绍 Introduction
 
 ```bash
-. <(curl -L git.io/zsh.sh)
+. <(curl -L l.tmoe.me/hub/zsh)
 ```
 
 > **Easily configure zsh themes and plugins for GNU/Linux and Android-Termux**
@@ -63,13 +63,13 @@ mv "${ZSHRC_FILE}" "${ZSHRC_FILE}_$(date +%Y%m%d).bak"
 1.Android-[Termux](https://termux.com/)
 
 ```shell
-    . <(curl -L git.io/zsh.sh)
+    . <(curl -L l.tmoe.me/hub/zsh)
 ```
 
 您如果居住在中国，那么可以使用 gitee 仓库。
 
 ```shell
-    bash -c "$(curl -L gitee.com/mo2/zsh/raw/2/2)"
+    bash -c "$(curl -L l.tmoe.me/ee/zsh)"
 ```
 
 2.Debian/Ubuntu/Mint/Kali
@@ -82,7 +82,7 @@ If you are using a container, then install `sudo` and `wget`.
 ```
 
 ```shell
-    bash -c "$(wget -qO- git.io/zsh.sh)"
+    bash -c "$(wget -qO- l.tmoe.me/hub/zsh)"
 ```
 
 3.RedHat/Fedora/CentOS
@@ -92,14 +92,14 @@ If you are using a container, then install `sudo` and `wget`.
         [[ -s "/etc/yum.repos.d/epel.repo" ]] || sudo yum install --skip-broken -y epel-release tar dnf
     fi
     [[ $(command -v curl) ]] || sudo dnf install -y curl
-    bash -c "$(curl -L git.io/zsh.sh)"
+    bash -c "$(curl -L l.tmoe.me/hub/zsh)"
 ```
 
 4.Arch/Manjaro
 
 ```shell
     [[ $(command -v curl) ]] || sudo pacman -Syu curl
-    bash -c "$(curl -L git.io/zsh.sh)"
+    bash -c "$(curl -L l.tmoe.me/hub/zsh)"
 ```
 
 5.~~OpenWRT/Entware~~
@@ -109,14 +109,14 @@ If you are using a container, then install `sudo` and `wget`.
 ```shell
     opkg update
     opkg install libustream-openssl ca-bundle ca-certificates wget bash
-    bash -c "$(wget --no-check-certificate -qO- git.io/zsh.sh)"
+    bash -c "$(wget --no-check-certificate -qO- l.tmoe.me/hub/zsh)"
 ```
 
 6.Alpine/iOS-[iSH](https://ish.app/)
 
 ```shell
     apk add bash sudo wget
-    wget -O /tmp/.tmoe-zsh git.io/zsh.sh
+    wget -O /tmp/.tmoe-zsh l.tmoe.me/hub/zsh
     bash /tmp/.tmoe-zsh
 ```
 
@@ -124,28 +124,28 @@ If you are using a container, then install `sudo` and `wget`.
 
 ```shell
     sudo xbps-install -Sy wget
-    bash -c "$(wget -qO- git.io/zsh.sh)"
+    bash -c "$(wget -qO- l.tmoe.me/hub/zsh)"
 ```
 
 8.Gentoo/Funtoo
 
 ```shell
     emerge -avk net-misc/wget
-    bash -c "$(wget -qO- git.io/zsh.sh)"
+    bash -c "$(wget -qO- l.tmoe.me/hub/zsh)"
 ```
 
 9.OpenSUSE
 
 ```bash
     sudo zypper in curl
-    bash -c "$(curl -L git.io/zsh.sh)"
+    bash -c "$(curl -L l.tmoe.me/hub/zsh)"
 ```
 
 10.Solus
 
 ```bash
     sudo eopkg install wget
-    bash -c "$(wget -qO- gitee.com/mo2/zsh/raw/2/2)"
+    bash -c "$(wget -qO- l.tmoe.me/hub/zsh)"
 ```
 
 11.No other systems tested.  

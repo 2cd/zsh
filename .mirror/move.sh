@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-cd ~/gitee/zsh
+cd ~/data/git/ee/zsh
 # cp -a zsh.sh .mirror/zsh
-cp -rf zsh.sh tools .gitignore config share .mirror ~/github/github-zsh/
-cd ~/github/github-zsh/.mirror
+cp -rf zsh.sh tools .gitignore config share .mirror ../../hub/zsh
+cd ../../hub/zsh/.mirror
 bash ./github.sh
 pwd
 # code ..
