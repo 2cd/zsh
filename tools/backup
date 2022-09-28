@@ -6,7 +6,7 @@ compress_zsh_dir_as_tar_gz() {
     printf "%s\n" "${YELLOW}按回车键开始备份,按Ctrl+C取消。Press Enter to start the backup.${RESET} "
     read
     cd ${HOME}
-    #tar -Ppczf - ${HOME}/.z ${HOME}/.zshrc ${TERMUX_PATH} ${HOME}/.zsh_history ${OMZ_DIR} ${TMOE_ZSH_GIT_DIR} | (pv -n >${TMPtime}.tar.gz) 2>&1 | whiptail --gauge "Compressing into tar.gz \n正在压缩成tar.gz" 10 70
+    #tar -Ppczf - ${HOME}/.z ${HOME}/.zshrc ${TERMUX_PATH} ${HOME}/.zsh_history ${OMZ_DIR} ${TMOE_ZSH_GIT_DIR} | (pv -n >${TMPtime}.tar.gz) 2>&1 | "${TUI_BIN:-dialog}" --gauge "Compressing into tar.gz \n正在压缩成tar.gz" 10 70
     #tar -Ppczf - ${HOME}/.z ${HOME}/.zshrc ${TERMUX_PATH} ${HOME}/.zsh_history ${OMZ_DIR} ${TMOE_ZSH_GIT_DIR} | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)
     if [ $(command -v pv) ]; then
         tar -Ppczf - ${ZSH_BACKUP_FILES} | (pv -p --timer --rate --bytes >${TMPtime}.tar.gz)
@@ -17,7 +17,7 @@ compress_zsh_dir_as_tar_gz() {
     #printf "%s\n" "Don't worry too much, it is normal for some directories to backup without permission."
     #printf "%s\n" "部分目录无权限备份是正常现象。"
     rm -f ${BACKUP_TIME_FILE}
-    #  whiptail --gauge "正在备份,可能需要几分钟的时间请稍后.........." 6 60 0
+    #  "${TUI_BIN:-dialog}" --gauge "正在备份,可能需要几分钟的时间请稍后.........." 6 60 0
     pwd
     ls -lth ${START_DIR}/tmoe-zsh*tar.gz | grep ^- | head -n 1
     #printf '%s\n' 'gzip压缩至60%完成是正常现象。'
@@ -32,7 +32,7 @@ compress_zsh_dir_as_tar_xz() {
     printf "%s\n" "您选择了tar.xz,即将为您备份至${START_DIR}/${TMPtime}.tar.xz"
     printf "%s\n" "${YELLOW}按回车键开始备份,按Ctrl+C取消。Press Enter to start the backup.${RESET} "
     read
-    #tar -PJpcf - ${HOME}/.z ${HOME}/.zshrc ${TERMUX_PATH} ${HOME}/.zsh_history ${OMZ_DIR} ${TMOE_ZSH_GIT_DIR} | (pv -n >${TMPtime}.tar.xz) 2>&1 | whiptail --gauge "Compressing into tar.xz" 10 70
+    #tar -PJpcf - ${HOME}/.z ${HOME}/.zshrc ${TERMUX_PATH} ${HOME}/.zsh_history ${OMZ_DIR} ${TMOE_ZSH_GIT_DIR} | (pv -n >${TMPtime}.tar.xz) 2>&1 | "${TUI_BIN:-dialog}" --gauge "Compressing into tar.xz" 10 70
     cd ${HOME}
     if [ $(command -v pv) ]; then
         tar -PJpcf - ${ZSH_BACKUP_FILES} | (pv -p --timer --rate --bytes >${TMPtime}.tar.xz)
@@ -86,7 +86,7 @@ check_zsh_backup_dir() {
     unset i
     printf "%s\n" "${ZSH_BACKUP_FILES}"
     ############
-    if (whiptail --title "Select compression type 选择压缩类型 " --yes-button "tar.xz" --no-button "tar.gz" --yesno "Which do yo like better? \n tar.xz压缩率高，但速度慢。tar.xz has a higher compression ration, but is slower.\n tar.gz速度快,但压缩率低。tar.gz compresses faster, but with a lower compression ratio.\n 压缩过程中，进度条倒着跑是正常现象。" 12 60); then
+    if ("${TUI_BIN:-dialog}" --title "Select compression type 选择压缩类型 " --yes-button "tar.xz" --no-button "tar.gz" --yesno "Which do yo like better? \n tar.xz压缩率高，但速度慢。tar.xz has a higher compression ration, but is slower.\n tar.gz速度快,但压缩率低。tar.gz compresses faster, but with a lower compression ratio.\n 压缩过程中，进度条倒着跑是正常现象。" 12 60); then
         compress_zsh_dir_as_tar_xz
     else
         compress_zsh_dir_as_tar_gz

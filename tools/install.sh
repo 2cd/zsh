@@ -17,7 +17,7 @@ android_git_clone_fonts() {
 ###########################################
 modify_termux_color_and_font() {
     if [ ! -e "${TERMUX_KEYBOARD_FILE}" ]; then
-        if (whiptail --title "termux.properties" --yes-button "yes" --no-button "no" --yesno "Your termux.properties is empty,do you want to create it? It will modify the keyboard layout.\n是否需要创建termux.properties？这将会修改小键盘布局。" 10 50); then
+        if ("${TUI_BIN:-dialog}" --title "termux.properties" --yes-button "yes" --no-button "no" --yesno "Your termux.properties is empty,do you want to create it? It will modify the keyboard layout.\n是否需要创建termux.properties？这将会修改小键盘布局。" 10 50); then
             cp -f ${TMOE_ZSH_TERMUX_PATH}/termux.properties ${TERMUX_KEYBOARD_FILE}
         fi
     else
@@ -53,7 +53,7 @@ do_you_want_to_backup_zsh_folder() {
 }
 ################################
 which_p10k_style_do_you_prefer() {
-    if (whiptail --title "p10k style" --yes-button "round" --no-button "sharp" --yesno "The default theme is powerlevel 10k.\nWhich p10k style do you prefer?" 8 50); then
+    if ("${TUI_BIN:-dialog}" --title "p10k style" --yes-button "round" --no-button "sharp" --yesno "The default theme is powerlevel 10k.\nWhich p10k style do you prefer?" 8 50); then
         P10K_STYLE=round
     else
         P10K_STYLE=sharp

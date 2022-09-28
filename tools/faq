@@ -3,7 +3,7 @@
 zsh_faq_menu() {
     RETURN_TO_WHERE='zsh_faq_menu'
     #20 50 7
-    TMOE_OPTION=$(whiptail --title "FAQ(よくある質問)" \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "FAQ(よくある質問)" \
         --menu "您有哪些疑问？\nWhat questions do you have?" 0 50 0 \
         "1" "command-not-found插件配置失败" \
         "2" "fzf-tab插件加载异常" \

@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 ################
+set_tui_bin() {
+    case $(uname -o) in
+    "Android") TUI_BIN="dialog" ;;
+    *) TUI_BIN="whiptail" ;;
+    esac
+}
+
 tmoe_theme_main() {
   terminal_color
+  set_tui_bin
   tmoe_zsh_theme_env
   CATCAT_COLOR=false
   case "$1" in
@@ -200,7 +208,7 @@ cat_zsh_theme_readme_md() {
   check_catcat
   case ${CATCAT} in
   "") cat ${TMOE_THEME_FILE}/README_min.md ;;
-  *) cat ${TMOE_THEME_FILE}/README_min.md | head -n 16 | ${CATCAT} -l markdown -ppn ;;
+  *) cat ${TMOE_THEME_FILE}/README_min.md | head -n 16 | ${CATCAT} -l markdown -pp ;;
   esac
 }
 ############

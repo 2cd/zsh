@@ -97,7 +97,7 @@ tmoe_zsh_plugin_main_menu() {
     ZINIT_SPECIAL_LOADING_CONTENT=''
     WAIT_TIME='1'
     cd ${HOME}
-    TMOE_OPTION=$(whiptail --title "PLUGINS" --menu "您想要管理哪个首字母开头的插件？\nBecause there are too many plugins, alphabetical sorting." 0 50 0 \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "PLUGINS" --menu "您想要管理哪个首字母开头的插件？\nBecause there are too many plugins, alphabetical sorting." 0 50 0 \
         "01" "🍎 A-C(a,b,c)" \
         "02" "🍇 D-G(d,e,f,g)" \
         "03" "🥝 H-M(h,i,j,k,l,m)" \
@@ -142,7 +142,7 @@ EOF
 tmoe_zsh_plugin_menu_01() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_01'
-    TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
         "00" "🌚 Return to previous menu 返回上级菜单" \
         "01" "adb:为adb命令添加自动补全选项" \
         "02" "alias-finder:搜索定义别名,并输出与输入命令匹配的任何别名" \
@@ -409,7 +409,7 @@ EOF
 tmoe_zsh_plugin_menu_02() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_02'
-    TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
         "00" "🌚 Return to previous menu 返回上级菜单" \
         "01" "dash:为[Dash]增强命令行功能" \
         "02" "debian:提供apt和dpkg相关的别名和功能" \
@@ -750,7 +750,7 @@ EOF
 tmoe_zsh_plugin_menu_03() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_03'
-    TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
         "00" "🌚 Return to previous menu 返回上级菜单" \
         "01" "hanami:受到了Rails插件的启发,让人感到宾至如归的插件" \
         "02" "helm:可为Kubernetes软件包管理器[Helm]添加补全功能" \
@@ -1001,7 +1001,7 @@ tmoe_zsh_plugin_menu_03() {
 tmoe_zsh_plugin_menu_04() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_04'
-    TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
         "00" "🌚 Return to previous menu 返回上级菜单" \
         "01" "n98-magerun:适用于Magento开发人员,系统管理员和开发人员的瑞士军刀" \
         "02" "nanoc:为[Nanoc]的常用命令添加了一些别名和自动补全功能" \
@@ -1262,7 +1262,7 @@ tmoe_zsh_plugin_menu_04() {
 tmoe_zsh_plugin_menu_05() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_05'
-    TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
         "00" "🌚 Return to previous menu 返回上级菜单" \
         "01" "safe-paste:在运行之前检查实际粘贴的内容,防止代码在粘贴时运行" \
         "02" "salt:A copy of the completion script from the salt" \
@@ -1503,7 +1503,7 @@ tmoe_zsh_plugin_menu_05() {
 tmoe_zsh_plugin_menu_06() {
     TMOE_ZSH_SETTINGS_MODEL='01'
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_06'
-    TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
         "00" "🌚 Return to previous menu 返回上级菜单" \
         "01" "ubuntu:为apt和apt-add-repository等常用命令添加了别名和补全功能" \
         "02" "ufw:简易方便地管理防火墙" \
@@ -1651,7 +1651,7 @@ tmoe_zsh_plugin_menu_07() {
     RETURN_TO_WHERE='tmoe_zsh_plugin_menu_07'
     TMOE_ZSH_COMMENT_CONTENT=''
     WAIT_TIME='0'
-    TMOE_OPTION=$(whiptail --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "list of plugins" --menu "Which plugin do you want to choose?" 0 50 0 \
         "00" "🌚 Return to previous menu 返回上级菜单" \
         "01" "fzf-tab:通过hook zsh补全系统的底层函数来截获补全列表" \
         "02" "fast-syntax-highlighting:语法高亮插件,速度快" \
@@ -1894,7 +1894,7 @@ tmoe_zsh_settings_model_01() {
     check_tmoe_zsh_config_value
     case_plugin_line
     RETURN_TO_MENU='tmoe_zsh_settings_model_01'
-    TMOE_OPTION=$(whiptail --title "${TMOE_ZSH_CONFIG_STATUS}" --menu "${TMOE_ZSH_COMMENT_CONTENT}" 0 50 0 \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "${TMOE_ZSH_CONFIG_STATUS}" --menu "${TMOE_ZSH_COMMENT_CONTENT}" 0 50 0 \
         "0" "🌚 Return to previous menu 返回上级菜单" \
         "1" "${TMOE_ZSH_OPTION_01}" \
         "2" "Enable 启用" \
@@ -1922,7 +1922,7 @@ tmoe_zsh_settings_model_02() {
     check_tmoe_zsh_config_value
     case_plugin_line
     RETURN_TO_MENU='tmoe_zsh_settings_model_02'
-    TMOE_OPTION=$(whiptail --title "${TMOE_ZSH_CONFIG_STATUS}" --menu "${TMOE_ZSH_COMMENT_CONTENT}" 0 50 0 \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "${TMOE_ZSH_CONFIG_STATUS}" --menu "${TMOE_ZSH_COMMENT_CONTENT}" 0 50 0 \
         "0" "🌚 Return to previous menu 返回上级菜单" \
         "1" "${TMOE_ZSH_OPTION_01}" \
         "2" "Enable 启用" \
@@ -2033,7 +2033,7 @@ tmoe_zsh_settings_model_03() {
     check_tmoe_zsh_config_value
     case_plugin_line
     RETURN_TO_MENU='tmoe_zsh_settings_model_03'
-    TMOE_OPTION=$(whiptail --title "${TMOE_ZSH_CONFIG_STATUS}" --menu "${TMOE_ZSH_COMMENT_CONTENT}" 0 50 0 \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "${TMOE_ZSH_CONFIG_STATUS}" --menu "${TMOE_ZSH_COMMENT_CONTENT}" 0 50 0 \
         "0" "🌚 Return to previous menu 返回上级菜单" \
         "1" "${TMOE_ZSH_OPTION_01}" \
         "2" "Enable 启用" \
@@ -2086,7 +2086,7 @@ tmoe_zsh_settings_model_04() {
     check_tmoe_zsh_config_value
     case_plugin_line
     RETURN_TO_MENU='tmoe_zsh_settings_model_04'
-    TMOE_OPTION=$(whiptail --title "您想要对${TMOE_ZSH_GREP_NAME}小可爱做什么？" --menu "${TMOE_ZSH_CONFIG_STATUS}" 0 50 0 \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "您想要对${TMOE_ZSH_GREP_NAME}小可爱做什么？" --menu "${TMOE_ZSH_CONFIG_STATUS}" 0 50 0 \
         "0" "🌚 Return to previous menu 返回上级菜单" \
         "1" "${TMOE_ZSH_OPTION_01}" \
         "2" "Enable 启用" \

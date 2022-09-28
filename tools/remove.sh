@@ -2,7 +2,7 @@
 ##################
 zinit_uninstallation_menu() {
     RETURN_TO_WHERE='zinit_uninstallation_menu'
-    TMOE_OPTION=$(whiptail --title "REMOVE ZSH" --menu "您想要移除哪个项目？\nWhich item do you want to remove?" 0 50 0 \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "REMOVE ZSH" --menu "您想要移除哪个项目？\nWhich item do you want to remove?" 0 50 0 \
         "0" "🌚 Back to the main menu 返回主菜单" \
         "1" "zinit and omz" \
         "2" "fonts 字体" \

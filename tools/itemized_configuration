@@ -136,7 +136,7 @@ zsh_itemized_configuration_menu() {
     RETURN_TO_WHERE='zsh_itemized_configuration_menu'
     #17 50 5
     #zsh主题全平台通用,Termux配色和字体仅适用Android Termux,xfce4终端配色仅适用于linux。You can use zsh theme on all platforms,but termux colors and fonts are only available for Android.
-    TMOE_OPTION=$(whiptail --title "Itemized Configuration" --menu "您想要配置哪个项目?\nWhich configuration do you want to modify?" 0 0 0 \
+    TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "Itemized Configuration" --menu "您想要配置哪个项目?\nWhich configuration do you want to modify?" 0 0 0 \
         "1" "edit .zshrc手动编辑配置" \
         "2" "zsh themes 主题" \
         "3" "fonts 字体基础包(17.9MiB)" \
@@ -288,7 +288,7 @@ configure_xfce_terminal_color() {
 }
 ########################################################
 android_default_shell() {
-    if (whiptail --title "android_default_shell" --yes-button 'Yes' --no-button 'no' --yesno 'Android在配置本工具时，已经将zsh设置为默认shell了，您也可以在终端下输chsh -s bash或chsh -s zsh来切换默认shell 。您是否需要将默认shell设置为zsh?' 12 50); then
+    if ("${TUI_BIN:-dialog}" --title "android_default_shell" --yes-button 'Yes' --no-button 'no' --yesno 'Android在配置本工具时，已经将zsh设置为默认shell了，您也可以在终端下输chsh -s bash或chsh -s zsh来切换默认shell 。您是否需要将默认shell设置为zsh?' 12 50); then
         chsh -s zsh
     else
         ${RETURN_TO_WHERE}
@@ -296,7 +296,7 @@ android_default_shell() {
 }
 ##########
 gnu_linux_default_shell() {
-    if (whiptail --title "gnu_linux_default_shell" --yes-button 'Yes' --no-button 'no' --yesno 'Linux在设置时需要输密码,若需手动配置，请输chsh -s $(command -v zsh)或chsh -s /bin/zsh,您是否需要将默认shell设置为zsh?' 10 50); then
+    if ("${TUI_BIN:-dialog}" --title "gnu_linux_default_shell" --yes-button 'Yes' --no-button 'no' --yesno 'Linux在设置时需要输密码,若需手动配置，请输chsh -s $(command -v zsh)或chsh -s /bin/zsh,您是否需要将默认shell设置为zsh?' 10 50); then
         for i in /usr/bin/zsh /bin/zsh /usr/local/bin/zsh $(command -v zsh); do
             if [[ -e ${i} ]]; then
                 chsh -s ${i} || sudo chsh -s ${i}

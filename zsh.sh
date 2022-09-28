@@ -1,14 +1,19 @@
 #!/usr/bin/env bash
 #################################################
+set_tui_bin() {
+	case $(uname -o) in
+	"Android") TUI_BIN="dialog" ;;
+	*) TUI_BIN="whiptail" ;;
+	esac
+}
 show_tmoe_zsh_package_info() {
-	if [ $(uname -o) = Android ]; then EXTRA_DEPS=", debianutils, dialog, termux-tools"; fi
 	cat <<-EndOfShow
 		Package: tmoe-zsh
 		Version: 1.289
 		Priority: optional
 		Section: shells
 		Maintainer: 2moe <25324935+2moe@users.noreply.github.com>
-		Depends: bat (>= 0.12.1), binutils (>= 2.28-5), curl (>= 7.52.1) | wget (>= 1.18-5), diffutils (>= 1:3.5-3), exa(>= 0.8.0), fzf (>= 0.20.0), git, grep, less, pv (>= 1.6.0), sed (>= 4.4-1), sudo (>= 1.8.19p1-2.1), tar (>= 1.29b-1.1), whiptail (>= 0.52.19), xz-utils (>= 5.2.2), zsh (>= 5.3.0)${EXTRA_DEPS}
+		Depends: bat (>= 0.12.1), binutils (>= 2.28-5), curl (>= 7.52.1) | wget (>= 1.18-5), diffutils (>= 1:3.5-3), exa(>= 0.8.0), fzf (>= 0.20.0), git, grep, less, pv (>= 1.6.0), sed (>= 4.4-1), sudo (>= 1.8.19p1-2.1), tar (>= 1.29b-1.1), whiptail (>= 0.52.19), xz-utils (>= 5.2.2), zsh (>= 5.3.0)
 		Recommends: command-not-found, eatmydata, fonts-powerline, gzip, htop
 		Suggests: lolcat, micro, neofetch, zstd
 		Homepage: https://github.com/2cd/zsh
@@ -50,6 +55,7 @@ check_tmoe_zsh_file() {
 	fi
 }
 tmoe_zsh_preconfigure() {
+	set_tui_bin
 	gnu_linux_env
 	check_system
 }
@@ -401,10 +407,10 @@ check_gnu_linux_git_and_whiptail() {
 	fi
 	case "${LINUX_DISTRO}" in
 	debian)
-		if [ ! $(command -v eatmydata) ]; then
+		if (! command -v eatmydata >/dev/null); then
 			printf "%s\n" "apt install -y eatmydata"
-			apt update
-			apt install -y eatmydata
+			apt update || sudo apt update
+			apt install -y eatmydata || sudo apt install eatmydata
 			#DEPENDENCIES="${DEPENDENCIES} eatmydata"
 		fi
 		;;
@@ -492,7 +498,7 @@ tmoe_zsh_main_menu() {
 	#20 50 7
 	RETURN_TO_WHERE='tmoe_zsh_main_menu'
 	# --backtitle "You can select installation for initial installation."
-	TMOE_OPTION=$(whiptail --title "TMOE-ZSH running on ${OSRELEASE}(202105)" --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate." 0 50 0 \
+	TMOE_OPTION=$("${TUI_BIN:-dialog}" --title "TMOE-ZSH running on ${OSRELEASE}(202105)" --menu "输zsh-i启动本工具,type zsh-i to start this tool.\nPlease use the enter and arrow keys to operate." 0 50 0 \
 		"1" "🍭 Installation and configuration 安装与配置" \
 		"2" "🌸 Itemized configuration 分项配置" \
 		"3" "🍀 Plugins 插件管理" \

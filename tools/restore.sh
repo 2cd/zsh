@@ -49,7 +49,7 @@ do_you_want_to_continue() {
 }
 #########################
 restore_zsh_with_normal_mode() {
-    if (whiptail --title "RESTORE FILE" --yes-button '最新latest' --no-button 'select manually' --yesno "您是想要还原最新文件,还是手动选择备份文件\nDo you want to restore the latest file or select the file manually?" 9 50); then
+    if ("${TUI_BIN:-dialog}" --title "RESTORE FILE" --yes-button '最新latest' --no-button 'select manually' --yesno "您是想要还原最新文件,还是手动选择备份文件\nDo you want to restore the latest file or select the file manually?" 9 50); then
         check_dir
         cd ${START_DIR}
         RESTORE=$(ls -lth ./tmoe-zsh*tar* | grep ^- | head -n 1 | awk -F ' ' '$0=$NF')
@@ -74,7 +74,7 @@ restore_zsh_with_compatibility_mode() {
 restore_menu() {
     COMPATIBILITY_MODE='fasle'
     RETURN_TO_WHERE='restore_menu'
-    OPTION=$(whiptail --title "Restore zsh" --menu "你想要把zsh小可爱恢复到之前的备份状态么？" 0 55 0 \
+    OPTION=$("${TUI_BIN:-dialog}" --title "Restore zsh" --menu "你想要把zsh小可爱恢复到之前的备份状态么？" 0 55 0 \
         "1" "normal mode常规模式" \
         "2" "select path manually手动选择路径" \
         "3" "Compatibility mode兼容模式" \
@@ -193,7 +193,7 @@ where_is_start_dir() {
 }
 ###############
 file_directory_selection() {
-    if (whiptail --title "FILE PATH" --yes-button '自动auto' --no-button '手动manually' --yesno "您想要手动指定文件目录还是自动选择?\nDo you want to automatically select the file directory?" 9 50); then
+    if ("${TUI_BIN:-dialog}" --title "FILE PATH" --yes-button '自动auto' --no-button '手动manually' --yesno "您想要手动指定文件目录还是自动选择?\nDo you want to automatically select the file directory?" 9 50); then
         where_is_start_dir
     else
         manually_select_the_file_directory
@@ -202,7 +202,7 @@ file_directory_selection() {
 }
 ###################
 manually_select_the_file_directory() {
-    TARGET_BACKUP_FILE_PATH=$(whiptail --inputbox "请输入文件路径(精确到目录名称)，例如/sdcard/Download/backup\n Please enter the file path." 10 50 --title "FILEPATH" 3>&1 1>&2 2>&3)
+    TARGET_BACKUP_FILE_PATH=$("${TUI_BIN:-dialog}" --inputbox "请输入文件路径(精确到目录名称)，例如/sdcard/Download/backup\n Please enter the file path." 10 50 --title "FILEPATH" 3>&1 1>&2 2>&3)
     START_DIR="$(echo ${TARGET_BACKUP_FILE_PATH} | head -n 1 | cut -d ' ' -f 1)"
     echo ${START_DIR}
     if [ -z ${START_DIR} ]; then
